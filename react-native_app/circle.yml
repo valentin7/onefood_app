@@ -1,0 +1,22 @@
+machine:
+  node:
+    version: 6.10.1
+  environment:
+    PATH: "${PATH}:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin"
+    TEST_REPORT_PATH: "$CIRCLE_TEST_REPORTS"
+dependencies:
+  override:
+    - yarn
+  cache_directories:
+    - ~/.cache/yarn
+test:
+  override:
+    - yarn lint
+    - yarn flow
+    - yarn test
+deployment:
+  production:
+    branch: master
+    commands:
+      - $(npm bin)/exp login --username $EXPO_USERNAME --password $EXPO_PASSWORD
+      - $(npm bin)/exp publish
