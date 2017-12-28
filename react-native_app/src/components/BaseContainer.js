@@ -10,6 +10,8 @@ import Images from "./images";
 import WindowDimensions from "./WindowDimensions";
 import Container from "./Container";
 
+import MapView from "expo";
+
 import type {NavigationProps, ChildrenProps} from "./Types";
 
 // import variables from "../../native-base-theme/variables/commonColor";
@@ -39,7 +41,7 @@ export default class BaseContainer extends React.Component<BaseContainerProps> {
                     </Right>
                 </NBHeader>
                 <Content>
-                {this.props.children}
+                  {this.props.children}
                 </Content>
                 <Footer>
                     <FooterTab>
@@ -60,6 +62,11 @@ export default class BaseContainer extends React.Component<BaseContainerProps> {
 }
 
 const style = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
     img: {
         width: WindowDimensions.width,
         height: WindowDimensions.height - Constants.statusBarHeight,

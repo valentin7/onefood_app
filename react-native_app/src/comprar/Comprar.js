@@ -1,36 +1,52 @@
 // @flow
 import moment from "moment";
 import * as React from "react";
-import {View, Image, StyleSheet, Dimensions} from "react-native";
-import {H1, Text} from "native-base";
-
-import {BaseContainer, TaskOverview, Images, Styles} from "../components";
+import {View, Image, StyleSheet, Dimensions, InteractionManager} from "react-native";
+import {H1, Text, Button} from "native-base";
+import ImageSlider from 'react-native-image-slider';
+import {BaseContainer, TaskOverview, Images, Styles, PrecioTotal} from "../components";
 import type {ScreenProps} from "../components/Types";
 
 import variables from "../../native-base-theme/variables/commonColor";
 
 export default class Profile extends React.Component<ScreenProps<>> {
 
+    state = {
+    loading: true,
+    }
+
+    componentDidMount() {
+      InteractionManager.runAfterInteractions(() => {
+        this.setState({ loading: false });
+      });
+    }
+
     render(): React.Node {
         const today = moment();
         return <BaseContainer title="Comprar" navigation={this.props.navigation} scrollable>
-            <Image source={Images.music} style={style.img} />
-            <View style={style.row}>
-                <H1>ONEFOOD</H1>
-                <Text style={{ textAlign: "center" }}>Una comida completa.</Text>
-            </View>
-            <View style={[Styles.center, Styles.flexGrow]}>
-              <Text>$50 pesos</Text>
-            </View>
-            <View style={[Styles.center, Styles.flexGrow]}>
-              <Text>Cuantos</Text>
-            </View>
-            <View style={[Styles.center, Styles.flexGrow]}>
-              <Text>Compra única o compra periódica</Text>
-            </View>
+
+            <View>
+             {this.state.loading ? (
+               <Loading />
+             ) : (
+               <ImageSlider images={[
+                   Images.music,
+                   Images.travel
+               ]}/>
+             )}
+           </View>
+
+            <PrecioTotal cantidad={1} total={50} />
         </BaseContainer>;
     }
 }
+
+
+const Loading = () => (
+  <View style={style.container}>
+    <Text>Loading...</Text>
+  </View>
+);
 
 const {width} = Dimensions.get("window");
 const style = StyleSheet.create({
@@ -39,9 +55,24 @@ const style = StyleSheet.create({
         height: width * 500 / 750,
         resizeMode: "cover"
     },
+    container: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
     row: {
-        justifyContent: "center",
-        alignItems: "center",
-        padding: variables.contentPadding * 2
+        flex: 1,
+        flexDirection: "row",
+        borderColor: variables.listBorderColor,
+        borderBottomWidth: variables.borderWidth
+    },
+    column: {
+      flex: 1,
+      flexDirection: "column",
+      borderColor: variables.listBorderColor,
+      borderBottomWidth: variables.borderWidth
+    },
+    itemContainer: {
+        flex: 1
     }
 });

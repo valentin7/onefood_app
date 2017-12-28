@@ -1,0 +1,26 @@
+
+Data:
+
+Pedido: {
+  fecha orden: date
+  cantidad de onefoods: number
+  sabor: string
+  precio total: number
+  user_id: string
+  al_mes: boolean
+  direccionAEntregar: string
+}
+
+usuario: {
+  nombre: string
+  password: passwordString
+  payment: stripeInfo
+
+}
+
+ubicacion: {
+  latitud
+  longitud
+}
+
+map API Key: AIzaSyBAW34qcj5iKM-mxdAQcGSv699oqjeu0MY
