@@ -10,7 +10,6 @@ export default {
     // ensure callback get called, timeout at 500ms
     // https://github.com/facebook/react-native/issues/8624
     let called = false;
-    console.log("Heyy BROOOOO");
     const timeout = setTimeout(() => {
       called = true;
       callback();

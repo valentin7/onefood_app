@@ -4,7 +4,7 @@ import * as React from "react";
 import {View, Image, StyleSheet, Dimensions, InteractionManager} from "react-native";
 import {H1, Text, Button} from "native-base";
 import ImageSlider from 'react-native-image-slider';
-import {BaseContainer, TaskOverview, Images, Styles, PrecioTotal} from "../components";
+import {BaseContainer, TaskOverview, Images, Styles, PrecioTotal, JankWorkaround} from "../components";
 import type {ScreenProps} from "../components/Types";
 
 import variables from "../../native-base-theme/variables/commonColor";
@@ -16,7 +16,7 @@ export default class Profile extends React.Component<ScreenProps<>> {
     }
 
     componentDidMount() {
-      InteractionManager.runAfterInteractions(() => {
+      JankWorkaround.runAfterInteractions(() => {
         this.setState({ loading: false });
       });
     }

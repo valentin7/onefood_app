@@ -6,21 +6,47 @@ import {Button, Icon} from "native-base";
 import {observable, action} from "mobx";
 import { observer } from "mobx-react/native";
 
-import {BaseContainer, Styles} from "../components";
+import {BaseContainer, Styles, JankWorkaround} from "../components";
 import type {ScreenProps} from "../components/Types";
 
 import variables from "../../native-base-theme/variables/commonColor";
 
 export default class Pedidos extends React.Component<ScreenProps<>> {
+
+    state = {
+      loading: true,
+    }
+
+    componentDidMount() {
+      JankWorkaround.runAfterInteractions(() => {
+        this.setState({ loading: false });
+      });
+    }
+
+
     render(): React.Node {
         return <BaseContainer title="Pedidos" navigation={this.props.navigation} scrollable>
-            <Item title="6 ONEFOODS" />
-            <Item title="24 ONEFOOD" done />
-            <Item title="3 ONEFOOD" done />
-            <Item title="1 ONEFOOD" done />
+                <View>
+                 {this.state.loading ? (
+                   <Loading />
+                 ) : (
+                   <View>
+                    <Item title="6 ONEFOODS" />
+                    <Item title="24 ONEFOOD" done />
+                    <Item title="3 ONEFOOD" done />
+                    <Item title="1 ONEFOOD" done />
+                    </View>
+                  )}
+              </View>
         </BaseContainer>;
     }
 }
+
+const Loading = () => (
+  <View style={style.container}>
+    <Text>Loading...</Text>
+  </View>
+);
 
 type ItemProps = {
     title: string,
@@ -62,6 +88,11 @@ const style = StyleSheet.create({
     },
     button: {
         height: 75, width: 75, borderRadius: 0
+    },
+    container: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
     },
     title: {
         paddingLeft: variables.contentPadding

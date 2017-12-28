@@ -8,7 +8,7 @@ import MapView from "react-native-maps";
 import {observable, action} from "mobx";
 import { observer } from "mobx-react/native";
 
-import {BaseContainer, Task} from "../components";
+import {BaseContainer, Task, JankWorkaround} from "../components";
 import type {ScreenProps} from "../components/Types";
 
 const now = moment();
@@ -32,8 +32,7 @@ export default class Mapa extends React.Component<ScreenProps<>> {
     }
 
     componentDidMount() {
-      InteractionManager.runAfterInteractions(() => {
-        console.log("heyyya");
+      JankWorkaround.runAfterInteractions(() => {
         this.setState({ loading: false });
       });
     }
