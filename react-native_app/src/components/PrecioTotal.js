@@ -14,16 +14,17 @@ type PrecioTotalProps = {
 
 export default class PrecioTotal extends React.Component<PrecioTotal> {
     render(): React.Node {
-        const {cantidad, total} = this.props;
+        const {sabor, cantidad, total} = this.props;
         return <View style={style.container}>
+        <View style={[style.count, Styles.center, style.leftCell]}>
+            <H1 style={style.heading}>{`${cantidad}`}</H1>
+            <Text style={Styles.grayText}>CANTIDAD</Text>
+        </View>
             <View style={[style.count, Styles.center, style.leftCell]}>
-                <H1 style={style.heading}>{`${cantidad}`}</H1>
-                <Text style={Styles.grayText}>CANTIDAD</Text>
+                <H1 style={style.heading}>{`${sabor}`}</H1>
+                <Text style={Styles.grayText}>SABOR</Text>
             </View>
-            <View style={[style.count, Styles.center]}>
-                <H1 style={style.heading}>{`$${total}`}</H1>
-                <Text style={Styles.grayText}>TOTAL</Text>
-            </View>
+
         </View>;
     }
 }

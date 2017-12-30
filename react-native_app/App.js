@@ -64,6 +64,27 @@ export default class App extends React.Component<{}, AppState> {
 
 useStrict(true);
 
+const fade = (props) => {
+    const {position, scene} = props
+
+    const index = scene.index
+
+    const translateX = 0
+    const translateY = 0
+
+    const opacity = position.interpolate({
+        inputRange: [index - 0.7, index, index + 0.7],
+        outputRange: [0.3, 1, 0.3]
+    })
+
+    console.log("fading");
+    return {
+        opacity,
+        transform: [{translateX}, {translateY}]
+    }
+}
+
+
 const MainNavigator = DrawerNavigator({
     Mapa: {screen: Mapa },
     Overview: { screen: Overview },
@@ -77,7 +98,12 @@ const MainNavigator = DrawerNavigator({
     drawerWidth: Dimensions.get("window").width,
     // eslint-disable-next-line flowtype/no-weak-types
     contentComponent: (Drawer: any),
-    drawerBackgroundColor: variables.brandInfo
+    drawerBackgroundColor: variables.brandInfo,
+    transitionConfig: () => ({
+        screenInterpolator: (props) => {
+            return fade(props)
+        }
+    })
 });
 
 const AppNavigator = StackNavigator({

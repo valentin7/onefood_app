@@ -87,7 +87,6 @@ class DrawerItem extends React.Component<DrawerItemProps> {
                 }
             </View>
         </TouchableHighlight>;
-
     }
 }
 

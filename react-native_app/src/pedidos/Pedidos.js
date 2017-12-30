@@ -26,18 +26,12 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
 
     render(): React.Node {
         return <BaseContainer title="Pedidos" navigation={this.props.navigation} scrollable>
-                <View>
-                 {this.state.loading ? (
-                   <Loading />
-                 ) : (
                    <View>
                     <Item title="6 ONEFOODS" />
                     <Item title="24 ONEFOOD" done />
                     <Item title="3 ONEFOOD" done />
                     <Item title="1 ONEFOOD" done />
                     </View>
-                  )}
-              </View>
         </BaseContainer>;
     }
 }
