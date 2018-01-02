@@ -49,6 +49,7 @@ export default class Comprar extends React.Component {
     }
 
     open() {
+      console.log("the refs on the other side: ", this.refs);
       this.refs.modal2.open();
     }
 
@@ -60,7 +61,7 @@ export default class Comprar extends React.Component {
         const today = moment();
 
         let { fadeAnim } = this.state.fadeAnim;
-        return <Modal style={[style.modal, style.modal2]} backdrop={false} position={"top"} ref={"modal2"}>
+        return <Modal style={[style.modal]} backdrop={false} position={"top"} ref={"modal2"}>
             <Image source={Images.music} style={style.img} />
             <PrecioTotal sabor={"Chocolate"} cantidad={1} total={50} />
             <PrecioTotal sabor={"Vainilla"} cantidad={1} total={50} />
@@ -155,9 +156,7 @@ const style = StyleSheet.create({
     },
     modal: {
     justifyContent: 'center',
-    alignItems: 'center'
-  },
-  modal2: {
+    alignItems: 'center',
     backgroundColor: "#3B5998"
   },
 });

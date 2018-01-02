@@ -22,13 +22,8 @@ export default class Settings extends React.Component<ScreenProps<>> {
                 <Text>GENERAL</Text>
             </View>
             <View>
-                <Field label="Name" defaultValue="Paul Jensen" />
-                <Field label="Email" defaultValue="paul@gmail.com" />
-                <Field label="Password" defaultValue="foobar" secureTextEntry />
-                <Field label="Gender">
-                    <SingleChoice labels={["Male", "Female"]} />
-                </Field>
-                <Field label="Birthday" defaultValue="May 25, 1983" />
+                <Field label="Name" defaultValue="Fernando Fernandez" />
+                <Field label="Email" defaultValue="fer@gmail.com" />
             </View>
         </BaseContainer>;
     }

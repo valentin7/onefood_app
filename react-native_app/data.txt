@@ -2,6 +2,7 @@
 Data:
 
 Pedido: {
+  pedido_id: string
   fecha orden: date
   cantidad de onefoods: number
   sabor: string

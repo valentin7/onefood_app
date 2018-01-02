@@ -19,6 +19,10 @@ import {Lists} from "./src/lists";
 import {Pedidos} from "./src/pedidos";
 import {Mapa} from "./src/mapa";
 import {Comprar} from "./src/comprar";
+import {Compartir} from "./src/compartir";
+import {Nosotros} from "./src/nosotros";
+import {Contacto} from "./src/contacto";
+import {Informacion} from "./src/informacion";
 import {Profile} from "./src/profile";
 import {Timeline} from "./src/timeline";
 import {Settings} from "./src/settings";
@@ -89,7 +93,11 @@ const MainNavigator = DrawerNavigator({
     Mapa: {screen: Mapa },
     Overview: { screen: Overview },
     Pedidos: {screen: Pedidos },
-    Comprar: { screen: Comprar},
+    Comprar: {screen: Comprar},
+    Informacion: {screen: Informacion},
+    Compartir: {screen: Compartir},
+    Nosotros: {screen: Nosotros},
+    Contacto: {screen: Contacto},
     Profile: { screen: Profile },
     Timeline: { screen: Timeline },
     Settings: { screen: Settings },

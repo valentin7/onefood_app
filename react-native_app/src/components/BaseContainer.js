@@ -66,7 +66,6 @@ export default class BaseContainer extends React.Component<BaseContainerProps> {
                     }
                     </Body>
                     <Right style={{ alignItems: "center" }}>
-                    <Avatar size={30} />
                     </Right>
                 </NBHeader>
                 <Content>
@@ -77,18 +76,16 @@ export default class BaseContainer extends React.Component<BaseContainerProps> {
                         <Button onPress={() => navigation.navigate("Pedidos")} transparent>
                             <Icon name="ios-list-outline" style={{ fontSize: 32 }} />
                         </Button>
-                        <Button transparent onPress={() => this.refs.modal2.open()}>
+                        <Button transparent onPress={() => this.refs.modal.open()}>
                             <Icon name="ios-add-circle" style={{ fontSize: 64 }} />
                         </Button>
-                        <Button onPress={() => navigation.navigate("Profile")} transparent>
+                        <Button onPress={() => navigation.navigate("Mapa")} transparent>
                             <Icon name="ios-map-outline" style={{ fontSize: 32 }} />
                         </Button>
                     </FooterTab>
                 </Footer>
-                <Comprar ref={"modal2"}></Comprar>
-
-
-                </Container>
+                <Comprar ref={"modal"}></Comprar>
+            </Container>
 
             );
     }
