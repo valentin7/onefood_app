@@ -16,6 +16,7 @@ import Container from "./Container";
 import {Comprar} from "./../comprar"
 import {Mapa} from "./../mapa"
 import Modal from 'react-native-modalbox';
+import { observer } from "mobx-react/native";
 
 import MapView from "expo";
 
@@ -49,7 +50,31 @@ const AppNavigator = StackNavigator(
   }
 );
 
+@observer
 export default class BaseContainer extends React.Component<BaseContainerProps> {
+
+    state = {
+      inMap: true
+    }
+    componentWillMount() {
+    }
+
+    pedidos() {
+      this.setState({inMap: false});
+      const {navigation} = this.props;
+      navigation.navigate("Pedidos");
+    }
+
+    comprar() {
+
+    }
+
+    mapa() {
+      this.setState({inMap: true});
+      const {navigation} = this.props;
+      navigation.navigate("Mapa");
+    }
+
     render(): React.Node {
         const {title, navigation} = this.props;
         return (
@@ -73,20 +98,19 @@ export default class BaseContainer extends React.Component<BaseContainerProps> {
                 </Content>
                 <Footer>
                     <FooterTab>
-                        <Button onPress={() => navigation.navigate("Pedidos")} transparent>
+                        <Button onPress={() => this.pedidos()} transparent>
                             <Icon name="ios-list-outline" style={{ fontSize: 32 }} />
                         </Button>
                         <Button transparent onPress={() => this.refs.modal.open()}>
-                            <Icon name="ios-add-circle" style={{ fontSize: 64 }} />
+                            <Icon name="ios-add-circle" style={{ fontSize: 72}} />
                         </Button>
-                        <Button onPress={() => navigation.navigate("Mapa")} transparent>
+                        <Button onPress={() => this.mapa()} transparent>
                             <Icon name="ios-map-outline" style={{ fontSize: 32 }} />
                         </Button>
                     </FooterTab>
                 </Footer>
                 <Comprar ref={"modal"}></Comprar>
             </Container>
-
             );
     }
 }

@@ -49,7 +49,6 @@ export default class Comprar extends React.Component {
     }
 
     open() {
-      console.log("the refs on the other side: ", this.refs);
       this.refs.modal2.open();
     }
 
@@ -59,7 +58,6 @@ export default class Comprar extends React.Component {
 
     render(): React.Node {
         const today = moment();
-
         let { fadeAnim } = this.state.fadeAnim;
         return <Modal style={[style.modal]} backdrop={false} position={"top"} ref={"modal2"}>
             <Image source={Images.music} style={style.img} />
@@ -70,7 +68,6 @@ export default class Comprar extends React.Component {
                   <H1 style={style.heading}>{`$50`}</H1>
                   <Text style={Styles.grayText}>TOTAL</Text>
             </View>
-
         </Modal>;
     }
 }
@@ -96,7 +93,6 @@ const ComprarRouter = StackRouter({
 }, {
   initialRouteName: 'Comprar',
 });
-
 
 
 /*<ImageSlider images={[

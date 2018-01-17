@@ -19,7 +19,7 @@ export default class Compartir extends React.Component<ScreenProps<>> {
               <Text>ONEFOOD-12343</Text>
             </View>
             <View style={style.row}>
-            <Text>Comparte tu código y te daremos un OneFood gratis a ti y a la otra persona con la que lo compartiste.</Text>
+            <Text>Comparte RICO tu código y te daremos un OneFood gratis a ti y a la otra persona con la que lo compartiste.</Text>
             </View>
         </BaseContainer>;
     }

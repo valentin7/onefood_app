@@ -36,9 +36,20 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
 
     render(): React.Node {
         return <BaseContainer title="Pedidos" navigation={this.props.navigation} scrollable>
+                  <View>
+                  {this.state.loading ? (
+                    <Loading />
+                  ) : (
+                    <View>
+                    <TouchableOpacity onPress={this.open}>
+                     <Item title="6 ONEFOODS" pedido_id="rigo1"/>
+                   </TouchableOpacity>
                    <TouchableOpacity onPress={this.open}>
-                    <Item title="6 ONEFOODS" pedido_id="rigo1" done/>
-                  </TouchableOpacity>
+                    <Item title="1 ONEFOODS" pedido_id="rigo1" done/>
+                   </TouchableOpacity>
+                   </View>
+                  )}
+                  </View>
                   <PedidoDetalle ref={"pedidoModal"} pedido_id="rigo1" fecha="23/12/2017" cantidad="3" sabor="Chocolate" precioTotal="50" user_id="rigo" al_mes="false" direccionAEntregar="Isla Dorada"/>
         </BaseContainer>;
     }
@@ -86,7 +97,7 @@ class PedidoDetalle extends React.Component<PedidoProps> {
 
 const Loading = () => (
   <View style={style.container}>
-    <Text>Loading...</Text>
+    <Text></Text>
   </View>
 );
 

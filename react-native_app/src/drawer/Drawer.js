@@ -39,7 +39,7 @@ export default class Drawer extends React.Component<NavigationProps<>> {
                 </Header>
                 <View style={style.itemContainer}>
                     <View style={style.row}>
-                        <DrawerItem {...{navigation}} name="Informacion" icon="ios-cart-outline" left/>
+                        <DrawerItem {...{navigation}} name="Informacion" icon="ios-information-circle-outline" left/>
                         <DrawerItem {...{navigation}} name="Mapa" icon="ios-map-outline" />
                     </View>
                     <View style={style.row}>

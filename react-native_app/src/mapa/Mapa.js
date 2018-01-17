@@ -50,13 +50,13 @@ export default class Mapa extends React.Component<ScreenProps<>> {
     componentWillUnmount() {
       this.setState({shouldUpdate: false});
       // console.log("coming out of map");
-        Animated.timing(                  // Animate over time
-        this.state.fadeAnim,            // The animated value to drive
-        {
-          toValue: 0,                   // Animate to opacity: 1 (opaque)
-          duration: 300,              // Make it take a while
-        }
-      ).start();                        // Starts the animation
+      //   Animated.timing(                  // Animate over time
+      //   this.state.fadeAnim,            // The animated value to drive
+      //   {
+      //     toValue: 0,                   // Animate to opacity: 1 (opaque)
+      //     duration: 5,              // Make it take a while
+      //   }
+      // ).start();                        // Starts the animation
     }
 
     @autobind @action
