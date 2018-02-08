@@ -40,6 +40,14 @@ export default class SignUp extends React.Component<ScreenProps<>> {
         this.props.navigation.goBack();
     }
 
+    /*
+    firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+  // Handle Errors here.
+  var errorCode = error.code;
+  var errorMessage = error.message;
+  // ...
+});
+    */
     @autobind
     signIn() {
         NavigationHelpers.reset(this.props.navigation, "Walkthrough");

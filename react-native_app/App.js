@@ -6,7 +6,7 @@ import {StackNavigator, DrawerNavigator} from "react-navigation";
 import {Font, AppLoading} from "expo";
 import {useStrict} from "mobx";
 
-import {Images} from "./src/components";
+import {Images, Firebase} from "./src/components";
 import {Login} from "./src/login";
 import {SignUp} from "./src/sign-up";
 import {Walkthrough} from "./src/walkthrough";
@@ -50,6 +50,9 @@ export default class App extends React.Component<{}, AppState> {
             .then(() => this.setState({ ready: true }))
             // eslint-disable-next-line
             .catch(error => console.error(error));
+
+        console.log("about to initialize Firebase");
+        Firebase.init();
     }
 
     render(): React.Node {

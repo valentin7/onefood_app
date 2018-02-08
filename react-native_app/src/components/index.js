@@ -14,4 +14,5 @@ export {default as SingleChoice} from "./SingleChoice";
 export {default as WindowDimensions} from "./WindowDimensions";
 export {default as Container} from "./Container";
 export {default as JankWorkaround} from "./JankWorkaround";
+export {default as Firebase} from "./Firebase";
 export {AnimatedView} from "./Animations";

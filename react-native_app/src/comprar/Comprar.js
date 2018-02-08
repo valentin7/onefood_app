@@ -58,8 +58,9 @@ export default class Comprar extends React.Component {
 
     render(): React.Node {
         const today = moment();
+
         let { fadeAnim } = this.state.fadeAnim;
-        return <Modal style={[style.modal]} backdrop={false} position={"top"} ref={"modal2"}>
+        return <Modal style={[style.modal, style.modal2]} backdrop={false} position={"top"} ref={"modal2"}>
             <Image source={Images.music} style={style.img} />
             <PrecioTotal sabor={"Chocolate"} cantidad={1} total={50} />
             <PrecioTotal sabor={"Vainilla"} cantidad={1} total={50} />
@@ -68,6 +69,7 @@ export default class Comprar extends React.Component {
                   <H1 style={style.heading}>{`$50`}</H1>
                   <Text style={Styles.grayText}>TOTAL</Text>
             </View>
+
         </Modal>;
     }
 }
@@ -93,6 +95,7 @@ const ComprarRouter = StackRouter({
 }, {
   initialRouteName: 'Comprar',
 });
+
 
 
 /*<ImageSlider images={[
@@ -152,7 +155,9 @@ const style = StyleSheet.create({
     },
     modal: {
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center'
+  },
+  modal2: {
     backgroundColor: "#3B5998"
   },
 });
