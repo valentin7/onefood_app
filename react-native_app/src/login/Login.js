@@ -9,15 +9,28 @@ import {Constants} from "expo";
 
 import Mark from "./Mark";
 
-import {Images, WindowDimensions, Field, NavigationHelpers, Small} from "../components";
+import {Images, WindowDimensions, Field, NavigationHelpers, Small, Firebase} from "../components";
 import {AnimatedView} from "../components/Animations";
 import type {ScreenProps} from "../components/Types";
 
 import variables from "../../native-base-theme/variables/commonColor";
 
-export default class Login extends React.Component<ScreenProps<>> {
+// actually Sign up / crear cuenta state, naming by class.
+type LoginState = {
+  email: string,
+  password: string,
+  name: string
+}
+
+export default class Login extends React.Component<ScreenProps<>, LoginState> {
 
     password: TextInput;
+    email: TextInput;
+
+    constructor(props) {
+        super(props);
+        this.state = {email: "", password: "", name: ""};
+    }
 
     @autobind
     setPasswordRef(input: TextInput) {
@@ -25,8 +38,42 @@ export default class Login extends React.Component<ScreenProps<>> {
     }
 
     @autobind
+    setEmailRef(input: TextInput) {
+        this.email = input;
+    }
+
+    @autobind
     goToPassword() {
         this.password.focus();
+    }
+
+    @autobind
+    goToEmail() {
+        this.email.focus();
+    }
+
+    @autobind
+    setEmail(emailString: string) {
+      //this.email.value = emailString;
+      this.setState({email: emailString});
+      console.log("printing here", this.state.email);
+      //this.setState({emailString});
+    }
+
+    @autobind
+    setPassword(passwordString: string) {
+      this.setState({password: passwordString});
+    }
+
+    @autobind
+    async crearCuenta(): Promise<void> {
+      console.log("crear cuenta state: ", this.state.email, this.state.password);
+      try {
+        await Firebase.auth.createUserWithEmailAndPassword(this.state.email, this.state.password);
+        NavigationHelpers.reset(this.props.navigation, "Walkthrough");
+      } catch (e) {
+        alert(e);
+      }
     }
 
     @autobind
@@ -47,7 +94,7 @@ export default class Login extends React.Component<ScreenProps<>> {
                     <ScrollView contentContainerStyle={[StyleSheet.absoluteFill, styles.content]}>
                         <KeyboardAvoidingView behavior="position">
                             <AnimatedView
-                                style={{ height: height - Constants.statusBarHeight, justifyContent: "flex-end" }}
+                                style={{height: height - Constants.statusBarHeight, justifyContent: "flex-end" }}
                             >
                             <View style={styles.logo}>
                                 <View>
@@ -56,11 +103,20 @@ export default class Login extends React.Component<ScreenProps<>> {
                                 </View>
                             </View>
                             <View>
+                              <Field
+                                  label="Nombre"
+                                  returnKeyType="next"
+                                  onSubmitEditing={this.goToPassword}
+                                  inverse
+                              />
                                 <Field
                                     label="Email"
                                     autoCapitalize="none"
                                     returnKeyType="next"
+                                    value={this.state.email}
+                                    textInputRef={this.setEmailRef}
                                     onSubmitEditing={this.goToPassword}
+                                    onChangeText={this.setEmail}
                                     inverse
                                 />
                                 <Field
@@ -69,19 +125,21 @@ export default class Login extends React.Component<ScreenProps<>> {
                                     autoCapitalize="none"
                                     returnKeyType="go"
                                     textInputRef={this.setPasswordRef}
+                                    value={this.state.password}
+                                    onChangeText={this.setPassword}
                                     onSubmitEditing={this.signIn}
                                     last
                                     inverse
                                 />
                                 <View>
                                     <View>
-                                        <Button primary full onPress={this.signIn}>
-                                            <Text>Sign In</Text>
+                                        <Button primary full onPress={this.crearCuenta}>
+                                            <Text>Crear Cuenta</Text>
                                         </Button>
                                     </View>
                                     <View>
                                         <Button transparent full onPress={this.signUp}>
-                                            <Small style={{color: "white"}}>{"Don't have an account? Sign Up"}</Small>
+                                            <Small style={{color: "white"}}>{"Ya tienes cuenta? Log In"}</Small>
                                         </Button>
                                     </View>
                                 </View>
@@ -108,7 +166,8 @@ const styles = StyleSheet.create({
         width
     },
     content: {
-        flexGrow: 1
+        flexGrow: 1,
+        top: -25
     },
     logo: {
         marginVertical: variables.contentPadding * 2,

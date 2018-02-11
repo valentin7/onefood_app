@@ -2,18 +2,39 @@
 import autobind from "autobind-decorator";
 import * as React from "react";
 import {View, Image, StyleSheet, ScrollView, KeyboardAvoidingView, TextInput} from "react-native";
-import {Button, Header, Left, Right, Body, Icon, Title, Text} from "native-base";
+import {Button, Header, Left, Right, Body, Icon, Title, Text, H1} from "native-base";
 import {Constants} from "expo";
 
-import {Container, Images, Field, NavigationHelpers, Styles, SingleChoice, WindowDimensions} from "../components";
+import Mark from "../login/Mark";
+
+import {Container, Images, Field, NavigationHelpers, Styles, SingleChoice, WindowDimensions, Firebase} from "../components";
 import type {ScreenProps} from "../components/Types";
 
 import variables from "../../native-base-theme/variables/commonColor";
+
+type LoginState = {
+  email: string,
+  password: string
+};
 
 export default class SignUp extends React.Component<ScreenProps<>> {
 
     username: TextInput;
     password: TextInput;
+
+    componentWillMount() {
+        this.setState({email: "", password: ""});
+    }
+
+    @autobind
+    setEmail(email: string) {
+        this.setState({email});
+    }
+
+    @autobind
+    setPassword(password: string) {
+        this.setState({password});
+    }
 
     @autobind
     setUsernameRef(input: TextInput) {
@@ -49,8 +70,14 @@ export default class SignUp extends React.Component<ScreenProps<>> {
 });
     */
     @autobind
-    signIn() {
+    async logIn(): Promise<void> {
+      const {email, password} = this.state;
+      try {
+        await Firebase.auth.signInWithEmailAndPassword(email, password);
         NavigationHelpers.reset(this.props.navigation, "Walkthrough");
+      } catch (e) {
+        alert(e);
+      }
     }
 
     render(): React.Node {
@@ -66,36 +93,23 @@ export default class SignUp extends React.Component<ScreenProps<>> {
                             </Button>
                         </Left>
                         <Body>
-                            <Title>Sign Up</Title>
+                            <Title>Log In</Title>
                         </Body>
                         <Right />
                     </Header>
-                    <View style={style.row}>
-                        <Button transparent block style={style.btn}>
-                            <Icon name="logo-twitter" />
-                            <Text style={{ textAlign: "center" }}>Connect with</Text>
-                            <Text style={{ textAlign: "center" }}>Twitter</Text>
-                        </Button>
-                        <Button transparent block style={[style.btn, style.facebook]}>
-                            <Icon name="logo-facebook" />
-                            <Text style={{ textAlign: "center" }}>Connect with</Text>
-                            <Text style={{ textAlign: "center" }}>Facebook</Text>
-                        </Button>
+                    <View style={style.logo}>
+                        <View>
+                            <Mark />
+                            <H1 style={style.title}>ONEFOOD</H1>
+                        </View>
                     </View>
-                    <Button transparent block style={[style.btn, style.email]}>
-                        <Icon name="ios-mail-outline" style={{ color: "white", marginRight: 5 }} />
-                        <Text>or use your email address</Text>
-                    </Button>
                     <View style={Styles.form}>
                         <Field
-                            label="Name"
-                            onSubmitEditing={this.goToUsername}
-                            returnKeyType="next"
-                        />
-                        <Field
-                            label="Username"
+                            label="Email"
                             textInputRef={this.setUsernameRef}
                             onSubmitEditing={this.goToPassword}
+                            onChangeText={this.setEmail}
+                            value={this.state.email}
                             returnKeyType="next"
                         />
                         <Field
@@ -103,16 +117,15 @@ export default class SignUp extends React.Component<ScreenProps<>> {
                             secureTextEntry
                             textInputRef={this.setPasswordRef}
                             onSubmitEditing={this.signIn}
+                            onChangeText={this.setPassword}
+                            value={this.state.password}
                             returnKeyType="go"
                         />
-                        <Field label="Gender">
-                            <SingleChoice labels={["Male", "Female"]} />
-                        </Field>
                     </View>
                 </KeyboardAvoidingView>
                 </ScrollView>
-                <Button primary block onPress={this.signIn} style={{ height: variables.footerHeight }}>
-                    <Text>CONTINUE</Text>
+                <Button primary block onPress={this.logIn} style={{ height: variables.footerHeight }}>
+                    <Text>LOG IN</Text>
                 </Button>
             </Container>
         );
@@ -128,6 +141,15 @@ const style = StyleSheet.create({
     },
     row: {
         flexDirection: "row"
+    },
+    logo: {
+        marginVertical: variables.contentPadding * 2,
+        alignItems: "center"
+    },
+    title: {
+        marginVertical: variables.contentPadding * 2,
+        color: "white",
+        textAlign: "center"
     },
     btn: {
         flex: 1,

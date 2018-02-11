@@ -64,12 +64,11 @@ export default class Comprar extends React.Component {
             <Image source={Images.music} style={style.img} />
             <PrecioTotal sabor={"Chocolate"} cantidad={1} total={50} />
             <PrecioTotal sabor={"Vainilla"} cantidad={1} total={50} />
-            <PrecioTotal sabor={"PEDIR"} cantidad={50} total={50} />
+            <PrecioTotal sabor={""} cantidad={50} total={50} />
             <View style={style.row}>
                   <H1 style={style.heading}>{`$50`}</H1>
                   <Text style={Styles.grayText}>TOTAL</Text>
             </View>
-
         </Modal>;
     }
 }

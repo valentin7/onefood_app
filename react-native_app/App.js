@@ -32,14 +32,22 @@ import getTheme from "./native-base-theme/components";
 import variables from "./native-base-theme/variables/commonColor";
 
 type AppState = {
-    ready: boolean
+    staticAssetsLoaded: boolean,
+    authStatusReported: boolean,
+    isUserAuthenticated: boolean
 };
 
 export default class App extends React.Component<{}, AppState> {
 
+    state: AppState = {
+      staticAssetsLoaded: false,
+      authStatusReported: false,
+      isUserAuthenticated: false
+    }
+
     componentWillMount() {
         const promises = [];
-        this.setState({ ready: false })
+        Firebase.init();
         promises.push(
             Font.loadAsync({
                 "Avenir-Book": require("./fonts/Avenir-Book.ttf"),
@@ -47,21 +55,30 @@ export default class App extends React.Component<{}, AppState> {
             })
         );
         Promise.all(promises.concat(Images.downloadAsync()))
-            .then(() => this.setState({ ready: true }))
+            .then(() => this.setState({ staticAssetsLoaded: true }))
             // eslint-disable-next-line
             .catch(error => console.error(error));
 
-        console.log("about to initialize Firebase");
-        Firebase.init();
+        Firebase.auth.onAuthStateChanged(user => {
+          this.setState({
+            authStatusReported: true,
+            isUserAuthenticated: !!user
+          });
+        });
     }
 
     render(): React.Node {
-        const {ready} = this.state;
+        const {staticAssetsLoaded, authStatusReported, isUserAuthenticated} = this.state;
         return <StyleProvider style={getTheme(variables)}>
             {
-                ready
-                ?
-                    <AppNavigator onNavigationStateChange={() => undefined} />
+                (staticAssetsLoaded && authStatusReported) ?
+                  (
+                    isUserAuthenticated
+                      ?
+                        <AuthenticatedAppNavigator onNavigationStateChange={() => undefined}/>
+                      :
+                        <AppNavigator onNavigationStateChange={() => undefined} />
+                  )
                 :
                     <AppLoading startAsync={null} onError={null} onFinish={null} />
             }
@@ -97,7 +114,7 @@ const MainNavigator = DrawerNavigator({
     Overview: { screen: Overview },
     Pedidos: {screen: Pedidos },
     Comprar: {screen: Comprar},
-    Informacion: {screen: Informacion},
+    Walkthrough: {screen: Walkthrough},
     Compartir: {screen: Compartir},
     Nosotros: {screen: Nosotros},
     Contacto: {screen: Contacto},
@@ -117,6 +134,17 @@ const MainNavigator = DrawerNavigator({
     })
 });
 
+const AuthenticatedAppNavigator = StackNavigator({
+    Main: { screen: MainNavigator },
+    Login: { screen: Login },
+    SignUp: { screen: SignUp },
+    Walkthrough: { screen: Walkthrough },
+}, {
+    headerMode: "none",
+    cardStyle: {
+        backgroundColor: variables.brandInfo
+    }
+});
 const AppNavigator = StackNavigator({
     Login: { screen: Login },
     SignUp: { screen: SignUp },

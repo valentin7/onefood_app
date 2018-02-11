@@ -5,7 +5,7 @@ import {View, StyleSheet, Image, TouchableHighlight} from "react-native";
 import {Button, Icon, Header, Text, Left, Title, Body, Right} from "native-base";
 import {Constants} from "expo";
 
-import {Images, NavigationHelpers, Styles, WindowDimensions, Container} from "../components";
+import {Images, NavigationHelpers, Styles, WindowDimensions, Container, Firebase} from "../components";
 import type {NavigationProps} from "../components/Types";
 
 import variables from "../../native-base-theme/variables/commonColor";
@@ -17,7 +17,8 @@ export default class Drawer extends React.Component<NavigationProps<>> {
     }
 
     @autobind
-    login() {
+    logout() {
+        Firebase.auth.signOut();
         NavigationHelpers.reset(this.props.navigation, "Login");
     }
 
@@ -39,7 +40,7 @@ export default class Drawer extends React.Component<NavigationProps<>> {
                 </Header>
                 <View style={style.itemContainer}>
                     <View style={style.row}>
-                        <DrawerItem {...{navigation}} name="Informacion" icon="ios-information-circle-outline" left/>
+                        <DrawerItem {...{navigation}} name="Walkthrough" icon="ios-information-circle-outline" left/>
                         <DrawerItem {...{navigation}} name="Mapa" icon="ios-map-outline" />
                     </View>
                     <View style={style.row}>
@@ -55,7 +56,7 @@ export default class Drawer extends React.Component<NavigationProps<>> {
                         <DrawerItem {...{navigation}} name="Settings" icon="ios-options-outline" />
                     </View>
                 </View>
-                <Button transparent block onPress={this.login}>
+                <Button transparent block onPress={this.logout}>
                     <Text>LOGOUT</Text>
                 </Button>
             </Container>
