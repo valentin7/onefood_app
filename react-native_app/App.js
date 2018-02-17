@@ -31,6 +31,10 @@ import {Create} from "./src/create";
 import getTheme from "./native-base-theme/components";
 import variables from "./native-base-theme/variables/commonColor";
 
+const SFProTextBold = require("./fonts/SF-Pro-Text-Bold.otf");
+const SFProTextSemibold = require("./fonts/SF-Pro-Text-Semibold.otf");
+const SFProTextRegular = require("./fonts/SF-Pro-Text-Regular.otf");
+
 type AppState = {
     staticAssetsLoaded: boolean,
     authStatusReported: boolean,
@@ -51,7 +55,10 @@ export default class App extends React.Component<{}, AppState> {
         promises.push(
             Font.loadAsync({
                 "Avenir-Book": require("./fonts/Avenir-Book.ttf"),
-                "Avenir-Light": require("./fonts/Avenir-Light.ttf")
+                "Avenir-Light": require("./fonts/Avenir-Light.ttf"),
+                "SFProText-Bold": SFProTextBold,
+                "SFProText-Semibold": SFProTextSemibold,
+                "SFProText-Regular": SFProTextRegular
             })
         );
         Promise.all(promises.concat(Images.downloadAsync()))

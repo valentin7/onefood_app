@@ -74,7 +74,6 @@ export default class SignUp extends React.Component<ScreenProps<>> {
       const {email, password} = this.state;
       try {
         await Firebase.auth.signInWithEmailAndPassword(email, password);
-        NavigationHelpers.reset(this.props.navigation, "Walkthrough");
       } catch (e) {
         alert(e);
       }

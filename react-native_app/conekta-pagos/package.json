@@ -1,0 +1,17 @@
+{
+  "name": "conekta-pagos",
+  "version": "1.0.0",
+  "description": "Serverless para pagos por Conekta.",
+  "main": "createCharge.js",
+  "dependencies": {
+    "config": "^1.24.0",
+    "js-yaml": "^3.7.0",
+    "conekta": "^3.3.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

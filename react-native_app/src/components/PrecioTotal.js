@@ -1,6 +1,6 @@
 // @flow
 import * as React from "react";
-import {StyleSheet, View, Text} from "react-native";
+import {StyleSheet, View, Text, Picker} from "react-native";
 import {H1} from "native-base";
 
 import Styles from "./Styles";
