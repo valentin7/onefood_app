@@ -70,7 +70,7 @@ export default class Login extends React.Component<ScreenProps<>, LoginState> {
       console.log("crear cuenta state: ", this.state.email, this.state.password);
       try {
         await Firebase.auth.createUserWithEmailAndPassword(this.state.email, this.state.password);
-        NavigationHelpers.reset(this.props.navigation, "Walkthrough");
+      //  NavigationHelpers.reset(this.props.navigation, "Walkthrough");
       } catch (e) {
         alert(e);
       }

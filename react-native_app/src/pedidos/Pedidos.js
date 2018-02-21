@@ -2,12 +2,13 @@
 import autobind from "autobind-decorator";
 import * as React from "react";
 import {StyleSheet, View, Text, TouchableOpacity} from "react-native";
-import {Button, Icon} from "native-base";
+import {Button, Icon, Left, Right, H3} from "native-base";
 import {observable, action} from "mobx";
 import { observer } from "mobx-react/native";
 import Modal from 'react-native-modalbox';
+import QRCode from 'react-native-qrcode';
 
-import {BaseContainer, Styles, JankWorkaround, Task} from "../components";
+import {BaseContainer, Styles, JankWorkaround, Task, PedidoItem} from "../components";
 import type {ScreenProps} from "../components/Types";
 
 import variables from "../../native-base-theme/variables/commonColor";
@@ -31,6 +32,11 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
 
     open() {
       this.refs.pedidoModal.open();
+    }
+
+    @autobind
+    dismissModal() {
+      this.setState({isOpen: false});
     }
 
 
@@ -66,35 +72,56 @@ type PedidoProps = {
   direccionAEntregar: string
 }
 class PedidoDetalle extends React.Component<PedidoProps> {
-    open() {
-      this.refs.modal.open();
+
+    state = {
+      detailModalIsOpen: false,
     }
+
+    open() {
+      this.setState({detailModalIsOpen: true});
+      //this.refs.modal.open();
+    }
+
+    @autobind
+    setModalStateClosed() {
+      this.setState({detailModalIsOpen: false});
+    }
+
+    @autobind
+    dismissModal() {
+      this.setState({detailModalIsOpen: false});
+    }
+
     render(): React.Node {
       const {pedido_id} = this.props;
-      return <Modal style={[style.modal, style.container]} backdrop={true} position={"bottom"} coverScreen={true} ref={"modal"}>
-            <Task
-                date="2015-05-08 08:30"
-                title="New Icons"
-                subtitle="Mobile App"
-                completed={true}
+      return <Modal style={[style.modal, style.container]} onClosed={this.setModalStateClosed}  isOpen={this.state.detailModalIsOpen} backdrop={true} position={"bottom"} coverScreen={true} ref={"modal"}>
+          <Button transparent onPress={this.dismissModal}>
+              <Icon name="ios-close-outline" style={style.closeIcon} />
+          </Button>
+          <QRCode
+                value={"O-89098"}
+                size={200}
+                bgColor='purple'
+                fgColor='white'/>
+            <PedidoItem
+                numero="12"
+                title="CHOCOLATE"
             />
-            <Task
-                date="2015-05-08 10:00"
-                title="Coffee Break"
-                completed={false}
+            <PedidoItem
+                numero="24"
+                title="VAINILLA"
             />
-            <Task
-                date="2015-05-08 14:00"
-                title="Design Stand Up"
-                subtitle="Hangouts"
-                collaborators={[1, 2, 3]}
-                completed={false}
-            />
+            <View style={{marginTop: 20}}>
+              <H3>Marzo 1, 2018</H3>
+            </View>
+
         </Modal>;
     }
 
 }
 
+//  <Text>Entrega a domicilio</Text>
+  //<Text>Polanco 4815, Torre 16, Numero 23\n 42, Ciudad de Mexico</Text>
 const Loading = () => (
   <View style={style.container}>
     <Text></Text>
@@ -122,12 +149,10 @@ class Item extends React.Component<ItemProps> {
 
     @autobind @action
     toggle() {
-      console.log("QUE PEDOO");
         this.done = !this.done;
     }
 
     open() {
-      console.log("refs bro: ", this.refs);
       this.refs.pedidoModal.open();
       //this.refs.pedido.open();
       //          <PedidoDetalle ref={"pedido"} pedido_id="rigo1" fecha="23/12/2017" cantidad="3" sabor="Chocolate" precioTotal="50" user_id="rigo" al_mes="false" direccionAEntregar="Isla Dorada"/>
@@ -157,6 +182,35 @@ const style = StyleSheet.create({
     button: {
         height: 75, width: 75, borderRadius: 0
     },
+    closeIcon: {
+        fontSize: 50,
+        marginLeft: 20,
+        color: variables.listBorderColor
+    },
+    number: {
+        alignItems: "center",
+        flexDirection: "row",
+        padding: variables.contentPadding
+    },
+    title: {
+        justifyContent: "center",
+        flex: 1,
+        padding: variables.contentPadding
+    },
+    titleText: {
+        fontSize: variables.fontSizeBase * 2 + variables.contentPadding,
+        color: "white"
+    },
+    timelineLeft: {
+        flex: .5,
+        borderRightWidth: variables.borderWidth,
+        borderColor: variables.listBorderColor
+    },
+    timelineRight: {
+        flex: .5,
+        justifyContent: "flex-end"
+    },
+
     container: {
       flex: 1,
       justifyContent: 'center',

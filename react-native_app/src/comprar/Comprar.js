@@ -1,14 +1,14 @@
 // @flow
 import moment from "moment";
+import autobind from "autobind-decorator";
 import * as React from "react";
 import {View, Image, StyleSheet, Dimensions, InteractionManager, Animated, ScrollView} from "react-native";
-import {H1, Text, Button} from "native-base";
+import {H1, Text, Button, Radio, ListItem, Right, Content, CheckBox, Container, Header, Left, Icon, Title, Body, Footer} from "native-base";
 import ImageSlider from 'react-native-image-slider';
-import {BaseContainer, TaskOverview, Images, Styles, PrecioTotal, JankWorkaround, QuantityInput} from "../components";
+import {BaseContainer, TaskOverview, Images, Styles, PrecioTotal, QuantityInput, Address} from "../components";
 import type {ScreenProps} from "../components/Types";
 import Modal from 'react-native-modalbox';
 import {StackNavigator, StackRouter} from 'react-navigation';
-
 
 import variables from "../../native-base-theme/variables/commonColor";
 
@@ -16,42 +16,31 @@ export default class Comprar extends React.Component {
     static router = ComprarRouter;
 
     state = {
-      loading: true,
-      fadeAnim: new Animated.Value(1),
-      shouldUpdate: false,
+      subscription: false,
+      isOpen: false,
     }
 
     componentWillMount() {
-      this.setState({shouldUpdate: true});
-    }
-
-    componentDidMount() {
-      JankWorkaround.runAfterInteractions(() => {
-      //   Animated.timing(                  // Animate over time
-      //   this.state.fadeAnim,            // The animated value to drive
-      //   {
-      //     toValue: 1,                   // Animate to opacity: 1 (opaque)
-      //     duration: 50,
-             // Make it take a while
-      //   }
-      // ).start();                        // Starts the animation
-        this.setState({ loading: false });
-      });
-    }
-
-    componentWillUnmount() {
-      this.setState({shouldUpdate: false});
-      Animated.timing(                  // Animate over time
-      this.state.fadeAnim,            // The animated value to drive
-      {
-        toValue: 1,                   // Animate to opacity: 1 (opaque)
-        duration: 100,              // Make it take a while
-      }
-    ).start();                        // Starts the animation
     }
 
     open() {
-      this.refs.modal2.open();
+      this.setState({isOpen: true});
+      //this.refs.modal2.open();
+    }
+
+    @autobind
+    toggleSubscriptionYes() {
+      this.setState({subscription: true});
+    }
+
+    @autobind
+    toggleSubscriptionNo() {
+      this.setState({subscription: false});
+    }
+
+    @autobind
+    dismissModal() {
+      this.setState({isOpen: false});
     }
 
     static navigationOptions = {
@@ -60,30 +49,67 @@ export default class Comprar extends React.Component {
 
     render(): React.Node {
         const today = moment();
+        return <Modal style={[style.modal, style.modal2]} isOpen={this.state.isOpen} swipeToClose={false}  backdrop={false} position={"top"} ref={"modal2"}>
+            <Container>
+              <Header>
+                <Left>
+                    <Button transparent onPress={this.dismissModal}>
+                        <Icon name="ios-close-outline" style={style.closeIcon} />
+                    </Button>
+                </Left>
+                <Body>
+                    <Title>COMPRAR</Title>
+                </Body>
+                <Right />
+              </Header>
+              <Content>
+                <Image source={Images.music} style={style.img} />
+                <View style={[style.count, Styles.center]}>
+                    <H1 style={style.heading}>CHOCOLATE</H1>
+                    <Text style={Styles.grayText}>SABOR</Text>
+                    <QuantityInput singular="botella" plural="botellas" from={0} to={120} />
+                </View>
+                <View style={[style.count, Styles.center]}>
+                    <H1 style={style.heading}>VAINILLA</H1>
+                    <Text style={Styles.grayText}>SABOR</Text>
+                    <QuantityInput singular="botella" plural="botellas" from={0} to={120} />
+                </View>
+                <View>
+                  <ListItem onPress={this.toggleSubscriptionNo}>
+                    <Text>Una Vez</Text>
+                    <Right>
+                      <CheckBox onPress={this.toggleSubscriptionNo} checked={!this.state.subscription}/>
+                    </Right>
+                  </ListItem>
+                  <ListItem onPress={this.toggleSubscriptionYes}>
+                    <Text>Subscripción</Text>
+                    <Right>
+                      <CheckBox onPress={this.toggleSubscriptionYes} checked={this.state.subscription} />
+                    </Right>
+                  </ListItem>
+                </View>
 
-        let { fadeAnim } = this.state.fadeAnim;
-        return <Modal style={[style.modal, style.modal2]} backdrop={false} position={"top"} ref={"modal2"}>
-
-            <Image source={Images.music} style={style.img} />
-            <ScrollView style={Styles.flexGrow}>
-            <View style={[style.count, Styles.center]}>
-                <H1 style={style.heading}>CHOCOLATE</H1>
-                <Text style={Styles.grayText}>SABOR</Text>
-                <QuantityInput singular="botella" plural="paquetes de 6" from={0} to={6} />
-            </View>
-            <View style={[style.count, Styles.center]}>
-                <H1 style={style.heading}>VAINILLA</H1>
-                <Text style={Styles.grayText}>SABOR</Text>
-                <QuantityInput singular="botella" plural="paquetes de 6" from={0} to={6} />
-            </View>
-            <View>
-                  <H1 style={style.heading}>{`$50`}</H1>
-                  <Text style={Styles.grayText}>TOTAL</Text>
-            </View>
-            </ScrollView>
-            <Button primary block  style={{ height: variables.footerHeight * 1.3 }}>
-              <Text>CONTINUAR</Text>
-            </Button>
+                <View>
+                  <ListItem onPress={this.toggleSubscriptionNo}>
+                    <Text>Entrega a Domicilio</Text>
+                    <Right>
+                      <CheckBox onPress={this.toggleSubscriptionNo} checked={!this.state.subscription}/>
+                    </Right>
+                  </ListItem>
+                  <ListItem onPress={this.toggleSubscriptionYes}>
+                    <Text>Me queda de pasada</Text>
+                    <Right>
+                      <CheckBox onPress={this.toggleSubscriptionYes} checked={this.state.subscription} />
+                    </Right>
+                  </ListItem>
+                </View>
+              </Content>
+              <Button primary block onPress={() => this.refs.modal.open()} style={{ height: variables.footerHeight * 1.3 }}>
+                <Text>CONTINUAR</Text>
+                <Text>  (Total: $50)</Text>
+              </Button>
+            </Container>
+            <Address ref={"modal"}></Address>
         </Modal>;
     }
 }
@@ -116,11 +142,6 @@ const ComprarRouter = StackRouter({
      Images.music,
      Images.travel
  ]}/>*/
-const Loading = () => (
-  <View style={style.container}>
-    <Text>Loading...</Text>
-  </View>
-);
 
 const {width} = Dimensions.get("window");
 const style = StyleSheet.create({
