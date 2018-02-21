@@ -4,14 +4,17 @@ import moment from "moment";
 import * as React from "react";
 import {ScrollView, InteractionManager, StyleSheet, View, Dimensions, Text, Animated} from "react-native";
 import {Icon, Picker} from "native-base";
-import MapView from "react-native-maps";
+import MapView, {Marker} from "react-native-maps";
 import {observable, action} from "mobx";
 import { observer } from "mobx-react/native";
+import openMap from 'react-native-open-maps';
 
 import {BaseContainer, Task, JankWorkaround} from "../components";
 import type {ScreenProps} from "../components/Types";
 
 const now = moment();
+
+let markerId = 0;
 
 @observer
 export default class Mapa extends React.Component<ScreenProps<>> {
@@ -23,6 +26,9 @@ export default class Mapa extends React.Component<ScreenProps<>> {
       loading: true,
       fadeAnim: new Animated.Value(1),
       shouldUpdate: false,
+      markers: [{key: markerId++, title: "Camión ONEFOOD", description: "Presiona para abrir en Mapa.", coordinate: {latitude: 19.4326, longitude: -99.1335}, color: "green"},
+                {key: markerId++, title: "Camión ONEFOOD", description: "Presiona para abrir en Mapa.", coordinate: {latitude: 19.4452, longitude: -99.1359}, color: "green"}
+                ],
     }
 
     constructor() {
@@ -45,6 +51,13 @@ export default class Mapa extends React.Component<ScreenProps<>> {
 
     shouldComponentUpdate() {
       return this.state.shouldUpdate
+    }
+
+    @autobind
+    openMapMarker(coordinate) {
+      openMap({latitude: coordinate.latitude, longitude: coordinate.longitude});
+
+    //  alert("what's up bruvy" + coordinate.latitude + ", " + coordinate.longitude);
     }
 
     componentWillUnmount() {
@@ -71,8 +84,8 @@ export default class Mapa extends React.Component<ScreenProps<>> {
         const { width, height } = Dimensions.get('window');
         const ratio = width / height;
         const coordinates = {
-          latitude: 37.78825,
-          longitude: -122.4324,
+          latitude: 19.4326,
+          longitude: -99.1332,
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0922 * ratio,
         };
@@ -84,8 +97,19 @@ export default class Mapa extends React.Component<ScreenProps<>> {
                  ) : (
                    <MapView
                      style={styles.map}
-                     initialRegion={coordinates}
-                   />
+                     initialRegion={coordinates}>
+                     {this.state.markers.map(marker => (
+                        <Marker
+                          key={marker.key}
+                          title={marker.title}
+                          description={marker.description}
+                          coordinate={marker.coordinate}
+                          pinColor={marker.color}
+                          onCalloutPress={() => this.openMapMarker(marker.coordinate)}
+                        />
+                      ))}
+                    </MapView>
+
                  )}
                 </View>
                 <Animated.View style={{
@@ -106,25 +130,6 @@ const Loading = () => (
     <Text>Loading...</Text>
   </View>
 );
-
-// const styles = StyleSheet.create({
-//   container: {
-//     position: 'absolute',
-//     top: 0,
-//     left: 0,
-//     right: 0,
-//     bottom: 0,
-//     justifyContent: 'flex-end',
-//     alignItems: 'center',
-//   },
-//   map: {
-//     position: 'absolute',
-//     top: 0,
-//     left: 0,
-//     right: 0,
-//     bottom: 0,
-//   },
-// });
 
 const styles = StyleSheet.create({
   container: {

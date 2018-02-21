@@ -117,9 +117,9 @@ const fade = (props) => {
 
 
 const MainNavigator = DrawerNavigator({
+    Pedidos: {screen: Pedidos },
     Mapa: {screen: Mapa },
     Overview: { screen: Overview },
-    Pedidos: {screen: Pedidos },
     Comprar: {screen: Comprar},
     Walkthrough: {screen: Walkthrough},
     Compartir: {screen: Compartir},

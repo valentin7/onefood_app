@@ -15,6 +15,7 @@ import WindowDimensions from "./WindowDimensions";
 import Container from "./Container";
 import {Comprar} from "./../comprar"
 import {Mapa} from "./../mapa"
+import {Pedidos} from "./../pedidos"
 import Modal from 'react-native-modalbox';
 import { observer } from "mobx-react/native";
 
@@ -35,7 +36,7 @@ const AppNavigator = StackNavigator(
       screen: Comprar,
     },
     Index: {
-      screen: Mapa,
+      screen: Pedidos,
     },
   },
   {
