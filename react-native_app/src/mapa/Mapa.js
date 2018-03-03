@@ -11,6 +11,7 @@ import openMap from 'react-native-open-maps';
 
 import {BaseContainer, Task, JankWorkaround} from "../components";
 import type {ScreenProps} from "../components/Types";
+import Conekta from "../conekta/conekta.js";
 
 const now = moment();
 
