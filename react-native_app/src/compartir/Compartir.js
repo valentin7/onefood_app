@@ -16,10 +16,10 @@ export default class Compartir extends React.Component<ScreenProps<>> {
         const today = moment();
         return <BaseContainer title="Compartir" navigation={this.props.navigation} scrollable>
             <View style={style.row}>
-              <Text>ONEFOOD-12343</Text>
+              <Text style={{fontWeight: "bold"}}>ONEFOOD-12343</Text>
             </View>
             <View style={style.row}>
-            <Text>Comparte RICO tu código y te daremos un OneFood gratis a ti y a la otra persona con la que lo compartiste.</Text>
+            <Text>Comparte tu código y te daremos un OneFood gratis a ti y a la otra persona con la que lo compartiste.</Text>
             </View>
         </BaseContainer>;
     }

@@ -117,9 +117,9 @@ export default {
 
 
       // Color
-  brandPrimary: 'rgba(227, 81, 188, .75)',
-  brandInfo: '#00BAFF',
-  brandSecondary: '#D667CE',
+  brandPrimary: '#5cb85c',
+  brandInfo: '#022F40',
+  brandSecondary: '#03B5AA',
   brandSuccess: '#5cb85c',
   brandDanger: '#d9534f',
   brandWarning: '#f0ad4e',
@@ -167,7 +167,7 @@ export default {
 
     // Header
   toolbarBtnColor: "white",
-  toolbarDefaultBg: '#00BAFF',
+  toolbarDefaultBg: '#022F40',
   toolbarHeight: 64,
   toolbarIconSize: 20,
   toolbarSearchIconSize: 20,

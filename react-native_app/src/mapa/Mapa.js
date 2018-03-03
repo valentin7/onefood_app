@@ -11,7 +11,6 @@ import openMap from 'react-native-open-maps';
 
 import {BaseContainer, Task, JankWorkaround} from "../components";
 import type {ScreenProps} from "../components/Types";
-import Conekta from "../conekta/conekta.js";
 
 const now = moment();
 
@@ -27,8 +26,8 @@ export default class Mapa extends React.Component<ScreenProps<>> {
       loading: true,
       fadeAnim: new Animated.Value(1),
       shouldUpdate: false,
-      markers: [{key: markerId++, title: "Camión ONEFOOD", description: "Presiona para abrir en Mapa.", coordinate: {latitude: 19.4326, longitude: -99.1335}, color: "green"},
-                {key: markerId++, title: "Camión ONEFOOD", description: "Presiona para abrir en Mapa.", coordinate: {latitude: 19.4452, longitude: -99.1359}, color: "green"}
+      markers: [{key: markerId++, title: "Camión ONEFOOD #23", description: "Presiona para abrir en Mapa.", coordinate: {latitude: 19.4326, longitude: -99.1335}, color: "green"},
+                {key: markerId++, title: "Camión ONEFOOD #2", description: "Presiona para abrir en Mapa.", coordinate: {latitude: 19.4452, longitude: -99.1359}, color: "green"}
                 ],
     }
 

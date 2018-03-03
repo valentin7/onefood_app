@@ -4,15 +4,15 @@
         "orientation": "portrait",
         "privacy": "public",
         "icon": "./app.png",
-        "primaryColor": "#00BAFF",
+        "primaryColor": "#2660A4",
         "splash": {
             "image": "./splash.png",
-            "backgroundColor": "#00BAFF",
+            "backgroundColor": "#2660A4",
             "resizeMode": "cover"
         },
         "androidStatusBar": {
             "barStyle": "light-content",
-            "backgroundColor": "#00BAFF"
+            "backgroundColor": "#2660A4"
         },
         "packagerOpts": {
             "assetExts": ["ttf"]

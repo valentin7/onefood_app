@@ -4,7 +4,7 @@ import * as React from "react";
 import {
     StyleSheet, Image, View, ScrollView, KeyboardAvoidingView, TextInput, SafeAreaView
 } from "react-native";
-import {H1, Button, Text} from "native-base";
+import {H1, Button, Text, Header} from "native-base";
 import {Constants} from "expo";
 
 import Mark from "./Mark";
@@ -89,7 +89,8 @@ export default class Login extends React.Component<ScreenProps<>, LoginState> {
     render(): React.Node {
         return (
             <View style={styles.container}>
-                <Image source={Images.login} style={styles.image} />
+            <Header noShadow>
+            </Header>
                 <SafeAreaView style={StyleSheet.absoluteFill}>
                     <ScrollView contentContainerStyle={[StyleSheet.absoluteFill, styles.content]}>
                         <KeyboardAvoidingView behavior="position">

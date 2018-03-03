@@ -26,7 +26,6 @@ export default class Drawer extends React.Component<NavigationProps<>> {
         const {navigation} = this.props;
         return (
             <Container safe={true}>
-                <Image source={Images.signUp} style={style.img} />
                 <Header>
                     <Left>
                         <Button transparent onPress={() => this.go("DrawerClose")}>
@@ -40,20 +39,20 @@ export default class Drawer extends React.Component<NavigationProps<>> {
                 </Header>
                 <View style={style.itemContainer}>
                     <View style={style.row}>
-                        <DrawerItem {...{navigation}} name="Walkthrough" icon="ios-information-circle-outline" left/>
-                        <DrawerItem {...{navigation}} name="Mapa" icon="ios-map-outline" />
+                        <DrawerItem {...{navigation}} name="Información" id="Walkthrough" icon="ios-information-circle-outline" left/>
+                        <DrawerItem {...{navigation}} name="Mapa" id="Mapa" icon="ios-map-outline" />
                     </View>
                     <View style={style.row}>
-                        <DrawerItem {...{navigation}} name="Pedidos" icon="ios-list-outline" left />
-                        <DrawerItem {...{navigation}} name="Compartir" icon="ios-bonfire-outline" />
+                        <DrawerItem {...{navigation}} name="Pedidos" id="Pedidos" icon="ios-list-outline" left />
+                        <DrawerItem {...{navigation}} name="Compartir" id="Compartir" icon="ios-bonfire-outline" />
                     </View>
                     <View style={style.row}>
-                        <DrawerItem {...{navigation}} name="Nosotros" icon="ios-leaf-outline" left />
-                        <DrawerItem {...{navigation}} name="Ser ONEFOOD MAN" icon="ios-contact-outline" />
+                        <DrawerItem {...{navigation}} name="Nosotros" id="Nosotros" icon="ios-leaf-outline" left />
+                        <DrawerItem {...{navigation}} name="Ser ONEFOOD MAN" id="Camera" icon="ios-contact-outline" />
                     </View>
                     <View style={style.row}>
-                        <DrawerItem {...{navigation}} name="Contacto" icon="ios-mail-outline" left />
-                        <DrawerItem {...{navigation}} name="Settings" icon="ios-options-outline" />
+                        <DrawerItem {...{navigation}} name="Contacto" id="Contacto" icon="ios-mail-outline" left />
+                        <DrawerItem {...{navigation}} name="Settings" id="Settings" icon="ios-options-outline" />
                     </View>
                 </View>
                 <Button transparent block onPress={this.logout}>
@@ -72,11 +71,11 @@ type DrawerItemProps = NavigationProps<> & {
 
 class DrawerItem extends React.Component<DrawerItemProps> {
     render(): React.Node {
-        const {name, navigation, icon, left} = this.props;
+        const {name, navigation, icon, left, id} = this.props;
         const navState = this.props.navigation.state;
         const active = navState.routes[navState.index].key === name;
         const props = {
-            onPress: () => navigation.navigate(name),
+            onPress: () => navigation.navigate(id),
             style: [style.item, left ? { borderRightWidth: variables.borderWidth } : undefined]
         };
         return <TouchableHighlight {...props} activeOpacity={.5} underlayColor="rgba(255, 255, 255, .2)">
@@ -106,7 +105,8 @@ const style = StyleSheet.create({
         color: variables.listBorderColor
     },
     itemContainer: {
-        flex: 1
+        flex: 1,
+        backgroundColor: variables.brandSecondary
     },
     row: {
         flex: 1,

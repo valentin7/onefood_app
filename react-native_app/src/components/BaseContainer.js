@@ -21,6 +21,8 @@ import { observer } from "mobx-react/native";
 
 import MapView from "expo";
 
+import variables from "../../native-base-theme/variables/commonColor";
+
 import type {NavigationProps, ChildrenProps} from "./Types";
 
 // import variables from "../../native-base-theme/variables/commonColor";
@@ -80,7 +82,7 @@ export default class BaseContainer extends React.Component<BaseContainerProps> {
         const {title, navigation} = this.props;
         return (
             <Container safe={true}>
-                <NBHeader noShadow>
+                <NBHeader noShadow style={{backgroundColor: variables.brandInfo}}>
                     <Left>
                         <Button onPress={() => navigation.navigate("DrawerOpen")} transparent>
                             <EvilIcons name="navicon" size={32} color="white" />

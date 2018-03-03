@@ -48,7 +48,7 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
                   ) : (
                     <View>
                     <TouchableOpacity onPress={this.open}>
-                     <Item title="6 ONEFOODS" pedido_id="rigo1"/>
+                     <Item title="36 ONEFOODS" pedido_id="rigo1"/>
                    </TouchableOpacity>
                    <TouchableOpacity onPress={this.open}>
                     <Item title="1 ONEFOODS" pedido_id="rigo1" done/>

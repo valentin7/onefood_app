@@ -82,7 +82,6 @@ export default class SignUp extends React.Component<ScreenProps<>> {
     render(): React.Node {
         return (
             <Container safe={true}>
-                <Image source={Images.signUp} style={style.img} />
                 <ScrollView style={Styles.flexGrow}>
                 <KeyboardAvoidingView behavior="position">
                     <Header noShadow>

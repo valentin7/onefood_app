@@ -3,7 +3,7 @@ import moment from "moment";
 import autobind from "autobind-decorator";
 import * as React from "react";
 import {View, Image, StyleSheet, Dimensions, InteractionManager, Animated, ScrollView} from "react-native";
-import {H1, Text, Button, Radio, ListItem, Right, Content, CheckBox, Container, Header, Left, Icon, Title, Body, Footer} from "native-base";
+import {H1, Text, Button, Radio, List, ListItem, Right, Content, CheckBox, Container, Header, Left, Icon, Title, Body, Footer} from "native-base";
 import ImageSlider from 'react-native-image-slider';
 import {BaseContainer, TaskOverview, Images, Styles, PrecioTotal, QuantityInput, Address} from "../components";
 import type {ScreenProps} from "../components/Types";
@@ -17,6 +17,7 @@ export default class Comprar extends React.Component {
 
     state = {
       subscription: false,
+      domicilio: false,
       isOpen: false,
     }
 
@@ -39,8 +40,27 @@ export default class Comprar extends React.Component {
     }
 
     @autobind
+    toggleDomicilioYes() {
+      this.setState({domicilio: true});
+    }
+
+    @autobind
+    toggleDomicilioNo() {
+      this.setState({domicilio: false});
+    }
+
+    @autobind
     dismissModal() {
       this.setState({isOpen: false});
+    }
+
+    @autobind
+    continuar() {
+        if (this.state.domicilio) {
+          this.refs.modal.open();
+        } else {
+          this.dismissModal();
+        }
     }
 
     static navigationOptions = {
@@ -74,37 +94,37 @@ export default class Comprar extends React.Component {
                     <Text style={Styles.grayText}>SABOR</Text>
                     <QuantityInput singular="botella" plural="botellas" from={0} to={120} />
                 </View>
-                <View>
+                <List style={{flex: 1, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'flex-start'}}>
                   <ListItem onPress={this.toggleSubscriptionNo}>
                     <Text>Una Vez</Text>
-                    <Right>
+                    <Right style={{marginLeft: 20}}>
                       <CheckBox onPress={this.toggleSubscriptionNo} checked={!this.state.subscription}/>
                     </Right>
                   </ListItem>
                   <ListItem onPress={this.toggleSubscriptionYes}>
-                    <Text>Subscripción</Text>
-                    <Right>
+                    <Text>Subscripción Mensual</Text>
+                    <Right style={{marginLeft: 20}}>
                       <CheckBox onPress={this.toggleSubscriptionYes} checked={this.state.subscription} />
                     </Right>
                   </ListItem>
-                </View>
+                </List>
 
-                <View>
-                  <ListItem onPress={this.toggleSubscriptionNo}>
+                <List horizontal style={{flex: 1, flexDirection: 'row', justifyContent: 'space-around', marginTop: 20, marginBottom: 5, alignItems: 'flex-start'}}>
+                  <ListItem onPress={this.toggleDomicilioYes} >
                     <Text>Entrega a Domicilio</Text>
-                    <Right>
-                      <CheckBox onPress={this.toggleSubscriptionNo} checked={!this.state.subscription}/>
+                    <Right style={{marginLeft: 20}}>
+                      <CheckBox onPress={this.toggleDomicilioYes} checked={this.state.domicilio}/>
                     </Right>
                   </ListItem>
-                  <ListItem onPress={this.toggleSubscriptionYes}>
+                  <ListItem onPress={this.toggleDomicilioNo}>
                     <Text>Me queda de pasada</Text>
-                    <Right>
-                      <CheckBox onPress={this.toggleSubscriptionYes} checked={this.state.subscription} />
+                    <Right style={{marginLeft: 20}}>
+                      <CheckBox onPress={this.toggleDomicilioNo} checked={!this.state.domicilio} />
                     </Right>
                   </ListItem>
-                </View>
+                </List>
               </Content>
-              <Button primary block onPress={() => this.refs.modal.open()} style={{ height: variables.footerHeight * 1.3 }}>
+              <Button block onPress={this.continuar} style={{ height: variables.footerHeight * 1.3 , backgroundColor: variables.brandSuccess}}>
                 <Text>CONTINUAR</Text>
                 <Text>  (Total: $50)</Text>
               </Button>
@@ -194,6 +214,6 @@ const style = StyleSheet.create({
     alignItems: 'center'
   },
   modal2: {
-    backgroundColor: "#3B5998"
+    backgroundColor: variables.brandInfo
   },
 });
