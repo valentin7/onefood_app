@@ -8,7 +8,7 @@ module.exports.handler = (event, context, callback) => {
   // const amount = requestBody.charge.amount;
   // const currency = requestBody.charge.currency;
   console.log("creating charge");
-  
+
   return conekta.Order.create({
       "currency": "MXN",
       "customer_info": {
@@ -17,11 +17,11 @@ module.exports.handler = (event, context, callback) => {
           "email": "jul@conekta.io"
       },
       "line_items": [{
-          "name": "Box of Cohiba S1s",
-          "description": "Imported From Mex.",
+          "name": "OneFood",
+          "description": "24 OneFoods",
           "unit_price": 35000,
           "quantity": 1,
-          "tags": ["food", "mexican food"],
+          "tags": ["chocolate", "vainilla"],
           "type": "physical"
       }]
     }, function(err, res) {
@@ -42,7 +42,7 @@ module.exports.handler = (event, context, callback) => {
       // successfully made the charge
       var charge = res.toObject();
       //printOrderInfo(charge);
-      
+
       const response = {
           statusCode: 200,
           headers: {
@@ -54,7 +54,7 @@ module.exports.handler = (event, context, callback) => {
           }),
         };
       callback(null, response);
-      
+
       console.log(res.toObject());
   })
   // .then((charge) => { // Success response

@@ -9,6 +9,8 @@ import {BaseContainer, TaskOverview, Images, Styles, PrecioTotal, QuantityInput,
 import type {ScreenProps} from "../components/Types";
 import Modal from 'react-native-modalbox';
 import {StackNavigator, StackRouter} from 'react-navigation';
+import {action, observable} from "mobx";
+
 
 import variables from "../../native-base-theme/variables/commonColor";
 
@@ -19,11 +21,16 @@ export default class Comprar extends React.Component {
       subscription: false,
       domicilio: false,
       isOpen: false,
+      totalPrice: 40,
     }
 
+    @action
     componentWillMount() {
+    //  this.setState({totalPrice: this.refs.chocolateQuantity.quantity});
     }
 
+    componentDidMount() {
+    }
     open() {
       this.setState({isOpen: true});
       //this.refs.modal2.open();
@@ -39,13 +46,33 @@ export default class Comprar extends React.Component {
       this.setState({subscription: false});
     }
 
-    @autobind
+    @autobind @action
     toggleDomicilioYes() {
+      var currentPrice = this.state.totalPrice;
+      if (this.refs.chocolateQuantity.quantity != 0) {
+        var prevChocolate = this.refs.chocolateQuantity.quantity;
+        var chocolateDifference = (6 - prevChocolate)*20;
+        this.refs.chocolateQuantity.quantity = 6;
+        currentPrice = this.state.totalPrice + chocolateDifference;
+        this.setState({totalPrice: currentPrice});
+      }
+      this.refs.chocolateQuantity.incrementAmount = 6;
+
+      if (this.refs.vanillaQuantity.quantity != 0) {
+        var prevVanilla= this.refs.vanillaQuantity.quantity;
+        var vanillaDifference = (6 - prevVanilla)*20;
+        this.refs.vanillaQuantity.quantity = 6;
+        this.setState({totalPrice: currentPrice + vanillaDifference});
+      }
+      this.refs.vanillaQuantity.incrementAmount = 6;
+
       this.setState({domicilio: true});
     }
 
-    @autobind
+    @autobind @action
     toggleDomicilioNo() {
+      this.refs.chocolateQuantity.incrementAmount = 1;
+      this.refs.vanillaQuantity.incrementAmount = 1;
       this.setState({domicilio: false});
     }
 
@@ -63,12 +90,19 @@ export default class Comprar extends React.Component {
         }
     }
 
+    @autobind
+    totalPriceChange(change) {
+
+      this.setState({totalPrice: this.state.totalPrice + change});
+    }
+
     static navigationOptions = {
       title: 'Welcome',
     };
 
     render(): React.Node {
         const today = moment();
+
         return <Modal style={[style.modal, style.modal2]} isOpen={this.state.isOpen} swipeToClose={false}  backdrop={false} position={"top"} ref={"modal2"}>
             <Container>
               <Header>
@@ -87,12 +121,12 @@ export default class Comprar extends React.Component {
                 <View style={[style.count, Styles.center]}>
                     <H1 style={style.heading}>CHOCOLATE</H1>
                     <Text style={Styles.grayText}>SABOR</Text>
-                    <QuantityInput singular="botella" plural="botellas" from={0} to={120} />
+                    <QuantityInput totalPriceChange={this.totalPriceChange} ref="chocolateQuantity" singular="botella" plural="botellas" from={0} to={120} />
                 </View>
                 <View style={[style.count, Styles.center]}>
                     <H1 style={style.heading}>VAINILLA</H1>
                     <Text style={Styles.grayText}>SABOR</Text>
-                    <QuantityInput singular="botella" plural="botellas" from={0} to={120} />
+                    <QuantityInput totalPriceChange={this.totalPriceChange} ref="vanillaQuantity" singular="botella" plural="botellas" from={0} to={120} />
                 </View>
                 <List style={{flex: 1, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'flex-start'}}>
                   <ListItem onPress={this.toggleSubscriptionNo}>
@@ -126,7 +160,7 @@ export default class Comprar extends React.Component {
               </Content>
               <Button block onPress={this.continuar} style={{ height: variables.footerHeight * 1.3 , backgroundColor: variables.brandSuccess}}>
                 <Text>CONTINUAR</Text>
-                <Text>  (Total: $50)</Text>
+                <Text>  (Total: ${this.state.totalPrice})</Text>
               </Button>
             </Container>
             <Address ref={"modal"}></Address>

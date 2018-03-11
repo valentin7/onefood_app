@@ -1,5 +1,6 @@
 // @flow
 import * as React from "react";
+import autobind from "autobind-decorator";
 import {View, StyleSheet, Image, Platform, Text, Dimensions} from "react-native";
 import {H1} from "native-base";
 import {StackNavigator} from "react-navigation";
@@ -68,8 +69,9 @@ export default class BaseContainer extends React.Component<BaseContainerProps> {
       navigation.navigate("Pedidos");
     }
 
+    @autobind
     comprar() {
-
+      this.refs.modal.open()
     }
 
     mapa() {
@@ -104,7 +106,7 @@ export default class BaseContainer extends React.Component<BaseContainerProps> {
                         <Button onPress={() => this.pedidos()} transparent>
                             <Icon name="ios-list-outline" style={{ fontSize: 32 }} />
                         </Button>
-                        <Button transparent onPress={() => this.refs.modal.open()}>
+                        <Button transparent onPress={() => this.comprar()}>
                             <Icon name="ios-add-circle" style={{ fontSize: 72}} />
                         </Button>
                         <Button onPress={() => this.mapa()} transparent>

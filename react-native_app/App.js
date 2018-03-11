@@ -27,6 +27,7 @@ import {Profile} from "./src/profile";
 import {Timeline} from "./src/timeline";
 import {Settings} from "./src/settings";
 import {Create} from "./src/create";
+import {CameraScreen} from "./src/camera";
 
 import getTheme from "./native-base-theme/components";
 import variables from "./native-base-theme/variables/commonColor";
@@ -128,7 +129,8 @@ const MainNavigator = DrawerNavigator({
     Profile: { screen: Profile },
     Timeline: { screen: Timeline },
     Settings: { screen: Settings },
-    Create: { screen: Create }
+    Create: { screen: Create },
+    Camera: { screen: CameraScreen },
 }, {
     drawerWidth: Dimensions.get("window").width,
     // eslint-disable-next-line flowtype/no-weak-types

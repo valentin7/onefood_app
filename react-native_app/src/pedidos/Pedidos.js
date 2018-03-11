@@ -1,8 +1,8 @@
 // @flow
 import autobind from "autobind-decorator";
 import * as React from "react";
-import {StyleSheet, View, Text, TouchableOpacity} from "react-native";
-import {Button, Icon, Left, Right, H3} from "native-base";
+import {StyleSheet, View, Text, TouchableOpacity, Dimensions} from "react-native";
+import {Button, Icon, Left, Right, H3, Separator, ListItem} from "native-base";
 import {observable, action} from "mobx";
 import { observer } from "mobx-react/native";
 import Modal from 'react-native-modalbox';
@@ -39,20 +39,38 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
       this.setState({isOpen: false});
     }
 
+    @autobind
+    comprar() {
+      this.refs.baseComponent.comprar();
+    }
 
     render(): React.Node {
-        return <BaseContainer title="Pedidos" navigation={this.props.navigation} scrollable>
+        return <BaseContainer ref="baseComponent" title="Pedidos" navigation={this.props.navigation} >
                   <View>
                   {this.state.loading ? (
                     <Loading />
                   ) : (
                     <View>
-                    <TouchableOpacity onPress={this.open}>
-                     <Item title="36 ONEFOODS" pedido_id="rigo1"/>
-                   </TouchableOpacity>
-                   <TouchableOpacity onPress={this.open}>
-                    <Item title="1 ONEFOODS" pedido_id="rigo1" done/>
-                   </TouchableOpacity>
+                    <Button block style={style.compraButton} onPress={this.comprar}>
+                      <H3>Nueva Compra</H3>
+                    </Button>
+                    <View scrollable>
+                    <Separator style={style.divider}>
+                      <Text style={{color: "white", fontWeight: "bold"}}>Pedidos a reclamar</Text>
+                    </Separator>
+                    <ListItem style={{height: 70}} onPress={this.open}>
+                      <Text style={{color: "white"}}>12 ONEFOODS</Text>
+                    </ListItem>
+                    <ListItem style={{height: 70}} onPress={this.open}>
+                      <Text style={{color: "white"}}>36 ONEFOODS</Text>
+                    </ListItem>
+                   <Separator style={style.divider}>
+                     <Text style={{color: "white", fontWeight: "bold"}}>Historial de Pedidos</Text>
+                   </Separator>
+                   <ListItem style={{height: 70}} onPress={this.open}>
+                     <Text style={Styles.grayText}>12 ONEFOODS</Text>
+                   </ListItem>
+                   </View>
                    </View>
                   )}
                   </View>
@@ -71,8 +89,8 @@ type PedidoProps = {
   al_mes: boolean,
   direccionAEntregar: string
 }
-class PedidoDetalle extends React.Component<PedidoProps> {
 
+class PedidoDetalle extends React.Component<PedidoProps> {
     state = {
       detailModalIsOpen: false,
     }
@@ -117,7 +135,6 @@ class PedidoDetalle extends React.Component<PedidoProps> {
 
         </Modal>;
     }
-
 }
 
 //  <Text>Entrega a domicilio</Text>
@@ -164,10 +181,6 @@ class Item extends React.Component<ItemProps> {
         const {pedido_id} = this.props;
         const txtStyle = this.done ? Styles.grayText : Styles.whiteText;
         return <View style={[Styles.listItem, { marginHorizontal: 0 }]}>
-                    <Button transparent
-                            onPress={this.toggle}
-                            style={[Styles.center, style.button]}>
-                    </Button>
                     <View style={[Styles.center, style.title]}>
                         <Text style={txtStyle}>{title}</Text>
                     </View>
@@ -175,12 +188,17 @@ class Item extends React.Component<ItemProps> {
     }
 }
 
+const {width} = Dimensions.get("window");
+
 const style = StyleSheet.create({
     mask: {
         backgroundColor: "rgba(0, 0, 0, .5)"
     },
     button: {
         height: 75, width: 75, borderRadius: 0
+    },
+    compraButton: {
+        height: 60,
     },
     closeIcon: {
         fontSize: 50,
@@ -191,6 +209,9 @@ const style = StyleSheet.create({
         alignItems: "center",
         flexDirection: "row",
         padding: variables.contentPadding
+    },
+    divider: {
+      backgroundColor: variables.listSeparatorBg,
     },
     title: {
         justifyContent: "center",
@@ -223,6 +244,6 @@ const style = StyleSheet.create({
     height: 600,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: "#3B5998"
+    backgroundColor: variables.brandSecondary
   },
 });

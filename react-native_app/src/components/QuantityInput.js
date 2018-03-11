@@ -15,32 +15,24 @@ type QuantityInputProps = ThemeProps & {
     singular: string,
     plural: string,
     from: number,
-    to: number
+    to: number,
 };
 
 @observer
 class QuantityInput extends React.Component<QuantityInputProps> {
 
     @observable quantity: number = 1;
+    @observable incrementAmount: number = 1;
+
     @autobind @action increment() {
-
-      if (this.quantity == 0){
-        this.quantity += 1;
-      } else if  (this.quantity == 1) {
-        this.quantity += 5;
-      } else {
-        this.quantity += 6;
-      }
+      this.quantity += this.incrementAmount;
+      this.props.totalPriceChange(this.incrementAmount * 20);
+    //  this.props.totalPrice += this.quantity * 20;
     }
-    @autobind @action decrement() {
 
-      if (this.quantity == 1){
-        this.quantity -= 1;
-      } else if  (this.quantity == 6) {
-        this.quantity -= 5;
-      } else {
-        this.quantity -= 6;
-      }
+    @autobind @action decrement() {
+      this.quantity -= this.incrementAmount;
+      this.props.totalPriceChange(- this.incrementAmount * 20);
     }
 
     render(): React.Node {

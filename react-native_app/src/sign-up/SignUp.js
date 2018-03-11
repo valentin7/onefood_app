@@ -9,6 +9,8 @@ import Mark from "../login/Mark";
 
 import {Container, Images, Field, NavigationHelpers, Styles, SingleChoice, WindowDimensions, Firebase} from "../components";
 import type {ScreenProps} from "../components/Types";
+import {AnimatedView} from "../components/Animations";
+
 
 import variables from "../../native-base-theme/variables/commonColor";
 
@@ -82,19 +84,19 @@ export default class SignUp extends React.Component<ScreenProps<>> {
     render(): React.Node {
         return (
             <Container safe={true}>
+                <Header noShadow>
+                    <Left>
+                        <Button onPress={this.back} transparent>
+                            <Icon name='close' />
+                        </Button>
+                    </Left>
+                    <Body>
+                        <Title>Log In</Title>
+                    </Body>
+                    <Right />
+                </Header>
                 <ScrollView style={Styles.flexGrow}>
                 <KeyboardAvoidingView behavior="position">
-                    <Header noShadow>
-                        <Left>
-                            <Button onPress={this.back} transparent>
-                                <Icon name='close' />
-                            </Button>
-                        </Left>
-                        <Body>
-                            <Title>Log In</Title>
-                        </Body>
-                        <Right />
-                    </Header>
                     <View style={style.logo}>
                         <View>
                             <Mark />
@@ -120,15 +122,18 @@ export default class SignUp extends React.Component<ScreenProps<>> {
                             returnKeyType="go"
                         />
                     </View>
+                    <Button primary block onPress={this.logIn} style={{ height: variables.footerHeight }}>
+                        <Text>LOG IN</Text>
+                    </Button>
                 </KeyboardAvoidingView>
                 </ScrollView>
-                <Button primary block onPress={this.logIn} style={{ height: variables.footerHeight }}>
-                    <Text>LOG IN</Text>
-                </Button>
+
             </Container>
         );
     }
 }
+
+const {height, width} = WindowDimensions;
 
 const style = StyleSheet.create({
     img: {
