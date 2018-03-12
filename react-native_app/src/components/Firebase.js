@@ -1,6 +1,7 @@
 // @flow
 
 import * as firebase from "firebase";
+import "firebase/firestore";
 
   const config = {
     apiKey: "AIzaSyDbVmdAuf2oDt_j-uKcunA020C1P_41V50",
@@ -12,8 +13,17 @@ import * as firebase from "firebase";
   };
 
 
+const endpoint = {
+  prod: "https://test.com/api",
+  dev: "http://test2.com/api"
+}
+
 export default class Firebase {
   static auth;
+  static firestore: firebase.firestore.Firestore;
+  static storage: firebase.storage.Storage;
+
+  static endpoint = endpoint.prod;
 
   static registrationInfo = {
     displayName: "",
@@ -23,6 +33,8 @@ export default class Firebase {
   static init () {
     firebase.initializeApp(config);
     Firebase.auth = firebase.auth();
+    Firebase.firestore = firebase.firestore();
+    Firebase.storage = firebase.storage();
   }
 
 }

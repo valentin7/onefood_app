@@ -2,14 +2,15 @@
 import autobind from "autobind-decorator";
 import * as React from "react";
 import {StyleSheet, View, Text, TouchableOpacity, Dimensions} from "react-native";
-import {Button, Icon, Left, Right, H3, Separator, ListItem} from "native-base";
+import {Button, Icon, Left, Right, H3, Separator, ListItem, List} from "native-base";
 import {observable, action} from "mobx";
 import { observer } from "mobx-react/native";
 import Modal from 'react-native-modalbox';
 import QRCode from 'react-native-qrcode';
 
-import {BaseContainer, Styles, JankWorkaround, Task, PedidoItem} from "../components";
+import {BaseContainer, Styles, JankWorkaround, Task, PedidoItem, Firebase} from "../components";
 import type {ScreenProps} from "../components/Types";
+import PedidoModel from "../components/APIStore";
 
 import variables from "../../native-base-theme/variables/commonColor";
 
@@ -17,11 +18,41 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
 
     state = {
       loading: true,
+      pedidos: [],
+      pedidosHistorial: [],
     }
 
     constructor(props) {
       super(props);
       this.open = this.open.bind(this);
+    }
+
+    @autobind
+    async refreshPedidos(): Promise<void> {
+      var user = Firebase.auth.currentUser;
+      const query = await Firebase.firestore.collection("pedidos").where("user_id", "==", user.uid).get().catch(function(error) {
+          console.log("Error getting documents: ", error);
+      });
+      const pedidos = [];
+      const pedidosHistorial = [];
+      query.forEach(doc => {
+        if (doc.data().reclamado) {
+          pedidosHistorial.push(doc.data())
+        } else {
+          pedidos.push(doc.data())
+        }
+      });
+
+      this.setState({
+        pedidos,
+        pedidosHistorial,
+        loading: false
+      });
+
+    }
+
+    async componentWillMount(): Promise<void> {
+      this.refreshPedidos();
     }
 
     componentDidMount() {
@@ -40,11 +71,17 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
     }
 
     @autobind
+    pedidoHecho(pedido) {
+      this.setState({pedidos: this.state.pedidos.push(pedido)});
+    }
+
+    @autobind
     comprar() {
       this.refs.baseComponent.comprar();
     }
 
     render(): React.Node {
+        console.log("rendering pedidos now too");
         return <BaseContainer ref="baseComponent" title="Pedidos" navigation={this.props.navigation} >
                   <View>
                   {this.state.loading ? (
@@ -58,18 +95,21 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
                     <Separator style={style.divider}>
                       <Text style={{color: "white", fontWeight: "bold"}}>Pedidos a reclamar</Text>
                     </Separator>
-                    <ListItem style={{height: 70}} onPress={this.open}>
-                      <Text style={{color: "white"}}>12 ONEFOODS</Text>
-                    </ListItem>
-                    <ListItem style={{height: 70}} onPress={this.open}>
-                      <Text style={{color: "white"}}>36 ONEFOODS</Text>
-                    </ListItem>
+                    <List dataArray={this.state.pedidos} renderRow={
+                      (item) => (
+                        <ListItem style={{height: 70}} onPress={this.open}>
+                        <Text style={{color: "white"}}> {item.cantidades[0]} ONEFOODS</Text>
+                      </ListItem>)
+                    } />
                    <Separator style={style.divider}>
                      <Text style={{color: "white", fontWeight: "bold"}}>Historial de Pedidos</Text>
                    </Separator>
-                   <ListItem style={{height: 70}} onPress={this.open}>
-                     <Text style={Styles.grayText}>12 ONEFOODS</Text>
-                   </ListItem>
+                   <List dataArray={this.state.pedidosHistorial} renderRow={
+                     (item) => (
+                       <ListItem style={{height: 70}} onPress={this.open}>
+                       <Text style={Styles.grayText}> {item.cantidades[0]} ONEFOODS</Text>
+                     </ListItem>)
+                   } />
                    </View>
                    </View>
                   )}
@@ -79,17 +119,18 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
     }
 }
 
+//{this.state.pedidos.forEach(pedido => <PedidoDetalle ref={"pedidoModal"} pedido_id={pedido.pedido_id} fecha={pedido.fecha} cantidades={pedido.cantidades} precioTotal={pedido.precio_total}/>)}
+
 type PedidoProps = {
   pedido_id: string,
   fecha: string,
-  cantidad: number,
-  sabor: string,
+  cantidades: number[],
+  sabores: string[],
   precioTotal: number,
   user_id: string,
-  al_mes: boolean,
-  direccionAEntregar: string
+  subscription: boolean,
+  domicilio: string
 }
-
 class PedidoDetalle extends React.Component<PedidoProps> {
     state = {
       detailModalIsOpen: false,
@@ -111,7 +152,7 @@ class PedidoDetalle extends React.Component<PedidoProps> {
     }
 
     render(): React.Node {
-      const {pedido_id} = this.props;
+      const {pedido_id, fecha, cantidades, precioTotal} = this.props;
       return <Modal style={[style.modal, style.container]} onClosed={this.setModalStateClosed}  isOpen={this.state.detailModalIsOpen} backdrop={true} position={"bottom"} coverScreen={true} ref={"modal"}>
           <Button transparent onPress={this.dismissModal}>
               <Icon name="ios-close-outline" style={style.closeIcon} />
@@ -122,15 +163,15 @@ class PedidoDetalle extends React.Component<PedidoProps> {
                 bgColor='purple'
                 fgColor='white'/>
             <PedidoItem
-                numero="12"
+                numero={5}
                 title="CHOCOLATE"
             />
             <PedidoItem
-                numero="24"
+                numero={1}
                 title="VAINILLA"
             />
             <View style={{marginTop: 20}}>
-              <H3>Marzo 1, 2018</H3>
+              <H3>12 Marzo, 2018</H3>
             </View>
 
         </Modal>;

@@ -144,16 +144,18 @@ const MainNavigator = DrawerNavigator({
 });
 
 const AuthenticatedAppNavigator = StackNavigator({
+    Walkthrough: { screen: Walkthrough },
     Main: { screen: MainNavigator },
     Login: { screen: Login },
     SignUp: { screen: SignUp },
-    Walkthrough: { screen: Walkthrough },
 }, {
     headerMode: "none",
     cardStyle: {
         backgroundColor: variables.brandInfo
     }
 });
+
+
 const AppNavigator = StackNavigator({
     Login: { screen: Login },
     SignUp: { screen: SignUp },

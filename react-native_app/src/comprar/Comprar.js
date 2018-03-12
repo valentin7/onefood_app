@@ -5,11 +5,12 @@ import * as React from "react";
 import {View, Image, StyleSheet, Dimensions, InteractionManager, Animated, ScrollView} from "react-native";
 import {H1, Text, Button, Radio, List, ListItem, Right, Content, CheckBox, Container, Header, Left, Icon, Title, Body, Footer} from "native-base";
 import ImageSlider from 'react-native-image-slider';
-import {BaseContainer, TaskOverview, Images, Styles, PrecioTotal, QuantityInput, Address} from "../components";
+import {BaseContainer, TaskOverview, Images, Styles, PrecioTotal, QuantityInput, Address, Firebase} from "../components";
 import type {ScreenProps} from "../components/Types";
 import Modal from 'react-native-modalbox';
 import {StackNavigator, StackRouter} from 'react-navigation';
 import {action, observable} from "mobx";
+import PedidoModel from "../components/APIStore";
 
 
 import variables from "../../native-base-theme/variables/commonColor";
@@ -82,10 +83,40 @@ export default class Comprar extends React.Component {
     }
 
     @autobind
+    async makePurchase(): Promise<void> {
+      var date = new Date().toDateString();
+      var user = Firebase.auth.currentUser;
+
+
+      var pedido = {
+          pedido_id: "watagitus",
+          reclamado: false,
+          fecha: date,
+          cantidades: [this.refs.chocolateQuantity.quantity, this.refs.vanillaQuantity.quantity],
+          sabores: ["chocolate", "vainilla"],
+          precio_total: this.state.totalPrice,
+          user_id: user.uid,
+          subscription: this.state.subscription,
+          domicilio: this.state.domicilio,
+      };
+
+    //  this.props.pedidoHecho(pedido);
+
+      await Firebase.firestore.collection("pedidos").add(pedido)
+      .then(function(docRef) {
+          console.log("Document written with ID: ", docRef.id);
+      })
+      .catch(function(error) {
+          console.error("Error adding document: ", error);
+      });
+    }
+
+    @autobind
     continuar() {
         if (this.state.domicilio) {
           this.refs.modal.open();
         } else {
+          this.makePurchase();
           this.dismissModal();
         }
     }
