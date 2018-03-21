@@ -5,13 +5,12 @@ import * as React from "react";
 import {View, Image, StyleSheet, Dimensions, InteractionManager, Animated, ScrollView} from "react-native";
 import {H1, Text, Button, Radio, List, ListItem, Right, Content, CheckBox, Container, Header, Left, Icon, Title, Body, Footer} from "native-base";
 import ImageSlider from 'react-native-image-slider';
-import {BaseContainer, TaskOverview, Images, Styles, PrecioTotal, QuantityInput, Address, Firebase} from "../components";
+import {BaseContainer, TaskOverview, Images, Styles, PrecioTotal, QuantityInput, Address, Firebase, CreditCard, CheckoutConfirmation} from "../components";
 import type {ScreenProps} from "../components/Types";
 import Modal from 'react-native-modalbox';
 import {StackNavigator, StackRouter} from 'react-navigation';
 import {action, observable} from "mobx";
 import PedidoModel from "../components/APIStore";
-
 
 import variables from "../../native-base-theme/variables/commonColor";
 
@@ -89,7 +88,7 @@ export default class Comprar extends React.Component {
 
 
       var pedido = {
-          pedido_id: "watagitus",
+          pedido_id: "O-232323",
           reclamado: false,
           fecha: date,
           cantidades: [this.refs.chocolateQuantity.quantity, this.refs.vanillaQuantity.quantity],
@@ -113,11 +112,17 @@ export default class Comprar extends React.Component {
 
     @autobind
     continuar() {
+
+        // check whether we already have his credit card details.
+
+
         if (this.state.domicilio) {
           this.refs.modal.open();
         } else {
-          this.makePurchase();
-          this.dismissModal();
+          //this.refs.creditCardModal.open();
+          this.refs.checkoutModal.open();
+          // this.makePurchase();
+          // this.dismissModal();
         }
     }
 
@@ -195,6 +200,8 @@ export default class Comprar extends React.Component {
               </Button>
             </Container>
             <Address ref={"modal"}></Address>
+            <CreditCard ref={"creditCardModal"}></CreditCard>
+            <CheckoutConfirmation ref={"checkoutModal"}></CheckoutConfirmation>
         </Modal>;
     }
 }

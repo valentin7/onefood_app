@@ -92,18 +92,24 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
                       <H3>Nueva Compra</H3>
                     </Button>
                     <View scrollable>
-                    <Separator style={style.divider}>
-                      <Text style={{color: "white", fontWeight: "bold"}}>Pedidos a reclamar</Text>
-                    </Separator>
+                    { this.state.pedidos.length > 0 ? (
+                      <Separator style={style.divider}>
+                        <Text style={{color: "white", fontWeight: "bold"}}>Pedidos a reclamar</Text>
+                      </Separator>
+                    ) : (<View/>)}
+
                     <List dataArray={this.state.pedidos} renderRow={
                       (item) => (
                         <ListItem style={{height: 70}} onPress={this.open}>
                         <Text style={{color: "white"}}> {item.cantidades[0]} ONEFOODS</Text>
                       </ListItem>)
                     } />
-                   <Separator style={style.divider}>
-                     <Text style={{color: "white", fontWeight: "bold"}}>Historial de Pedidos</Text>
-                   </Separator>
+                    { this.state.pedidosHistorial.length > 0 ? (
+                      <Separator style={style.divider}>
+                        <Text style={{color: "white", fontWeight: "bold"}}>Historial de Pedidos</Text>
+                      </Separator>
+                    ) : (<View/>)}
+
                    <List dataArray={this.state.pedidosHistorial} renderRow={
                      (item) => (
                        <ListItem style={{height: 70}} onPress={this.open}>
@@ -158,7 +164,7 @@ class PedidoDetalle extends React.Component<PedidoProps> {
               <Icon name="ios-close-outline" style={style.closeIcon} />
           </Button>
           <QRCode
-                value={"O-89098"}
+                value={"O-232323"}
                 size={200}
                 bgColor='purple'
                 fgColor='white'/>

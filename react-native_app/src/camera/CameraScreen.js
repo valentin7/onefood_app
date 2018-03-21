@@ -7,7 +7,8 @@ import variables from "../../native-base-theme/variables/commonColor";
 
 import {Button, Icon, Left, H3} from "native-base";
 
-import {BaseContainer, PedidoItem} from "../components";
+
+import {BaseContainer, PedidoItem, Firebase} from "../components";
 export default class CameraScreen extends React.Component<ScreenProps<>> {
   state = {
     hasCameraPermission: null
@@ -20,6 +21,7 @@ export default class CameraScreen extends React.Component<ScreenProps<>> {
 
   @autobind
   handleScan({type, data}) {
+    //Firebase.firestore.collection("pedidos").doc("")
     this.refs.pedidoModal.open();
   }
 
@@ -79,15 +81,15 @@ class PedidoInfo extends React.Component<PedidoProps> {
               <Icon name="ios-close-outline" style={style.closeIcon} />
           </Button>
             <PedidoItem
-                numero="12"
+                numero="5"
                 title="CHOCOLATE"
             />
             <PedidoItem
-                numero="24"
+                numero="1"
                 title="VAINILLA"
             />
             <View style={{marginTop: 20}}>
-              <H3>Marzo 1, 2018</H3>
+              <H3>Marzo 12, 2018</H3>
             </View>
 
         </Modal>;

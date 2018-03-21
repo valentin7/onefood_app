@@ -25,6 +25,13 @@ export default class Settings extends React.Component<ScreenProps<>> {
                 <Field label="Name" defaultValue="Fernando Fernandez" />
                 <Field label="Email" defaultValue="fer@gmail.com" />
             </View>
+
+            <View style={style.section}>
+                <Text>MÉTODO DE PAGO</Text>
+            </View>
+            <View>
+
+            </View>
         </BaseContainer>;
     }
 }

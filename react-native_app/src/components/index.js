@@ -22,5 +22,7 @@ export {default as Address} from "./Address";
 export {default as PedidoItem} from "./PedidoItem";
 export {default as JankWorkaround} from "./JankWorkaround";
 export {default as Firebase} from "./Firebase";
+export {default as CreditCard} from "./CreditCard";
+export {default as CheckoutConfirmation} from "./CheckoutConfirmation";
 export {PedidoModel} from "./APIStore";
 export {AnimatedView} from "./Animations";
