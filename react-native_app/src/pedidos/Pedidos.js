@@ -7,6 +7,7 @@ import {observable, action} from "mobx";
 import { observer } from "mobx-react/native";
 import Modal from 'react-native-modalbox';
 import QRCode from 'react-native-qrcode';
+import store from "../store";
 
 import {BaseContainer, Styles, JankWorkaround, Task, PedidoItem, Firebase} from "../components";
 import type {ScreenProps} from "../components/Types";
@@ -37,9 +38,10 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
       const pedidosHistorial = [];
       query.forEach(doc => {
         if (doc.data().reclamado) {
-          pedidosHistorial.push(doc.data())
+          pedidosHistorial.push(doc.data());
         } else {
-          pedidos.push(doc.data())
+          pedidos.push(doc.data());
+          //store.pedidos.push(doc.data());
         }
       });
 
@@ -73,6 +75,7 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
     @autobind
     pedidoHecho(pedido) {
       this.setState({pedidos: this.state.pedidos.push(pedido)});
+      //store.pedidos.push(pedido);
     }
 
     @autobind

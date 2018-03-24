@@ -4,7 +4,7 @@ import autobind from "autobind-decorator";
 import {View, Dimensions, Image, StyleSheet} from "react-native";
 import {Text, Icon, Left, Right, Header, Container, Content, Button, Body, Title} from "native-base";
 
-import {BaseContainer, Images, Field, SingleChoice} from "../components";
+import {BaseContainer, Images, Field, SingleChoice, PedidoItem} from "../components";
 import type {ScreenProps} from "../components/Types";
 import Modal from 'react-native-modalbox';
 import variables from "../../native-base-theme/variables/commonColor";
@@ -39,23 +39,39 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
                     <Right />
                 </Header>
                 <Content style={style.content}>
-                  <View style={style.img}>
-                      <Image source={Images.profile} resizeMode="cover" style={[StyleSheet.absoluteFill, style.img]} />
-                      <View style={style.add}>
-                          <Icon name="ios-card" style={{ color: variables.brandSecondary }} />
-                      </View>
-                  </View>
                   <View style={style.section}>
-                      <Text>GENERAL</Text>
+                      <Text>RESUMEN</Text>
+                      <PedidoItem
+                          numero={5}
+                          title="CHOCOLATE"
+                      />
+                      <PedidoItem
+                          numero={1}
+                          title="VAINILLA"
+                      />
+                      <PedidoItem
+                          numero={120}
+                          title="TOTAL"
+                      />
                   </View>
-                  <View>
-                      <Field label="Name" defaultValue="Fernando Fernandez" />
-                      <Field label="Email" defaultValue="fer@gmail.com" />
-                  </View>
+
 
                   <View style={style.section}>
                       <Text>MÉTODO DE PAGO</Text>
+                      <Text><Icon name="ios-card" style={{ color: variables.brandSecondary }} />  ****0234</Text>
                   </View>
+
+                  <View style={style.section}>
+                      <Text>MÉTODO DE ENTREGA</Text>
+                      <Text>Reclamar en persona.</Text>
+                  </View>
+
+                  <View style={style.section}>
+                      <Text>SUBSCRIPCIÓN</Text>
+                      <Text>Este mismo pedido se te entregará cada mes.</Text>
+                  </View>
+
+
                   <View>
 
                   </View>

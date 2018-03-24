@@ -27,11 +27,16 @@ export default class Comprar extends React.Component {
     @action
     componentWillMount() {
     //  this.setState({totalPrice: this.refs.chocolateQuantity.quantity});
+
     }
 
     componentDidMount() {
+      console.log("ziwatanejo");
+      this.setState({totalPrice: 40});
     }
+
     open() {
+      this.setState({totalPrice: 40});
       this.setState({isOpen: true});
       //this.refs.modal2.open();
     }
@@ -78,6 +83,7 @@ export default class Comprar extends React.Component {
 
     @autobind
     dismissModal() {
+
       this.setState({isOpen: false});
     }
 
@@ -114,8 +120,6 @@ export default class Comprar extends React.Component {
     continuar() {
 
         // check whether we already have his credit card details.
-
-
         if (this.state.domicilio) {
           this.refs.modal.open();
         } else {
@@ -128,7 +132,6 @@ export default class Comprar extends React.Component {
 
     @autobind
     totalPriceChange(change) {
-
       this.setState({totalPrice: this.state.totalPrice + change});
     }
 
