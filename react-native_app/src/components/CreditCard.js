@@ -5,7 +5,7 @@ import * as React from "react";
 import {CreditCardInput, LiteCreditCardInput, CardView} from "react-native-credit-card-input";
 import {View, Image, StyleSheet, Dimensions, ScrollView} from "react-native";
 import {H1, Text, Button, Radio, ListItem, Right, Content, Container, CheckBox, Form, Item, Input, Left, Body, Header, Icon, Title} from "native-base";
-import {BaseContainer, Images, Styles} from "../components";
+import {BaseContainer, Images, Styles, Firebase} from "../components";
 import type {ScreenProps} from "../components/Types";
 import Modal from 'react-native-modalbox';
 import variables from "../../native-base-theme/variables/commonColor";
@@ -34,6 +34,10 @@ export default class CreditCard extends React.Component {
     @autobind
     dismissModal() {
       // guardar credit card details
+      var user = Firebase.auth.currentUser;
+
+
+
       this.setState({isOpen: false});
     }
 
@@ -62,7 +66,7 @@ export default class CreditCard extends React.Component {
                     <CreditCardInput ref="CCInput" onChange={this.paymentOnChange} autoFocus={true} labelStyle={style.whiteStyle} inputStyle={style.whiteStyle}/>
                   </Content>
                   <Button primary block onPress={this.dismissModal} style={{ height: variables.footerHeight * 1.3 }}>
-                    <Text>GUARDAR</Text>
+                    <Text>USAR</Text>
                   </Button>
                 </Container>
         </Modal>;

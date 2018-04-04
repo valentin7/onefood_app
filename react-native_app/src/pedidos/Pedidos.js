@@ -31,6 +31,11 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
     @autobind
     async refreshPedidos(): Promise<void> {
       var user = Firebase.auth.currentUser;
+
+      if (user == null) {
+        return;
+      }
+
       const query = await Firebase.firestore.collection("pedidos").where("user_id", "==", user.uid).get().catch(function(error) {
           console.log("Error getting documents: ", error);
       });
@@ -54,7 +59,9 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
     }
 
     async componentWillMount(): Promise<void> {
-      this.refreshPedidos();
+      await this.refreshPedidos().catch(function(error) {
+        console.error("wadduppp: ", error);
+      });
     }
 
     componentDidMount() {

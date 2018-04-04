@@ -123,7 +123,7 @@ export default class Comprar extends React.Component {
         if (this.state.domicilio) {
           this.refs.modal.open();
         } else {
-          //this.refs.creditCardModal.open();
+          this.refs.creditCardModal.open();
           this.refs.checkoutModal.open();
           // this.makePurchase();
           // this.dismissModal();

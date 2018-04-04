@@ -4,7 +4,7 @@ import autobind from "autobind-decorator";
 import {View, Dimensions, Image, StyleSheet} from "react-native";
 import {Text, Icon, Left, Right, Header, Container, Content, Button, Body, Title} from "native-base";
 
-import {BaseContainer, Images, Field, SingleChoice, PedidoItem} from "../components";
+import {BaseContainer, Images, Field, SingleChoice, PedidoItem, Firebase} from "../components";
 import type {ScreenProps} from "../components/Types";
 import Modal from 'react-native-modalbox';
 import variables from "../../native-base-theme/variables/commonColor";
@@ -25,6 +25,9 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
     }
 
     render(): React.Node {
+
+      var user = Firebase.auth.currentUser;
+
     return  <Modal style={[style.modal]} isOpen={this.state.isOpen} animationDuration={400} swipeToClose={false} coverScreen={true} position={"center"} ref={"modal2"}>
               <Container safe={true}>
                 <Header>

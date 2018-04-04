@@ -66,10 +66,24 @@ export default class Login extends React.Component<ScreenProps<>, LoginState> {
     }
 
     @autobind
+    setName(nameString: string) {
+      this.setState({name: nameString});
+    }
+
+    @autobind
     async crearCuenta(): Promise<void> {
       console.log("crear cuenta state: ", this.state.email, this.state.password);
       try {
         await Firebase.auth.createUserWithEmailAndPassword(this.state.email, this.state.password);
+        var user = Firebase.auth.currentUser;
+        await user.updateProfile({
+          displayName: this.state.name
+        }).then(function() {
+          console.log("name updated successfully");
+        }, function(error) {
+          console.log("ERROR for name ", error);
+        });
+
       //  NavigationHelpers.reset(this.props.navigation, "Walkthrough");
       } catch (e) {
         alert(e);
@@ -107,6 +121,8 @@ export default class Login extends React.Component<ScreenProps<>, LoginState> {
                               <Field
                                   label="Nombre"
                                   returnKeyType="next"
+                                  value={this.state.name}
+                                  onChangeText={this.setName}
                                   onSubmitEditing={this.goToPassword}
                                   inverse
                               />

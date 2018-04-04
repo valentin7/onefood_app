@@ -3,7 +3,7 @@ import * as React from "react";
 import {View, Dimensions, Image, StyleSheet} from "react-native";
 import {Text, Icon} from "native-base";
 
-import {BaseContainer, Images, Field, SingleChoice} from "../components";
+import {BaseContainer, Images, Field, SingleChoice, Firebase} from "../components";
 import type {ScreenProps} from "../components/Types";
 
 import variables from "../../native-base-theme/variables/commonColor";
@@ -11,19 +11,15 @@ import variables from "../../native-base-theme/variables/commonColor";
 export default class Settings extends React.Component<ScreenProps<>> {
 
     render(): React.Node {
+        var user = Firebase.auth.currentUser;
+
         return <BaseContainer title="Settings" navigation={this.props.navigation} scrollable>
-            <View style={style.img}>
-                <Image source={Images.profile} resizeMode="cover" style={[StyleSheet.absoluteFill, style.img]} />
-                <View style={style.add}>
-                    <Icon name="ios-camera-outline" style={{ color: variables.brandSecondary }} />
-                </View>
-            </View>
             <View style={style.section}>
                 <Text>GENERAL</Text>
             </View>
             <View>
-                <Field label="Name" defaultValue="Fernando Fernandez" />
-                <Field label="Email" defaultValue="fer@gmail.com" />
+                <Field label="Name" defaultValue={user.displayName}/>
+                <Field label="Email" defaultValue={user.email} />
             </View>
 
             <View style={style.section}>
