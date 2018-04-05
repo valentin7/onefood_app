@@ -22,6 +22,9 @@ export default class Comprar extends React.Component {
       domicilio: false,
       isOpen: false,
       totalPrice: 40,
+      vanillaQuantity: 1,
+      chocolateQuantity: 1,
+      credit_last4: "0000",
     }
 
     @action
@@ -83,57 +86,55 @@ export default class Comprar extends React.Component {
 
     @autobind
     dismissModal() {
-
       this.setState({isOpen: false});
     }
 
     @autobind
-    async makePurchase(): Promise<void> {
-      var date = new Date().toDateString();
-      var user = Firebase.auth.currentUser;
+    async continuar(): Promise<void>{
+        var user = Firebase.auth.currentUser;
 
-
-      var pedido = {
-          pedido_id: "O-232323",
-          reclamado: false,
-          fecha: date,
-          cantidades: [this.refs.chocolateQuantity.quantity, this.refs.vanillaQuantity.quantity],
-          sabores: ["chocolate", "vainilla"],
-          precio_total: this.state.totalPrice,
-          user_id: user.uid,
-          subscription: this.state.subscription,
-          domicilio: this.state.domicilio,
-      };
-
-    //  this.props.pedidoHecho(pedido);
-
-      await Firebase.firestore.collection("pedidos").add(pedido)
-      .then(function(docRef) {
-          console.log("Document written with ID: ", docRef.id);
-      })
-      .catch(function(error) {
-          console.error("Error adding document: ", error);
-      });
-    }
-
-    @autobind
-    continuar() {
-
+        if (user == null) {
+          console.log("error, no usuario");
+          return;
+        }
         // check whether we already have his credit card details.
         if (this.state.domicilio) {
           this.refs.modal.open();
-        } else {
+          return;
+        }
+
+        const query = await Firebase.firestore.collection("paymentInfos").where("user_id", "==", user.uid).get().catch(function(error) {
+            console.log("Error getting documents: ", error);
+        });
+
+        if (query.length == 0) {
           this.refs.creditCardModal.open();
-          this.refs.checkoutModal.open();
+          return;
+        } else {
+          query.forEach(doc => {
+          //  console.log("GOT THISSS", doc);
+            var last4 = doc.data().last_four;
+            console.log("indiegogo ", last4);
+            this.setState({credit_last4: last4});
+          });
+        }
+
+        console.log("state of the union ", this.state.credit_last4);
+        this.refs.checkoutModal.open();
           // this.makePurchase();
           // this.dismissModal();
-        }
     }
 
     @autobind
     totalPriceChange(change) {
-      this.setState({totalPrice: this.state.totalPrice + change});
+      this.setState({totalPrice: this.state.totalPrice + change, vanillaQuantity: this.refs.vanillaQuantity.quantity, chocolateQuantity: this.refs.chocolateQuantity.quantity});
     }
+
+    @autobind
+    madeFinalPurchase() {
+        this.dismissModal();
+    }
+
 
     static navigationOptions = {
       title: 'Welcome',
@@ -204,7 +205,7 @@ export default class Comprar extends React.Component {
             </Container>
             <Address ref={"modal"}></Address>
             <CreditCard ref={"creditCardModal"}></CreditCard>
-            <CheckoutConfirmation ref={"checkoutModal"}></CheckoutConfirmation>
+            <CheckoutConfirmation madeFinalPurchase={this.madeFinalPurchase} domicilio={this.state.domicilio} subscription={this.state.subscription} totalPrice={this.state.totalPrice} vanillaQuantity={this.state.vanillaQuantity} chocolateQuantity={this.state.chocolateQuantity} lastFour={this.state.credit_last4} ref={"checkoutModal"}></CheckoutConfirmation>
         </Modal>;
     }
 }

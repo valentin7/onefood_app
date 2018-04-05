@@ -12,7 +12,7 @@ export default class Settings extends React.Component<ScreenProps<>> {
 
     render(): React.Node {
         var user = Firebase.auth.currentUser;
-
+        var creditDisplay = "**** "+ "4242";
         return <BaseContainer title="Settings" navigation={this.props.navigation} scrollable>
             <View style={style.section}>
                 <Text>GENERAL</Text>
@@ -24,6 +24,7 @@ export default class Settings extends React.Component<ScreenProps<>> {
 
             <View style={style.section}>
                 <Text>MÉTODO DE PAGO</Text>
+                <Text><Icon name="ios-card" style={{ color: variables.brandSecondary }} /> {creditDisplay} </Text>
             </View>
             <View>
 

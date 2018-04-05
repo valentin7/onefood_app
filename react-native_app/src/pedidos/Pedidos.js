@@ -1,7 +1,7 @@
 // @flow
 import autobind from "autobind-decorator";
 import * as React from "react";
-import {StyleSheet, View, Text, TouchableOpacity, Dimensions} from "react-native";
+import {StyleSheet, View, Text, TouchableOpacity, Dimensions, RefreshControl, ScrollView} from "react-native";
 import {Button, Icon, Left, Right, H3, Separator, ListItem, List} from "native-base";
 import {observable, action} from "mobx";
 import { observer } from "mobx-react/native";
@@ -9,7 +9,7 @@ import Modal from 'react-native-modalbox';
 import QRCode from 'react-native-qrcode';
 import store from "../store";
 
-import {BaseContainer, Styles, JankWorkaround, Task, PedidoItem, Firebase} from "../components";
+import {BaseContainer, Styles, JankWorkaround, Task, PedidoItem, Firebase, Controller} from "../components";
 import type {ScreenProps} from "../components/Types";
 import PedidoModel from "../components/APIStore";
 
@@ -21,6 +21,9 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
       loading: true,
       pedidos: [],
       pedidosHistorial: [],
+      refreshing: false,
+      selectedPedidoId: "",
+
     }
 
     constructor(props) {
@@ -30,6 +33,8 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
 
     @autobind
     async refreshPedidos(): Promise<void> {
+      this.setState({refreshing: true});
+
       var user = Firebase.auth.currentUser;
 
       if (user == null) {
@@ -50,12 +55,16 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
         }
       });
 
+      var controllerInstance = Controller.getInstance();
+      controllerInstance.pedidos = pedidos;
+      console.log("AM HERE BOII ", controllerInstance.pedidos);
+
       this.setState({
         pedidos,
         pedidosHistorial,
-        loading: false
+        loading: false,
+        refreshing: false,
       });
-
     }
 
     async componentWillMount(): Promise<void> {
@@ -91,8 +100,13 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
     }
 
     render(): React.Node {
-        console.log("rendering pedidos now too");
-        return <BaseContainer ref="baseComponent" title="Pedidos" navigation={this.props.navigation} >
+        var controllerInstance = Controller.getInstance();
+        var pedidos = controllerInstance.pedidos;
+        if (pedidos.length == 0) {
+          pedidos = this.state.pedidos;
+        }
+        console.log("rendering pedidos now too ", controllerInstance.pedidos);
+        return <BaseContainer ref="baseComponent" title="Pedidos" navigation={this.props.navigation} style={{flex: 1}} >
                   <View>
                   {this.state.loading ? (
                     <Loading />
@@ -101,17 +115,20 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
                     <Button block style={style.compraButton} onPress={this.comprar}>
                       <H3>Nueva Compra</H3>
                     </Button>
-                    <View scrollable>
+                    <ScrollView refreshControl={
+                        <RefreshControl
+                          refreshing={this.state.refreshing}
+                          onRefresh={this.refreshPedidos}/> }>
                     { this.state.pedidos.length > 0 ? (
                       <Separator style={style.divider}>
                         <Text style={{color: "white", fontWeight: "bold"}}>Pedidos a reclamar</Text>
                       </Separator>
                     ) : (<View/>)}
-
-                    <List dataArray={this.state.pedidos} renderRow={
+                    <List
+                    dataArray={this.state.pedidos} renderRow={
                       (item) => (
                         <ListItem style={{height: 70}} onPress={this.open}>
-                        <Text style={{color: "white"}}> {item.cantidades[0]} ONEFOODS</Text>
+                        <Text style={{color: "white"}}> {item.cantidades[0] + item.cantidades[1]} ONEFOODS</Text>
                       </ListItem>)
                     } />
                     { this.state.pedidosHistorial.length > 0 ? (
@@ -123,14 +140,14 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
                    <List dataArray={this.state.pedidosHistorial} renderRow={
                      (item) => (
                        <ListItem style={{height: 70}} onPress={this.open}>
-                       <Text style={Styles.grayText}> {item.cantidades[0]} ONEFOODS</Text>
+                       <Text style={Styles.grayText}> {item.cantidades[0] + item.cantidades[1]} ONEFOODS</Text>
                      </ListItem>)
                    } />
-                   </View>
+                   </ScrollView>
                    </View>
                   )}
                   </View>
-                  <PedidoDetalle ref={"pedidoModal"} pedido_id="rigo1" fecha="23/12/2017" cantidad="3" sabor="Chocolate" precioTotal="50" user_id="rigo" al_mes="false" direccionAEntregar="Isla Dorada"/>
+                  <PedidoDetalle ref={"pedidoModal"} pedido_id="rigo1" fecha="23/12/2017" cantidades={this.state.selected} precioTotal="50" user_id="rigo" al_mes="false" direccionAEntregar="Isla Dorada"/>
         </BaseContainer>;
     }
 }
@@ -179,11 +196,11 @@ class PedidoDetalle extends React.Component<PedidoProps> {
                 bgColor='purple'
                 fgColor='white'/>
             <PedidoItem
-                numero={5}
+                numero={"5"}
                 title="CHOCOLATE"
             />
             <PedidoItem
-                numero={1}
+                numero={"1"}
                 title="VAINILLA"
             />
             <View style={{marginTop: 20}}>

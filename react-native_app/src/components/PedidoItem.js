@@ -10,7 +10,7 @@ import variables from "../../native-base-theme/variables/commonColor";
 // import Circle from "../components/Circle";
 
 type PedidoProps = {
-    numero: number,
+    numero: string,
     title: string,
     subtitle?: string,
 };

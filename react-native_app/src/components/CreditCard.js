@@ -15,6 +15,7 @@ export default class CreditCard extends React.Component {
     state = {
       subscription: false,
       isOpen: false,
+      last_four: "0000",
     }
 
     componentWillMount() {
@@ -32,11 +33,22 @@ export default class CreditCard extends React.Component {
     }
 
     @autobind
-    dismissModal() {
+    async dismissModal(): Promise<void> {
       // guardar credit card details
       var user = Firebase.auth.currentUser;
 
+      var paymentInfo = {
+        user_id: user.uid,
+        last_four: this.state.last_four,
+      }
 
+      await Firebase.firestore.collection("paymentInfos").add(paymentInfo)
+      .then(function(docRef) {
+          console.log("Document written with ID: ", docRef.id);
+      })
+      .catch(function(error) {
+          console.error("Error adding document: ", error);
+      });
 
       this.setState({isOpen: false});
     }
@@ -44,7 +56,14 @@ export default class CreditCard extends React.Component {
     @autobind
     paymentOnChange(info) {
       //this.refs.CCInput.setValues({ number: "4737029071352034" });
-    //  console.log(info);
+      var currNumber = info.values.number;
+      console.log("paymentChange" , currNumber);
+
+      if (currNumber.length > 4) {
+        var last4 = currNumber.slice(-4);
+        this.setState({last_four: last4});
+      }
+
     }
 
     render(): React.Node {
@@ -66,7 +85,7 @@ export default class CreditCard extends React.Component {
                     <CreditCardInput ref="CCInput" onChange={this.paymentOnChange} autoFocus={true} labelStyle={style.whiteStyle} inputStyle={style.whiteStyle}/>
                   </Content>
                   <Button primary block onPress={this.dismissModal} style={{ height: variables.footerHeight * 1.3 }}>
-                    <Text>USAR</Text>
+                    <Text>GUARDAR</Text>
                   </Button>
                 </Container>
         </Modal>;
