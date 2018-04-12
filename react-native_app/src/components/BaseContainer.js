@@ -81,7 +81,7 @@ export default class BaseContainer extends React.Component<BaseContainerProps> {
     }
 
     render(): React.Node {
-        const {title, navigation} = this.props;
+        const {title, navigation, hasRefresh} = this.props;
         return (
             <Container safe={true}>
                 <NBHeader noShadow style={{backgroundColor: variables.brandInfo}}>
@@ -96,6 +96,10 @@ export default class BaseContainer extends React.Component<BaseContainerProps> {
                     }
                     </Body>
                     <Right style={{ alignItems: "center" }}>
+                      {hasRefresh ? (<Button onPress={() => this.props.refresh()} transparent>
+                                <EvilIcons name="refresh" size={32} color="white" />
+                              </Button>
+                      ) : (<View/>)}
                     </Right>
                 </NBHeader>
                 <Content>

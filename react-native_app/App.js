@@ -39,7 +39,8 @@ const SFProTextRegular = require("./fonts/SF-Pro-Text-Regular.otf");
 type AppState = {
     staticAssetsLoaded: boolean,
     authStatusReported: boolean,
-    isUserAuthenticated: boolean
+    isUserAuthenticated: boolean,
+    isFirstLogin: boolean,
 };
 
 export default class App extends React.Component<{}, AppState> {
@@ -47,7 +48,8 @@ export default class App extends React.Component<{}, AppState> {
     state: AppState = {
       staticAssetsLoaded: false,
       authStatusReported: false,
-      isUserAuthenticated: false
+      isUserAuthenticated: false,
+      isFirstLogin: false,
     }
 
     componentWillMount() {
@@ -68,22 +70,66 @@ export default class App extends React.Component<{}, AppState> {
             .catch(error => console.error(error));
 
         Firebase.auth.onAuthStateChanged(user => {
+
+          if (user == null) {
+            this.setState({
+              authStatusReported: true,
+              isUserAuthenticated: !!user,
+            });
+            return;
+          }
+          var creationTimeStr = user.metadata.creationTime;
+          var creationTimeDate = new Date(creationTimeStr);
+          var differenceInSeconds = (new Date() - creationTimeDate)/1000;
+
           this.setState({
             authStatusReported: true,
-            isUserAuthenticated: !!user
+            isUserAuthenticated: !!user,
+            isFirstLogin: differenceInSeconds < 3,
           });
+
+
+
+          console.log("the user metadata is:" , user.metadata);
+
+          console.log("the difference is : ", differenceInSeconds);
+          // if (differenceInSeconds < 3) {
+          //   this.setState({
+          //     isFirstLogin: true,
+          //   });
+          // }
+
+          // const docRef = await Firebase.firestore.collection("notFirstTimers").doc(user.uid);
+          // var docExists = false;
+          // await docRef.get().then(function(doc) {
+          //     if (doc.exists) {
+          //         docExists = true;
+          //         console.log("User has logged in Before!!  data:", doc.data());
+          //     } else {
+          //         console.log("No such document!");
+          //     }
+          // }).catch(function(error) {
+          //     console.log("Error getting document:", error);
+          // });
+          //
+          // this.setState({
+          //   isFirstLogin: !docExists
+          // });
+
         });
+
+
     }
 
     render(): React.Node {
-        const {staticAssetsLoaded, authStatusReported, isUserAuthenticated} = this.state;
+        const {staticAssetsLoaded, authStatusReported, isUserAuthenticated, isFirstLogin} = this.state;
         return <StyleProvider style={getTheme(variables)}>
             {
                 (staticAssetsLoaded && authStatusReported) ?
                   (
                     isUserAuthenticated
                       ?
-                        <AuthenticatedAppNavigator onNavigationStateChange={() => undefined}/>
+                      (isFirstLogin ? <FirstLoginAppNavigator onNavigationStateChange={() => undefined}/> : <AuthenticatedAppNavigator onNavigationStateChange={() => undefined}/>)
                       :
                         <AppNavigator onNavigationStateChange={() => undefined} />
                   )
@@ -144,6 +190,17 @@ const MainNavigator = DrawerNavigator({
 });
 
 const AuthenticatedAppNavigator = StackNavigator({
+    Main: { screen: MainNavigator },
+    Login: { screen: Login },
+    SignUp: { screen: SignUp },
+}, {
+    headerMode: "none",
+    cardStyle: {
+        backgroundColor: variables.brandInfo
+    }
+});
+
+const FirstLoginAppNavigator = StackNavigator({
     Walkthrough: { screen: Walkthrough },
     Main: { screen: MainNavigator },
     Login: { screen: Login },

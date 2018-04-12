@@ -10,9 +10,16 @@ import type {ScreenProps} from "../components/Types";
 
 import variables from "../../native-base-theme/variables/commonColor";
 
+
 export default class Walkthrough extends React.Component<ScreenProps<>> {
 
     swiper: Swiper;
+
+    state = {
+      onLastPage: false,
+      pageCount: 0,
+    }
+
 
     @autobind
     home() {
@@ -20,18 +27,42 @@ export default class Walkthrough extends React.Component<ScreenProps<>> {
     }
 
     @autobind
+    siguientePressed() {
+      //this.setState({pageCount: this.state.pageCount + 1});
+      //this.swiper.scrollBy(1);
+    }
+
+    @autobind
+    indexChange(index) {
+      console.log('hereee ', index);
+      this.setState({pageCount: index});
+      //this.setState({onLastPage: index == 2});
+      //this.swiper.scrollBy(1);
+    }
+
+    @autobind
     renderPagination(): React.Node {
         return (
             <View>
                 <Footer style={{ borderTopWidth: variables.borderWidth, borderBottomWidth: variables.borderWidth }}>
-                    <FooterTab>
-                        <Button onPress={this.home}transparent>
+                        {
+                          this.state.pageCount == 2 ?
+                        (<FooterTab>
+                          <Button onPress={this.home}transparent>
                             <Text>LISTO</Text>
                         </Button>
-                        <Button transparent onPress={() => this.swiper.scrollBy(1)} style={style.next}>
-                            <Text>SIGUIENTE</Text>
-                        </Button>
-                    </FooterTab>
+                        </FooterTab>) :
+                        (
+                          <FooterTab>
+                            <Button onPress={this.home}transparent>
+                                <Text>LISTO</Text>
+                            </Button>
+                            <Button transparent onPress={this.siguientePressed} style={style.next}>
+                                <Text>SIGUIENTE</Text>
+                            </Button>
+                          </FooterTab>
+                        )
+                        }
                 </Footer>
             </View>
         );
@@ -41,13 +72,7 @@ export default class Walkthrough extends React.Component<ScreenProps<>> {
         const {renderPagination} = this;
         return <SafeAreaView style={{ flex: 1 }}>
             <Image source={Images.walkthrough} style={style.img} />
-            <Swiper
-                ref={swiper => this.swiper = swiper}
-                height={swiperHeight}
-                dot={<Icon name="ios-radio-button-off-outline" style={{ fontSize: 12, margin: 4 }} />}
-                activeDot={<Icon name="ios-radio-button-on" style={{ fontSize: 12, margin: 4 }} />}
-                {...{ renderPagination }}
-            >
+              <Swiper>
                 <View style={[Styles.center, Styles.flexGrow]}>
                     <Phone />
                     <Text>ONEFOOD es una comida completa</Text>
@@ -59,6 +84,13 @@ export default class Walkthrough extends React.Component<ScreenProps<>> {
                 <View style={[Styles.center, Styles.flexGrow]}>
                     <Phone />
                     <Text>Rico, rápido, y saludable.</Text>
+                    <Footer style={{marginTop: 150, borderTopWidth: variables.borderWidth, borderBottomWidth: variables.borderWidth }}>
+                      <FooterTab>
+                        <Button onPress={this.home}transparent>
+                          <Text>LISTO</Text>
+                        </Button>
+                      </FooterTab>
+                    </Footer>
                 </View>
             </Swiper>
         </SafeAreaView>;

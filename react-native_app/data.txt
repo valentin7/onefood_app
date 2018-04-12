@@ -4,9 +4,9 @@ Data:
 Pedido: {
   pedido_id: string
   fecha orden: date
-  cantidad de onefoods: [number]
-  sabor: [string]
-  precio total: number
+  cantidades: [number]
+  sabores: [string]
+  precio_total: number
   user_id: string
   al_mes: boolean
   direccionAEntregar: string

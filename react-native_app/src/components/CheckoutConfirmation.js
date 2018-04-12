@@ -41,7 +41,6 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
       pedidoId += Math.floor(Math.random() * 300000);
       pedidoId += user.uid;
 
-      console.log("pedidoId es: ", pedidoId);
 
       var pedido = {
           pedido_id: pedidoId,
@@ -55,15 +54,18 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
           domicilio: this.props.domicilio,
       };
 
+      console.log("pedido: ", pedido);
+
+
       controllerInstance.pedidos.push(pedido);
       console.log("DAMN ", controllerInstance.pedidos);
       //Pedidos.pedidos.push(pedido);
     //  this.props.pedidoHecho(pedido);
       //storeSingleton.pedidos.push(pedido);
 
-      await Firebase.firestore.collection("pedidos").add(pedido)
-      .then(function(docRef) {
-          console.log("Document written with ID: ", docRef.id);
+      await Firebase.firestore.collection("pedidos").doc(pedidoId).set(pedido)
+      .then(function() {
+          console.log("Pedido Hecho");
 
       })
       .catch(function(error) {

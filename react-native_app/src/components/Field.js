@@ -39,7 +39,7 @@ export default class Field extends React.Component<FieldProps> {
         const props = _.pickBy(this.props, (value, key) => keysToFilter.indexOf(key) === -1);
         return <View style={[style.row, last ? { borderBottomWidth: 0 }: {}]}>
             <TouchableOpacity
-                onPress={() => this.input && this.input.focus()}
+                onPress={() => this.refs.textInput.focus()}
                 style={style.labelContainer}
             >
                 <Text style={style.label}>{label.toUpperCase()}</Text>
@@ -53,14 +53,7 @@ export default class Field extends React.Component<FieldProps> {
                         onChangeText={this.setValue} {...{ value }} {...props}
                         style={style.input}
                         placeholderTextColor={variables.gray}
-                        ref={ref => {
-                            if (ref) {
-                                if (textInputRef) {
-                                    textInputRef(ref);
-                                }
-                                this.input = ref._root;
-                            }
-                        }}
+                        ref="textInput"
                         underlineColorAndroid="transparent"
                     />
             }

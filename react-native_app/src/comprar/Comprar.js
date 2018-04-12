@@ -5,7 +5,7 @@ import * as React from "react";
 import {View, Image, StyleSheet, Dimensions, InteractionManager, Animated, ScrollView} from "react-native";
 import {H1, Text, Button, Radio, List, ListItem, Right, Content, CheckBox, Container, Header, Left, Icon, Title, Body, Footer} from "native-base";
 import ImageSlider from 'react-native-image-slider';
-import {BaseContainer, TaskOverview, Images, Styles, PrecioTotal, QuantityInput, Address, Firebase, CreditCard, CheckoutConfirmation} from "../components";
+import {TaskOverview, Images, Styles, PrecioTotal, QuantityInput, Address, Firebase, CreditCard, CheckoutConfirmation} from "../components";
 import type {ScreenProps} from "../components/Types";
 import Modal from 'react-native-modalbox';
 import {StackNavigator, StackRouter} from 'react-navigation';
@@ -103,21 +103,43 @@ export default class Comprar extends React.Component {
           return;
         }
 
-        const query = await Firebase.firestore.collection("paymentInfos").where("user_id", "==", user.uid).get().catch(function(error) {
-            console.log("Error getting documents: ", error);
+        // const query = await Firebase.firestore.collection("paymentInfos").where("user_id", "==", user.uid).get().catch(function(error) {
+        //     console.log("Error getting documents: ", error);
+        // });
+
+        const docRef = await Firebase.firestore.collection("paymentInfos").doc(user.uid);
+        var docExists = false;
+        var last4 = "";
+        await docRef.get().then(function(doc) {
+            if (doc.exists) {
+                docExists = true;
+                console.log("Doc exists!!  data:", doc.data());
+                last4 = doc.data().last_four;
+                console.log("indiegogo ", last4);
+            } else {
+                // doc.data() will be undefined in this case
+                console.log("No such document!");
+            }
+        }).catch(function(error) {
+            console.log("Error getting document:", error);
         });
 
-        if (query.length == 0) {
+
+        if (!docExists) {
           this.refs.creditCardModal.open();
           return;
         } else {
-          query.forEach(doc => {
-          //  console.log("GOT THISSS", doc);
-            var last4 = doc.data().last_four;
-            console.log("indiegogo ", last4);
-            this.setState({credit_last4: last4});
-          });
+          this.setState({credit_last4: last4});
         }
+
+        // if (query.data() == 0) {
+        //   this.refs.creditCardModal.open();
+        //   return;
+        // } else {
+        //   query.forEach(doc => {
+        //   //  console.log("GOT THISSS", doc);
+        //
+        // }
 
         console.log("state of the union ", this.state.credit_last4);
         this.refs.checkoutModal.open();

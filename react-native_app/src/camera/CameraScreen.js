@@ -11,18 +11,77 @@ import {Button, Icon, Left, H3} from "native-base";
 import {BaseContainer, PedidoItem, Firebase} from "../components";
 export default class CameraScreen extends React.Component<ScreenProps<>> {
   state = {
-    hasCameraPermission: null
+    hasCameraPermission: null,
+    pedidoInfo: {},
+    pedidoValido: false,
+    justScanned: false,
   };
 
+  componentDidMount () {
+    this.setState({justScanned: false});
+  }
   async componentWillMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
     this.setState({ hasCameraPermission: status === 'granted' });
   }
 
   @autobind
-  handleScan({type, data}) {
+  async handleScan({type, data}): Promise<void> {
+
+    if (this.state.justScanned) {
+      return;
+    }
+
+    this.setState({justScanned: true});
     //Firebase.firestore.collection("pedidos").doc("")
+    console.log("data and type ", data, type);
+
+    const docRef = await Firebase.firestore.collection("pedidos").doc(data);
+    var docExists = false;
+    var pedidoValido = true;
+    var pedidoInfo = {};
+
+    await docRef.get().then(function(doc) {
+        if (doc.exists) {
+            docExists = true;
+            console.log("Pedido exists!!  data:", doc.data());
+
+            if (doc.data().reclamado) {
+              pedidoValido = false;
+            }
+
+            var prevData = doc.data();
+            prevData["reclamado"] = true;
+            docRef.set(prevData)
+            .then(function() {
+              console.log("successfully claimed pedido");
+            });
+            pedidoInfo = prevData;
+            // .catch(function(error) {
+            //   console.error("error writing doc: ", error);
+            // });
+        } else {
+            pedidoValido = false;
+            console.log("No such document!");
+        }
+    }).catch(function(error) {
+        console.log("Error getting document:", error);
+    });
+
+
+    if (docExists && pedidoValido) {
+      this.setState({pedidoInfo: pedidoInfo, pedidoValido: true});
+    } else {
+      this.setState({pedidoValido: false});
+    }
+
     this.refs.pedidoModal.open();
+  }
+
+  @autobind
+  onModalClose() {
+    console.log("yeah nigg");
+    this.setState({justScanned: false});
   }
 
   render() {
@@ -45,7 +104,7 @@ export default class CameraScreen extends React.Component<ScreenProps<>> {
                 </View>
             </BarCodeScanner>
           </View>
-          <PedidoInfo ref={"pedidoModal"} pedido_id="rigo1" fecha="23/12/2017" cantidad="3" sabor="Chocolate" precioTotal="50" user_id="rigo" al_mes="false" direccionAEntregar="Isla Dorada"/>
+          <PedidoInfo ref={"pedidoModal"} onModalClose={this.onModalClose} pedidoInfo={this.state.pedidoInfo} pedidoValido={this.state.pedidoValido}/>
         </BaseContainer>
       );
     }
@@ -72,26 +131,35 @@ class PedidoInfo extends React.Component<PedidoProps> {
     @autobind
     dismissModal() {
       this.setState({detailModalIsOpen: false});
+      this.props.onModalClose();
     }
 
     render(): React.Node {
-      const {pedido_id} = this.props;
-      return <Modal style={[style.modal, style.container]} onClosed={this.setModalStateClosed}  isOpen={this.state.detailModalIsOpen} backdrop={true} position={"bottom"} coverScreen={true} ref={"modal"}>
+      const {pedidoInfo, pedidoValido} = this.props;
+
+      return <Modal style={[style.modal, style.container]} swipeToClose={false} onClosed={this.setModalStateClosed}  isOpen={this.state.detailModalIsOpen} backdrop={true} position={"bottom"} coverScreen={true} ref={"modal"}>
           <Button transparent onPress={this.dismissModal}>
               <Icon name="ios-close-outline" style={style.closeIcon} />
           </Button>
-            <PedidoItem
-                numero="5"
+          {
+            pedidoValido ?
+            (<View>
+              <PedidoItem
+                numero={pedidoInfo.cantidades[0]}
                 title="CHOCOLATE"
             />
             <PedidoItem
-                numero="1"
+                numero={pedidoInfo.cantidades[1]}
                 title="VAINILLA"
             />
             <View style={{marginTop: 20}}>
-              <H3>Marzo 12, 2018</H3>
+              <H3>{pedidoInfo.fecha}</H3>
             </View>
-
+            </View>) :
+            (
+              <Text>Pedido Inválido.</Text>
+            )
+          }
         </Modal>;
     }
 

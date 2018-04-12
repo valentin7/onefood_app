@@ -12,7 +12,7 @@ export default class Settings extends React.Component<ScreenProps<>> {
 
     render(): React.Node {
         var user = Firebase.auth.currentUser;
-        var creditDisplay = "**** "+ "4242";
+        var creditDisplay = "**** "+ "aqui faltan los ultimos 4";
         return <BaseContainer title="Settings" navigation={this.props.navigation} scrollable>
             <View style={style.section}>
                 <Text>GENERAL</Text>

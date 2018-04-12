@@ -33,7 +33,7 @@ export default class CreditCard extends React.Component {
     }
 
     @autobind
-    async dismissModal(): Promise<void> {
+    async guardarTarjeta(): Promise<void> {
       // guardar credit card details
       var user = Firebase.auth.currentUser;
 
@@ -42,14 +42,19 @@ export default class CreditCard extends React.Component {
         last_four: this.state.last_four,
       }
 
-      await Firebase.firestore.collection("paymentInfos").add(paymentInfo)
-      .then(function(docRef) {
-          console.log("Document written with ID: ", docRef.id);
+      await Firebase.firestore.collection("paymentInfos").doc(user.uid).set(paymentInfo)
+      .then(function() {
+          console.log("Document written");
       })
       .catch(function(error) {
           console.error("Error adding document: ", error);
       });
 
+      this.dismissModal();
+    }
+
+    @autobind
+    dismissModal(){
       this.setState({isOpen: false});
     }
 
@@ -84,7 +89,7 @@ export default class CreditCard extends React.Component {
                   <Content style={style.content}>
                     <CreditCardInput ref="CCInput" onChange={this.paymentOnChange} autoFocus={true} labelStyle={style.whiteStyle} inputStyle={style.whiteStyle}/>
                   </Content>
-                  <Button primary block onPress={this.dismissModal} style={{ height: variables.footerHeight * 1.3 }}>
+                  <Button primary block onPress={this.guardarTarjeta} style={{ height: variables.footerHeight * 1.3 }}>
                     <Text>GUARDAR</Text>
                   </Button>
                 </Container>

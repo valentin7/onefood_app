@@ -14,6 +14,7 @@ export default class Controller {
 
   static getInstance () {
       if (!Controller.instance) {
+          console.log("creating singleton from scratch");
           Controller.instance = Controller.createInstance();
       }
       return Controller.instance;

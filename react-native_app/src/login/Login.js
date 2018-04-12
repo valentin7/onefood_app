@@ -2,7 +2,7 @@
 import autobind from "autobind-decorator";
 import * as React from "react";
 import {
-    StyleSheet, Image, View, ScrollView, KeyboardAvoidingView, TextInput, SafeAreaView
+    StyleSheet, Image, Alert, View, ScrollView, KeyboardAvoidingView, TextInput, SafeAreaView
 } from "react-native";
 import {H1, Button, Text, Header} from "native-base";
 import {Constants} from "expo";
@@ -19,12 +19,14 @@ import variables from "../../native-base-theme/variables/commonColor";
 type LoginState = {
   email: string,
   password: string,
+  passwordConfirmation: string,
   name: string
 }
 
 export default class Login extends React.Component<ScreenProps<>, LoginState> {
 
     password: TextInput;
+    passwordConfirmation: TextInput;
     email: TextInput;
 
     constructor(props) {
@@ -38,6 +40,11 @@ export default class Login extends React.Component<ScreenProps<>, LoginState> {
     }
 
     @autobind
+    setPasswordConfirmationRef(input: TextInput) {
+        this.passwordConfirmation = input;
+    }
+
+    @autobind
     setEmailRef(input: TextInput) {
         this.email = input;
     }
@@ -45,6 +52,11 @@ export default class Login extends React.Component<ScreenProps<>, LoginState> {
     @autobind
     goToPassword() {
         this.password.focus();
+    }
+
+    @autobind
+    goToPasswordConfirmation() {
+        this.passwordConfirmation.focus();
     }
 
     @autobind
@@ -66,6 +78,11 @@ export default class Login extends React.Component<ScreenProps<>, LoginState> {
     }
 
     @autobind
+    setPasswordConfirmation(passwordString: string) {
+      this.setState({passwordConfirmation: passwordString});
+    }
+
+    @autobind
     setName(nameString: string) {
       this.setState({name: nameString});
     }
@@ -73,6 +90,13 @@ export default class Login extends React.Component<ScreenProps<>, LoginState> {
     @autobind
     async crearCuenta(): Promise<void> {
       console.log("crear cuenta state: ", this.state.email, this.state.password);
+      if (this.state.password != this.state.passwordConfirmation) {
+          Alert.alert("Las contraseñas no coinciden", "Por favor confirma tu contraseña.");
+          this.setPassword("");
+          this.setPasswordConfirmation("");
+          return;
+      }
+
       try {
         await Firebase.auth.createUserWithEmailAndPassword(this.state.email, this.state.password);
         var user = Firebase.auth.currentUser;
@@ -83,6 +107,15 @@ export default class Login extends React.Component<ScreenProps<>, LoginState> {
         }, function(error) {
           console.log("ERROR for name ", error);
         });
+
+
+        Firebase.firestore.collection("notFirstTimers").doc(user.uid).set({hasLoggedInBefore: true})
+          .then(function() {
+              console.log("guardado que ya ha logged in");
+          })
+          .catch(function(error) {
+              console.error("Error adding document: ", error);
+          });
 
       //  NavigationHelpers.reset(this.props.navigation, "Walkthrough");
       } catch (e) {
@@ -144,7 +177,18 @@ export default class Login extends React.Component<ScreenProps<>, LoginState> {
                                     textInputRef={this.setPasswordRef}
                                     value={this.state.password}
                                     onChangeText={this.setPassword}
-                                    onSubmitEditing={this.signIn}
+                                    onSubmitEditing={this.goToConfirmPassword}
+                                    inverse
+                                />
+                                <Field
+                                    label="Confirmar Contraseña"
+                                    secureTextEntry
+                                    autoCapitalize="none"
+                                    returnKeyType="go"
+                                    textInputRef={this.setPasswordConfirmationRef}
+                                    value={this.state.passwordConfirmation}
+                                    onChangeText={this.setPasswordConfirmation}
+                                    onSubmitEditing={this.crearCuenta}
                                     last
                                     inverse
                                 />
