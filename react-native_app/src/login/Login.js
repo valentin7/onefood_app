@@ -20,7 +20,8 @@ type LoginState = {
   email: string,
   password: string,
   passwordConfirmation: string,
-  name: string
+  name: string,
+  codigoInvitacion: string,
 }
 
 export default class Login extends React.Component<ScreenProps<>, LoginState> {
@@ -28,6 +29,7 @@ export default class Login extends React.Component<ScreenProps<>, LoginState> {
     password: TextInput;
     passwordConfirmation: TextInput;
     email: TextInput;
+    codigoInvitacion: TextInput;
 
     constructor(props) {
         super(props);
@@ -37,6 +39,11 @@ export default class Login extends React.Component<ScreenProps<>, LoginState> {
     @autobind
     setPasswordRef(input: TextInput) {
         this.password = input;
+    }
+
+    @autobind
+    setCodigoRef(input: TextInput) {
+        this.codigoInvitacion = input;
     }
 
     @autobind
@@ -65,6 +72,11 @@ export default class Login extends React.Component<ScreenProps<>, LoginState> {
     }
 
     @autobind
+    goToCodigoInvitacion() {
+      this.codigoInvitacion.focus();
+    }
+
+    @autobind
     setEmail(emailString: string) {
       //this.email.value = emailString;
       this.setState({email: emailString});
@@ -88,6 +100,11 @@ export default class Login extends React.Component<ScreenProps<>, LoginState> {
     }
 
     @autobind
+    setCodigoInvitacion(codigo: string) {
+      this.setState({codigoInvitacion: codigo});
+    }
+
+    @autobind
     async crearCuenta(): Promise<void> {
       console.log("crear cuenta state: ", this.state.email, this.state.password);
       if (this.state.password != this.state.passwordConfirmation) {
@@ -95,6 +112,17 @@ export default class Login extends React.Component<ScreenProps<>, LoginState> {
           this.setPassword("");
           this.setPasswordConfirmation("");
           return;
+      }
+
+      if (this.state.codigoInvitacion != undefined) {
+        var codigoValido = false;
+        await this.aplicarCodigo().then(function(isCodeValid) {
+          console.log("return from promise codigoValido ", isCodeValid);
+          codigoValido = isCodeValid;
+        });
+        if (!codigoValido) {
+          return;
+        }
       }
 
       try {
@@ -116,10 +144,10 @@ export default class Login extends React.Component<ScreenProps<>, LoginState> {
           .catch(function(error) {
               console.error("Error adding document: ", error);
           });
-
-      //  NavigationHelpers.reset(this.props.navigation, "Walkthrough");
+          
       } catch (e) {
-        alert(e);
+        Alert.alert("Hubo un error al crear la cuenta.", "Por favor intenta de nuevo.");
+        console.log("error de crear cuenta: ", e);
       }
     }
 
@@ -132,6 +160,33 @@ export default class Login extends React.Component<ScreenProps<>, LoginState> {
     signUp() {
         this.props.navigation.navigate("SignUp");
     }
+
+    @autobind
+    async aplicarCodigo(): Promise<void> {
+      console.log("el codigo es ", this.state.codigoInvitacion);
+
+      const docRef = await Firebase.firestore.collection("codigosPromociones").doc(this.state.codigoInvitacion);
+      var docExists = false;
+      var descuento = 0;
+      await docRef.get().then(function(doc) {
+          if (doc.exists) {
+              docExists = true;
+              console.log("Doc exists!!  data:", doc.data());
+              descuento = doc.data().descuento;
+              var descuentoDisplay = descuento * 100 + "%";
+              Alert.alert("Código Válido", "Un descuento de " + descuentoDisplay + " será aplicado a tu próxima compra");
+              return true;
+          } else {
+              Alert.alert("Código de Invitación Inválido", "También puedes crear una cuenta sin código de invitación.");
+              return false;
+          }
+      }).catch(function(error) {
+          console.log("Error getting document:", error);
+          return false;
+      });
+      return docExists;
+    }
+
 
     render(): React.Node {
         return (
@@ -188,9 +243,20 @@ export default class Login extends React.Component<ScreenProps<>, LoginState> {
                                     textInputRef={this.setPasswordConfirmationRef}
                                     value={this.state.passwordConfirmation}
                                     onChangeText={this.setPasswordConfirmation}
-                                    onSubmitEditing={this.crearCuenta}
-                                    last
+                                    onSubmitEditing={this.goToCodigoInvitacion}
                                     inverse
+                                />
+                                <Field
+                                  label="Código de invitación (opcional)"
+                                  returnKeyType="go"
+                                  autoCapitalize="characters"
+                                  autoCorrect={false}
+                                  textInputRef={this.setCodigoRef}
+                                  value={this.state.codigoInvitacion}
+                                  onChangeText={this.setCodigoInvitacion}
+                                  onSubmitEditing={this.crearCuenta}
+                                  last
+                                  inverse
                                 />
                                 <View>
                                     <View>

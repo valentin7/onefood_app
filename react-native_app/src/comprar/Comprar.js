@@ -10,10 +10,12 @@ import type {ScreenProps} from "../components/Types";
 import Modal from 'react-native-modalbox';
 import {StackNavigator, StackRouter} from 'react-navigation';
 import {action, observable} from "mobx";
+import { observer, inject } from "mobx-react/native";
 import PedidoModel from "../components/APIStore";
 
 import variables from "../../native-base-theme/variables/commonColor";
 
+//@inject('store') @observer
 export default class Comprar extends React.Component {
     static router = ComprarRouter;
 
@@ -25,6 +27,7 @@ export default class Comprar extends React.Component {
       vanillaQuantity: 1,
       chocolateQuantity: 1,
       credit_last4: "0000",
+      isCheckoutOpen: false,
     }
 
     @action
@@ -38,6 +41,7 @@ export default class Comprar extends React.Component {
       this.setState({totalPrice: 40});
     }
 
+    @autobind @action
     open() {
       this.setState({totalPrice: 40});
       this.setState({isOpen: true});
@@ -142,7 +146,8 @@ export default class Comprar extends React.Component {
         // }
 
         console.log("state of the union ", this.state.credit_last4);
-        this.refs.checkoutModal.open();
+        this.setState({isCheckoutOpen: true});
+        //this.refs.checkoutModal.open();
           // this.makePurchase();
           // this.dismissModal();
     }
@@ -227,7 +232,7 @@ export default class Comprar extends React.Component {
             </Container>
             <Address ref={"modal"}></Address>
             <CreditCard ref={"creditCardModal"}></CreditCard>
-            <CheckoutConfirmation madeFinalPurchase={this.madeFinalPurchase} domicilio={this.state.domicilio} subscription={this.state.subscription} totalPrice={this.state.totalPrice} vanillaQuantity={this.state.vanillaQuantity} chocolateQuantity={this.state.chocolateQuantity} lastFour={this.state.credit_last4} ref={"checkoutModal"}></CheckoutConfirmation>
+            <CheckoutConfirmation isCheckoutOpen={this.state.isCheckoutOpen} madeFinalPurchase={this.madeFinalPurchase} domicilio={this.state.domicilio} subscription={this.state.subscription} totalPrice={this.state.totalPrice} vanillaQuantity={this.state.vanillaQuantity} chocolateQuantity={this.state.chocolateQuantity} lastFour={this.state.credit_last4} ref={"checkoutModal"}></CheckoutConfirmation>
         </Modal>;
     }
 }

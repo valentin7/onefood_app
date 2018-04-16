@@ -5,8 +5,9 @@ import {StyleProvider} from "native-base";
 import {StackNavigator, DrawerNavigator} from "react-navigation";
 import {Font, AppLoading} from "expo";
 import {useStrict} from "mobx";
+import {Provider} from "mobx-react"
 
-import {Images, Firebase} from "./src/components";
+import {Images, Firebase, MobxStore} from "./src/components";
 import {Login} from "./src/login";
 import {SignUp} from "./src/sign-up";
 import {Walkthrough} from "./src/walkthrough";
@@ -124,6 +125,7 @@ export default class App extends React.Component<{}, AppState> {
     render(): React.Node {
         const {staticAssetsLoaded, authStatusReported, isUserAuthenticated, isFirstLogin} = this.state;
         return <StyleProvider style={getTheme(variables)}>
+              <Provider store={MobxStore}>
             {
                 (staticAssetsLoaded && authStatusReported) ?
                   (
@@ -136,6 +138,7 @@ export default class App extends React.Component<{}, AppState> {
                 :
                     <AppLoading startAsync={null} onError={null} onFinish={null} />
             }
+            </Provider>
         </StyleProvider>;
     }
 }

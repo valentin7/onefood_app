@@ -7,16 +7,28 @@ import {Text, Icon, Left, Right, Header, Container, Content, Button, Body, Title
 import {BaseContainer, Images, Field, SingleChoice, PedidoItem, Firebase, Controller} from "../components";
 import type {ScreenProps} from "../components/Types";
 import Modal from 'react-native-modalbox';
+import { observer, inject } from "mobx-react/native";
 import variables from "../../native-base-theme/variables/commonColor";
 import Pedidos from "../pedidos";
 //import store from "../store";
 
+@inject('store') @observer
 export default class CheckoutConfirmation extends React.Component<ScreenProps<>> {
 
     state = {
       isOpen: false,
     }
 
+    componentDidMount() {
+      this.setState({isOpen: this.props.isCheckoutOpen});
+    }
+
+    checkOpen() {
+      console.log("hey ", this.props.isCheckoutOpen);
+      console.log("youu ", this.state.isOpen);
+    }
+    
+    @autobind
     open() {
       this.setState({isOpen: true});
     }
@@ -25,7 +37,6 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
     async makePurchase(): Promise<void> {
       var date = new Date().toDateString();
       var user = Firebase.auth.currentUser;
-
       var controllerInstance = Controller.getInstance();
 
       //Controller.sharedInstance.printHelloWorld();
@@ -58,7 +69,8 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
 
 
       controllerInstance.pedidos.push(pedido);
-      console.log("DAMN ", controllerInstance.pedidos);
+      this.props.store.pedidos.push(pedido);
+      console.log("DAMN ", this.props.store.pedidos);
       //Pedidos.pedidos.push(pedido);
     //  this.props.pedidoHecho(pedido);
       //storeSingleton.pedidos.push(pedido);
@@ -83,10 +95,12 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
     }
 
     render(): React.Node {
+      var discount = 0.05;
       var creditDisplay = "**** "+ this.props.lastFour;
       var descEntrega = this.props.domicilio ? "Se te entregará a tu dirección." : "Reclamar en persona.";
       var descSubscription = this.props.subscription ? "Este mismo pedido se te entregará cada mes." : "No, este es un pedido único.";
       var totalPriceDisplay = "$"+this.props.totalPrice;
+      var discountedPrice = "$"+this.props.totalPrice*(1-discount);
       return  <Modal style={[style.modal]} isOpen={this.state.isOpen} animationDuration={400} swipeToClose={false} coverScreen={true} position={"center"} ref={"modal2"}>
               <Container safe={true}>
                 <Header>
@@ -113,6 +127,14 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
                       />
                       <PedidoItem
                           numero={totalPriceDisplay}
+                          title="SUBTOTAL"
+                      />
+                      <PedidoItem
+                        numero={"-5%"}
+                        title="DESCUENTO POR COMPARTIR"
+                      />
+                      <PedidoItem
+                          numero={discountedPrice}
                           title="TOTAL"
                       />
                   </View>

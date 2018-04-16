@@ -137,7 +137,7 @@ class PedidoInfo extends React.Component<PedidoProps> {
     render(): React.Node {
       const {pedidoInfo, pedidoValido} = this.props;
 
-      return <Modal style={[style.modal, style.container]} swipeToClose={false} onClosed={this.setModalStateClosed}  isOpen={this.state.detailModalIsOpen} backdrop={true} position={"bottom"} coverScreen={true} ref={"modal"}>
+      return <Modal style={style.modal} swipeToClose={false} onClosed={this.setModalStateClosed}  isOpen={this.state.detailModalIsOpen} backdrop={true} position={"bottom"} coverScreen={true} ref={"modal"}>
           <Button transparent onPress={this.dismissModal}>
               <Icon name="ios-close-outline" style={style.closeIcon} />
           </Button>

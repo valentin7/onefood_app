@@ -4,7 +4,7 @@ import * as React from "react";
 import {StyleSheet, View, Text, TouchableOpacity, Dimensions, RefreshControl, ScrollView} from "react-native";
 import {Button, Icon, Left, Right, H3, Separator, ListItem, List} from "native-base";
 import {observable, action} from "mobx";
-import { observer } from "mobx-react/native";
+import { observer, inject } from "mobx-react/native";
 import Modal from 'react-native-modalbox';
 import QRCode from 'react-native-qrcode';
 import store from "../store";
@@ -17,6 +17,7 @@ import PedidoModel from "../components/APIStore";
 
 import variables from "../../native-base-theme/variables/commonColor";
 
+@inject('store') @observer
 export default class Pedidos extends React.Component<ScreenProps<>> {
 
     state = {
@@ -60,6 +61,7 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
 
       var controllerInstance = Controller.getInstance();
       controllerInstance.pedidos = pedidos;
+      this.props.store.pedidos = pedidos;
       console.log("AM HERE BOII ", controllerInstance.pedidos);
 
       this.setState({
@@ -70,13 +72,14 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
       });
     }
 
-    async componentWillMount(): Promise<void> {
-      await this.refreshPedidos().catch(function(error) {
-        console.error("wadduppp: ", error);
-      });
-    }
+    // async componentWillMount(): Promise<void> {
+    //   await this.refreshPedidos().catch(function(error) {
+    //     console.error("wadduppp: ", error);
+    //   });
+    // }
 
     componentDidMount() {
+      console.log("HAYUUUU ", this.props.store.loading);
       var controllerInstance = Controller.getInstance();
       var pedidos = controllerInstance.pedidos;
 
@@ -114,11 +117,10 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
 
     render(): React.Node {
         console.log("rendering pedidos now too ", this.state.pedidos);
-        console.log("and controller's ", Controller.getInstance().pedidos);
-        console.log("JUST RENDERING");
         //var pedidosArr = this.state.pedidos;
-        var pedidosArr = Controller.getInstance().pedidos;
+        var pedidosArr = this.props.store.pedidos;//Controller.getInstance().pedidos;
         console.log("historial: ", this.state.pedidosHistorial);
+
         //this.setState({pedidos: pedidosArr});
 
         return <BaseContainer ref="baseComponent" title="Pedidos" hasRefresh={true} refresh={this.refreshPedidos} navigation={this.props.navigation} >
@@ -134,13 +136,15 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
                         <RefreshControl
                           refreshing={this.state.refreshing}
                           onRefresh={this.refreshPedidos}/> }>
-                    { pedidosArr.length > 0 ? (
+                    { this.props.store.pedidos.length > 0 ? (
                       <Separator style={style.divider}>
                         <Text style={{color: "white", fontWeight: "bold"}}>Pedidos a reclamar</Text>
                       </Separator>
-                    ) : (<View/>)}
+                    ) : (<View>
+                        <Text style={style.welcomeMessage}>Bienvenido/a, ahora eres parte de la familia OneFood.</Text>
+                      </View>)}
 
-                    {pedidosArr.map((item, key) =>  (
+                    {this.props.store.pedidos.map((item, key) =>  (
                       <ListItem key={key} style={{height: 70}} onPress={() => this.open(item)}>
                         <Text style={{color: "white"}}> {item.cantidades[0] + item.cantidades[1]} ONEFOODS</Text>
                       </ListItem>))
@@ -316,6 +320,13 @@ const style = StyleSheet.create({
       backgroundColor: variables.listSeparatorBg,
       height: 40,
     },
+    welcomeMessage: {
+      color: "white",
+      margin: 10,
+      fontSize: variables.fontSizeBase * 2,
+      marginTop: 15,
+      fontStyle: "italic",
+    },
     title: {
         justifyContent: "center",
         flex: 1,
@@ -334,7 +345,6 @@ const style = StyleSheet.create({
         flex: .5,
         justifyContent: "flex-end"
     },
-
     container: {
       flex: 1,
       justifyContent: 'center',

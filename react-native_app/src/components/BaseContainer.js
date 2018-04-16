@@ -58,7 +58,8 @@ const AppNavigator = StackNavigator(
 export default class BaseContainer extends React.Component<BaseContainerProps> {
 
     state = {
-      inMap: true
+      inMap: true,
+      pedidos: ["hey", "you"]
     }
     componentWillMount() {
     }
@@ -66,12 +67,17 @@ export default class BaseContainer extends React.Component<BaseContainerProps> {
     pedidos() {
       this.setState({inMap: false});
       const {navigation} = this.props;
-      navigation.navigate("Pedidos");
+      navigation.navigate("Pedidos", {pedidos: this.state.pedidos});
     }
 
     @autobind
     comprar() {
       this.refs.modal.open()
+    }
+
+    @autobind
+    comprarClosed() {
+
     }
 
     mapa() {
@@ -118,7 +124,7 @@ export default class BaseContainer extends React.Component<BaseContainerProps> {
                         </Button>
                     </FooterTab>
                 </Footer>
-                <Comprar ref={"modal"}></Comprar>
+                <Comprar onClosed={this.comprarClosed} ref={"modal"}></Comprar>
             </Container>
             );
     }

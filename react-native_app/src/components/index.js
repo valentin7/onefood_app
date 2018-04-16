@@ -27,4 +27,5 @@ export {default as CheckoutConfirmation} from "./CheckoutConfirmation";
 export {PedidoModel} from "./APIStore";
 export {AnimatedView} from "./Animations";
 export {default as Controller} from "./Controller";
+export {default as MobxStore} from "./MobxStore";
 //export {default as StoreSingleton} from "./StoreSingleton";
