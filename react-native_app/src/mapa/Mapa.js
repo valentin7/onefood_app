@@ -2,8 +2,8 @@
 import autobind from "autobind-decorator";
 import moment from "moment";
 import * as React from "react";
-import {ScrollView, InteractionManager, StyleSheet, View, Dimensions, Text, Animated} from "react-native";
-import {Icon, Picker} from "native-base";
+import {ScrollView, InteractionManager, StyleSheet, View, Dimensions, Animated} from "react-native";
+import {Icon, Picker, H3, Card, CardItem, Text, Body, Container} from "native-base";
 import MapView, {Marker} from "react-native-maps";
 import {observable, action} from "mobx";
 import { observer } from "mobx-react/native";
@@ -91,6 +91,15 @@ export default class Mapa extends React.Component<ScreenProps<>> {
         };
 
         return <BaseContainer {...{ navigation, title }}>
+                <Card>
+                 <CardItem>
+                   <Body>
+                     <Text style={{color: 'gray'}}>
+                       Pasa por tu ONEFOOD a la locación más cercana.
+                     </Text>
+                   </Body>
+                 </CardItem>
+               </Card>
                 <View style={styles.container}>
                  {this.state.loading ? (
                    <Loading />
@@ -109,17 +118,8 @@ export default class Mapa extends React.Component<ScreenProps<>> {
                         />
                       ))}
                     </MapView>
-
                  )}
                 </View>
-                <Animated.View style={{
-                              flex: 1,
-                              justifyContent: 'center',
-                              alignItems: 'center',
-                              opacity: fadeAnim
-                            }}>
-                          <Text>Hey</Text>
-                </Animated.View>
              </BaseContainer>;
     }
 }
@@ -130,6 +130,8 @@ const Loading = () => (
     <Text>Loading...</Text>
   </View>
 );
+
+const {width, height} = Dimensions.get("window");
 
 const styles = StyleSheet.create({
   container: {
@@ -145,5 +147,6 @@ const styles = StyleSheet.create({
      left: 0,
      right: 0,
      bottom: 0,
-   },
+     zIndex: -1,
+   }
 });

@@ -11,7 +11,7 @@ import store from "../store";
 import PTRView from 'react-native-pull-to-refresh';
 
 
-import {BaseContainer, Styles, JankWorkaround, Task, PedidoItem, Firebase, Controller} from "../components";
+import {BaseContainer, Styles, JankWorkaround, Task, PedidoItem, Firebase} from "../components";
 import type {ScreenProps} from "../components/Types";
 import PedidoModel from "../components/APIStore";
 
@@ -36,7 +36,7 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
       this.open = this.open.bind(this);
     }
 
-    @autobind
+    @autobind @action
     async refreshPedidos(): Promise<void> {
       this.setState({refreshing: true});
 
@@ -49,8 +49,8 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
       const query = await Firebase.firestore.collection("pedidos").where("user_id", "==", user.uid).get().catch(function(error) {
           console.log("Error getting documents: ", error);
       });
-      const pedidos = [];
-      const pedidosHistorial = [];
+      var pedidos = [];
+      var pedidosHistorial = [];
       query.forEach(doc => {
         if (doc.data().reclamado) {
           pedidosHistorial.push(doc.data());
@@ -59,10 +59,7 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
         }
       });
 
-      var controllerInstance = Controller.getInstance();
-      controllerInstance.pedidos = pedidos;
       this.props.store.pedidos = pedidos;
-      console.log("AM HERE BOII ", controllerInstance.pedidos);
 
       this.setState({
         pedidos,
@@ -77,15 +74,12 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
     //     console.error("wadduppp: ", error);
     //   });
     // }
-
+    @action
     componentDidMount() {
       console.log("HAYUUUU ", this.props.store.loading);
-      var controllerInstance = Controller.getInstance();
-      var pedidos = controllerInstance.pedidos;
 
-      if (pedidos.length > this.state.pedidos.length) {
-        this.setState({pedidos: pedidos});
-      }
+      this.refreshPedidos();
+
       JankWorkaround.runAfterInteractions(() => {
         this.setState({ loading: false });
       });
@@ -93,7 +87,7 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
 
     open(pedidoInfo) {
       // pass in info
-      this.refreshPedidos();
+      //this.refreshPedidos();
       console.log("pedidoInfo is ", pedidoInfo);
       this.setState({selectedPedido: pedidoInfo});
       this.refs.pedidoModal.open();
@@ -116,12 +110,8 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
     }
 
     render(): React.Node {
-        console.log("rendering pedidos now too ", this.state.pedidos);
-        //var pedidosArr = this.state.pedidos;
-        var pedidosArr = this.props.store.pedidos;//Controller.getInstance().pedidos;
+        console.log("rendering pedidoss ", this.props.store.pedidos);
         console.log("historial: ", this.state.pedidosHistorial);
-
-        //this.setState({pedidos: pedidosArr});
 
         return <BaseContainer ref="baseComponent" title="Pedidos" hasRefresh={true} refresh={this.refreshPedidos} navigation={this.props.navigation} >
                   <View>
@@ -136,13 +126,19 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
                         <RefreshControl
                           refreshing={this.state.refreshing}
                           onRefresh={this.refreshPedidos}/> }>
+                        { this.props.store.pedidos.length == 0 && this.state.pedidosHistorial == 0 ? (
+                          <View>
+                            <Text style={style.welcomeMessage}>Bienvenido/a, ahora eres parte de la familia OneFood.</Text>
+                          </View>
+                        ) :
+                        (<View/>)
+                        }
+
                     { this.props.store.pedidos.length > 0 ? (
                       <Separator style={style.divider}>
                         <Text style={{color: "white", fontWeight: "bold"}}>Pedidos a reclamar</Text>
                       </Separator>
-                    ) : (<View>
-                        <Text style={style.welcomeMessage}>Bienvenido/a, ahora eres parte de la familia OneFood.</Text>
-                      </View>)}
+                    ) : (<View/>)}
 
                     {this.props.store.pedidos.map((item, key) =>  (
                       <ListItem key={key} style={{height: 70}} onPress={() => this.open(item)}>
@@ -157,7 +153,7 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
                     ) : (<View/>)}
 
                     {this.state.pedidosHistorial.map((item, key) =>  (
-                      <ListItem key={key} style={{height: 70}}>
+                      <ListItem key={key} style={{height: 70}} onPress={() => this.open(item)}>
                         <Text style={Styles.grayText}> {item.cantidades[0] + item.cantidades[1]} ONEFOODS</Text>
                       </ListItem>))
                     }
@@ -210,11 +206,13 @@ class PedidoDetalle extends React.Component<PedidoProps> {
       var chocolateQuantity = 0;
       var vanillaQuantity = 0;
       var pedidoFecha = "";
+      var showQR = false;
       if (pedidoInfo != undefined) {
         pedidoId = pedidoInfo.pedido_id;
         chocolateQuantity = pedidoInfo.cantidades[0];
         vanillaQuantity = pedidoInfo.cantidades[1];
         pedidoFecha = pedidoInfo.fecha;
+        showQR = !pedidoInfo.reclamado;
       }
 
 
@@ -222,11 +220,15 @@ class PedidoDetalle extends React.Component<PedidoProps> {
           <Button transparent onPress={this.dismissModal}>
               <Icon name="ios-close-outline" style={style.closeIcon} />
           </Button>
-          <QRCode
-                value={pedidoId}
-                size={200}
-                bgColor='purple'
-                fgColor='white'/>
+          {
+            showQR ? 
+            (<QRCode
+                  value={pedidoId}
+                  size={200}
+                  bgColor='purple'
+                  fgColor='white'/>) :
+            (<View/>)
+          }
             <PedidoItem
                 numero={chocolateQuantity}
                 title="CHOCOLATE"

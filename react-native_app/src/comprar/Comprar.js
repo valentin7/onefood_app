@@ -15,7 +15,7 @@ import PedidoModel from "../components/APIStore";
 
 import variables from "../../native-base-theme/variables/commonColor";
 
-//@inject('store') @observer
+@inject('store') @observer
 export default class Comprar extends React.Component {
     static router = ComprarRouter;
 
@@ -90,7 +90,8 @@ export default class Comprar extends React.Component {
 
     @autobind
     dismissModal() {
-      this.setState({isOpen: false});
+      this.props.onClosing();
+      //this.setState({isOpen: false});
     }
 
     @autobind
@@ -162,6 +163,10 @@ export default class Comprar extends React.Component {
         this.dismissModal();
     }
 
+    @autobind
+    onConfirmationOpenChange(value) {
+      this.setState({isCheckoutOpen: value});
+    }
 
     static navigationOptions = {
       title: 'Welcome',
@@ -170,7 +175,7 @@ export default class Comprar extends React.Component {
     render(): React.Node {
         const today = moment();
 
-        return <Modal style={[style.modal, style.modal2]} isOpen={this.state.isOpen} swipeToClose={false}  backdrop={false} position={"top"} ref={"modal2"}>
+        return <Modal style={[style.modal, style.modal2]} isOpen={this.props.isModalOpen} swipeToClose={false}  backdrop={false} position={"top"} ref={"modal2"}>
             <Container>
               <Header>
                 <Left>
@@ -232,7 +237,7 @@ export default class Comprar extends React.Component {
             </Container>
             <Address ref={"modal"}></Address>
             <CreditCard ref={"creditCardModal"}></CreditCard>
-            <CheckoutConfirmation isCheckoutOpen={this.state.isCheckoutOpen} madeFinalPurchase={this.madeFinalPurchase} domicilio={this.state.domicilio} subscription={this.state.subscription} totalPrice={this.state.totalPrice} vanillaQuantity={this.state.vanillaQuantity} chocolateQuantity={this.state.chocolateQuantity} lastFour={this.state.credit_last4} ref={"checkoutModal"}></CheckoutConfirmation>
+            <CheckoutConfirmation isCheckoutOpen={this.state.isCheckoutOpen} onOpenChange={this.onConfirmationOpenChange} madeFinalPurchase={this.madeFinalPurchase} domicilio={this.state.domicilio} subscription={this.state.subscription} totalPrice={this.state.totalPrice} vanillaQuantity={this.state.vanillaQuantity} chocolateQuantity={this.state.chocolateQuantity} lastFour={this.state.credit_last4} ref={"checkoutModal"}></CheckoutConfirmation>
         </Modal>;
     }
 }

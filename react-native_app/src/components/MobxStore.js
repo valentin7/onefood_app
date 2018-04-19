@@ -3,6 +3,7 @@ import {observable, action} from 'mobx'
 class MobxStore {
   @observable loading = true;
   @observable pedidos = [];
+  @observable last4CreditCard = "";
 
   @action loadingCompleted() {
     this.loading = false;

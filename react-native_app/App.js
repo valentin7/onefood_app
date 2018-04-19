@@ -55,6 +55,15 @@ export default class App extends React.Component<{}, AppState> {
 
     componentWillMount() {
         const promises = [];
+        const originalSend = XMLHttpRequest.prototype.send;
+        XMLHttpRequest.prototype.send = function(body) {
+          if (body === '') {
+            originalSend.call(this);
+          } else {
+            originalSend.call(this, body);
+          }
+        };
+        console.ignoredYellowBox = ['Setting a timer'];
         Firebase.init();
         promises.push(
             Font.loadAsync({
@@ -143,7 +152,7 @@ export default class App extends React.Component<{}, AppState> {
     }
 }
 
-useStrict(true);
+useStrict(false);
 
 const fade = (props) => {
     const {position, scene} = props

@@ -8,6 +8,7 @@ import {BaseContainer, Images, Field, SingleChoice, PedidoItem, Firebase, Contro
 import type {ScreenProps} from "../components/Types";
 import Modal from 'react-native-modalbox';
 import { observer, inject } from "mobx-react/native";
+import {action} from "mobx";
 import variables from "../../native-base-theme/variables/commonColor";
 import Pedidos from "../pedidos";
 //import store from "../store";
@@ -20,31 +21,31 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
     }
 
     componentDidMount() {
+      console.log("hey watagas ", this.props.isCheckoutOpen);
       this.setState({isOpen: this.props.isCheckoutOpen});
     }
 
     checkOpen() {
-      console.log("hey ", this.props.isCheckoutOpen);
+      console.log("hey watagas ", this.props.isCheckoutOpen);
       console.log("youu ", this.state.isOpen);
-    }
-    
-    @autobind
-    open() {
-      this.setState({isOpen: true});
     }
 
     @autobind
+    open() {
+      //this.setState({isOpen: true});
+      this.props.onOpenChange(true);
+    }
+
+    @autobind @action
     async makePurchase(): Promise<void> {
       var date = new Date().toDateString();
       var user = Firebase.auth.currentUser;
-      var controllerInstance = Controller.getInstance();
+      //var controllerInstance = Controller.getInstance();
 
       //Controller.sharedInstance.printHelloWorld();
       // console.log("STORE is ", storeSingleton);
       // console.log("hey, the numClicks is ", storeSingleton.numClicks);
       //store.numClicks = 77;
-
-      console.log("dem pedidos are: ", controllerInstance);
 
 
       console.log("date is ", date);
@@ -65,12 +66,9 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
           domicilio: this.props.domicilio,
       };
 
-      console.log("pedido: ", pedido);
-
-
-      controllerInstance.pedidos.push(pedido);
+      console.log("pedido agregado: ", pedido);
       this.props.store.pedidos.push(pedido);
-      console.log("DAMN ", this.props.store.pedidos);
+      //console.log("DAMN ", this.props.store.pedidos);
       //Pedidos.pedidos.push(pedido);
     //  this.props.pedidoHecho(pedido);
       //storeSingleton.pedidos.push(pedido);
@@ -91,17 +89,18 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
 
     @autobind
     dismissModal() {
-      this.setState({isOpen: false});
+      this.props.onOpenChange(false);
+      //this.setState({isOpen: false});
     }
 
     render(): React.Node {
-      var discount = 0.05;
+      var discount = 0.00;
       var creditDisplay = "**** "+ this.props.lastFour;
       var descEntrega = this.props.domicilio ? "Se te entregará a tu dirección." : "Reclamar en persona.";
       var descSubscription = this.props.subscription ? "Este mismo pedido se te entregará cada mes." : "No, este es un pedido único.";
       var totalPriceDisplay = "$"+this.props.totalPrice;
       var discountedPrice = "$"+this.props.totalPrice*(1-discount);
-      return  <Modal style={[style.modal]} isOpen={this.state.isOpen} animationDuration={400} swipeToClose={false} coverScreen={true} position={"center"} ref={"modal2"}>
+      return  <Modal style={[style.modal]} isOpen={this.props.isCheckoutOpen} animationDuration={400} swipeToClose={false} coverScreen={true} position={"center"} ref={"modal2"}>
               <Container safe={true}>
                 <Header>
                     <Left>
@@ -126,14 +125,6 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
                           title="VAINILLA"
                       />
                       <PedidoItem
-                          numero={totalPriceDisplay}
-                          title="SUBTOTAL"
-                      />
-                      <PedidoItem
-                        numero={"-5%"}
-                        title="DESCUENTO POR COMPARTIR"
-                      />
-                      <PedidoItem
                           numero={discountedPrice}
                           title="TOTAL"
                       />
@@ -155,10 +146,6 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
                       <Text>{descSubscription}</Text>
                   </View>
 
-
-                  <View>
-
-                  </View>
                 </Content>
                 <Button primary block onPress={this.makePurchase} style={{ height: variables.footerHeight * 1.3 }}>
                   <Text>COMPRAR</Text>
@@ -167,6 +154,15 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
       </Modal>;
     }
 }
+
+// <PedidoItem
+//     numero={totalPriceDisplay}
+//     title="SUBTOTAL"
+// />
+// <PedidoItem
+//   numero={"-5%"}
+//   title="DESCUENTO POR COMPARTIR"
+// />
 
 const {width} = Dimensions.get("window");
 const style = StyleSheet.create({

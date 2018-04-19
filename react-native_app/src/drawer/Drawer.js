@@ -7,9 +7,10 @@ import {Constants} from "expo";
 
 import {Images, NavigationHelpers, Styles, WindowDimensions, Container, Firebase} from "../components";
 import type {NavigationProps} from "../components/Types";
-
+import { observer, inject } from "mobx-react/native";
 import variables from "../../native-base-theme/variables/commonColor";
 
+@inject('store') @observer
 export default class Drawer extends React.Component<NavigationProps<>> {
 
     go(key: string) {
@@ -18,6 +19,8 @@ export default class Drawer extends React.Component<NavigationProps<>> {
 
     @autobind
     logout() {
+        this.props.store.pedidos = [];
+        this.props.store.last4CreditCard = "";
         Firebase.auth.signOut();
         NavigationHelpers.reset(this.props.navigation, "Login");
     }

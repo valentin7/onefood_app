@@ -59,7 +59,8 @@ export default class BaseContainer extends React.Component<BaseContainerProps> {
 
     state = {
       inMap: true,
-      pedidos: ["hey", "you"]
+      pedidos: ["hey", "you"],
+      isComprarModalOpen: false,
     }
     componentWillMount() {
     }
@@ -72,12 +73,13 @@ export default class BaseContainer extends React.Component<BaseContainerProps> {
 
     @autobind
     comprar() {
-      this.refs.modal.open()
+      this.setState({isComprarModalOpen: true});
+      //this.refs.modal.open()
     }
 
     @autobind
-    comprarClosed() {
-
+    comprarModalClosing() {
+      this.setState({isComprarModalOpen: false});
     }
 
     mapa() {
@@ -124,7 +126,7 @@ export default class BaseContainer extends React.Component<BaseContainerProps> {
                         </Button>
                     </FooterTab>
                 </Footer>
-                <Comprar onClosed={this.comprarClosed} ref={"modal"}></Comprar>
+                <Comprar isModalOpen={this.state.isComprarModalOpen} onClosing={this.comprarModalClosing} ref={"modal"}></Comprar>
             </Container>
             );
     }
