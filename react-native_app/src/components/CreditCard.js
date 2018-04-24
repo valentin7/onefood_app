@@ -3,7 +3,7 @@ import moment from "moment";
 import autobind from "autobind-decorator";
 import * as React from "react";
 import {CreditCardInput, LiteCreditCardInput, CardView} from "react-native-credit-card-input";
-import {View, Image, StyleSheet, Dimensions, ScrollView} from "react-native";
+import {View, Image, StyleSheet, Dimensions, ScrollView, ActivityIndicator} from "react-native";
 import {H1, Text, Button, Radio, ListItem, Right, Content, Container, CheckBox, Form, Item, Input, Left, Body, Header, Icon, Title} from "native-base";
 import {BaseContainer, Images, Styles, Firebase} from "../components";
 import type {ScreenProps} from "../components/Types";
@@ -16,6 +16,7 @@ export default class CreditCard extends React.Component {
       subscription: false,
       isOpen: false,
       last_four: "0000",
+      loading: false,
     }
 
     componentWillMount() {
@@ -35,6 +36,7 @@ export default class CreditCard extends React.Component {
     @autobind
     async guardarTarjeta(): Promise<void> {
       // guardar credit card details
+      this.setState({loading: true});
       var user = Firebase.auth.currentUser;
 
       var paymentInfo = {
@@ -50,6 +52,7 @@ export default class CreditCard extends React.Component {
           console.error("Error adding document: ", error);
       });
 
+      this.setState({loading: false});
       this.dismissModal();
     }
 
@@ -89,6 +92,7 @@ export default class CreditCard extends React.Component {
                   <Content style={style.content}>
                     <CreditCardInput ref="CCInput" onChange={this.paymentOnChange} autoFocus={true} labelStyle={style.whiteStyle} inputStyle={style.whiteStyle}/>
                   </Content>
+                  <ActivityIndicator size="large" animating={this.state.loading}/>
                   <Button primary block onPress={this.guardarTarjeta} style={{ height: variables.footerHeight * 1.3 }}>
                     <Text>GUARDAR</Text>
                   </Button>

@@ -72,18 +72,26 @@ export default class Walkthrough extends React.Component<ScreenProps<>> {
         const {renderPagination} = this;
         return <SafeAreaView style={{ flex: 1 }}>
             <Image source={Images.walkthrough} style={style.img} />
-              <Swiper>
+              <Swiper loop={false}>
                 <View style={[Styles.center, Styles.flexGrow]}>
                     <Phone />
-                    <Text>ONEFOOD es una comida completa</Text>
+                    <Text>ONEFOOD es una comida completa diseñada para el lifestyle on the go</Text>
                 </View>
                 <View style={[Styles.center, Styles.flexGrow]}>
                     <Phone />
-                    <Text>Vive a tu ritmo.</Text>
+                    <Text>ONEFOOD es nutrimentalmente mejor que una comida promedio</Text>
                 </View>
                 <View style={[Styles.center, Styles.flexGrow]}>
                     <Phone />
-                    <Text>Rico, rápido, y saludable.</Text>
+                    <Text>Contiene el balance ideal de proteínas, lípidos y carbohidratos</Text>
+                </View>
+                <View style={[Styles.center, Styles.flexGrow]}>
+                    <Phone />
+                    <Text>0 lácteos, 0 gluten, 0 proteína animal, 0 ingredientes genéticamente modificados</Text>
+                </View>
+                <View style={[Styles.center, Styles.flexGrow]}>
+                    <Phone />
+                    <Text>Ordena tu onefood atravez de la app: Vive bien, vive a tu ritmo</Text>
                     <Footer style={{marginTop: 150, borderTopWidth: variables.borderWidth, borderBottomWidth: variables.borderWidth }}>
                       <FooterTab>
                         <Button onPress={this.home}transparent>

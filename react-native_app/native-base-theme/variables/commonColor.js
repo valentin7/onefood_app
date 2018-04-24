@@ -10,8 +10,9 @@ const platformStyle = undefined;
 
 const white = "white";
 const black = "rgb(29, 29, 38)";
+const darkGray = "rgb(50, 50, 50)";
 const gray =  "rgba(255, 255, 255, .5)";
-const lightGray = "#f8f8f8";
+const lightGray = "rgba(200, 200, 200, 1)";
 
 export default {
   platformStyle,
@@ -116,16 +117,17 @@ export default {
   cardDefaultBg: '#fff',
 
 
-      // Color
-  brandPrimary: '#5cb85c',
-  brandInfo: '#022F40',
-  brandSecondary: '#03B5AA',
+  // Color
+  brandPrimary: 'rgba(142, 188, 37, 1)', //'', //',// '#5cb85c',
+  brandInfo:   '#1A535C',// 'rgba(253, 253, 253, 1)', // '#022F40',
+  brandSecondary: 'rgba(0, 149, 53, 1)', // '#03B5AA', // '', //'#03B5AA',
   brandSuccess: '#5cb85c',
   brandDanger: '#d9534f',
   brandWarning: '#f0ad4e',
   brandSidebar: '#252932',
   white,
   black,
+  darkGray,
   gray,
   lightGray,
 
@@ -187,6 +189,8 @@ export default {
   iconFontSize: 30,
   iconMargin: 7,
   iconHeaderSize: 33,
+  iconColor: 'black',
+
 
 
     // InputGroup
@@ -266,8 +270,8 @@ export default {
 
 
     // Text
-  textColor: "white",
-  inverseTextColor: 'black',
+  textColor: darkGray,
+  inverseTextColor: lightGray,
   noteFontSize: 14,
 
 

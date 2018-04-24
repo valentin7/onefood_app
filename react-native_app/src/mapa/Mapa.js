@@ -40,18 +40,19 @@ export default class Mapa extends React.Component<ScreenProps<>> {
     }
 
     componentWillMount() {
-      this.setState({shouldUpdate: true});
+      //this.setState({shouldUpdate: true});
     }
 
     componentDidMount() {
-      JankWorkaround.runAfterInteractions(() => {
-        this.setState({ loading: false });
-      });
+      this.setState({ loading: false });
+      // JankWorkaround.runAfterInteractions(() => {
+      //   this.setState({ loading: false });
+      // });
     }
 
-    shouldComponentUpdate() {
-      return this.state.shouldUpdate
-    }
+    // shouldComponentUpdate() {
+    //   return this.state.shouldUpdate
+    // }
 
     @autobind
     openMapMarker(coordinate) {

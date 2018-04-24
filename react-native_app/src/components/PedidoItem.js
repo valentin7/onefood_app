@@ -1,8 +1,8 @@
 // @flow
 import moment from "moment";
 import * as React from "react";
-import {View, Text, StyleSheet} from "react-native";
-import {H3} from "native-base";
+import {View, StyleSheet} from "react-native";
+import {H3, Text} from "native-base";
 
 import {Avatar, Styles} from "../components";
 

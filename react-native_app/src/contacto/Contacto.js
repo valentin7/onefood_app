@@ -2,7 +2,7 @@
 import moment from "moment";
 import * as React from "react";
 import {View, Image, StyleSheet, Dimensions} from "react-native";
-import {H1, Text} from "native-base";
+import {H1, Text, Icon} from "native-base";
 
 import {BaseContainer, TaskOverview, Images} from "../components";
 import type {ScreenProps} from "../components/Types";
@@ -14,12 +14,22 @@ export default class Contacto extends React.Component<ScreenProps<>> {
 
     render(): React.Node {
         const today = moment();
+        var correo = "  Correo: ";
+        var tel1 = "  Tel corporativo: ";
+        var tel2 = "  Tel ONEFOOD live: ";
+        var tel3 = "  Tel distribución: ";
         return <BaseContainer title="Contacto" navigation={this.props.navigation} scrollable>
             <View style={style.row}>
-              <Autolink linkStyle={style.link} text="hola@onefood.com" email={true}/>
+              <Text><Icon name="ios-mail" style={style.icon} />
+                {correo} <Autolink linkStyle={style.link} text="hola@onefood.com" email={true}/></Text>
             </View>
             <View style={style.row}>
-              <Autolink linkStyle={style.link} text="998-147-9833" phone={true} />
+              <Text><Icon name="ios-call" style={style.icon} />
+                {tel1}<Autolink linkStyle={style.link} text="(55) 489 27 369" phone={true} /></Text>
+              <Text><Icon name="ios-call" style={style.icon} />
+                 {tel2}<Autolink linkStyle={style.link} text="(55) 473 89 302" phone={true} /></Text>
+              <Text><Icon name="ios-call" style={style.icon} />
+                {tel3}<Autolink linkStyle={style.link} text="(55) 765 43 269" phone={true} /></Text>
             </View>
 
         </BaseContainer>;
@@ -34,12 +44,14 @@ const style = StyleSheet.create({
         resizeMode: "cover"
     },
     row: {
-        justifyContent: "center",
-        alignItems: "center",
         padding: variables.contentPadding * 2
     },
     link: {
-      fontSize: 20
+      color: "white",
+    },
+    icon: {
+      color: variables.brandSecondary,
+      marginRight: 5,
     }
 
 });

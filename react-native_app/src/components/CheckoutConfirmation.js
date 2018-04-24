@@ -1,7 +1,7 @@
 // @flow
 import * as React from "react";
 import autobind from "autobind-decorator";
-import {View, Dimensions, Image, StyleSheet} from "react-native";
+import {View, Dimensions, Image, StyleSheet, ActivityIndicator} from "react-native";
 import {Text, Icon, Left, Right, Header, Container, Content, Button, Body, Title} from "native-base";
 
 import {BaseContainer, Images, Field, SingleChoice, PedidoItem, Firebase, Controller} from "../components";
@@ -18,6 +18,7 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
 
     state = {
       isOpen: false,
+      loading: false,
     }
 
     componentDidMount() {
@@ -38,21 +39,13 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
 
     @autobind @action
     async makePurchase(): Promise<void> {
+      this.setState({loading: true});
       var date = new Date().toDateString();
       var user = Firebase.auth.currentUser;
-      //var controllerInstance = Controller.getInstance();
 
-      //Controller.sharedInstance.printHelloWorld();
-      // console.log("STORE is ", storeSingleton);
-      // console.log("hey, the numClicks is ", storeSingleton.numClicks);
-      //store.numClicks = 77;
-
-
-      console.log("date is ", date);
       var pedidoId = "O-";
       pedidoId += Math.floor(Math.random() * 300000);
       pedidoId += user.uid;
-
 
       var pedido = {
           pedido_id: pedidoId,
@@ -83,6 +76,7 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
           alert("No se pudo completar la compra en este momento. Por favor intentar en unos minutos.");
       });
 
+      this.setState({loading: false});
       this.props.madeFinalPurchase();
       this.dismissModal();
     }
@@ -90,7 +84,6 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
     @autobind
     dismissModal() {
       this.props.onOpenChange(false);
-      //this.setState({isOpen: false});
     }
 
     render(): React.Node {
@@ -128,6 +121,7 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
                           numero={discountedPrice}
                           title="TOTAL"
                       />
+                      <ActivityIndicator size="large" animating={this.state.loading}/>
                   </View>
 
 

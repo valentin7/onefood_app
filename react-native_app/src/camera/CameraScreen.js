@@ -1,6 +1,7 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, Dimensions, StyleSheet} from 'react-native';
+import {View, TouchableOpacity, Dimensions, StyleSheet} from 'react-native';
 import { BarCodeScanner, Permissions } from 'expo';
+import {Container, Text} from 'native-base';
 import autobind from "autobind-decorator";
 import Modal from 'react-native-modalbox';
 import variables from "../../native-base-theme/variables/commonColor";
@@ -111,7 +112,6 @@ export default class CameraScreen extends React.Component<ScreenProps<>> {
   }
 }
 
-const {width} = Dimensions.get("window");
 
 class PedidoInfo extends React.Component<PedidoProps> {
     state = {
@@ -138,46 +138,52 @@ class PedidoInfo extends React.Component<PedidoProps> {
       const {pedidoInfo, pedidoValido} = this.props;
 
       return <Modal style={style.modal} swipeToClose={false} onClosed={this.setModalStateClosed}  isOpen={this.state.detailModalIsOpen} backdrop={true} position={"bottom"} coverScreen={true} ref={"modal"}>
-          <Button transparent onPress={this.dismissModal}>
-              <Icon name="ios-close-outline" style={style.closeIcon} />
-          </Button>
+
           {
             pedidoValido ?
-            (<View>
+            (<Container style={style.container}>
+                <Button transparent onPress={this.dismissModal}>
+                    <Icon name="ios-close-outline" style={style.closeIcon} />
+                </Button>
+                <PedidoItem
+                  numero={pedidoInfo.cantidades[0]}
+                  title="CHOCOLATE"
+              />
               <PedidoItem
-                numero={pedidoInfo.cantidades[0]}
-                title="CHOCOLATE"
-            />
-            <PedidoItem
-                numero={pedidoInfo.cantidades[1]}
-                title="VAINILLA"
-            />
-            <View style={{marginTop: 20}}>
-              <H3>{pedidoInfo.fecha}</H3>
-            </View>
-            </View>) :
+                  numero={pedidoInfo.cantidades[1]}
+                  title="VAINILLA"
+              />
+              <View style={{marginTop: 20}}>
+                <H3>{pedidoInfo.fecha}</H3>
+              </View>
+            </Container>) :
             (
-              <Text>Pedido Inválido.</Text>
+              <Text>Pedido Inválido</Text>
             )
           }
         </Modal>;
     }
 
 }
+const {width, height} = Dimensions.get("window");
 
 const style = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    height: height,
   },
   closeIcon: {
       fontSize: 50,
       marginLeft: 20,
       color: variables.listBorderColor
   },
+  closeButton: {
+    marginTop: 60,
+  },
     modal: {
-    height: 600,
+    height: height,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: variables.brandSecondary

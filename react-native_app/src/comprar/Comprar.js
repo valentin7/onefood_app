@@ -2,8 +2,8 @@
 import moment from "moment";
 import autobind from "autobind-decorator";
 import * as React from "react";
-import {View, Image, StyleSheet, Dimensions, InteractionManager, Animated, ScrollView} from "react-native";
-import {H1, Text, Button, Radio, List, ListItem, Right, Content, CheckBox, Container, Header, Left, Icon, Title, Body, Footer} from "native-base";
+import {View, Image, StyleSheet, Dimensions, InteractionManager, Animated, ScrollView, ActivityIndicator} from "react-native";
+import {H1, Text, Button, Segment, Radio, List, ListItem, Right, Content, CheckBox, Container, Header, Left, Icon, Title, Body, Footer} from "native-base";
 import ImageSlider from 'react-native-image-slider';
 import {TaskOverview, Images, Styles, PrecioTotal, QuantityInput, Address, Firebase, CreditCard, CheckoutConfirmation} from "../components";
 import type {ScreenProps} from "../components/Types";
@@ -28,16 +28,10 @@ export default class Comprar extends React.Component {
       chocolateQuantity: 1,
       credit_last4: "0000",
       isCheckoutOpen: false,
-    }
-
-    @action
-    componentWillMount() {
-    //  this.setState({totalPrice: this.refs.chocolateQuantity.quantity});
-
+      loading: false,
     }
 
     componentDidMount() {
-      console.log("ziwatanejo");
       this.setState({totalPrice: 40});
     }
 
@@ -45,7 +39,6 @@ export default class Comprar extends React.Component {
     open() {
       this.setState({totalPrice: 40});
       this.setState({isOpen: true});
-      //this.refs.modal2.open();
     }
 
     @autobind
@@ -96,15 +89,17 @@ export default class Comprar extends React.Component {
 
     @autobind
     async continuar(): Promise<void>{
+        this.setState({loading: true});
         var user = Firebase.auth.currentUser;
 
         if (user == null) {
           console.log("error, no usuario");
           return;
         }
-        // check whether we already have his credit card details.
-        if (this.state.domicilio) {
+
+        if (this.state.domicilio || this.state.subscription) {
           this.refs.modal.open();
+          this.setState({loading: false});
           return;
         }
 
@@ -112,6 +107,7 @@ export default class Comprar extends React.Component {
         //     console.log("Error getting documents: ", error);
         // });
 
+        // check whether we already have his credit card details.
         const docRef = await Firebase.firestore.collection("paymentInfos").doc(user.uid);
         var docExists = false;
         var last4 = "";
@@ -129,6 +125,7 @@ export default class Comprar extends React.Component {
             console.log("Error getting document:", error);
         });
 
+        this.setState({loading: false});
 
         if (!docExists) {
           this.refs.creditCardModal.open();
@@ -137,20 +134,8 @@ export default class Comprar extends React.Component {
           this.setState({credit_last4: last4});
         }
 
-        // if (query.data() == 0) {
-        //   this.refs.creditCardModal.open();
-        //   return;
-        // } else {
-        //   query.forEach(doc => {
-        //   //  console.log("GOT THISSS", doc);
-        //
-        // }
-
         console.log("state of the union ", this.state.credit_last4);
         this.setState({isCheckoutOpen: true});
-        //this.refs.checkoutModal.open();
-          // this.makePurchase();
-          // this.dismissModal();
     }
 
     @autobind
@@ -189,7 +174,16 @@ export default class Comprar extends React.Component {
                 <Right />
               </Header>
               <Content>
+              <Segment>
+                <Button first active={!this.state.subscription} onPress={this.toggleSubscriptionNo}>
+                  <Text>Compra Única</Text>
+                </Button>
+                <Button last active={this.state.subscription} onPress={this.toggleSubscriptionYes}>
+                  <Text>Suscripción</Text>
+                </Button>
+              </Segment>
                 <Image source={Images.music} style={style.img} />
+                <ActivityIndicator size="large" animating={this.state.loading}/>
                 <View style={[style.count, Styles.center]}>
                     <H1 style={style.heading}>CHOCOLATE</H1>
                     <Text style={Styles.grayText}>SABOR</Text>
@@ -200,35 +194,28 @@ export default class Comprar extends React.Component {
                     <Text style={Styles.grayText}>SABOR</Text>
                     <QuantityInput totalPriceChange={this.totalPriceChange} ref="vanillaQuantity" singular="botella" plural="botellas" from={0} to={120} />
                 </View>
-                <List style={{flex: 1, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'flex-start'}}>
-                  <ListItem onPress={this.toggleSubscriptionNo}>
-                    <Text>Una Vez</Text>
-                    <Right style={{marginLeft: 20}}>
-                      <CheckBox onPress={this.toggleSubscriptionNo} checked={!this.state.subscription}/>
-                    </Right>
-                  </ListItem>
-                  <ListItem onPress={this.toggleSubscriptionYes}>
-                    <Text>Subscripción Mensual</Text>
-                    <Right style={{marginLeft: 20}}>
-                      <CheckBox onPress={this.toggleSubscriptionYes} checked={this.state.subscription} />
-                    </Right>
-                  </ListItem>
-                </List>
+                {
+                  this.state.subscription ? (
+                    <View/>
+                  ) :
+                  (
+                    <List horizontal style={{flex: 1, flexDirection: 'row', justifyContent: 'space-around', marginTop: 20, marginBottom: 5, alignItems: 'flex-start'}}>
+                      <ListItem onPress={this.toggleDomicilioYes} style={{borderBottomWidth: 0}}>
+                        <Text>Entrega a Domicilio</Text>
+                        <Right style={{marginLeft: 20}}>
+                          <CheckBox onPress={this.toggleDomicilioYes} checked={this.state.domicilio}/>
+                        </Right>
+                      </ListItem>
+                      <ListItem onPress={this.toggleDomicilioNo}  style={{borderBottomWidth: 0}}>
+                        <Text>Recoger Producto</Text>
+                        <Right style={{marginLeft: 20}}>
+                          <CheckBox onPress={this.toggleDomicilioNo} checked={!this.state.domicilio} />
+                        </Right>
+                      </ListItem>
+                    </List>
+                  )
+                }
 
-                <List horizontal style={{flex: 1, flexDirection: 'row', justifyContent: 'space-around', marginTop: 20, marginBottom: 5, alignItems: 'flex-start'}}>
-                  <ListItem onPress={this.toggleDomicilioYes} >
-                    <Text>Entrega a Domicilio</Text>
-                    <Right style={{marginLeft: 20}}>
-                      <CheckBox onPress={this.toggleDomicilioYes} checked={this.state.domicilio}/>
-                    </Right>
-                  </ListItem>
-                  <ListItem onPress={this.toggleDomicilioNo}>
-                    <Text>Me queda de pasada</Text>
-                    <Right style={{marginLeft: 20}}>
-                      <CheckBox onPress={this.toggleDomicilioNo} checked={!this.state.domicilio} />
-                    </Right>
-                  </ListItem>
-                </List>
               </Content>
               <Button block onPress={this.continuar} style={{ height: variables.footerHeight * 1.3 , backgroundColor: variables.brandSuccess}}>
                 <Text>CONTINUAR</Text>

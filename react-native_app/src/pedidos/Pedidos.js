@@ -29,6 +29,7 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
       selectedPQuantities: [],
       selectedDate: "",
       selectedTotalPrice: 0,
+      usersName: "",
     }
 
     constructor(props) {
@@ -45,7 +46,9 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
       if (user == null) {
         return;
       }
+      console.log("THE USER IS ", user );
 
+      this.setState({usersName: user.displayName});
       const query = await Firebase.firestore.collection("pedidos").where("user_id", "==", user.uid).get().catch(function(error) {
           console.log("Error getting documents: ", error);
       });
@@ -112,6 +115,14 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
     render(): React.Node {
         console.log("rendering pedidoss ", this.props.store.pedidos);
         console.log("historial: ", this.state.pedidosHistorial);
+        //var user = Firebase.auth.currentUser;
+        var welcomeMessage = "Bienvenido/a, ahora eres parte de la familia OneFood.";
+        if (this.state.usersName.length > 1) {
+          //this.setState({usersName: user.name});
+          welcomeMessage = "Bienvenido/a " + this.state.usersName + ".";
+        }
+
+
 
         return <BaseContainer ref="baseComponent" title="Pedidos" hasRefresh={true} refresh={this.refreshPedidos} navigation={this.props.navigation} >
                   <View>
@@ -128,7 +139,7 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
                           onRefresh={this.refreshPedidos}/> }>
                         { this.props.store.pedidos.length == 0 && this.state.pedidosHistorial == 0 ? (
                           <View>
-                            <Text style={style.welcomeMessage}>Bienvenido/a, ahora eres parte de la familia OneFood.</Text>
+                            <Text style={style.welcomeMessage}>{welcomeMessage}</Text>
                           </View>
                         ) :
                         (<View/>)
@@ -218,10 +229,10 @@ class PedidoDetalle extends React.Component<PedidoProps> {
 
       return <Modal style={[style.modal, style.container]} onClosed={this.setModalStateClosed}  isOpen={this.state.detailModalIsOpen} backdrop={true} position={"bottom"} coverScreen={true} ref={"modal"}>
           <Button transparent onPress={this.dismissModal}>
-              <Icon name="ios-close-outline" style={style.closeIcon} />
+              <Icon color={variables.brandPrimary} name="ios-close-outline" style={style.closeIcon} />
           </Button>
           {
-            showQR ? 
+            showQR ?
             (<QRCode
                   value={pedidoId}
                   size={200}

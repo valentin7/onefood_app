@@ -58,22 +58,24 @@ const AppNavigator = StackNavigator(
 export default class BaseContainer extends React.Component<BaseContainerProps> {
 
     state = {
-      inMap: true,
-      pedidos: ["hey", "you"],
+      inMap: false,
       isComprarModalOpen: false,
+      screenSelected: "Pedidos",
+      mapIconColor: variables.lightGray,
     }
+
     componentWillMount() {
     }
 
     pedidos() {
-      this.setState({inMap: false});
+      this.setState({inMap: false, screenSelected: "Pedidos"});
       const {navigation} = this.props;
-      navigation.navigate("Pedidos", {pedidos: this.state.pedidos});
+      navigation.navigate("Pedidos");
     }
 
     @autobind
     comprar() {
-      this.setState({isComprarModalOpen: true});
+      this.setState({isComprarModalOpen: true, screenSelected: "Comprar", inMap: false});
       //this.refs.modal.open()
     }
 
@@ -83,19 +85,24 @@ export default class BaseContainer extends React.Component<BaseContainerProps> {
     }
 
     mapa() {
-      this.setState({inMap: true});
+      console.log("GOT MAPAAAA");
+      this.setState({mapIconColor: variables.brandPrimary, inMap: true, screenSelected: "Mapa"});
       const {navigation} = this.props;
       navigation.navigate("Mapa");
     }
 
     render(): React.Node {
         const {title, navigation, hasRefresh} = this.props;
+        console.log("RENDERING w mapaIconcolor: ", this.state.mapaIconcolor);
+        var pedidosIconColor = this.state.screenSelected == "Pedidos" ? variables.brandPrimary : variables.lightGray;
+        var mapIconColor =  this.state.screenSelected == "Mapa" ? variables.brandPrimary : variables.lightGray;
+        var compraIconColor = this.state.screenSelected == "Comprar" ? variables.brandPrimary : variables.lightGray;
         return (
             <Container safe={true}>
-                <NBHeader noShadow style={{backgroundColor: variables.brandInfo}}>
+                <NBHeader noShadow style={{backgroundColor: variables.brandSecondary}}>
                     <Left>
                         <Button onPress={() => navigation.navigate("DrawerOpen")} transparent>
-                            <EvilIcons name="navicon" size={32} color="white" />
+                            <EvilIcons name="navicon" size={32} color={variables.brandPrimary}/>
                         </Button>
                     </Left>
                     <Body>
@@ -105,7 +112,7 @@ export default class BaseContainer extends React.Component<BaseContainerProps> {
                     </Body>
                     <Right style={{ alignItems: "center" }}>
                       {hasRefresh ? (<Button onPress={() => this.props.refresh()} transparent>
-                                <EvilIcons name="refresh" size={32} color="white" />
+                                <EvilIcons name="refresh" size={32} color={variables.brandPrimary} />
                               </Button>
                       ) : (<View/>)}
                     </Right>
@@ -116,13 +123,13 @@ export default class BaseContainer extends React.Component<BaseContainerProps> {
                 <Footer>
                     <FooterTab>
                         <Button onPress={() => this.pedidos()} transparent>
-                            <Icon name="ios-list-outline" style={{ fontSize: 32 }} />
+                            <Icon name="ios-list-outline" style={{ fontSize: 32, color: pedidosIconColor}} />
                         </Button>
-                        <Button transparent onPress={() => this.comprar()}>
-                            <Icon name="ios-add-circle" style={{ fontSize: 72}} />
+                        <Button transparent onPress={() => this.comprar()} transparent>
+                            <Icon name="ios-add-circle"  style={{ fontSize: 72, color: compraIconColor}} />
                         </Button>
                         <Button onPress={() => this.mapa()} transparent>
-                            <Icon name="ios-map-outline" style={{ fontSize: 32 }} />
+                            <Icon name="ios-map-outline" style={{ fontSize: 32, color: mapIconColor}} />
                         </Button>
                     </FooterTab>
                 </Footer>

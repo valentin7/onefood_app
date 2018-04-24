@@ -2,7 +2,7 @@
 import autobind from "autobind-decorator";
 import * as React from "react";
 import {
-    StyleSheet, Image, Alert, View, ScrollView, KeyboardAvoidingView, TextInput, SafeAreaView
+    StyleSheet, Image, Alert, View, ScrollView, KeyboardAvoidingView, TextInput, SafeAreaView, ActivityIndicator
 } from "react-native";
 import {H1, Button, Text, Header} from "native-base";
 import {Constants} from "expo";
@@ -22,6 +22,7 @@ type LoginState = {
   passwordConfirmation: string,
   name: string,
   codigoInvitacion: string,
+  loading: false,
 }
 
 export default class Login extends React.Component<ScreenProps<>, LoginState> {
@@ -33,7 +34,7 @@ export default class Login extends React.Component<ScreenProps<>, LoginState> {
 
     constructor(props) {
         super(props);
-        this.state = {email: "", password: "", name: ""};
+        this.state = {email: "", password: "", name: "", loading: false};
     }
 
     @autobind
@@ -107,6 +108,12 @@ export default class Login extends React.Component<ScreenProps<>, LoginState> {
     @autobind
     async crearCuenta(): Promise<void> {
       console.log("crear cuenta state: ", this.state.email, this.state.password);
+
+      if (this.state.password.length < 6) {
+        Alert.alert("Contraseña Inválida", "La contraseña debe de tener al menos 6 caracteres alfanuméricos.");
+        return;
+      }
+
       if (this.state.password != this.state.passwordConfirmation) {
           Alert.alert("Las contraseñas no coinciden", "Por favor confirma tu contraseña.");
           this.setPassword("");
@@ -114,18 +121,22 @@ export default class Login extends React.Component<ScreenProps<>, LoginState> {
           return;
       }
 
+
       if (this.state.codigoInvitacion != undefined) {
         var codigoValido = false;
+        this.setState({loading: true});
         await this.aplicarCodigo().then(function(isCodeValid) {
           console.log("return from promise codigoValido ", isCodeValid);
           codigoValido = isCodeValid;
         });
         if (!codigoValido) {
+          this.setState({loading: false});
           return;
         }
       }
 
       try {
+        this.setState({loading: true});
         await Firebase.auth.createUserWithEmailAndPassword(this.state.email, this.state.password);
         var user = Firebase.auth.currentUser;
         await user.updateProfile({
@@ -136,7 +147,6 @@ export default class Login extends React.Component<ScreenProps<>, LoginState> {
           console.log("ERROR for name ", error);
         });
 
-
         Firebase.firestore.collection("notFirstTimers").doc(user.uid).set({hasLoggedInBefore: true})
           .then(function() {
               console.log("guardado que ya ha logged in");
@@ -144,10 +154,16 @@ export default class Login extends React.Component<ScreenProps<>, LoginState> {
           .catch(function(error) {
               console.error("Error adding document: ", error);
           });
-          
       } catch (e) {
-        Alert.alert("Hubo un error al crear la cuenta.", "Por favor intenta de nuevo.");
-        console.log("error de crear cuenta: ", e);
+        console.log("error de crear cuenta: ", e.code);
+        console.log("hey bro ", e.message);
+        if (e.code == "auth/email-already-in-use") {
+          Alert.alert("Este email ya fue usado.", "Por favor de log in o intentar con otro email.");
+        } else {
+          Alert.alert("Hubo un error al crear la cuenta.", "Por favor intenta de nuevo.");
+        }
+
+        this.setState({loading: false});
       }
     }
 
@@ -205,6 +221,7 @@ export default class Login extends React.Component<ScreenProps<>, LoginState> {
                                     <H1 style={styles.title}>ONEFOOD</H1>
                                 </View>
                             </View>
+                            <ActivityIndicator size="large" animating={this.state.loading}/>
                             <View>
                               <Field
                                   label="Nombre"
