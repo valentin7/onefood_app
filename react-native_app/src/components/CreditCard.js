@@ -94,7 +94,7 @@ export default class CreditCard extends React.Component {
                   </Content>
                   <ActivityIndicator size="large" animating={this.state.loading}/>
                   <Button primary block onPress={this.guardarTarjeta} style={{ height: variables.footerHeight * 1.3 }}>
-                    <Text>GUARDAR</Text>
+                    <Text style={{color: 'white'}}>GUARDAR</Text>
                   </Button>
                 </Container>
         </Modal>;
@@ -104,9 +104,9 @@ export default class CreditCard extends React.Component {
 const {width} = Dimensions.get("window");
 const style = StyleSheet.create({
   modal: {
-    backgroundColor: variables.brandInfo
+    backgroundColor: 'white'
   },
   whiteStyle: {
-    color: "white"
+    color: variables.darkGray
   }
 });

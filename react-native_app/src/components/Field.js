@@ -74,10 +74,10 @@ const style = StyleSheet.create({
     },
     label: {
         marginHorizontal: variables.contentPadding * 2,
-        color: variables.gray
+        color: variables.mediumGray
     },
     input: {
         flex: 1,
-        color: "white"
+        color: variables.darkGray
     }
 });

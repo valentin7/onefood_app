@@ -4,7 +4,7 @@ import autobind from "autobind-decorator";
 import {View, StyleSheet, Image, Platform, Text, Dimensions} from "react-native";
 import {H1} from "native-base";
 import {StackNavigator} from "react-navigation";
-import {Footer, FooterTab, Button, Header as NBHeader, Left, Body, Title, Right, Icon, Content} from "native-base";
+import {Footer, FooterTab, Button, Header as NBHeader, Left, Body, Title, Right, Icon, Content, Tab, Tabs} from "native-base";
 import {EvilIcons} from "@expo/vector-icons";
 import {Constants} from "expo";
 import {PrecioTotal} from "./PrecioTotal";
@@ -24,10 +24,10 @@ import MapView from "expo";
 
 import variables from "../../native-base-theme/variables/commonColor";
 
-import type {NavigationProps, ChildrenProps} from "./Types";
+import type {NavigationProps} from "./Types";
 
 // import variables from "../../native-base-theme/variables/commonColor";
-type BaseContainerProps = NavigationProps<> & ChildrenProps & {
+type BaseContainerProps = NavigationProps<> & {
     title: string | React.Node
 };
 
@@ -94,12 +94,12 @@ export default class BaseContainer extends React.Component<BaseContainerProps> {
     render(): React.Node {
         const {title, navigation, hasRefresh} = this.props;
         console.log("RENDERING w mapaIconcolor: ", this.state.mapaIconcolor);
-        var pedidosIconColor = this.state.screenSelected == "Pedidos" ? variables.brandPrimary : variables.brandPrimary;
-        var mapIconColor =  this.state.screenSelected == "Mapa" ? variables.brandPrimary : variables.brandPrimary;
-        var compraIconColor = this.state.screenSelected == "Comprar" ? variables.brandPrimary : variables.brandPrimary;
+        var pedidosIconColor = this.state.screenSelected == "Pedidos" ? variables.brandPrimary : variables.lightGray;
+        var mapIconColor =  this.state.screenSelected == "Mapa" ? variables.brandPrimary : variables.lightGray;
+        var compraIconColor = this.state.screenSelected == "Comprar" ? variables.brandPrimary : variables.lightGray;
         return (
             <Container safe={true}>
-                <NBHeader style={{backgroundColor: variables.brandInfo, borderBottomWidth: 1, borderColor: variables.lightGray}}>
+                <NBHeader noShadow style={{backgroundColor: variables.brandSecondary}}>
                     <Left>
                         <Button onPress={() => navigation.navigate("DrawerOpen")} transparent>
                             <EvilIcons name="navicon" size={32} color={variables.brandPrimary}/>
@@ -107,7 +107,7 @@ export default class BaseContainer extends React.Component<BaseContainerProps> {
                     </Left>
                     <Body>
                     {
-                        typeof(title) === "string" ? <Title style={{color: variables.brandPrimary}}>{title.toUpperCase()}</Title> : title
+                        typeof(title) === "string" ? <Title>{title.toUpperCase()}</Title> : title
                     }
                     </Body>
                     <Right style={{ alignItems: "center" }}>
@@ -117,24 +117,18 @@ export default class BaseContainer extends React.Component<BaseContainerProps> {
                       ) : (<View/>)}
                     </Right>
                 </NBHeader>
-                <Content>
-                  {this.props.children}
-                </Content>
+                <Tabs initialPage={1} tabBarPosition={"bottom"}>
+                    <Tab heading="Pedidos">
+                        <Pedidos />
+                    </Tab>
+                    <Tab heading="Comprar">
+                        <Comprar />
+                    </Tab>
+                    <Tab>
+                      <Mapa/>
+                    </Tab>
+                </Tabs>
                 <Comprar isModalOpen={this.state.isComprarModalOpen} onClosing={this.comprarModalClosing} ref={"modal"}></Comprar>
-
-                <Footer style={{backgroundColor: variables.brandInfo, borderTopWidth: 1, borderColor: variables.lightGray}}>
-                    <FooterTab>
-                        <Button onPress={() => this.pedidos()} transparent>
-                            <Icon name="ios-list-outline" style={{ fontSize: 32, color: pedidosIconColor}} />
-                        </Button>
-                        <Button transparent onPress={() => this.comprar()} transparent>
-                            <Icon name="ios-add-circle"  style={{ fontSize: 72, color: compraIconColor}} />
-                        </Button>
-                        <Button onPress={() => this.mapa()} transparent>
-                            <Icon name="ios-map-outline" style={{ fontSize: 32, color: mapIconColor}} />
-                        </Button>
-                    </FooterTab>
-                </Footer>
             </Container>
             );
     }

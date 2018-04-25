@@ -1,8 +1,8 @@
 // @flow
 import autobind from "autobind-decorator";
 import * as React from "react";
-import {StyleSheet, View, Text, TouchableOpacity, Dimensions, RefreshControl, ScrollView} from "react-native";
-import {Button, Icon, Left, Right, H3, Separator, ListItem, List} from "native-base";
+import {StyleSheet, View, Text, TouchableOpacity, Dimensions, RefreshControl, ScrollView, Image} from "react-native";
+import {Button, Icon, Card, CardItem, Left, Right, H3, Separator, ListItem, List} from "native-base";
 import {observable, action} from "mobx";
 import { observer, inject } from "mobx-react/native";
 import Modal from 'react-native-modalbox';
@@ -11,7 +11,7 @@ import store from "../store";
 import PTRView from 'react-native-pull-to-refresh';
 
 
-import {BaseContainer, Styles, JankWorkaround, Task, PedidoItem, Firebase} from "../components";
+import {BaseContainer, Styles, JankWorkaround, Task, PedidoItem, Firebase, Images} from "../components";
 import type {ScreenProps} from "../components/Types";
 import PedidoModel from "../components/APIStore";
 
@@ -116,10 +116,10 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
         console.log("rendering pedidoss ", this.props.store.pedidos);
         console.log("historial: ", this.state.pedidosHistorial);
         //var user = Firebase.auth.currentUser;
-        var welcomeMessage = "Bienvenido/a, ahora eres parte de la familia OneFood.";
+        var welcomeMessage = "Bienvenid@, ahora eres parte de la familia OneFood.";
         if (this.state.usersName.length > 1) {
           //this.setState({usersName: user.name});
-          welcomeMessage = "Bienvenido/a " + this.state.usersName + ".";
+          welcomeMessage = "Bienvenid@ " + this.state.usersName + ".";
         }
 
 
@@ -131,7 +131,7 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
                   ) : (
                     <View>
                     <Button block style={style.compraButton} onPress={this.comprar}>
-                      <H3>Nueva Compra</H3>
+                      <H3 style={{color: 'white'}}>Nueva Compra</H3>
                     </Button>
                     <ScrollView refreshControl={
                         <RefreshControl
@@ -147,19 +147,19 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
 
                     { this.props.store.pedidos.length > 0 ? (
                       <Separator style={style.divider}>
-                        <Text style={{color: "white", fontWeight: "bold"}}>Pedidos a reclamar</Text>
+                        <Text style={{color: variables.darkGray, fontWeight: "bold"}}>Pedidos a reclamar</Text>
                       </Separator>
                     ) : (<View/>)}
 
                     {this.props.store.pedidos.map((item, key) =>  (
                       <ListItem key={key} style={{height: 70}} onPress={() => this.open(item)}>
-                        <Text style={{color: "white"}}> {item.cantidades[0] + item.cantidades[1]} ONEFOODS</Text>
+                        <Text> {item.cantidades[0] + item.cantidades[1]} ONEFOODS</Text>
                       </ListItem>))
                     }
 
                     { this.state.pedidosHistorial.length > 0 ? (
                       <Separator style={style.divider}>
-                        <Text style={{color: "white", fontWeight: "bold"}}>Historial de Pedidos</Text>
+                        <Text style={{fontWeight: "bold"}}>Historial de Pedidos</Text>
                       </Separator>
                     ) : (<View/>)}
 
@@ -168,8 +168,6 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
                         <Text style={Styles.grayText}> {item.cantidades[0] + item.cantidades[1]} ONEFOODS</Text>
                       </ListItem>))
                     }
-
-
                    </ScrollView>
                    </View>
                   )}
@@ -236,7 +234,7 @@ class PedidoDetalle extends React.Component<PedidoProps> {
             (<QRCode
                   value={pedidoId}
                   size={200}
-                  bgColor='purple'
+                  bgColor={variables.brandPrimary}
                   fgColor='white'/>) :
             (<View/>)
           }
@@ -318,11 +316,12 @@ const style = StyleSheet.create({
     },
     compraButton: {
         height: 60,
+        borderRadius: 5,
     },
     closeIcon: {
         fontSize: 50,
         marginLeft: 20,
-        color: variables.listBorderColor
+        color: variables.brandPrimary
     },
     number: {
         alignItems: "center",
@@ -334,7 +333,7 @@ const style = StyleSheet.create({
       height: 40,
     },
     welcomeMessage: {
-      color: "white",
+      color: variables.darkGray,
       margin: 10,
       fontSize: variables.fontSizeBase * 2,
       marginTop: 15,
@@ -366,10 +365,14 @@ const style = StyleSheet.create({
     title: {
         paddingLeft: variables.contentPadding
     },
+    image: {
+        height: 80,
+        resizeMode: 'contain',
+    },
     modal: {
-    height: 600,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: variables.brandSecondary
-  },
+      height: 600,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: 'white',
+    },
 });

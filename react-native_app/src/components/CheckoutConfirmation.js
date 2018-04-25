@@ -89,13 +89,19 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
     render(): React.Node {
       var discount = 0.00;
       var creditDisplay = "**** "+ this.props.lastFour;
-      var descEntrega = this.props.domicilio ? "Se te entregará a tu dirección." : "Reclamar en persona.";
+      var tieneDireccion = this.props.domicilio || this.props.subscription;
+      var descEntrega = tieneDireccion ? "Se te entregará a tu dirección: \n" : "Reclamar en persona.";
       var descSubscription = this.props.subscription ? "Este mismo pedido se te entregará cada mes." : "No, este es un pedido único.";
       var totalPriceDisplay = "$"+this.props.totalPrice;
       var discountedPrice = "$"+this.props.totalPrice*(1-discount);
+
+      if (this.props.direccionCompleta.length > 1) {
+        descEntrega += this.props.direccionCompleta;
+      }
+
       return  <Modal style={[style.modal]} isOpen={this.props.isCheckoutOpen} animationDuration={400} swipeToClose={false} coverScreen={true} position={"center"} ref={"modal2"}>
               <Container safe={true}>
-                <Header>
+                <Header style={{borderBottomWidth: 1, borderColor: variables.lightGray}}>
                     <Left>
                         <Button transparent onPress={this.dismissModal}>
                             <Icon name="ios-close-outline" style={style.closeIcon} />
@@ -142,7 +148,7 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
 
                 </Content>
                 <Button primary block onPress={this.makePurchase} style={{ height: variables.footerHeight * 1.3 }}>
-                  <Text>COMPRAR</Text>
+                  <Text style={{color: 'white'}}>COMPRAR</Text>
                 </Button>
               </Container>
       </Modal>;

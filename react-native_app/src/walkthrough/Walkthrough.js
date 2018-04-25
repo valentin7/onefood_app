@@ -71,30 +71,16 @@ export default class Walkthrough extends React.Component<ScreenProps<>> {
     render(): React.Node {
         const {renderPagination} = this;
         return <SafeAreaView style={{ flex: 1 }}>
-            <Image source={Images.walkthrough} style={style.img} />
-              <Swiper loop={false}>
+              <Swiper loop={false} activeDotColor={variables.brandPrimary}>
+                <Image source={Images.walkthrough1} style={style.img} />
+                <Image source={Images.walkthrough2} style={style.img} />
+                <Image source={Images.walkthrough3} style={style.img} />
+                <Image source={Images.walkthrough4} style={style.img} />
                 <View style={[Styles.center, Styles.flexGrow]}>
-                    <Phone />
-                    <Text>ONEFOOD es una comida completa diseñada para el lifestyle on the go</Text>
-                </View>
-                <View style={[Styles.center, Styles.flexGrow]}>
-                    <Phone />
-                    <Text>ONEFOOD es nutrimentalmente mejor que una comida promedio</Text>
-                </View>
-                <View style={[Styles.center, Styles.flexGrow]}>
-                    <Phone />
-                    <Text>Contiene el balance ideal de proteínas, lípidos y carbohidratos</Text>
-                </View>
-                <View style={[Styles.center, Styles.flexGrow]}>
-                    <Phone />
-                    <Text>0 lácteos, 0 gluten, 0 proteína animal, 0 ingredientes genéticamente modificados</Text>
-                </View>
-                <View style={[Styles.center, Styles.flexGrow]}>
-                    <Phone />
-                    <Text>Ordena tu onefood atravez de la app: Vive bien, vive a tu ritmo</Text>
-                    <Footer style={{marginTop: 150, borderTopWidth: variables.borderWidth, borderBottomWidth: variables.borderWidth }}>
+                    <Image source={Images.walkthrough5} style={style.img} />
+                    <Footer style={{position: 'absolute', bottom: 42, borderTopWidth: variables.borderWidth, borderBottomWidth: variables.borderWidth }}>
                       <FooterTab>
-                        <Button onPress={this.home}transparent>
+                        <Button onPress={this.home} primary>
                           <Text>LISTO</Text>
                         </Button>
                       </FooterTab>
@@ -123,8 +109,10 @@ const borderWidth = variables.borderWidth * 2;
 const swiperHeight = height;
 const style = StyleSheet.create({
     img: {
+        position: 'absolute',
+        top: -50,
         ...WindowDimensions,
-        ...StyleSheet.absoluteFillObject
+        resizeMode: 'contain',
     },
     next: {
         borderRadius: 0,

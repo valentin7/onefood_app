@@ -2,9 +2,9 @@
 import moment from "moment";
 import autobind from "autobind-decorator";
 import * as React from "react";
-import {View, Image, StyleSheet, Dimensions, InteractionManager, Animated, ScrollView} from "react-native";
+import {View, Image, StyleSheet, Dimensions, InteractionManager, Animated, ScrollView, ActivityIndicator} from "react-native";
 import {H1, Text, Button, Radio, ListItem, Right, Content, Container, CheckBox, Form, Item, Input, Left, Body, Header, Icon, Title} from "native-base";
-import {BaseContainer, Images, Styles} from "../components";
+import {BaseContainer, Images, Styles, Firebase} from "../components";
 import type {ScreenProps} from "../components/Types";
 import Modal from 'react-native-modalbox';
 import variables from "../../native-base-theme/variables/commonColor";
@@ -14,6 +14,12 @@ export default class Address extends React.Component {
     state = {
       subscription: false,
       isOpen: false,
+      linea1: "",
+      linea2: "",
+      ciudad: "",
+      estado: "",
+      codigoPostal: "",
+      loading: false,
     }
 
     componentWillMount() {
@@ -32,6 +38,58 @@ export default class Address extends React.Component {
     }
 
     @autobind
+    setLinea1(text) {
+      this.setState({linea1: text});
+    }
+
+    @autobind
+    setLinea2(text) {
+      this.setState({linea2: text});
+    }
+
+    @autobind
+    setCiudad(text) {
+      this.setState({ciudad: text});
+    }
+
+    @autobind
+    setEstado(text) {
+      this.setState({estado: text});
+    }
+
+    @autobind
+    setCodigoPostal(text) {
+      this.setState({codigoPostal: text});
+    }
+
+    @autobind
+    async saveAddress(): Promise<void> {
+      this.setState({loading: true});
+      var user = Firebase.auth.currentUser;
+
+      var fullAddress = "";
+      fullAddress += this.state.linea1 + "\n";
+      fullAddress += this.state.linea2 + "\n";
+      fullAddress += this.state.ciudad + ", " + this.state.estado + ", " + this.state.codigoPostal;
+
+      var addressInfo = {
+        user_id: user.uid,
+        direccionCompleta: fullAddress,
+      }
+
+      await Firebase.firestore.collection("addresses").doc(user.uid).set(addressInfo)
+      .then(function() {
+          console.log("SAVED ADDRESS written");
+      })
+      .catch(function(error) {
+          console.error("Error adding document: ", error);
+      });
+
+      this.setState({loading: false});
+      this.dismissModal();
+    }
+
+    @autobind
     dismissModal() {
       this.setState({isOpen: false});
     }
@@ -47,31 +105,32 @@ export default class Address extends React.Component {
                           </Button>
                       </Left>
                       <Body>
-                          <Title>ADDRESS</Title>
+                          <Title>DIRECCIÓN</Title>
                       </Body>
                       <Right />
                   </Header>
                   <Content style={style.content}>
                     <Form>
                       <Item>
-                        <Input placeholder="Dirección Línea 1" />
+                        <Input placeholder="Dirección Línea 1" onChangeText={this.setLinea1}/>
                       </Item>
                       <Item>
-                        <Input placeholder="Dirección Línea 2" />
+                        <Input placeholder="Dirección Línea 2"  onChangeText={this.setLinea2}/>
                       </Item>
                       <Item>
-                        <Input placeholder="Ciudad" />
+                        <Input placeholder="Ciudad"  onChangeText={this.setCiudad}/>
                       </Item>
                       <Item>
-                        <Input placeholder="Estado" />
+                        <Input placeholder="Estado"  onChangeText={this.setEstado}/>
                       </Item>
                       <Item last>
-                        <Input placeholder="Código Postal" />
+                        <Input placeholder="Código Postal"  onChangeText={this.setCodigoPostal}/>
                       </Item>
                     </Form>
+                    <ActivityIndicator size="large" animating={this.state.loading}/>
                   </Content>
-                  <Button primary block onPress={this.dismissModal} style={{ height: variables.footerHeight * 1.3 }}>
-                    <Text>LISTO</Text>
+                  <Button block onPress={this.saveAddress} style={{ height: variables.footerHeight * 1.3 }}>
+                    <Text style={{color: 'white'}}>LISTO</Text>
                   </Button>
                 </Container>
         </Modal>;
@@ -90,10 +149,10 @@ const style = StyleSheet.create({
     },
     closeIcon: {
         fontSize: 50,
-        color: variables.listBorderColor
+        color: variables.brandPrimary,
     },
     content: {
-      backgroundColor: variables.brandSecondary,
+      backgroundColor: variables.brandInfo,
     },
     btn: {
       margin: 10,

@@ -52,6 +52,6 @@ const style = StyleSheet.create({
     },
     titleText: {
         fontSize: variables.fontSizeBase * 2 + variables.contentPadding,
-        color: "white"
+        color: variables.brandPrimary
     },
 });

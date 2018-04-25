@@ -29,7 +29,7 @@ export default class Drawer extends React.Component<NavigationProps<>> {
         const {navigation} = this.props;
         return (
             <Container safe={true}>
-                <Header>
+                <Header style={{borderBottomWidth: 1, borderColor: variables.lightGray}}>
                     <Left>
                         <Button transparent onPress={() => this.go("DrawerClose")}>
                             <Icon name="ios-close-outline" style={style.closeIcon} />
@@ -58,7 +58,7 @@ export default class Drawer extends React.Component<NavigationProps<>> {
                         <DrawerItem {...{navigation}} name="Settings" id="Settings" icon="ios-options-outline" />
                     </View>
                 </View>
-                <Button transparent block onPress={this.logout}>
+                <Button style={{backgroundColor: variables.lighterGray}} block onPress={this.logout}>
                     <Text>LOGOUT</Text>
                 </Button>
             </Container>
@@ -83,7 +83,7 @@ class DrawerItem extends React.Component<DrawerItemProps> {
         };
         return <TouchableHighlight {...props} activeOpacity={.5} underlayColor="rgba(255, 255, 255, .2)">
             <View style={[Styles.center, Styles.flexGrow]}>
-                <Icon name={icon} style={{ color: variables.listBorderColor }} />
+                <Icon name={icon} style={{ color: active ? variables.brandPrimary : variables.listBorderColor }} />
                 <Text style={{ marginTop: variables.contentPadding }}>{name}</Text>
                 {
                     active && <View style={style.dot} />
@@ -109,7 +109,7 @@ const style = StyleSheet.create({
     },
     itemContainer: {
         flex: 1,
-        backgroundColor: variables.brandSecondary
+        backgroundColor: 'white',
     },
     row: {
         flex: 1,

@@ -11,6 +11,8 @@ import {withTheme, StyleGuide} from "./theme";
 
 import type {ThemeProps} from "./theme";
 
+import variables from "../../native-base-theme/variables/commonColor";
+
 type QuantityInputProps = ThemeProps & {
     singular: string,
     plural: string,
@@ -38,7 +40,7 @@ class QuantityInput extends React.Component<QuantityInputProps> {
     render(): React.Node {
         const {singular, plural, from, to, theme} = this.props;
         return (
-            <View style={[styles.container, { backgroundColor: "white" }]}>
+            <View style={[styles.container, { backgroundColor: variables.lighterGray}]}>
                 <Button
                     icon="minus"
                     secondary
@@ -72,13 +74,15 @@ const styles = StyleSheet.create({
         marginBottom: 0,
         marginRight: 5,
         borderTopRightRadius: 0,
-        borderBottomRightRadius: 0
+        borderBottomRightRadius: 0,
+        backgroundColor: variables.brandPrimary,
     },
     rightButton: {
         marginBottom: 0,
         marginLeft: 5,
         borderTopLeftRadius: 0,
-        borderBottomLeftRadius: 0
+        borderBottomLeftRadius: 0,
+        backgroundColor: variables.brandPrimary,
     }
 });
 

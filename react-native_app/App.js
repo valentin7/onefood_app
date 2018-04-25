@@ -7,7 +7,7 @@ import {Font, AppLoading} from "expo";
 import {useStrict} from "mobx";
 import {Provider} from "mobx-react"
 
-import {Images, Firebase, MobxStore} from "./src/components";
+import {Images, Firebase, MobxStore, BasePrimaryContainer} from "./src/components";
 import {Login} from "./src/login";
 import {SignUp} from "./src/sign-up";
 import {Walkthrough} from "./src/walkthrough";
@@ -97,8 +97,6 @@ export default class App extends React.Component<{}, AppState> {
             isUserAuthenticated: !!user,
             isFirstLogin: differenceInSeconds < 3,
           });
-
-
 
           console.log("the user metadata is:" , user.metadata);
 

@@ -2,16 +2,17 @@
 import moment from "moment";
 import autobind from "autobind-decorator";
 import * as React from "react";
-import {View, Image, StyleSheet, Dimensions, InteractionManager, Animated, ScrollView, ActivityIndicator} from "react-native";
+import {View, Image, StyleSheet, Dimensions, InteractionManager, Animated, ScrollView, ActivityIndicator, SafeAreaView} from "react-native";
 import {H1, Text, Button, Segment, Radio, List, ListItem, Right, Content, CheckBox, Container, Header, Left, Icon, Title, Body, Footer} from "native-base";
 import ImageSlider from 'react-native-image-slider';
-import {TaskOverview, Images, Styles, PrecioTotal, QuantityInput, Address, Firebase, CreditCard, CheckoutConfirmation} from "../components";
+import {TaskOverview, Images, Styles, PrecioTotal, QuantityInput, Address, Firebase, CreditCard, CheckoutConfirmation, WindowDimensions} from "../components";
 import type {ScreenProps} from "../components/Types";
 import Modal from 'react-native-modalbox';
 import {StackNavigator, StackRouter} from 'react-navigation';
 import {action, observable} from "mobx";
 import { observer, inject } from "mobx-react/native";
 import PedidoModel from "../components/APIStore";
+import Swiper from "react-native-swiper";
 
 import variables from "../../native-base-theme/variables/commonColor";
 
@@ -29,6 +30,7 @@ export default class Comprar extends React.Component {
       credit_last4: "0000",
       isCheckoutOpen: false,
       loading: false,
+      direccionCompleta: "",
     }
 
     componentDidMount() {
@@ -98,9 +100,31 @@ export default class Comprar extends React.Component {
         }
 
         if (this.state.domicilio || this.state.subscription) {
-          this.refs.modal.open();
+
+          // check whether we already have his address saved.
+          const docRef = await Firebase.firestore.collection("addresses").doc(user.uid);
+          var docExists = false;
+          var fullAddress = "";
+          await docRef.get().then(function(doc) {
+              if (doc.exists) {
+                  docExists = true;
+                  console.log("Doc exists!!  data:", doc.data());
+                  fullAddress = doc.data().direccionCompleta;
+              } else {
+                  console.log("No such document!");
+              }
+          }).catch(function(error) {
+              console.log("Error getting document:", error);
+          });
+
           this.setState({loading: false});
-          return;
+
+          if (!docExists) {
+            this.refs.modal.open();
+            return;
+          } else {
+            this.setState({direccionCompleta: fullAddress});
+          }
         }
 
         // const query = await Firebase.firestore.collection("paymentInfos").where("user_id", "==", user.uid).get().catch(function(error) {
@@ -153,6 +177,11 @@ export default class Comprar extends React.Component {
       this.setState({isCheckoutOpen: value});
     }
 
+    @autobind
+    showIngredients() {
+      this.refs.infoNutrimentalModal.open();
+
+    }
     static navigationOptions = {
       title: 'Welcome',
     };
@@ -162,14 +191,14 @@ export default class Comprar extends React.Component {
 
         return <Modal style={[style.modal, style.modal2]} isOpen={this.props.isModalOpen} swipeToClose={false}  backdrop={false} position={"top"} ref={"modal2"}>
             <Container>
-              <Header>
+              <Header style={{backgroundColor: variables.brandInfo, borderBottomWidth: 1, borderColor: variables.lightGray}}>
                 <Left>
                     <Button transparent onPress={this.dismissModal}>
-                        <Icon name="ios-close-outline" style={style.closeIcon} />
+                        <Icon name="ios-close-outline" style={{color: variables.brandPrimary}} />
                     </Button>
                 </Left>
                 <Body>
-                    <Title>COMPRAR</Title>
+                    <Title style={{color: variables.brandPrimary}}>COMPRAR</Title>
                 </Body>
                 <Right />
               </Header>
@@ -182,16 +211,19 @@ export default class Comprar extends React.Component {
                   <Text>Suscripción</Text>
                 </Button>
               </Segment>
-                <Image source={Images.music} style={style.img} />
+                <Image source={Images.botellaNaranja} style={style.img} />
+                <View style={[style.count, style.information]}>
+                  <Text onPress={this.showIngredients} style={{color: variables.brandPrimary}}>Información Nutricional</Text>
+                </View>
                 <ActivityIndicator size="large" animating={this.state.loading}/>
                 <View style={[style.count, Styles.center]}>
-                    <H1 style={style.heading}>CHOCOLATE</H1>
-                    <Text style={Styles.grayText}>SABOR</Text>
+                    <H1 style={style.heading}>CACAO</H1>
+                    <Text>SABOR</Text>
                     <QuantityInput totalPriceChange={this.totalPriceChange} ref="chocolateQuantity" singular="botella" plural="botellas" from={0} to={120} />
                 </View>
                 <View style={[style.count, Styles.center]}>
                     <H1 style={style.heading}>VAINILLA</H1>
-                    <Text style={Styles.grayText}>SABOR</Text>
+                    <Text>SABOR</Text>
                     <QuantityInput totalPriceChange={this.totalPriceChange} ref="vanillaQuantity" singular="botella" plural="botellas" from={0} to={120} />
                 </View>
                 {
@@ -199,17 +231,17 @@ export default class Comprar extends React.Component {
                     <View/>
                   ) :
                   (
-                    <List horizontal style={{flex: 1, flexDirection: 'row', justifyContent: 'space-around', marginTop: 20, marginBottom: 5, alignItems: 'flex-start'}}>
+                    <List horizontal style={[style.bottomSeparator, {flex: 1, flexDirection: 'row', justifyContent: 'space-around', marginTop: 20, paddingBottom: 20, alignItems: 'flex-start'}]}>
                       <ListItem onPress={this.toggleDomicilioYes} style={{borderBottomWidth: 0}}>
                         <Text>Entrega a Domicilio</Text>
                         <Right style={{marginLeft: 20}}>
-                          <CheckBox onPress={this.toggleDomicilioYes} checked={this.state.domicilio}/>
+                          <CheckBox style={{backgroundColor: this.state.domicilio ? variables.brandPrimary : variables.lightGray }} onPress={this.toggleDomicilioYes} checked={this.state.domicilio}/>
                         </Right>
                       </ListItem>
                       <ListItem onPress={this.toggleDomicilioNo}  style={{borderBottomWidth: 0}}>
                         <Text>Recoger Producto</Text>
                         <Right style={{marginLeft: 20}}>
-                          <CheckBox onPress={this.toggleDomicilioNo} checked={!this.state.domicilio} />
+                          <CheckBox style={{backgroundColor: this.state.domicilio ? variables.lightGray : variables.brandPrimary }} onPress={this.toggleDomicilioNo} checked={!this.state.domicilio} />
                         </Right>
                       </ListItem>
                     </List>
@@ -217,14 +249,15 @@ export default class Comprar extends React.Component {
                 }
 
               </Content>
-              <Button block onPress={this.continuar} style={{ height: variables.footerHeight * 1.3 , backgroundColor: variables.brandSuccess}}>
-                <Text>CONTINUAR</Text>
-                <Text>  (Total: ${this.state.totalPrice})</Text>
+              <Button block onPress={this.continuar} style={{ height: variables.footerHeight * 1.3 }}>
+                <Text style={{color: 'white'}}>CONTINUAR</Text>
+                <Text style={{color: 'white'}}>  (Total: ${this.state.totalPrice})</Text>
               </Button>
             </Container>
+            <InformacionNutrimental ref={"infoNutrimentalModal"} />
             <Address ref={"modal"}></Address>
             <CreditCard ref={"creditCardModal"}></CreditCard>
-            <CheckoutConfirmation isCheckoutOpen={this.state.isCheckoutOpen} onOpenChange={this.onConfirmationOpenChange} madeFinalPurchase={this.madeFinalPurchase} domicilio={this.state.domicilio} subscription={this.state.subscription} totalPrice={this.state.totalPrice} vanillaQuantity={this.state.vanillaQuantity} chocolateQuantity={this.state.chocolateQuantity} lastFour={this.state.credit_last4} ref={"checkoutModal"}></CheckoutConfirmation>
+            <CheckoutConfirmation isCheckoutOpen={this.state.isCheckoutOpen} onOpenChange={this.onConfirmationOpenChange} madeFinalPurchase={this.madeFinalPurchase} domicilio={this.state.domicilio} subscription={this.state.subscription} totalPrice={this.state.totalPrice} vanillaQuantity={this.state.vanillaQuantity} chocolateQuantity={this.state.chocolateQuantity} lastFour={this.state.credit_last4} direccionCompleta={this.state.direccionCompleta} ref={"checkoutModal"}></CheckoutConfirmation>
         </Modal>;
     }
 }
@@ -242,6 +275,43 @@ class DetallesScreen extends React.Component {
       />
     );
   }
+}
+
+class InformacionNutrimental extends React.Component {
+    state = {
+      detailModalIsOpen: false,
+    }
+
+    open() {
+      this.setState({detailModalIsOpen: true});
+    }
+
+    @autobind
+    setModalStateClosed() {
+      this.setState({detailModalIsOpen: false});
+    }
+
+    @autobind
+    dismissModal() {
+      this.setState({detailModalIsOpen: false});
+      //this.props.onModalClose();
+    }
+
+    render(): React.Node {
+      const {pedidoInfo, pedidoValido} = this.props;
+
+      return <Modal style={style.modal} swipeToClose={false} onClosed={this.setModalStateClosed} isOpen={this.state.detailModalIsOpen} backdrop={true} position={"bottom"} coverScreen={true} ref={"modal"}>
+              <SafeAreaView style={{ flex: 1 }}>
+              <Button transparent onPress={this.dismissModal}>
+                  <Icon name="ios-close-outline" style={style.closeIcon} />
+              </Button>
+                <Swiper loop={false} activeDotColor={variables.brandPrimary}>
+                  <Image source={Images.ingredientes} style={style.infoImg} />
+                  <Image source={Images.tablaNutricional} style={style.infoImg} />
+                </Swiper>
+              </SafeAreaView>
+        </Modal>;
+    }
 }
 
 const ComprarRouter = StackRouter({
@@ -262,14 +332,35 @@ const {width} = Dimensions.get("window");
 const style = StyleSheet.create({
     img: {
         width,
-        height: width * 500 / 750,
+        height: width * 600 / 750,
         resizeMode: "cover",
         marginBottom: 7,
+    },
+    infoImg: {
+      flex: 1,
+      justifyContent: 'center',
+      width: width,
+      resizeMode: 'contain',
+      top: -20,
+    },
+    bottomSeparator: {
+      borderBottomWidth: variables.borderWidth,
+      borderColor: variables.listBorderColor,
     },
     container: {
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
+    },
+    information: {
+       flexDirection: 'row',
+       flex: 1,
+       justifyContent: 'space-around',
+    },
+    closeIcon: {
+        fontSize: 50,
+        marginLeft: 20,
+        color: variables.brandPrimary
     },
     row: {
         flex: 1,
@@ -297,12 +388,17 @@ const style = StyleSheet.create({
         borderRightWidth: variables.borderWidth,
         borderColor: variables.listBorderColor
     },
+    checkBox: {
+      backgroundColor: variables.lightGray,
+    },
     count: {
-        flex: .5,
-        padding: variables.contentPadding * 2
+        flex: 1,
+        padding: variables.contentPadding * 2,
+        borderBottomWidth: variables.borderWidth,
+        borderColor: variables.listBorderColor,
     },
     heading: {
-        color: "white"
+        color: variables.brandPrimary
     },
     modal: {
     justifyContent: 'center',

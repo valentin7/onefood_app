@@ -50,8 +50,8 @@ export default class Settings extends React.Component<ScreenProps<>> {
               <Text>GENERAL</Text>
           </View>
           <View>
-              <Field label="Name" defaultValue={user.displayName}/>
-              <Field label="Email" defaultValue={user.email} />
+              <Field style={style.field} label="Name" defaultValue={user.displayName}/>
+              <Field style={style.field} label="Email" defaultValue={user.email} />
           </View>
 
           <View style={style.section}>
@@ -70,6 +70,9 @@ const style = StyleSheet.create({
     img: {
         width,
         height: width * 500 / 750
+    },
+    field: {
+      color: variables.darkGray,
     },
     add: {
         backgroundColor: "white",

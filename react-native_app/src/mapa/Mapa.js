@@ -44,10 +44,10 @@ export default class Mapa extends React.Component<ScreenProps<>> {
     }
 
     componentDidMount() {
-      this.setState({ loading: false });
-      // JankWorkaround.runAfterInteractions(() => {
-      //   this.setState({ loading: false });
-      // });
+      //this.setState({ loading: false });
+      JankWorkaround.runAfterInteractions(() => {
+        this.setState({ loading: false });
+      });
     }
 
     // shouldComponentUpdate() {

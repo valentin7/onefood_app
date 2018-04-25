@@ -47,10 +47,10 @@ const style = StyleSheet.create({
         padding: variables.contentPadding * 2
     },
     link: {
-      color: "white",
+      color: variables.darkGray
     },
     icon: {
-      color: variables.brandSecondary,
+      color: variables.brandPrimary,
       marginRight: 5,
     }
 

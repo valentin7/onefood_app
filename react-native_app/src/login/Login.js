@@ -217,11 +217,11 @@ export default class Login extends React.Component<ScreenProps<>, LoginState> {
                             >
                             <View style={styles.logo}>
                                 <View>
-                                    <Mark />
+                                    <Image source={Images.oneFoodLogo} style={styles.image} />
                                     <H1 style={styles.title}>ONEFOOD</H1>
                                 </View>
                             </View>
-                            <ActivityIndicator size="large" animating={this.state.loading}/>
+                            <ActivityIndicator size="small" animating={this.state.loading}/>
                             <View>
                               <Field
                                   label="Nombre"
@@ -283,7 +283,7 @@ export default class Login extends React.Component<ScreenProps<>, LoginState> {
                                     </View>
                                     <View>
                                         <Button transparent full onPress={this.signUp}>
-                                            <Small style={{color: "white"}}>{"Ya tienes cuenta? Log In"}</Small>
+                                            <Small style={{color: variables.lightGray}}>{"Ya tienes cuenta? Log In"}</Small>
                                         </Button>
                                     </View>
                                 </View>
@@ -305,15 +305,17 @@ const styles = StyleSheet.create({
         flexGrow: 1
     },
     image: {
-        ...StyleSheet.absoluteFillObject,
-        height,
-        width
+        height: 120,
+        resizeMode: 'contain',
     },
     content: {
         flexGrow: 1,
-        top: -25
+        top: -25,
     },
     logo: {
+        flex: 1,
+        justifyContent: "center",
+        top: 40,
         marginVertical: variables.contentPadding * 2,
         alignItems: "center"
     },

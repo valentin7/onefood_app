@@ -13,6 +13,15 @@ const black = "rgb(29, 29, 38)";
 const darkGray = "rgb(50, 50, 50)";
 const gray =  "rgba(255, 255, 255, .5)";
 const lightGray = "rgba(200, 200, 200, 1)";
+const lighterGray = "rgba(240, 240, 240, 1)";
+const mediumGray = "rgba(125, 125, 125, 1)";
+const brandPrimary = '#7CBD31'; //'rgba(142, 188, 37, 1)';
+const brandInfo = 'rgba(253, 253, 253, 1)';
+const brandSecondary = 'rgba(0, 149, 53, 1)';
+const brandSuccess = '#5cb85c';
+const brandDanger = '#d9534f';
+const brandWarning = '#f0ad4e';
+const brandSidebar = '#252932';
 
 export default {
   platformStyle,
@@ -42,17 +51,10 @@ export default {
   CheckboxIconMarginTop: undefined,
   CheckboxFontSize: (23 / 0.9),
   DefaultFontSize: 17,
-  checkboxBgColor: '#039BE5',
+  checkboxBgColor: lightGray,
   checkboxSize: 20,
   checkboxTickColor: 'transparent',
 
-  // Segment
-  segmentBackgroundColor: '#3F51B5',
-  segmentActiveBackgroundColor: '#fff',
-  segmentTextColor: '#fff',
-  segmentActiveTextColor: '#3F51B5',
-  segmentBorderColor: '#fff',
-  segmentBorderColorMain: '#3F51B5',
 
     // New Variable
   get defaultTextColor() {
@@ -116,20 +118,28 @@ export default {
     // Card
   cardDefaultBg: '#fff',
 
+  // Segment
+  segmentBackgroundColor: 'rgba(142, 188, 37, 1)',
+  segmentActiveBackgroundColor: 'rgba(142, 188, 37, .1)',
+  segmentTextColor: mediumGray,
+  segmentActiveTextColor: 'rgba(142, 188, 37, 1)',
+  segmentBorderColor: mediumGray,
+  segmentBorderColorMain: 'rgba(142, 188, 37, 1)',
 
   // Color
-  brandPrimary: 'rgba(142, 188, 37, 1)', //'', //',// '#5cb85c',
-  brandInfo:   '#1A535C',// 'rgba(253, 253, 253, 1)', // '#022F40',
-  brandSecondary: 'rgba(0, 149, 53, 1)', // '#03B5AA', // '', //'#03B5AA',
-  brandSuccess: '#5cb85c',
-  brandDanger: '#d9534f',
-  brandWarning: '#f0ad4e',
-  brandSidebar: '#252932',
+  brandPrimary,
+  brandInfo,
+  brandSecondary,
+  brandSuccess,
+  brandDanger,
+  brandWarning,
+  brandSidebar,
   white,
   black,
   darkGray,
   gray,
   lightGray,
+  lighterGray,
 
     // Font
   fontFamily: 'Avenir-Book',
@@ -166,10 +176,9 @@ export default {
   topTabBarBorderColor: '#fff',
   get topTabBarActiveBorderColor() { return "white"; },
 
-
     // Header
-  toolbarBtnColor: "white",
-  toolbarDefaultBg: '#022F40',
+  toolbarBtnColor: brandPrimary,
+  toolbarDefaultBg: "white",
   toolbarHeight: 64,
   toolbarIconSize: 20,
   toolbarSearchIconSize: 20,
@@ -177,8 +186,8 @@ export default {
   searchBarHeight: 30,
   toolbarInverseBg: '#222',
   toolbarTextColor: "white",
-  iosStatusbar: 'light-content',
-  toolbarDefaultBorder: '#2874F0',
+  iosStatusbar: 'dark-content',
+  //toolbarDefaultBorder: '#2874F0',
   get statusBarColor() {
     return color(this.toolbarDefaultBg).darken(0.2).hex();
   },
@@ -223,11 +232,12 @@ export default {
 
 
     // List
-  listBorderColor: 'rgba(255, 255, 255, .5)',
+  listBorderColor: 'rgba(150, 150, 150, .5)',
   listDividerBg: lightGray,
   listItemHeight: 45,
   listBtnUnderlayColor: '#DDD',
-  listSeparatorBg: 'rgba(255, 255, 255, .2)',
+  listSeparatorBg: 'rgba(200, 200, 200, .2)',
+
 
     // Card
   cardBorderColor: '#ccc',
@@ -246,7 +256,7 @@ export default {
 
     // Radio Button
   radioBtnSize: 25,
-  radioSelectedColorAndroid: '#5067FF',
+  radioSelectedColorAndroid: brandPrimary,
 
     // New Variable
   radioBtnLineHeight: 29,
@@ -282,7 +292,7 @@ export default {
   subtitleColor: '#FFF',
 
     // New Variable
-  titleFontColor: "white",
+  titleFontColor: brandPrimary,//"white",
 
 
     // Other

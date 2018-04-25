@@ -6,7 +6,7 @@
         "icon": "./app.png",
         "primaryColor": "#2660A4",
         "splash": {
-            "image": "./splash.png",
+            "image": "./oneSplash.png",
             "backgroundColor": "#2660A4",
             "resizeMode": "cover"
         },

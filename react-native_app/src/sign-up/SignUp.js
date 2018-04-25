@@ -95,14 +95,14 @@ export default class SignUp extends React.Component<ScreenProps<>> {
                     </Body>
                     <Right />
                 </Header>
-                <ScrollView style={Styles.flexGrow}>
-                <KeyboardAvoidingView behavior="position">
-                    <View style={style.logo}>
-                        <View>
-                            <Mark />
-                            <H1 style={style.title}>ONEFOOD</H1>
-                        </View>
+                <View style={style.logo}>
+                    <View>
+                    <Image source={Images.oneFoodLogo} style={style.image} />
+                        <H1 style={style.title}>ONEFOOD</H1>
                     </View>
+                </View>
+                <ScrollView style={Styles.flexGrow}>
+                <KeyboardAvoidingView behavior="position" keyboardVerticalOffset={30}>
                     <View style={Styles.form}>
                         <Field
                             label="Email"
@@ -141,6 +141,10 @@ const style = StyleSheet.create({
         width: WindowDimensions.width,
         height: WindowDimensions.height - Constants.statusBarHeight,
         top: Constants.statusBarHeight
+    },
+    image: {
+        height: 120,
+        resizeMode: 'contain',
     },
     row: {
         flexDirection: "row"

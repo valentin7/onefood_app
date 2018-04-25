@@ -2,8 +2,8 @@
 import moment from "moment";
 import * as React from "react";
 import autobind from "autobind-decorator";
-import {View, Image, StyleSheet, Dimensions, Alert} from "react-native";
-import {H1, Text, Form, Item, Button, Input} from "native-base";
+import {View, Image, StyleSheet, Dimensions, Alert, TouchableOpacity, ActionSheetIOS} from "react-native";
+import {H1, Text, Form, Item, Button, Input, Icon} from "native-base";
 
 import {BaseContainer, TaskOverview, Images, Firebase} from "../components";
 import type {ScreenProps} from "../components/Types";
@@ -17,15 +17,26 @@ export default class Compartir extends React.Component<ScreenProps<>> {
       codigo: ""
     }
 
+    @autobind
+    shareCode() {
+      console.log("SHARING CODEE");
+      ActionSheetIOS.showShareActionSheetWithOptions({message: "ONE-33452"}, (failure) => {
+        console.log("failure ", failure);
+      }, (success) => {
+        console.log("success ", success);
+      });
+    }
+
     render(): React.Node {
         const today = moment();
         return <BaseContainer title="Compartir" navigation={this.props.navigation} scrollable>
             <View style={style.row}>
               <Text>Comparte tu código personal y te daremos un OneFood gratis a ti y a la otra persona con la que lo compartiste.</Text>
             </View>
-            <View style={style.row}>
-              <Text style={{fontWeight: "bold"}} selectable={true}>ONE-33452</Text>
-            </View>
+            <TouchableOpacity style={style.row} onPress={this.shareCode}>
+              <Text style={{fontWeight: "bold", color: variables.brandPrimary}} selectable={true}>ONE-33452</Text>
+              <Icon name="ios-share-alt" style={style.icon} />
+            </TouchableOpacity>
 
         </BaseContainer>;
     }
@@ -45,6 +56,9 @@ const style = StyleSheet.create({
     },
     link: {
       fontSize: 20
+    },
+    icon: {
+      color: variables.brandPrimary,
     }
 
 });
