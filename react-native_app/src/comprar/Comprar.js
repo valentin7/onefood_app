@@ -292,7 +292,7 @@ class InformacionNutrimental extends React.Component {
               <Button transparent onPress={this.dismissModal}>
                   <Icon name="ios-close-outline" style={style.closeIcon} />
               </Button>
-                <Swiper loop={false} activeDotColor={variables.brandPrimary}>
+                <Swiper loop={false} showsButtons={true} nextButton={<Text style={{color: variables.brandPrimary, fontSize: 58}}>›</Text>} prevButton={<Text style={{color: variables.brandPrimary, fontSize: 58}}>‹</Text>} activeDotColor={variables.brandPrimary}>
                   <Image source={Images.ingredientes} style={style.infoImg} />
                   <Image source={Images.tablaNutricional} style={style.infoImg} />
                 </Swiper>
@@ -315,7 +315,7 @@ const ComprarRouter = StackRouter({
      Images.travel
  ]}/>*/
 
-const {width} = Dimensions.get("window");
+const {width, windowHeight} = Dimensions.get("window");
 const style = StyleSheet.create({
     img: {
         width,
@@ -325,8 +325,10 @@ const style = StyleSheet.create({
     },
     infoImg: {
       flex: 1,
+      width: width - 60,
+      left: 30,
       justifyContent: 'center',
-      width: width,
+      height: windowHeight - 60,
       resizeMode: 'contain',
       top: -20,
     },

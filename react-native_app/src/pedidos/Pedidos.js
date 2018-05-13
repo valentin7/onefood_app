@@ -1,7 +1,7 @@
 // @flow
 import autobind from "autobind-decorator";
 import * as React from "react";
-import {StyleSheet, View, Text, TouchableOpacity, Dimensions, RefreshControl, ScrollView, Image} from "react-native";
+import {StyleSheet, View, Text, TouchableOpacity, Dimensions, RefreshControl, ScrollView, Image, ImageBackground} from "react-native";
 import {Button, Icon, Card, CardItem, Left, Right, H3, Separator, ListItem, List} from "native-base";
 import {observable, action} from "mobx";
 import { observer, inject } from "mobx-react/native";
@@ -122,17 +122,17 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
           welcomeMessage = "Bienvenid@ " + this.state.usersName + ".";
         }
 
-
-
-        return <BaseContainer ref="baseComponent" title="Pedidos" hasRefresh={true} refresh={this.refreshPedidos} navigation={this.props.navigation} >
-                  <View>
+        return <ImageBackground source={Images.oneFull} style={style.fullScreenImage}>
+                <BaseContainer ref="baseComponent" title="Pedidos" hasRefresh={true} refresh={this.refreshPedidos} navigation={this.props.navigation} >
+                  <View style={style.transparent}>
                   {this.state.loading ? (
                     <Loading />
                   ) : (
-                    <View>
+                    <View style={style.transparent}>
                     <Button block style={style.compraButton} onPress={this.comprar}>
                       <H3 style={{color: 'white'}}>Nueva Compra</H3>
                     </Button>
+
                     <ScrollView refreshControl={
                         <RefreshControl
                           refreshing={this.state.refreshing}
@@ -152,7 +152,7 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
                     ) : (<View/>)}
 
                     {this.props.store.pedidos.map((item, key) =>  (
-                      <ListItem key={key} style={{height: 70}} onPress={() => this.open(item)}>
+                      <ListItem key={key} style={{height: 70, backgroundColor: "white"}} onPress={() => this.open(item)}>
                         <Text> {item.cantidades.reduce(function(acc, val) {return acc + val})} ONEFOODS</Text>
                       </ListItem>))
                     }
@@ -164,16 +164,19 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
                     ) : (<View/>)}
 
                     {this.state.pedidosHistorial.map((item, key) =>  (
-                      <ListItem key={key} style={{height: 70}} onPress={() => this.open(item)}>
+                      <ListItem key={key} style={{height: 70, backgroundColor: "white"}} onPress={() => this.open(item)}>
                         <Text style={Styles.grayText}> {item.cantidades[0] + item.cantidades[1]} ONEFOODS</Text>
                       </ListItem>))
                     }
                    </ScrollView>
+
                    </View>
                   )}
                   </View>
+
                   <PedidoDetalle ref={"pedidoModal"} pedidoInfo={this.state.selectedPedido} pedido_id={this.state.selectedPedidoId} fecha={this.state.selectedDate} cantidades={this.state.selectedPQuantities} precioTotal={this.state.selectedTotalPrice} user_id="rigo" al_mes="false" direccionAEntregar="Isla Dorada"/>
-        </BaseContainer>;
+        </BaseContainer>
+        </ImageBackground>;
     }
 }
 
@@ -322,8 +325,11 @@ const style = StyleSheet.create({
         flexDirection: "row",
         padding: variables.contentPadding
     },
+    transparent: {
+      backgroundColor: "rgba(0, 0, 0, 0)"
+    },
     divider: {
-      backgroundColor: variables.listSeparatorBg,
+      backgroundColor: variables.listSeparatorOBg,
       height: 40,
     },
     welcomeMessage: {
@@ -369,4 +375,10 @@ const style = StyleSheet.create({
       alignItems: 'center',
       backgroundColor: 'white',
     },
+    fullScreenImage: {
+    flex: 1,
+    // remove width and height to override fixed static size
+    width: null,
+    height: null,
+  },
 });

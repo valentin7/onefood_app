@@ -1,7 +1,7 @@
 // @flow
 import autobind from "autobind-decorator";
 import * as React from "react";
-import {View, StyleSheet, Image, SafeAreaView} from "react-native";
+import {View, StyleSheet, Image, SafeAreaView, Dimensions} from "react-native";
 import {Button, Footer, FooterTab, Text, Icon} from "native-base";
 import Swiper from "react-native-swiper";
 
@@ -40,47 +40,18 @@ export default class Walkthrough extends React.Component<ScreenProps<>> {
       //this.swiper.scrollBy(1);
     }
 
-    @autobind
-    renderPagination(): React.Node {
-        return (
-            <View>
-                <Footer style={{ borderTopWidth: variables.borderWidth, borderBottomWidth: variables.borderWidth }}>
-                        {
-                          this.state.pageCount == 2 ?
-                        (<FooterTab>
-                          <Button onPress={this.home}transparent>
-                            <Text>LISTO</Text>
-                        </Button>
-                        </FooterTab>) :
-                        (
-                          <FooterTab>
-                            <Button onPress={this.home}transparent>
-                                <Text>LISTO</Text>
-                            </Button>
-                            <Button transparent onPress={this.siguientePressed} style={style.next}>
-                                <Text>SIGUIENTE</Text>
-                            </Button>
-                          </FooterTab>
-                        )
-                        }
-                </Footer>
-            </View>
-        );
-    }
-
     render(): React.Node {
-        const {renderPagination} = this;
         return <SafeAreaView style={{ flex: 1 }}>
-              <Swiper loop={false} activeDotColor={variables.brandPrimary}>
-                <Image source={Images.walkthrough1} style={style.img} />
-                <Image source={Images.walkthrough2} style={style.img} />
-                <Image source={Images.walkthrough3} style={style.img} />
-                <Image source={Images.walkthrough4} style={style.img} />
+              <Swiper loop={false} showsButtons={true} nextButton={<Text style={{color: variables.brandPrimary, fontSize: 58}}>›</Text>} prevButton={<Text style={{color: variables.brandPrimary, fontSize: 58}}>‹</Text>} activeDotColor={variables.brandPrimary}>
+                <Image source={Images.walkthrough1} style={style.infoImg} />
+                <Image source={Images.walkthrough2} style={style.infoImg} />
+                <Image source={Images.walkthrough3} style={style.infoImg} />
+                <Image source={Images.walkthrough4} style={style.infoImg} />
                 <View style={[Styles.center, Styles.flexGrow]}>
-                    <Image source={Images.walkthrough5} style={style.img} />
+                    <Image source={Images.walkthrough5} style={style.infoImg2} />
                     <Footer style={{position: 'absolute', bottom: 42, borderTopWidth: variables.borderWidth, borderBottomWidth: variables.borderWidth }}>
                       <FooterTab>
-                        <Button onPress={this.home} primary>
+                        <Button onPress={this.home} primary style={style.listoButton}>
                           <Text>LISTO</Text>
                         </Button>
                       </FooterTab>
@@ -105,6 +76,7 @@ class Phone extends React.Component<{}> {
 }
 
 const {height} = WindowDimensions;
+const {width, windowHeight} = Dimensions.get("window");
 const borderWidth = variables.borderWidth * 2;
 const swiperHeight = height;
 const style = StyleSheet.create({
@@ -114,10 +86,32 @@ const style = StyleSheet.create({
         ...WindowDimensions,
         resizeMode: 'contain',
     },
+    infoImg: {
+      flex: 1,
+      width: width - 64,
+      left: 32,
+      justifyContent: 'center',
+      height: windowHeight - 60,
+      resizeMode: 'contain',
+      top: -20,
+    },
+    infoImg2: {
+      flex: 1,
+      width: width - 64,
+      left: 0,
+      justifyContent: 'center',
+      height: windowHeight - 60,
+      resizeMode: 'contain',
+      top: -20,
+    },
     next: {
         borderRadius: 0,
         borderLeftWidth: variables.borderWidth,
         borderColor: "white"
+    },
+    listoButton : {
+      borderRadius: 5,
+      width: width - 30
     },
     phone: {
         borderColor: "white",

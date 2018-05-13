@@ -237,6 +237,7 @@ export default {
   listItemHeight: 45,
   listBtnUnderlayColor: '#DDD',
   listSeparatorBg: 'rgba(200, 200, 200, .2)',
+  listSeparatorOBg: 'rgba(240, 240, 240, 1)',
 
 
     // Card
