@@ -10,6 +10,7 @@ import Text from "./Text";
 import {withTheme, StyleGuide} from "./theme";
 
 import type {ThemeProps} from "./theme";
+import * as Constants from '../Constants';
 
 import variables from "../../native-base-theme/variables/commonColor";
 
@@ -28,13 +29,13 @@ class QuantityInput extends React.Component<QuantityInputProps> {
 
     @autobind @action increment() {
       this.quantity += this.incrementAmount;
-      this.props.totalPriceChange(this.incrementAmount * 20);
+      this.props.totalPriceChange(this.incrementAmount * Constants.PRECIO_BOTELLA);
     //  this.props.totalPrice += this.quantity * 20;
     }
 
     @autobind @action decrement() {
       this.quantity -= this.incrementAmount;
-      this.props.totalPriceChange(- this.incrementAmount * 20);
+      this.props.totalPriceChange(- this.incrementAmount * Constants.PRECIO_BOTELLA);
     }
 
     render(): React.Node {

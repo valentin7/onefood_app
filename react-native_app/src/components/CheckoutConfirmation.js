@@ -51,8 +51,8 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
           pedido_id: pedidoId,
           reclamado: false,
           fecha: date,
-          cantidades: [this.props.chocolateQuantity, this.props.vanillaQuantity],
-          sabores: ["chocolate", "vainilla"],
+          cantidades: [this.props.cocoaQuantity],
+          sabores: ["COCOA"],
           precio_total: this.props.totalPrice,
           user_id: user.uid,
           subscription: this.props.subscription,
@@ -116,12 +116,8 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
                   <View style={style.section}>
                       <Text>RESUMEN</Text>
                       <PedidoItem
-                          numero={this.props.chocolateQuantity.toString()}
-                          title="CHOCOLATE"
-                      />
-                      <PedidoItem
-                          numero={this.props.vanillaQuantity.toString()}
-                          title="VAINILLA"
+                          numero={this.props.cocoaQuantity.toString()}
+                          title="COCOA"
                       />
                       <PedidoItem
                           numero={discountedPrice}

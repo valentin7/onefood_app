@@ -149,16 +149,16 @@ class PedidoInfo extends React.Component<PedidoProps> {
                   numero={pedidoInfo.cantidades[0]}
                   title="CHOCOLATE"
               />
-              <PedidoItem
-                  numero={pedidoInfo.cantidades[1]}
-                  title="VAINILLA"
-              />
               <View style={{marginTop: 20}}>
                 <H3>{pedidoInfo.fecha}</H3>
               </View>
             </Container>) :
-            (
+            (<Container style={style.container}>
+                <Button transparent onPress={this.dismissModal}>
+                    <Icon name="ios-close-outline" style={style.closeIcon} />
+                </Button>
               <Text>Pedido Inválido</Text>
+              </Container>
             )
           }
         </Modal>;
@@ -177,7 +177,7 @@ const style = StyleSheet.create({
   closeIcon: {
       fontSize: 50,
       marginLeft: 20,
-      color: variables.listBorderColor
+      color: variables.brandPrimary
   },
   closeButton: {
     marginTop: 60,
@@ -186,6 +186,6 @@ const style = StyleSheet.create({
     height: height,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: variables.brandSecondary
+    backgroundColor: variables.brandInfo
   },
 });

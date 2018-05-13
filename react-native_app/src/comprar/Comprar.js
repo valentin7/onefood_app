@@ -13,6 +13,8 @@ import {action, observable} from "mobx";
 import { observer, inject } from "mobx-react/native";
 import PedidoModel from "../components/APIStore";
 import Swiper from "react-native-swiper";
+import * as Constants from '../Constants';
+
 
 import variables from "../../native-base-theme/variables/commonColor";
 
@@ -24,9 +26,8 @@ export default class Comprar extends React.Component {
       subscription: false,
       domicilio: false,
       isOpen: false,
-      totalPrice: 40,
-      vanillaQuantity: 1,
-      chocolateQuantity: 1,
+      totalPrice: Constants.PRECIO_BOTELLA,
+      cocoaQuantity: 1,
       credit_last4: "0000",
       isCheckoutOpen: false,
       loading: false,
@@ -34,12 +35,12 @@ export default class Comprar extends React.Component {
     }
 
     componentDidMount() {
-      this.setState({totalPrice: 40});
+      this.setState({totalPrice: Constants.PRECIO_BOTELLA});
     }
 
     @autobind @action
     open() {
-      this.setState({totalPrice: 40});
+      this.setState({totalPrice: Constants.PRECIO_BOTELLA});
       this.setState({isOpen: true});
     }
 
@@ -56,30 +57,21 @@ export default class Comprar extends React.Component {
     @autobind @action
     toggleDomicilioYes() {
       var currentPrice = this.state.totalPrice;
-      if (this.refs.chocolateQuantity.quantity != 0) {
-        var prevChocolate = this.refs.chocolateQuantity.quantity;
-        var chocolateDifference = (6 - prevChocolate)*20;
-        this.refs.chocolateQuantity.quantity = 6;
-        currentPrice = this.state.totalPrice + chocolateDifference;
+      if (this.refs.cocoaQuantity.quantity != 0) {
+        var prevcocoa = this.refs.cocoaQuantity.quantity;
+        var cocoaDifference = (6 - prevcocoa)*Constants.PRECIO_BOTELLA;
+        this.refs.cocoaQuantity.quantity = 6;
+        currentPrice = this.state.totalPrice + cocoaDifference;
         this.setState({totalPrice: currentPrice});
       }
-      this.refs.chocolateQuantity.incrementAmount = 6;
-
-      if (this.refs.vanillaQuantity.quantity != 0) {
-        var prevVanilla= this.refs.vanillaQuantity.quantity;
-        var vanillaDifference = (6 - prevVanilla)*20;
-        this.refs.vanillaQuantity.quantity = 6;
-        this.setState({totalPrice: currentPrice + vanillaDifference});
-      }
-      this.refs.vanillaQuantity.incrementAmount = 6;
+      this.refs.cocoaQuantity.incrementAmount = 6;
 
       this.setState({domicilio: true});
     }
 
     @autobind @action
     toggleDomicilioNo() {
-      this.refs.chocolateQuantity.incrementAmount = 1;
-      this.refs.vanillaQuantity.incrementAmount = 1;
+      this.refs.cocoaQuantity.incrementAmount = 1;
       this.setState({domicilio: false});
     }
 
@@ -164,7 +156,7 @@ export default class Comprar extends React.Component {
 
     @autobind
     totalPriceChange(change) {
-      this.setState({totalPrice: this.state.totalPrice + change, vanillaQuantity: this.refs.vanillaQuantity.quantity, chocolateQuantity: this.refs.chocolateQuantity.quantity});
+      this.setState({totalPrice: this.state.totalPrice + change, cocoaQuantity: this.refs.cocoaQuantity.quantity});
     }
 
     @autobind
@@ -217,14 +209,9 @@ export default class Comprar extends React.Component {
                 </View>
                 <ActivityIndicator size="large" animating={this.state.loading}/>
                 <View style={[style.count, Styles.center]}>
-                    <H1 style={style.heading}>CACAO</H1>
+                    <H1 style={style.heading}>COCOA</H1>
                     <Text>SABOR</Text>
-                    <QuantityInput totalPriceChange={this.totalPriceChange} ref="chocolateQuantity" singular="botella" plural="botellas" from={0} to={120} />
-                </View>
-                <View style={[style.count, Styles.center]}>
-                    <H1 style={style.heading}>VAINILLA</H1>
-                    <Text>SABOR</Text>
-                    <QuantityInput totalPriceChange={this.totalPriceChange} ref="vanillaQuantity" singular="botella" plural="botellas" from={0} to={120} />
+                    <QuantityInput totalPriceChange={this.totalPriceChange} ref="cocoaQuantity" singular="botella" plural="botellas" from={0} to={24*Constants.PRECIO_BOTELLA} />
                 </View>
                 {
                   this.state.subscription ? (
@@ -249,7 +236,7 @@ export default class Comprar extends React.Component {
                 }
 
               </Content>
-              <Button block onPress={this.continuar} style={{ height: variables.footerHeight * 1.3 }}>
+              <Button block onPress={this.continuar} disabled={this.state.totalPrice == 0} style={{ height: variables.footerHeight * 1.3 }}>
                 <Text style={{color: 'white'}}>CONTINUAR</Text>
                 <Text style={{color: 'white'}}>  (Total: ${this.state.totalPrice})</Text>
               </Button>
@@ -257,7 +244,7 @@ export default class Comprar extends React.Component {
             <InformacionNutrimental ref={"infoNutrimentalModal"} />
             <Address ref={"modal"}></Address>
             <CreditCard ref={"creditCardModal"}></CreditCard>
-            <CheckoutConfirmation isCheckoutOpen={this.state.isCheckoutOpen} onOpenChange={this.onConfirmationOpenChange} madeFinalPurchase={this.madeFinalPurchase} domicilio={this.state.domicilio} subscription={this.state.subscription} totalPrice={this.state.totalPrice} vanillaQuantity={this.state.vanillaQuantity} chocolateQuantity={this.state.chocolateQuantity} lastFour={this.state.credit_last4} direccionCompleta={this.state.direccionCompleta} ref={"checkoutModal"}></CheckoutConfirmation>
+            <CheckoutConfirmation isCheckoutOpen={this.state.isCheckoutOpen} onOpenChange={this.onConfirmationOpenChange} madeFinalPurchase={this.madeFinalPurchase} domicilio={this.state.domicilio} subscription={this.state.subscription} totalPrice={this.state.totalPrice} cocoaQuantity={this.state.cocoaQuantity} lastFour={this.state.credit_last4} direccionCompleta={this.state.direccionCompleta} ref={"checkoutModal"}></CheckoutConfirmation>
         </Modal>;
     }
 }

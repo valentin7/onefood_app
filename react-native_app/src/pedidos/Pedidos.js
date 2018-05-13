@@ -153,7 +153,7 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
 
                     {this.props.store.pedidos.map((item, key) =>  (
                       <ListItem key={key} style={{height: 70}} onPress={() => this.open(item)}>
-                        <Text> {item.cantidades[0] + item.cantidades[1]} ONEFOODS</Text>
+                        <Text> {item.cantidades.reduce(function(acc, val) {return acc + val})} ONEFOODS</Text>
                       </ListItem>))
                     }
 
@@ -212,14 +212,12 @@ class PedidoDetalle extends React.Component<PedidoProps> {
     render(): React.Node {
       const {pedidoInfo, pedido_id, fecha, cantidades, precioTotal} = this.props;
       var pedidoId = 0;
-      var chocolateQuantity = 0;
-      var vanillaQuantity = 0;
+      var cocoaQuantity = 0;
       var pedidoFecha = "";
       var showQR = false;
       if (pedidoInfo != undefined) {
         pedidoId = pedidoInfo.pedido_id;
-        chocolateQuantity = pedidoInfo.cantidades[0];
-        vanillaQuantity = pedidoInfo.cantidades[1];
+        cocoaQuantity = pedidoInfo.cantidades[0];
         pedidoFecha = pedidoInfo.fecha;
         showQR = !pedidoInfo.reclamado;
       }
@@ -239,12 +237,8 @@ class PedidoDetalle extends React.Component<PedidoProps> {
             (<View/>)
           }
             <PedidoItem
-                numero={chocolateQuantity}
-                title="CHOCOLATE"
-            />
-            <PedidoItem
-                numero={vanillaQuantity}
-                title="VAINILLA"
+                numero={cocoaQuantity}
+                title="COCOA"
             />
             <View style={{marginTop: 20}}>
               <H3>{pedidoFecha}</H3>
@@ -289,7 +283,7 @@ class Item extends React.Component<ItemProps> {
     open() {
       this.refs.pedidoModal.open();
       //this.refs.pedido.open();
-      //          <PedidoDetalle ref={"pedido"} pedido_id="rigo1" fecha="23/12/2017" cantidad="3" sabor="Chocolate" precioTotal="50" user_id="rigo" al_mes="false" direccionAEntregar="Isla Dorada"/>
+      //          <PedidoDetalle ref={"pedido"} pedido_id="rigo1" fecha="23/12/2017" cantidad="3" sabor="cocoa" precioTotal="50" user_id="rigo" al_mes="false" direccionAEntregar="Isla Dorada"/>
 
     }
 
