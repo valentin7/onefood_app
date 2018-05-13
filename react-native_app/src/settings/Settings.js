@@ -1,9 +1,9 @@
 // @flow
 import * as React from "react";
 import {View, Dimensions, Image, StyleSheet} from "react-native";
-import {Text, Icon} from "native-base";
+import {Text, Icon, Button} from "native-base";
 import autobind from "autobind-decorator";
-import {BaseContainer, Images, Field, SingleChoice, Firebase} from "../components";
+import {BaseContainer, Images, Field, SingleChoice, Firebase, Tarjetas} from "../components";
 import type {ScreenProps} from "../components/Types";
 import { observer, inject } from "mobx-react/native";
 import variables from "../../native-base-theme/variables/commonColor";
@@ -41,7 +41,7 @@ export default class Settings extends React.Component<ScreenProps<>> {
 
   render(): React.Node {
       var user = Firebase.auth.currentUser;
-      var creditDisplay = "**** "+ this.props.store.last4CreditCard;
+      var creditDisplay = "    **** "+ this.props.store.last4CreditCard;
       if (this.props.store.last4CreditCard.length < 1) {
         creditDisplay = " Agregar Tarjeta";
       }
@@ -56,11 +56,17 @@ export default class Settings extends React.Component<ScreenProps<>> {
 
           <View style={style.section}>
               <Text>MÉTODO DE PAGO</Text>
-              <Text><Icon name="ios-card" style={{ color: variables.brandSecondary }} /> {creditDisplay} </Text>
           </View>
-          <View>
-
+          <View style={style.section}>
+              <Text>
+                <Icon name="ios-card" style={{ color: variables.brandSecondary, marginRight: 30 }} />
+                {creditDisplay}
+                <Button onPress={() => this.refs.modal.open()} style={{width: 70, height: 25, marginTop: 5, marginLeft: 10, backgroundColor: variables.lighterGray, borderRadius: 6, justifyContent: 'center', position: 'absolute', right: 0}}>
+                  <Text style={{fontSize: 12, color: variables.darkGray}}>EDITAR</Text>
+                </Button>
+              </Text>
           </View>
+          <Tarjetas ref={"modal"} creditDisplay={creditDisplay}></Tarjetas>
       </BaseContainer>;
   }
 }

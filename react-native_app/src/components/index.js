@@ -20,6 +20,7 @@ export {default as Button} from "./Button";
 export {default as Icon} from "./Icon";
 export {default as Text} from "./Text";
 export {default as Address} from "./Address";
+export {default as Tarjetas} from "./Tarjetas";
 export {default as PedidoItem} from "./PedidoItem";
 export {default as JankWorkaround} from "./JankWorkaround";
 export {default as Firebase} from "./Firebase";

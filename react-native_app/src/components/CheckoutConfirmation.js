@@ -4,7 +4,7 @@ import autobind from "autobind-decorator";
 import {View, Dimensions, Image, StyleSheet, ActivityIndicator} from "react-native";
 import {Text, Icon, Left, Right, Header, Container, Content, Button, Body, Title} from "native-base";
 
-import {BaseContainer, Images, Field, SingleChoice, PedidoItem, Firebase, Controller} from "../components";
+import {BaseContainer, Images, Field, SingleChoice, PedidoItem, Firebase, Controller, Tarjetas} from "../components";
 import type {ScreenProps} from "../components/Types";
 import Modal from 'react-native-modalbox';
 import { observer, inject } from "mobx-react/native";
@@ -88,7 +88,7 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
 
     render(): React.Node {
       var discount = 0.00;
-      var creditDisplay = "**** "+ this.props.lastFour;
+      var creditDisplay = "    **** "+ this.props.lastFour;
       var tieneDireccion = this.props.domicilio || this.props.subscription;
       var descEntrega = tieneDireccion ? "Se te entregará a tu dirección: \n" : "Reclamar en persona.";
       var descSubscription = this.props.subscription ? "Este mismo pedido se te entregará cada mes." : "No, este es un pedido único.";
@@ -126,11 +126,19 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
                       <ActivityIndicator size="large" animating={this.state.loading}/>
                   </View>
 
-
                   <View style={style.section}>
                       <Text>MÉTODO DE PAGO</Text>
-                      <Text><Icon name="ios-card" style={{ color: variables.brandSecondary }} /> {creditDisplay} </Text>
                   </View>
+                  <View style={style.section}>
+                      <Text>
+                        <Icon name="ios-card" style={{ color: variables.brandSecondary, marginRight: 30 }} />
+                        {creditDisplay}
+                        <Button onPress={() => this.refs.modal.open()} style={{width: 70, height: 25, marginTop: 5, marginLeft: 10, backgroundColor: variables.lighterGray, borderRadius: 6, justifyContent: 'center', position: 'absolute', right: 0}}>
+                          <Text style={{fontSize: 12, color: variables.darkGray}}>EDITAR</Text>
+                        </Button>
+                      </Text>
+                  </View>
+                  <Tarjetas ref={"modal"} creditDisplay={creditDisplay}></Tarjetas>
 
                   <View style={style.section}>
                       <Text>MÉTODO DE ENTREGA</Text>

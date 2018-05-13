@@ -98,7 +98,7 @@ export default class Address extends React.Component {
 
         return <Modal style={[style.modal]} isOpen={this.state.isOpen} animationDuration={400} swipeToClose={false} coverScreen={true} position={"center"} ref={"modal2"}>
                 <Container safe={true}>
-                  <Header>
+                  <Header style={{borderBottomWidth: 1, borderColor: variables.lightGray}}>
                       <Left>
                           <Button transparent onPress={this.dismissModal}>
                               <Icon name="ios-close-outline" style={style.closeIcon} />
