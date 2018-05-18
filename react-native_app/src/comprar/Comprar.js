@@ -2,7 +2,7 @@
 import moment from "moment";
 import autobind from "autobind-decorator";
 import * as React from "react";
-import {View, Image, StyleSheet, Dimensions, InteractionManager, Animated, ScrollView, ActivityIndicator, SafeAreaView} from "react-native";
+import {View, Image, StyleSheet, Dimensions, InteractionManager, Animated, ScrollView, ActivityIndicator, SafeAreaView, StatusBar} from "react-native";
 import {H1, Text, Button, Segment, Radio, List, ListItem, Right, Content, CheckBox, Container, Header, Left, Icon, Title, Body, Footer} from "native-base";
 import ImageSlider from 'react-native-image-slider';
 import {TaskOverview, Images, Styles, PrecioTotal, QuantityInput, Address, Firebase, CreditCard, CheckoutConfirmation, WindowDimensions} from "../components";
@@ -13,6 +13,7 @@ import {action, observable} from "mobx";
 import { observer, inject } from "mobx-react/native";
 import PedidoModel from "../components/APIStore";
 import Swiper from "react-native-swiper";
+import ScanCoupon from "../camera"
 import * as Constants from '../Constants';
 
 
@@ -32,6 +33,7 @@ export default class Comprar extends React.Component {
       isCheckoutOpen: false,
       loading: false,
       direccionCompleta: "",
+      isCreditCardModalOpen: false,
     }
 
     componentDidMount() {
@@ -76,6 +78,12 @@ export default class Comprar extends React.Component {
     }
 
     @autobind
+    dismissCreditCardModal(last4) {
+      this.setState({isCreditCardModalOpen: false, credit_last4: last4});
+      setTimeout(() => { this.setState({isCheckoutOpen: true})}, 600);
+    }
+
+    @autobind
     dismissModal() {
       this.props.onClosing();
       //this.setState({isOpen: false});
@@ -112,7 +120,7 @@ export default class Comprar extends React.Component {
           this.setState({loading: false});
 
           if (!docExists) {
-            this.refs.modal.open();
+            this.setState({isCheckoutOpen: true});
             return;
           } else {
             this.setState({direccionCompleta: fullAddress});
@@ -131,7 +139,13 @@ export default class Comprar extends React.Component {
             if (doc.exists) {
                 docExists = true;
                 console.log("Doc exists!!  data:", doc.data());
-                last4 = doc.data().last_four;
+                var tarjetas = doc.data().tarjetas;
+                for (var i = 0; i < tarjetas.length; i++) {
+                  console.log("por aqui ", tarjetas[i]);
+                  if (tarjetas[i].usando) {
+                    last4 = tarjetas[i].last4;
+                  }
+                }
                 console.log("indiegogo ", last4);
             } else {
                 // doc.data() will be undefined in this case
@@ -140,17 +154,18 @@ export default class Comprar extends React.Component {
         }).catch(function(error) {
             console.log("Error getting document:", error);
         });
+        this.props.store.last4CreditCard = last4;
 
         this.setState({loading: false});
 
         if (!docExists) {
-          this.refs.creditCardModal.open();
+          this.setState({isCreditCardModalOpen: true});
           return;
         } else {
           this.setState({credit_last4: last4});
         }
 
-        console.log("state of the union ", this.state.credit_last4);
+        console.log("state of the union senor ", this.state.credit_last4);
         this.setState({isCheckoutOpen: true});
     }
 
@@ -192,7 +207,11 @@ export default class Comprar extends React.Component {
                 <Body>
                     <Title style={{color: variables.brandPrimary}}>COMPRAR</Title>
                 </Body>
-                <Right />
+                <Right>
+                  <Button transparent onPress={() => this.refs.couponModal.open()}>
+                    <Icon name="md-qr-scanner" style={{color: variables.brandPrimary}} />
+                  </Button>
+                </Right>
               </Header>
               <Content>
               <Segment>
@@ -205,7 +224,7 @@ export default class Comprar extends React.Component {
               </Segment>
                 <Image source={Images.botellaNaranja} style={style.img} />
                 <View style={[style.count, style.information]}>
-                  <Text onPress={this.showIngredients} style={{color: variables.brandPrimary}}>Información Nutricional</Text>
+                  <Text onPress={this.showIngredients} style={{color: variables.brandPrimary}}>ⓘ Información Nutricional</Text>
                 </View>
                 <ActivityIndicator size="large" animating={this.state.loading}/>
                 <View style={[style.count, Styles.center]}>
@@ -234,7 +253,6 @@ export default class Comprar extends React.Component {
                     </List>
                   )
                 }
-
               </Content>
               <Button block onPress={this.continuar} disabled={this.state.totalPrice == 0} style={{ height: variables.footerHeight * 1.3 }}>
                 <Text style={{color: 'white'}}>CONTINUAR</Text>
@@ -243,7 +261,8 @@ export default class Comprar extends React.Component {
             </Container>
             <InformacionNutrimental ref={"infoNutrimentalModal"} />
             <Address ref={"modal"}></Address>
-            <CreditCard ref={"creditCardModal"}></CreditCard>
+
+            <CreditCard isOpen={this.state.isCreditCardModalOpen} dismissModal={this.dismissCreditCardModal} ref={"creditCardModal"}></CreditCard>
             <CheckoutConfirmation isCheckoutOpen={this.state.isCheckoutOpen} onOpenChange={this.onConfirmationOpenChange} madeFinalPurchase={this.madeFinalPurchase} domicilio={this.state.domicilio} subscription={this.state.subscription} totalPrice={this.state.totalPrice} cocoaQuantity={this.state.cocoaQuantity} lastFour={this.state.credit_last4} direccionCompleta={this.state.direccionCompleta} ref={"checkoutModal"}></CheckoutConfirmation>
         </Modal>;
     }
@@ -270,6 +289,7 @@ class InformacionNutrimental extends React.Component {
     }
 
     open() {
+      StatusBar.setBarStyle('light-content', true);
       this.setState({detailModalIsOpen: true});
     }
 
@@ -280,6 +300,7 @@ class InformacionNutrimental extends React.Component {
 
     @autobind
     dismissModal() {
+      StatusBar.setBarStyle('default', true);
       this.setState({detailModalIsOpen: false});
       //this.props.onModalClose();
     }
@@ -288,15 +309,13 @@ class InformacionNutrimental extends React.Component {
       const {pedidoInfo, pedidoValido} = this.props;
 
       return <Modal style={style.modal} swipeToClose={false} onClosed={this.setModalStateClosed} isOpen={this.state.detailModalIsOpen} backdrop={true} position={"bottom"} coverScreen={true} ref={"modal"}>
-              <SafeAreaView style={{ flex: 1 }}>
-              <Button transparent onPress={this.dismissModal}>
-                  <Icon name="ios-close-outline" style={style.closeIcon} />
-              </Button>
-                <Swiper loop={false} showsButtons={true} nextButton={<Text style={{color: variables.brandPrimary, fontSize: 58}}>›</Text>} prevButton={<Text style={{color: variables.brandPrimary, fontSize: 58}}>‹</Text>} activeDotColor={variables.brandPrimary}>
+                <Swiper loop={false} showsButtons={true} nextButton={<Text style={{color: "white", fontSize: 58}}>›</Text>} prevButton={<Text style={{color: "white", fontSize: 58}}>‹</Text>} activeDotColor={"white"}>
                   <Image source={Images.ingredientes} style={style.infoImg} />
                   <Image source={Images.tablaNutricional} style={style.infoImg} />
                 </Swiper>
-              </SafeAreaView>
+                <Button style={{position: 'absolute', top: 20, left: 10}} transparent onPress={this.dismissModal}>
+                    <Icon name="ios-close-outline" style={style.closeIcon} />
+                </Button>
         </Modal>;
     }
 }
@@ -325,6 +344,13 @@ const style = StyleSheet.create({
     },
     infoImg: {
       flex: 1,
+      height: windowHeight,
+      width: width,
+      justifyContent: 'center',
+      resizeMode: 'contain',
+    },
+    infoImgOld: {
+      flex: 1,
       width: width - 60,
       left: 30,
       justifyContent: 'center',
@@ -347,9 +373,9 @@ const style = StyleSheet.create({
        justifyContent: 'space-around',
     },
     closeIcon: {
-        fontSize: 50,
+        fontSize: 60,
         marginLeft: 20,
-        color: variables.brandPrimary
+        color: "white"
     },
     row: {
         flex: 1,

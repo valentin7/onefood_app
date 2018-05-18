@@ -1,7 +1,7 @@
 // @flow
 import autobind from "autobind-decorator";
 import * as React from "react";
-import {View, StyleSheet, Image, SafeAreaView, Dimensions} from "react-native";
+import {View, StyleSheet, Image, SafeAreaView, Dimensions, StatusBar} from "react-native";
 import {Button, Footer, FooterTab, Text, Icon} from "native-base";
 import Swiper from "react-native-swiper";
 
@@ -23,7 +23,8 @@ export default class Walkthrough extends React.Component<ScreenProps<>> {
 
     @autobind
     home() {
-        NavigationHelpers.reset(this.props.navigation, "Main");
+      StatusBar.setBarStyle('default', true);
+      NavigationHelpers.reset(this.props.navigation, "Main");
     }
 
     @autobind
@@ -41,24 +42,24 @@ export default class Walkthrough extends React.Component<ScreenProps<>> {
     }
 
     render(): React.Node {
-        return <SafeAreaView style={{ flex: 1 }}>
-              <Swiper loop={false} showsButtons={true} nextButton={<Text style={{color: variables.brandPrimary, fontSize: 58}}>›</Text>} prevButton={<Text style={{color: variables.brandPrimary, fontSize: 58}}>‹</Text>} activeDotColor={variables.brandPrimary}>
-                <Image source={Images.walkthrough1} style={style.infoImg} />
-                <Image source={Images.walkthrough2} style={style.infoImg} />
-                <Image source={Images.walkthrough3} style={style.infoImg} />
-                <Image source={Images.walkthrough4} style={style.infoImg} />
-                <View style={[Styles.center, Styles.flexGrow]}>
-                    <Image source={Images.walkthrough5} style={style.infoImg2} />
-                    <Footer style={{position: 'absolute', bottom: 42, borderTopWidth: variables.borderWidth, borderBottomWidth: variables.borderWidth }}>
-                      <FooterTab>
-                        <Button onPress={this.home} primary style={style.listoButton}>
-                          <Text>LISTO</Text>
-                        </Button>
-                      </FooterTab>
-                    </Footer>
-                </View>
-            </Swiper>
-        </SafeAreaView>;
+      StatusBar.setBarStyle('light-content', true);
+
+        return <Swiper loop={false} showsButtons={true} nextButton={<Text style={{color: "white", fontSize: 58}}>›</Text>} prevButton={<Text style={{color: "white", fontSize: 58}}>‹</Text>} activeDotColor={"white"} dotStyle={{bottom: -20}} activeDotStyle={{bottom: -20}}>
+          <Image source={Images.walkthrough1} style={style.infoImg} />
+          <Image source={Images.walkthrough2} style={style.infoImg} />
+          <Image source={Images.walkthrough3} style={style.infoImg} />
+          <Image source={Images.walkthrough4} style={style.infoImg} />
+          <View style={[Styles.center, Styles.flexGrow]}>
+              <Image source={Images.walkthrough5} style={style.infoImg} />
+              <Footer style={{position: 'absolute', bottom: 42, borderTopWidth: variables.borderWidth, borderBottomWidth: variables.borderWidth }}>
+                <FooterTab>
+                  <Button onPress={this.home} primary style={style.listoButton}>
+                    <Text>LISTO</Text>
+                  </Button>
+                </FooterTab>
+              </Footer>
+          </View>
+      </Swiper>  ;
     }
 }
 
@@ -87,6 +88,13 @@ const style = StyleSheet.create({
         resizeMode: 'contain',
     },
     infoImg: {
+      flex: 1,
+      height: windowHeight,
+      width: width,
+      justifyContent: 'center',
+      resizeMode: 'contain',
+    },
+    infoImgOld: {
       flex: 1,
       width: width - 64,
       left: 32,

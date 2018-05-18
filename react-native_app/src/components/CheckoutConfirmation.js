@@ -4,13 +4,14 @@ import autobind from "autobind-decorator";
 import {View, Dimensions, Image, StyleSheet, ActivityIndicator} from "react-native";
 import {Text, Icon, Left, Right, Header, Container, Content, Button, Body, Title} from "native-base";
 
-import {BaseContainer, Images, Field, SingleChoice, PedidoItem, Firebase, Controller, Tarjetas} from "../components";
+import {BaseContainer, Images, Field, SingleChoice, PedidoItem, Firebase, Controller, Tarjetas, Address} from "../components";
 import type {ScreenProps} from "../components/Types";
 import Modal from 'react-native-modalbox';
 import { observer, inject } from "mobx-react/native";
 import {action} from "mobx";
 import variables from "../../native-base-theme/variables/commonColor";
 import Pedidos from "../pedidos";
+import Moment from 'moment';
 //import store from "../store";
 
 @inject('store') @observer
@@ -19,16 +20,19 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
     state = {
       isOpen: false,
       loading: false,
+      isTarjetasOpen: false,
+      last4: "",
     }
 
     componentDidMount() {
-      console.log("hey watagas ", this.props.isCheckoutOpen);
+      console.log("hey watags ", this.props.isCheckoutOpen);
       this.setState({isOpen: this.props.isCheckoutOpen});
+
+    //  this.setState({last4: this.props.store.last4CreditCard});
+      //this.setState({last4: this.props.lastFour});
     }
 
-    checkOpen() {
-      console.log("hey watagas ", this.props.isCheckoutOpen);
-      console.log("youu ", this.state.isOpen);
+    componentWillMount() {
     }
 
     @autobind
@@ -40,7 +44,9 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
     @autobind @action
     async makePurchase(): Promise<void> {
       this.setState({loading: true});
-      var date = new Date().toDateString();
+      Moment.locale('en');
+      var date = Moment().format("dddd, D MMMM YYYY, h:mma");
+      //var date = new Date().toDateString();
       var user = Firebase.auth.currentUser;
 
       var pedidoId = "O-";
@@ -59,7 +65,6 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
           domicilio: this.props.domicilio,
       };
 
-      console.log("pedido agregado: ", pedido);
       this.props.store.pedidos.push(pedido);
       //console.log("DAMN ", this.props.store.pedidos);
       //Pedidos.pedidos.push(pedido);
@@ -85,10 +90,20 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
     dismissModal() {
       this.props.onOpenChange(false);
     }
+    @autobind
+    dismissTarjetasModal(last4) {
+      console.log("can this be possible? ", last4);
+      this.setState({last4: last4});
+      console.log("hopefully, ", this.state.last4);
+      this.setState({isTarjetasOpen: false});
+    }
 
     render(): React.Node {
       var discount = 0.00;
       var creditDisplay = "    **** "+ this.props.lastFour;
+      if (this.state.last4.length > 1) {
+        creditDisplay = "    **** "+ this.state.last4;
+      }
       var tieneDireccion = this.props.domicilio || this.props.subscription;
       var descEntrega = tieneDireccion ? "Se te entregará a tu dirección: \n" : "Reclamar en persona.";
       var descSubscription = this.props.subscription ? "Este mismo pedido se te entregará cada mes." : "No, este es un pedido único.";
@@ -133,12 +148,12 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
                       <Text>
                         <Icon name="ios-card" style={{ color: variables.brandSecondary, marginRight: 30 }} />
                         {creditDisplay}
-                        <Button onPress={() => this.refs.modal.open()} style={{width: 70, height: 25, marginTop: 5, marginLeft: 10, backgroundColor: variables.lighterGray, borderRadius: 6, justifyContent: 'center', position: 'absolute', right: 0}}>
+                        <Button onPress={() => this.setState({isTarjetasOpen: true})} style={{width: 70, height: 25, marginTop: 5, marginLeft: 10, backgroundColor: variables.lighterGray, borderRadius: 6, justifyContent: 'center', position: 'absolute', right: 0}}>
                           <Text style={{fontSize: 12, color: variables.darkGray}}>EDITAR</Text>
                         </Button>
                       </Text>
                   </View>
-                  <Tarjetas ref={"modal"} creditDisplay={creditDisplay}></Tarjetas>
+                  <Tarjetas isTarjetasOpen={this.state.isTarjetasOpen} dismissTarjetasModal={this.dismissTarjetasModal} creditDisplay={creditDisplay}></Tarjetas>
 
                   <View style={style.section}>
                       <Text>MÉTODO DE ENTREGA</Text>
@@ -155,6 +170,7 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
                   <Text style={{color: 'white'}}>COMPRAR</Text>
                 </Button>
               </Container>
+              <Address ref={"modal"}></Address>
       </Modal>;
     }
 }

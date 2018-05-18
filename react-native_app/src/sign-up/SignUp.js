@@ -1,7 +1,7 @@
 // @flow
 import autobind from "autobind-decorator";
 import * as React from "react";
-import {View, Image, StyleSheet, ScrollView, KeyboardAvoidingView, TextInput} from "react-native";
+import {View, Image, StyleSheet, ScrollView, KeyboardAvoidingView, TextInput, ActivityIndicator} from "react-native";
 import {Button, Header, Left, Right, Body, Icon, Title, Text, H1} from "native-base";
 import {Constants} from "expo";
 
@@ -16,7 +16,8 @@ import variables from "../../native-base-theme/variables/commonColor";
 
 type LoginState = {
   email: string,
-  password: string
+  password: string,
+  loading: boolean
 };
 
 export default class SignUp extends React.Component<ScreenProps<>> {
@@ -25,7 +26,7 @@ export default class SignUp extends React.Component<ScreenProps<>> {
     password: TextInput;
 
     componentWillMount() {
-        this.setState({email: "", password: ""});
+        this.setState({email: "", password: "", loading: false});
     }
 
     @autobind
@@ -74,11 +75,13 @@ export default class SignUp extends React.Component<ScreenProps<>> {
     @autobind
     async logIn(): Promise<void> {
       const {email, password} = this.state;
+      this.setState({loading: true});
       try {
         await Firebase.auth.signInWithEmailAndPassword(email, password);
       } catch (e) {
-        alert(e);
+        Alert.alert("Hubo un error al iniciar sesión.", e);
       }
+      this.setState({loading: false});
     }
 
     render(): React.Node {
@@ -121,6 +124,7 @@ export default class SignUp extends React.Component<ScreenProps<>> {
                             value={this.state.password}
                             returnKeyType="go"
                         />
+                        <ActivityIndicator size="large" animating={this.state.loading}/>
                     </View>
                     <Button primary block onPress={this.logIn} style={{ height: variables.footerHeight }}>
                         <Text>LOG IN</Text>

@@ -23,6 +23,7 @@ type LoginState = {
   name: string,
   codigoInvitacion: string,
   loading: false,
+  shouldAvoidKeyboard: boolean,
 }
 
 export default class Login extends React.Component<ScreenProps<>, LoginState> {
@@ -34,7 +35,7 @@ export default class Login extends React.Component<ScreenProps<>, LoginState> {
 
     constructor(props) {
         super(props);
-        this.state = {email: "", password: "", name: "", loading: false};
+        this.state = {email: "", password: "", name: "", loading: false, shouldAvoidKeyboard: false};
     }
 
     @autobind
@@ -69,6 +70,7 @@ export default class Login extends React.Component<ScreenProps<>, LoginState> {
 
     @autobind
     goToEmail() {
+        this.setState({shouldAvoidKeyboard: true});
         this.email.focus();
     }
 
@@ -97,7 +99,7 @@ export default class Login extends React.Component<ScreenProps<>, LoginState> {
 
     @autobind
     setName(nameString: string) {
-      this.setState({name: nameString});
+      this.setState({name: nameString, shouldAvoidKeyboard: false});
     }
 
     @autobind
@@ -211,7 +213,6 @@ export default class Login extends React.Component<ScreenProps<>, LoginState> {
             </Header>
                 <SafeAreaView style={StyleSheet.absoluteFill}>
                     <ScrollView contentContainerStyle={[StyleSheet.absoluteFill, styles.content]}>
-                        <KeyboardAvoidingView behavior="position">
                             <AnimatedView
                                 style={{height: height - Constants.statusBarHeight, justifyContent: "flex-end" }}
                             >
@@ -221,7 +222,7 @@ export default class Login extends React.Component<ScreenProps<>, LoginState> {
                                     <H1 style={styles.title}>ONEFOOD</H1>
                                 </View>
                             </View>
-                            <ActivityIndicator size="small" animating={this.state.loading}/>
+                            <ActivityIndicator size="large" animating={this.state.loading}/>
                             <View>
                               <Field
                                   label="Nombre"
@@ -231,6 +232,7 @@ export default class Login extends React.Component<ScreenProps<>, LoginState> {
                                   onSubmitEditing={this.goToPassword}
                                   inverse
                               />
+                              <KeyboardAvoidingView  behavior="position" enabled={true}>
                                 <Field
                                     label="Email"
                                     autoCapitalize="none"
@@ -241,6 +243,7 @@ export default class Login extends React.Component<ScreenProps<>, LoginState> {
                                     onChangeText={this.setEmail}
                                     inverse
                                 />
+                                </KeyboardAvoidingView>
                                 <Field
                                     label="Contraseña"
                                     secureTextEntry
@@ -283,13 +286,12 @@ export default class Login extends React.Component<ScreenProps<>, LoginState> {
                                     </View>
                                     <View>
                                         <Button transparent full onPress={this.signUp}>
-                                            <Small style={{color: variables.lightGray}}>{"Ya tienes cuenta? Log In"}</Small>
+                                            <Text style={{color: variables.lightGray, fontSize: 16}}>{"Ya tienes cuenta? Log In"}</Text>
                                         </Button>
                                     </View>
                                 </View>
                             </View>
                             </AnimatedView>
-                        </KeyboardAvoidingView>
                     </ScrollView>
                 </SafeAreaView>
             </View>
@@ -299,7 +301,6 @@ export default class Login extends React.Component<ScreenProps<>, LoginState> {
 
 const {height, width} = WindowDimensions;
 
-//TODO: aqui cambiar para que salga el Sign Up.
 const styles = StyleSheet.create({
     container: {
         flexGrow: 1

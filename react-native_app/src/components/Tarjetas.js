@@ -4,21 +4,22 @@ import autobind from "autobind-decorator";
 import * as React from "react";
 import {View, Image, StyleSheet, Dimensions, ActivityIndicator} from "react-native";
 import {H1, Text, Button, Radio, ListItem, Right, Content, Container, Item, Input, Left, Body, Header, Icon, Title} from "native-base";
-import {BaseContainer, Images, Styles, Firebase} from "../components";
+import {BaseContainer, Images, Styles, Firebase, CreditCard} from "../components";
 import type {ScreenProps} from "../components/Types";
 import Modal from 'react-native-modalbox';
 import variables from "../../native-base-theme/variables/commonColor";
+import { observer, inject } from "mobx-react/native";
 
+@inject('store') @observer
 export default class Tarjetas extends React.Component {
 
     state = {
-      subscription: false,
+      tarjetas: [],
       loading: false,
-      isOpen: false,
+      isCreditCardModalOpen: false,
     }
 
     open() {
-      this.setState({isOpen: true});
     }
 
     @autobind
@@ -26,74 +27,142 @@ export default class Tarjetas extends React.Component {
       this.setState({linea1: text});
     }
 
-    @autobind
-    async saveAddress(): Promise<void> {
-      this.setState({loading: true});
-      var user = Firebase.auth.currentUser;
-
-      // await Firebase.firestore.collection("addresses").doc(user.uid).set(addressInfo)
-      // .then(function() {
-      //     console.log("SAVED ADDRESS written");
-      // })
-      // .catch(function(error) {
-      //     console.error("Error adding document: ", error);
-      // });
-
-      this.setState({loading: false});
-      this.dismissModal();
+    componentDidMount() {
+      this.refreshTarjetas();
     }
 
     @autobind
-    activarTarjeta(index) {
+    async refreshTarjetas(): Promise<void> {
+      var user = Firebase.auth.currentUser;
+      const docRef = await Firebase.firestore.collection("paymentInfos").doc(user.uid);
+      var docExists = false;
+      var tarjetas = [];
+      await docRef.get().then(function(doc) {
+          if (doc.exists) {
+              docExists = true;
+              console.log("Doc exists!!  data:", doc.data());
+              tarjetas = doc.data().tarjetas;
+          } else {
+              // doc.data() will be undefined in this case
+              console.log("No such document!");
+          }
+      }).catch(function(error) {
+          console.log("Error getting document:", error);
+      });
+
+      this.setState({tarjetas: tarjetas});
+    }
+
+    @autobind
+    async guardarTarjetas(): Promise<void> {
+      this.setState({loading: true});
+      var user = Firebase.auth.currentUser;
+      if (this.state.tarjetas.length < 1) {
+        return;
+      }
+      await Firebase.firestore.collection("paymentInfos").doc(user.uid).set({tarjetas: this.state.tarjetas})
+      .then(function() {
+          console.log("SAVED TARJETAS");
+      })
+      .catch(function(error) {
+          console.error("Error adding document: ", error);
+      });
+
+      this.setState({loading: false});
+    }
+
+    @autobind
+    usarTarjeta(index) {
       console.log("hey index", index);
+      var tarjetas = this.state.tarjetas;
+      for (var i = 0; i < tarjetas.length; i++) {
+        tarjetas[i].usando = false;
+      }
+      tarjetas[index].usando = true;
+      this.props.store.last4CreditCard = tarjetas[index].last4;
+
+      this.setState({tarjetas: tarjetas});
     }
 
     @autobind
     removerTarjeta(index) {
       console.log("hey index", index);
+      var tarjetas = this.state.tarjetas;
+      tarjetas.splice(index, 1);
+      this.setState({tarjetas: tarjetas});
+    }
+
+    @autobind
+    agregarTarjeta() {
+      this.guardarTarjetas();
+      this.setState({isCreditCardModalOpen: true});
+    }
+
+    @autobind
+    dismissCreditCardModal() {
+      this.refreshTarjetas();
+      this.setState({isCreditCardModalOpen: false});
     }
 
     @autobind
     dismissModal() {
-      this.setState({isOpen: false});
+      // save tarjetas.
+      this.guardarTarjetas();
+      var last4 = "";
+      for (var i = 0; i < this.state.tarjetas.length; i++) {
+        if (this.state.tarjetas[i].usando) {
+          last4 = this.state.tarjetas[i].last4;
+        }
+      }
+      this.props.store.last4CreditCard = last4;
+      this.props.dismissTarjetasModal(last4);
+      //this.setState({isOpen: false});
     }
 
     render(): React.Node {
-        return <Modal style={[style.modal]} isOpen={this.state.isOpen} animationDuration={400} swipeToClose={false} coverScreen={true} position={"center"} ref={"modal2"}>
+        return <Modal style={[style.modal]} isOpen={this.props.isTarjetasOpen} animationDuration={400} swipeToClose={false} coverScreen={true} position={"center"} ref={"modal2"}>
                 <Container safe={true}>
                   <Header style={{borderBottomWidth: 1, borderColor: variables.lightGray}}>
-                      <Left>
-                          <Button transparent onPress={this.dismissModal}>
-                              <Icon name="ios-close-outline" style={style.closeIcon} />
-                          </Button>
-                      </Left>
                       <Body>
                           <Title>TARJETAS</Title>
                       </Body>
-                      <Right />
                   </Header>
                   <Content style={style.content}>
                     <ActivityIndicator size="large" animating={this.state.loading}/>
-                    <View style={style.section}>
-                        <Text>
-                          <Icon name="ios-card" style={{ color: variables.brandSecondary, marginRight: 30 }} />
-                          {this.props.creditDisplay}
-                          <Button onPress={() => this.activarTarjeta(0)} style={{width: 70, height: 25, marginTop: 5, marginLeft: 10, backgroundColor: variables.lighterGray, borderRadius: 6, justifyContent: 'center', position: 'absolute', right: 0}}>
-                            <Text style={{fontSize: 12, color: variables.darkGray}}> ACTIVAR </Text>
-                          </Button>
-                          <Button onPress={() => this.removerTarjeta(0)}style={{width: 70, height: 25, marginTop: 5, marginLeft: 20, backgroundColor: variables.lighterGray, borderRadius: 6, justifyContent: 'center', position: 'absolute', right: 0}}>
-                            <Text style={{fontSize: 12, color: variables.darkGray}}> REMOVER </Text>
-                          </Button>
-                        </Text>
-                    </View>
+
+                    {this.state.tarjetas.map((item, key) =>  (
+                      <View key={key} style={style.section}>
+                          <Text>
+                            <Icon name="ios-card" style={{ color: variables.brandSecondary, marginRight: 30 }} />
+                            {"    ****" + item.last4}
+                            {item.usando ?
+                              (<Text style={{fontSize: 12, color: variables.brandPrimary}}>     USANDO</Text>)
+                              :
+                              (<Button onPress={() => this.usarTarjeta(key)} style={{width: 70, height: 25, marginTop: 5, marginLeft: 10, backgroundColor: variables.lighterGray, borderRadius: 6, justifyContent: 'center', position: 'absolute', right: 0}}>
+                                <Text style={{fontSize: 12, color: variables.darkGray}}> USAR </Text>
+                              </Button>)
+                            }
+                            {item.usando ?
+                              (<View style={{width: 1, height: 1}}/>)
+                              :
+                              (<Button onPress={() => this.removerTarjeta(key)}style={{width: 70, height: 25, marginTop: 5, marginLeft: 20, backgroundColor: variables.lighterGray, borderRadius: 6, justifyContent: 'center', position: 'absolute', right: 0}}>
+                              <Text style={{fontSize: 12, color: variables.darkGray}}> REMOVER </Text>
+                            </Button>)}
+                          </Text>
+                      </View>
+
+                    ))
+                    }
+
                     <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center'}}>
-                      <Button style={style.agregarButton}><Text style={{color: 'white'}}>Agregar Tarjeta</Text></Button>
+                      <Button onPress={this.agregarTarjeta} style={style.agregarButton}><Text style={{color: 'white'}}>Agregar Tarjeta</Text></Button>
                     </View>
                   </Content>
-                  <Button block onPress={this.saveAddress} style={{ height: variables.footerHeight * 1.3 }}>
+                  <Button block onPress={this.dismissModal} style={{ height: variables.footerHeight * 1.3 }}>
                     <Text style={{color: 'white'}}>LISTO</Text>
                   </Button>
                 </Container>
+                <CreditCard isOpen={this.state.isCreditCardModalOpen} dismissModal={this.dismissCreditCardModal} ref={"creditCardModal"}></CreditCard>
         </Modal>;
     }
 }

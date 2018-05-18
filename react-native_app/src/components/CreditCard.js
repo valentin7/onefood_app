@@ -17,12 +17,15 @@ export default class CreditCard extends React.Component {
       isOpen: false,
       last_four: "0000",
       loading: false,
+      tarjetas: [],
+      isGuardarDisabled: true,
     }
 
     componentWillMount() {
       this.setState({shouldUpdate: true});
     }
     componentDidMount() {
+      this.refreshTarjetas()
     }
 
     componentWillUnmount() {
@@ -34,14 +37,41 @@ export default class CreditCard extends React.Component {
     }
 
     @autobind
+    async refreshTarjetas(): Promise<void> {
+      var user = Firebase.auth.currentUser;
+      const docRef = await Firebase.firestore.collection("paymentInfos").doc(user.uid);
+      var docExists = false;
+      var tarjetas = [];
+      await docRef.get().then(function(doc) {
+          if (doc.exists) {
+              docExists = true;
+              console.log("Doc exists!!  data:", doc.data());
+              tarjetas = doc.data().tarjetas;
+          } else {
+              // doc.data() will be undefined in this case
+              console.log("No such document!");
+          }
+      }).catch(function(error) {
+          console.log("Error getting document:", error);
+      });
+
+      this.setState({tarjetas: tarjetas});
+    }
+
+    @autobind
     async guardarTarjeta(): Promise<void> {
       // guardar credit card details
       this.setState({loading: true});
       var user = Firebase.auth.currentUser;
 
+      var tarjetas = this.state.tarjetas;
+      for (var i = 0; i < tarjetas.length; i++) {
+        tarjetas[i].usando = false;
+      }
+      tarjetas.push({last4: this.state.last_four, usando: true});
+
       var paymentInfo = {
-        user_id: user.uid,
-        last_four: this.state.last_four,
+        tarjetas: tarjetas,
       }
 
       await Firebase.firestore.collection("paymentInfos").doc(user.uid).set(paymentInfo)
@@ -58,7 +88,8 @@ export default class CreditCard extends React.Component {
 
     @autobind
     dismissModal(){
-      this.setState({isOpen: false});
+      //this.setState({isOpen: false});
+      this.props.dismissModal(this.state.last_four);
     }
 
     @autobind
@@ -72,11 +103,15 @@ export default class CreditCard extends React.Component {
         this.setState({last_four: last4});
       }
 
+      var cvcStatus = info.status.cvc;
+      if (cvcStatus == "valid") {
+        this.setState({isGuardarDisabled: false});
+      }
     }
 
     render(): React.Node {
 
-        return <Modal style={[style.modal]} isOpen={this.state.isOpen} animationDuration={400} swipeToClose={false} coverScreen={true} position={"center"} ref={"modal2"}>
+        return <Modal style={[style.modal]} isOpen={this.props.isOpen} animationDuration={400} swipeToClose={false} coverScreen={true} position={"center"} ref={"modal2"}>
                 <Container safe={true}>
                   <Header>
                       <Left>
@@ -93,7 +128,7 @@ export default class CreditCard extends React.Component {
                     <CreditCardInput ref="CCInput" onChange={this.paymentOnChange} autoFocus={true} labelStyle={style.whiteStyle} inputStyle={style.whiteStyle}/>
                   </Content>
                   <ActivityIndicator size="large" animating={this.state.loading}/>
-                  <Button primary block onPress={this.guardarTarjeta} style={{ height: variables.footerHeight * 1.3 }}>
+                  <Button disabled={this.state.isGuardarDisabled} primary block onPress={this.guardarTarjeta} style={{ height: variables.footerHeight * 1.3 }}>
                     <Text style={{color: 'white'}}>GUARDAR</Text>
                   </Button>
                 </Container>

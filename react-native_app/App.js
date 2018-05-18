@@ -29,6 +29,7 @@ import {Timeline} from "./src/timeline";
 import {Settings} from "./src/settings";
 import {Create} from "./src/create";
 import {CameraScreen} from "./src/camera";
+import {SerOnefoodPro} from "./src/pro";
 
 import getTheme from "./native-base-theme/components";
 import variables from "./native-base-theme/variables/commonColor";
@@ -187,6 +188,7 @@ const MainNavigator = DrawerNavigator({
     Settings: { screen: Settings },
     Create: { screen: Create },
     Camera: { screen: CameraScreen },
+    SerPro: { screen: SerOnefoodPro},
 }, {
     drawerWidth: Dimensions.get("window").width,
     // eslint-disable-next-line flowtype/no-weak-types

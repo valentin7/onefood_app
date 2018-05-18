@@ -9,7 +9,7 @@ import Modal from 'react-native-modalbox';
 import QRCode from 'react-native-qrcode';
 import store from "../store";
 import PTRView from 'react-native-pull-to-refresh';
-
+import * as Constants from '../Constants';
 
 import {BaseContainer, Styles, JankWorkaround, Task, PedidoItem, Firebase, Images} from "../components";
 import type {ScreenProps} from "../components/Types";
@@ -221,9 +221,11 @@ class PedidoDetalle extends React.Component<PedidoProps> {
       if (pedidoInfo != undefined) {
         pedidoId = pedidoInfo.pedido_id;
         cocoaQuantity = pedidoInfo.cantidades[0];
-        pedidoFecha = pedidoInfo.fecha;
+        pedidoFecha = Constants.convertirFecha(pedidoInfo.fecha);
+        //pedidoFecha = pedidoInfo.fecha;
         showQR = !pedidoInfo.reclamado;
       }
+
 
 
       return <Modal style={[style.modal, style.container]} onClosed={this.setModalStateClosed}  isOpen={this.state.detailModalIsOpen} backdrop={true} position={"bottom"} coverScreen={true} ref={"modal"}>
@@ -244,7 +246,11 @@ class PedidoDetalle extends React.Component<PedidoProps> {
                 title="COCOA"
             />
             <View style={{marginTop: 20}}>
-              <H3>{pedidoFecha}</H3>
+              <Text style={{color: variables.darkGray, fontSize: 17}}>{pedidoFecha}</Text>
+            </View>
+
+            <View style={{margin: 20}}>
+              <Text style={{color: variables.lightGray, fontSize: 14}}>Recibe tus ONEFOODS presentando este código QR a uno de nuestros representantes.</Text>
             </View>
 
         </Modal>;
