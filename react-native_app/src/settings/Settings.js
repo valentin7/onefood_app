@@ -64,8 +64,14 @@ export default class Settings extends React.Component<ScreenProps<>> {
               <Text>GENERAL</Text>
           </View>
           <View>
-              <Field style={style.field} label="Name" defaultValue={user.displayName}/>
-              <Field style={style.field} label="Email" defaultValue={user.email} />
+            <View style={style.row}>
+              <Text style={style.label}>NOMBRE</Text>
+              <Text style={style.mainText}>{user.displayName}</Text>
+            </View>
+            <View style={style.row}>
+              <Text style={style.label}>EMAIL</Text>
+              <Text style={style.mainText}>{user.email}</Text>
+            </View>
           </View>
 
           <View style={style.section}>
@@ -109,5 +115,21 @@ const style = StyleSheet.create({
         padding: variables.contentPadding * 2,
         borderBottomWidth: variables.borderWidth,
         borderColor: variables.listBorderColor
+    },
+    row: {
+        borderBottomWidth: variables.borderWidth,
+        borderColor: variables.listBorderColor,
+        flexDirection: "row",
+        alignItems: "center",
+        height: 75
+    },
+    label: {
+      fontSize: 14,
+      marginHorizontal: variables.contentPadding * 2,
+      color: variables.mediumGray
+    },
+    mainText: {
+        flex: 1,
+        color: variables.darkGray,
     }
 });

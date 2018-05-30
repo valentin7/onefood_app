@@ -12,7 +12,11 @@ import {action} from "mobx";
 import variables from "../../native-base-theme/variables/commonColor";
 import Pedidos from "../pedidos";
 import Moment from 'moment';
-//import store from "../store";
+import localization from 'moment/locale/es';
+
+//import 'moment/min/moment-with-locales';
+import * as Constants from '../Constants';
+//
 
 @inject('store') @observer
 export default class CheckoutConfirmation extends React.Component<ScreenProps<>> {
@@ -92,9 +96,7 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
     }
     @autobind
     dismissTarjetasModal(last4) {
-      console.log("can this be possible? ", last4);
       this.setState({last4: last4});
-      console.log("hopefully, ", this.state.last4);
       this.setState({isTarjetasOpen: false});
     }
 
@@ -114,6 +116,15 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
         descEntrega += this.props.direccionCompleta;
       }
 
+
+      Moment.updateLocale('es', localization);
+
+      var fechaMin = Moment().add(5, 'days').format("dddd, D MMMM"); //.format("dddd, D MMMM YYYY, h:mma");;
+      var fechaMax = Moment().add(11, 'days').format("dddd, D MMMM"); //.format("dddd, D MMMM YYYY, h:mma");;
+
+      console.log("watagit: ", fechaMin);
+      var descExtraDias = "Entrega en 5 a 11 días: entre " + fechaMin + " y " + fechaMax + "."
+
       return  <Modal style={[style.modal]} isOpen={this.props.isCheckoutOpen} animationDuration={400} swipeToClose={false} coverScreen={true} position={"center"} ref={"modal2"}>
               <Container safe={true}>
                 <Header style={{borderBottomWidth: 1, borderColor: variables.lightGray}}>
@@ -129,7 +140,7 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
                 </Header>
                 <Content style={style.content}>
                   <View style={style.section}>
-                      <Text>RESUMEN</Text>
+                      <Text style={style.sectionTitle}>RESUMEN</Text>
                       <PedidoItem
                           numero={this.props.cocoaQuantity.toString()}
                           title="COCOA"
@@ -142,26 +153,26 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
                   </View>
 
                   <View style={style.section}>
-                      <Text>MÉTODO DE PAGO</Text>
-                  </View>
-                  <View style={style.section}>
-                      <Text>
+                      <Text style={style.sectionTitle}>MÉTODO DE PAGO</Text>
+                      <Text style={{marginBottom: 10}}>
                         <Icon name="ios-card" style={{ color: variables.brandSecondary, marginRight: 30 }} />
                         {creditDisplay}
                         <Button onPress={() => this.setState({isTarjetasOpen: true})} style={{width: 70, height: 25, marginTop: 5, marginLeft: 10, backgroundColor: variables.lighterGray, borderRadius: 6, justifyContent: 'center', position: 'absolute', right: 0}}>
                           <Text style={{fontSize: 12, color: variables.darkGray}}>EDITAR</Text>
                         </Button>
                       </Text>
+                      {this.props.domicilio && <Text>Cargo Mensual</Text>}
                   </View>
                   <Tarjetas isTarjetasOpen={this.state.isTarjetasOpen} dismissTarjetasModal={this.dismissTarjetasModal} creditDisplay={creditDisplay}></Tarjetas>
 
                   <View style={style.section}>
-                      <Text>MÉTODO DE ENTREGA</Text>
+                      <Text style={style.sectionTitle}>MÉTODO DE ENTREGA</Text>
                       <Text>{descEntrega}</Text>
+                      {this.props.domicilio && <Text>{descExtraDias}</Text>}
                   </View>
 
                   <View style={style.section}>
-                      <Text>SUBSCRIPCIÓN</Text>
+                      <Text style={style.sectionTitle}>SUBSCRIPCIÓN</Text>
                       <Text>{descSubscription}</Text>
                   </View>
 
@@ -189,6 +200,11 @@ const style = StyleSheet.create({
     img: {
         width,
         height: width * 500 / 750
+    },
+    sectionTitle : {
+      marginBottom: 10,
+      fontWeight: 'bold',
+      color: variables.darkGray
     },
     add: {
         backgroundColor: "white",

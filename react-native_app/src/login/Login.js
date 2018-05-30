@@ -12,6 +12,8 @@ import Mark from "./Mark";
 import {Images, WindowDimensions, Field, NavigationHelpers, Small, Firebase} from "../components";
 import {AnimatedView} from "../components/Animations";
 import type {ScreenProps} from "../components/Types";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+
 
 import variables from "../../native-base-theme/variables/commonColor";
 
@@ -40,6 +42,7 @@ export default class Login extends React.Component<ScreenProps<>, LoginState> {
 
     @autobind
     setPasswordRef(input: TextInput) {
+        console.log("setting this brou ", input);
         this.password = input;
     }
 
@@ -60,23 +63,23 @@ export default class Login extends React.Component<ScreenProps<>, LoginState> {
 
     @autobind
     goToPassword() {
-        this.password.focus();
+        //this.password.focus();
     }
 
     @autobind
     goToPasswordConfirmation() {
-        this.passwordConfirmation.focus();
+      //  this.passwordConfirmation.focus();
     }
 
     @autobind
     goToEmail() {
         this.setState({shouldAvoidKeyboard: true});
-        this.email.focus();
+        //this.email.focus();
     }
 
     @autobind
     goToCodigoInvitacion() {
-      this.codigoInvitacion.focus();
+      //this.codigoInvitacion.focus();
     }
 
     @autobind
@@ -156,13 +159,24 @@ export default class Login extends React.Component<ScreenProps<>, LoginState> {
           .catch(function(error) {
               console.error("Error adding document: ", error);
           });
+
+        Firebase.firestore.collection("usersInfo").doc(user.uid).set({esRep: true})
+          .then(function() {
+              console.log("Updated el estado de Rep");
+
+          })
+          .catch(function(error) {
+              console.error("Error adding document: ", error.message);
+              Alert.alert("Hubo un error al actualizar el status rep", error.message);
+          });
+
       } catch (e) {
         console.log("error de crear cuenta: ", e.code);
         console.log("hey bro ", e.message);
         if (e.code == "auth/email-already-in-use") {
           Alert.alert("Este email ya fue usado.", "Por favor de log in o intentar con otro email.");
         } else {
-          Alert.alert("Hubo un error al crear la cuenta.", "Por favor intenta de nuevo.");
+          Alert.alert("Hubo un error al crear la cuenta.", e.message);
         }
 
         this.setState({loading: false});
@@ -212,7 +226,7 @@ export default class Login extends React.Component<ScreenProps<>, LoginState> {
             <Header noShadow>
             </Header>
                 <SafeAreaView style={StyleSheet.absoluteFill}>
-                    <ScrollView contentContainerStyle={[StyleSheet.absoluteFill, styles.content]}>
+                      <KeyboardAwareScrollView>
                             <AnimatedView
                                 style={{height: height - Constants.statusBarHeight, justifyContent: "flex-end" }}
                             >
@@ -232,7 +246,6 @@ export default class Login extends React.Component<ScreenProps<>, LoginState> {
                                   onSubmitEditing={this.goToPassword}
                                   inverse
                               />
-                              <KeyboardAvoidingView  behavior="position" enabled={true}>
                                 <Field
                                     label="Email"
                                     autoCapitalize="none"
@@ -243,12 +256,11 @@ export default class Login extends React.Component<ScreenProps<>, LoginState> {
                                     onChangeText={this.setEmail}
                                     inverse
                                 />
-                                </KeyboardAvoidingView>
                                 <Field
                                     label="Contraseña"
                                     secureTextEntry
                                     autoCapitalize="none"
-                                    returnKeyType="go"
+                                    returnKeyType="next"
                                     textInputRef={this.setPasswordRef}
                                     value={this.state.password}
                                     onChangeText={this.setPassword}
@@ -259,7 +271,7 @@ export default class Login extends React.Component<ScreenProps<>, LoginState> {
                                     label="Confirmar Contraseña"
                                     secureTextEntry
                                     autoCapitalize="none"
-                                    returnKeyType="go"
+                                    returnKeyType="next"
                                     textInputRef={this.setPasswordConfirmationRef}
                                     value={this.state.passwordConfirmation}
                                     onChangeText={this.setPasswordConfirmation}
@@ -281,7 +293,7 @@ export default class Login extends React.Component<ScreenProps<>, LoginState> {
                                 <View>
                                     <View>
                                         <Button primary full onPress={this.crearCuenta}>
-                                            <Text>Crear Cuenta</Text>
+                                            <Text style={{color: "white"}}>Crear Cuenta</Text>
                                         </Button>
                                     </View>
                                     <View>
@@ -292,7 +304,7 @@ export default class Login extends React.Component<ScreenProps<>, LoginState> {
                                 </View>
                             </View>
                             </AnimatedView>
-                    </ScrollView>
+                      </KeyboardAwareScrollView>
                 </SafeAreaView>
             </View>
         );

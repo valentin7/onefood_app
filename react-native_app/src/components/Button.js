@@ -8,6 +8,7 @@ import {withTheme, StyleGuide} from "./theme";
 
 import type {IconName} from "./Model";
 import type {ThemeProps, StyleProps} from "./theme";
+import variables from "../../native-base-theme/variables/commonColor";
 
 type ButtonProps = ThemeProps & StyleProps & {
     onPress: () => mixed,
@@ -23,7 +24,7 @@ class Button extends React.PureComponent<ButtonProps> {
 
     render(): React.Node {
         const {
-            onPress, style, label, icon, primary, secondary, theme, primaryTextColor, disabled
+            onPress, style, label, icon, iconStyle, primary, secondary, theme, primaryTextColor, disabled
         } = this.props;
         const opacity = disabled ? 0.5 : 1;
         let color: string;
@@ -44,6 +45,7 @@ class Button extends React.PureComponent<ButtonProps> {
         } else {
             color = "gray";
         }
+        //color = variables.brandPrimary;
         const shadow = primary ? StyleGuide.styles.shadow : {};
         let Btn: React.ComponentType<*>;
         if (disabled) {
@@ -56,7 +58,7 @@ class Button extends React.PureComponent<ButtonProps> {
         return (
             <Btn {...{onPress}}>
                 <View style={[styles.button, { backgroundColor, opacity, ...shadow }, style]} >
-                    {icon && <Icon name={icon} style={styles.icon} {...{color}} />}
+                    {icon && <Icon name={icon} {...{color}} />}
                     {label && <Text type="headline" {...{color}}>{label}</Text>}
                 </View>
             </Btn>

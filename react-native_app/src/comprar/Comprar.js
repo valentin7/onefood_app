@@ -5,7 +5,7 @@ import * as React from "react";
 import {View, Image, StyleSheet, Dimensions, InteractionManager, Animated, ScrollView, ActivityIndicator, SafeAreaView, StatusBar} from "react-native";
 import {H1, Text, Button, Segment, Radio, List, ListItem, Right, Content, CheckBox, Container, Header, Left, Icon, Title, Body, Footer} from "native-base";
 import ImageSlider from 'react-native-image-slider';
-import {TaskOverview, Images, Styles, PrecioTotal, QuantityInput, Address, Firebase, CreditCard, CheckoutConfirmation, WindowDimensions} from "../components";
+import {TaskOverview, Images, Styles, PrecioTotal, QuantityInput, ScanCoupon, Address, Firebase, CreditCard, CheckoutConfirmation, WindowDimensions} from "../components";
 import type {ScreenProps} from "../components/Types";
 import Modal from 'react-native-modalbox';
 import {StackNavigator, StackRouter} from 'react-navigation';
@@ -13,10 +13,7 @@ import {action, observable} from "mobx";
 import { observer, inject } from "mobx-react/native";
 import PedidoModel from "../components/APIStore";
 import Swiper from "react-native-swiper";
-import ScanCoupon from "../camera"
 import * as Constants from '../Constants';
-
-
 import variables from "../../native-base-theme/variables/commonColor";
 
 @inject('store') @observer
@@ -80,7 +77,6 @@ export default class Comprar extends React.Component {
     @autobind
     dismissCreditCardModal(last4) {
       this.setState({isCreditCardModalOpen: false, credit_last4: last4});
-      setTimeout(() => { this.setState({isCheckoutOpen: true})}, 600);
     }
 
     @autobind
@@ -100,7 +96,6 @@ export default class Comprar extends React.Component {
         }
 
         if (this.state.domicilio || this.state.subscription) {
-
           // check whether we already have his address saved.
           const docRef = await Firebase.firestore.collection("addresses").doc(user.uid);
           var docExists = false;
@@ -119,17 +114,16 @@ export default class Comprar extends React.Component {
 
           this.setState({loading: false});
 
+          console.log("aqui con la direccion existe? ", docExists);
           if (!docExists) {
-            this.setState({isCheckoutOpen: true});
+            //console.log("entoncesss ");
+            this.refs.modal.open();
+            //this.setState({isCheckoutOpen: true});
             return;
           } else {
             this.setState({direccionCompleta: fullAddress});
           }
         }
-
-        // const query = await Firebase.firestore.collection("paymentInfos").where("user_id", "==", user.uid).get().catch(function(error) {
-        //     console.log("Error getting documents: ", error);
-        // });
 
         // check whether we already have his credit card details.
         const docRef = await Firebase.firestore.collection("paymentInfos").doc(user.uid);
@@ -157,8 +151,9 @@ export default class Comprar extends React.Component {
         this.props.store.last4CreditCard = last4;
 
         this.setState({loading: false});
-
+        console.log("tarjeta existe? ", docExists);
         if (!docExists) {
+          console.log("y entonces");
           this.setState({isCreditCardModalOpen: true});
           return;
         } else {
@@ -196,6 +191,13 @@ export default class Comprar extends React.Component {
     render(): React.Node {
         const today = moment();
 
+        var descriptionTexto = "(Total: $" + this.state.totalPrice;
+
+        if (this.state.subscription) {
+          descriptionTexto += " mensual";
+        }
+        descriptionTexto += ")";
+
         return <Modal style={[style.modal, style.modal2]} isOpen={this.props.isModalOpen} swipeToClose={false}  backdrop={false} position={"top"} ref={"modal2"}>
             <Container>
               <Header style={{backgroundColor: variables.brandInfo, borderBottomWidth: 1, borderColor: variables.lightGray}}>
@@ -215,11 +217,11 @@ export default class Comprar extends React.Component {
               </Header>
               <Content>
               <Segment>
-                <Button first active={!this.state.subscription} onPress={this.toggleSubscriptionNo}>
-                  <Text>Compra Única</Text>
+                <Button first active={this.state.domicilio} onPress={this.toggleDomicilioYes}>
+                  <Text>Entrega A Domicilio</Text>
                 </Button>
-                <Button last active={this.state.subscription} onPress={this.toggleSubscriptionYes}>
-                  <Text>Suscripción</Text>
+                <Button last active={!this.state.domicilio} onPress={this.toggleDomicilioNo}>
+                  <Text>Recoger Producto</Text>
                 </Button>
               </Segment>
                 <Image source={Images.botellaNaranja} style={style.img} />
@@ -229,25 +231,25 @@ export default class Comprar extends React.Component {
                 <ActivityIndicator size="large" animating={this.state.loading}/>
                 <View style={[style.count, Styles.center]}>
                     <H1 style={style.heading}>COCOA</H1>
-                    <Text>SABOR</Text>
+                    <Text style={{color: 'gray'}}>SABOR</Text>
                     <QuantityInput totalPriceChange={this.totalPriceChange} ref="cocoaQuantity" singular="botella" plural="botellas" from={0} to={24*Constants.PRECIO_BOTELLA} />
                 </View>
                 {
-                  this.state.subscription ? (
+                  !this.state.domicilio ? (
                     <View/>
                   ) :
                   (
                     <List horizontal style={[style.bottomSeparator, {flex: 1, flexDirection: 'row', justifyContent: 'space-around', marginTop: 20, paddingBottom: 20, alignItems: 'flex-start'}]}>
-                      <ListItem onPress={this.toggleDomicilioYes} style={{borderBottomWidth: 0}}>
-                        <Text>Entrega a Domicilio</Text>
+                      <ListItem onPress={this.toggleSubscriptionNo} style={{borderBottomWidth: 0}}>
+                        <Text>Compra única</Text>
                         <Right style={{marginLeft: 20}}>
-                          <CheckBox style={{backgroundColor: this.state.domicilio ? variables.brandPrimary : variables.lightGray }} onPress={this.toggleDomicilioYes} checked={this.state.domicilio}/>
+                          <CheckBox style={{backgroundColor: !this.state.subscription ? variables.brandPrimary : variables.lightGray }} onPress={this.toggleSubscriptionNo} checked={this.state.subscription}/>
                         </Right>
                       </ListItem>
-                      <ListItem onPress={this.toggleDomicilioNo}  style={{borderBottomWidth: 0}}>
-                        <Text>Recoger Producto</Text>
+                      <ListItem onPress={this.toggleSubscriptionYes}  style={{borderBottomWidth: 0}}>
+                        <Text>Suscripción</Text>
                         <Right style={{marginLeft: 20}}>
-                          <CheckBox style={{backgroundColor: this.state.domicilio ? variables.lightGray : variables.brandPrimary }} onPress={this.toggleDomicilioNo} checked={!this.state.domicilio} />
+                          <CheckBox style={{backgroundColor: !this.state.subscription ? variables.lightGray : variables.brandPrimary }} onPress={this.toggleSubscriptionYes} checked={!this.state.subscription} />
                         </Right>
                       </ListItem>
                     </List>
@@ -256,12 +258,12 @@ export default class Comprar extends React.Component {
               </Content>
               <Button block onPress={this.continuar} disabled={this.state.totalPrice == 0} style={{ height: variables.footerHeight * 1.3 }}>
                 <Text style={{color: 'white'}}>CONTINUAR</Text>
-                <Text style={{color: 'white'}}>  (Total: ${this.state.totalPrice})</Text>
+                <Text style={{color: 'white'}}>  {descriptionTexto} </Text>
               </Button>
             </Container>
             <InformacionNutrimental ref={"infoNutrimentalModal"} />
             <Address ref={"modal"}></Address>
-
+            <ScanCoupon ref={"couponModal"}/>
             <CreditCard isOpen={this.state.isCreditCardModalOpen} dismissModal={this.dismissCreditCardModal} ref={"creditCardModal"}></CreditCard>
             <CheckoutConfirmation isCheckoutOpen={this.state.isCheckoutOpen} onOpenChange={this.onConfirmationOpenChange} madeFinalPurchase={this.madeFinalPurchase} domicilio={this.state.domicilio} subscription={this.state.subscription} totalPrice={this.state.totalPrice} cocoaQuantity={this.state.cocoaQuantity} lastFour={this.state.credit_last4} direccionCompleta={this.state.direccionCompleta} ref={"checkoutModal"}></CheckoutConfirmation>
         </Modal>;
@@ -413,7 +415,7 @@ const style = StyleSheet.create({
         borderColor: variables.listBorderColor,
     },
     heading: {
-        color: variables.brandPrimary
+        color: variables.darkGray,//'#9c5d30',
     },
     modal: {
     justifyContent: 'center',

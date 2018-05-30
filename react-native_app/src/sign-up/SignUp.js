@@ -1,7 +1,7 @@
 // @flow
 import autobind from "autobind-decorator";
 import * as React from "react";
-import {View, Image, StyleSheet, ScrollView, KeyboardAvoidingView, TextInput, ActivityIndicator} from "react-native";
+import {View, Image, StyleSheet, ScrollView, Alert, KeyboardAvoidingView, TextInput, ActivityIndicator} from "react-native";
 import {Button, Header, Left, Right, Body, Icon, Title, Text, H1} from "native-base";
 import {Constants} from "expo";
 
@@ -46,7 +46,7 @@ export default class SignUp extends React.Component<ScreenProps<>> {
 
     @autobind
     goToUsername() {
-        this.username.focus();
+        //this.username.focus();
     }
 
     @autobind
@@ -56,7 +56,7 @@ export default class SignUp extends React.Component<ScreenProps<>> {
 
     @autobind
     goToPassword() {
-        this.password.focus();
+        //this.password.focus();
     }
 
     @autobind
@@ -75,13 +75,27 @@ export default class SignUp extends React.Component<ScreenProps<>> {
     @autobind
     async logIn(): Promise<void> {
       const {email, password} = this.state;
-      this.setState({loading: true});
+      if (email.length <= 1 || password.length <= 1) {
+        Alert.alert("Primero llena tu email y contraseña", "");
+        return;
+      }
+
       try {
+        this.setState({loading: true});
         await Firebase.auth.signInWithEmailAndPassword(email, password);
       } catch (e) {
-        Alert.alert("Hubo un error al iniciar sesión.", e);
+        console.log("codigo error es: ", e.code);
+        if (e.code == "auth/invalid-email") {
+          Alert.alert("El email esta mal formateado.", "");
+        } else if(e.code == "auth/wrong-password") {
+          Alert.alert("Contraseña Incorrecta", "");
+        } else if (e.code == "auth/user-not-found") {
+          Alert.alert("No existe un usuario con esta contraseña.", "Porfavor confirma que tu email esta bien escrito o crea una cuenta.")
+        } else {
+          Alert.alert("Hubo un error al iniciar sesión.", e.message);
+        }
       }
-      this.setState({loading: false});
+      //this.setState({loading: false});
     }
 
     render(): React.Node {
@@ -104,9 +118,9 @@ export default class SignUp extends React.Component<ScreenProps<>> {
                         <H1 style={style.title}>ONEFOOD</H1>
                     </View>
                 </View>
-                <ScrollView style={Styles.flexGrow}>
-                <KeyboardAvoidingView behavior="position" keyboardVerticalOffset={30}>
-                    <View style={Styles.form}>
+                <ActivityIndicator size="large" animating={this.state.loading}/>
+                <KeyboardAvoidingView behavior="position">
+                    <View style={[Styles.form, style.formView]}>
                         <Field
                             label="Email"
                             textInputRef={this.setUsernameRef}
@@ -124,13 +138,11 @@ export default class SignUp extends React.Component<ScreenProps<>> {
                             value={this.state.password}
                             returnKeyType="go"
                         />
-                        <ActivityIndicator size="large" animating={this.state.loading}/>
                     </View>
                     <Button primary block onPress={this.logIn} style={{ height: variables.footerHeight }}>
-                        <Text>LOG IN</Text>
+                        <Text style={{color: "white"}}>LOG IN</Text>
                     </Button>
                 </KeyboardAvoidingView>
-                </ScrollView>
 
             </Container>
         );
@@ -150,12 +162,14 @@ const style = StyleSheet.create({
         height: 120,
         resizeMode: 'contain',
     },
+    formView: {
+    },
     row: {
         flexDirection: "row"
     },
     logo: {
-        marginVertical: variables.contentPadding * 2,
-        alignItems: "center"
+      marginVertical: variables.contentPadding,
+      alignItems: "center"
     },
     title: {
         marginVertical: variables.contentPadding * 2,

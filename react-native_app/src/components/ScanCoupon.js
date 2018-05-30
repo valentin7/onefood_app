@@ -1,19 +1,27 @@
 import React from 'react';
-import {View, TouchableOpacity, Dimensions, StyleSheet} from 'react-native';
+import {View, TouchableOpacity, Dimensions, StyleSheet, Alert} from 'react-native';
 import { BarCodeScanner, Permissions } from 'expo';
-import {Container, Text, Header, Right, Left, Icon, Content, Button, H3} from 'native-base';
+import {Container, Text, Header, Right, Left, Icon, Content, Button, Body, Title, H3} from 'native-base';
 import autobind from "autobind-decorator";
 import Modal from 'react-native-modalbox';
 import variables from "../../native-base-theme/variables/commonColor";
 
 import {BaseContainer, PedidoItem, Firebase} from "../components";
-export default class ScanCoupon extends React.Component<ScreenProps<>> {
+
+const {width, height} = Dimensions.get("window");
+
+export default class ScanCoupon extends React.Component {
   state = {
     hasCameraPermission: null,
     pedidoInfo: {},
-    pedidoValido: false,
+    cuponValido: false,
     justScanned: false,
+    isOpen: false,
   };
+
+  open() {
+    this.setState({isOpen: true});
+  }
 
   componentDidMount () {
     this.setState({justScanned: false});
@@ -34,18 +42,18 @@ export default class ScanCoupon extends React.Component<ScreenProps<>> {
     //Firebase.firestore.collection("pedidos").doc("")
     console.log("data and type ", data, type);
 
-    const docRef = await Firebase.firestore.collection("pedidos").doc(data);
+    const docRef = await Firebase.firestore.collection("codigosPromociones").doc(data);
     var docExists = false;
-    var pedidoValido = true;
+    var cuponValido = true;
     var pedidoInfo = {};
 
     await docRef.get().then(function(doc) {
         if (doc.exists) {
             docExists = true;
-            console.log("Pedido exists!!  data:", doc.data());
+            console.log("Codigo Promocion exists!!  data:", doc.data());
 
             if (doc.data().reclamado) {
-              pedidoValido = false;
+              cuponValido = false;
             }
 
             var prevData = doc.data();
@@ -59,7 +67,7 @@ export default class ScanCoupon extends React.Component<ScreenProps<>> {
             //   console.error("error writing doc: ", error);
             // });
         } else {
-            pedidoValido = false;
+            cuponValido = false;
             console.log("No such document!");
         }
     }).catch(function(error) {
@@ -67,19 +75,26 @@ export default class ScanCoupon extends React.Component<ScreenProps<>> {
     });
 
 
-    if (docExists && pedidoValido) {
-      this.setState({pedidoInfo: pedidoInfo, pedidoValido: true});
+    if (docExists && cuponValido) {
+      Alert.alert("Cupón Aplicado!", "Tienes 50% de descuento en tu próxima compra");
+      this.setState({pedidoInfo: pedidoInfo, cuponValido: true});
     } else {
-      this.setState({pedidoValido: false});
+      Alert.alert("Cupón Invalido");
+      this.setState({cuponValido: false});
     }
 
-    this.refs.pedidoModal.open();
+    //this.refs.pedidoModal.open();
   }
 
   @autobind
   onModalClose() {
     console.log("yeah nigg");
     this.setState({justScanned: false});
+  }
+
+  @autobind
+  dismissModal() {
+    this.setState({isOpen: false});
   }
 
   render() {
@@ -90,32 +105,24 @@ export default class ScanCoupon extends React.Component<ScreenProps<>> {
       return <Text>No access to camera</Text>;
     } else {
       return (
-        <Modal style={[style.modal]} isOpen={this.state.isOpen} animationDuration={400} swipeToClose={false} coverScreen={true} position={"center"} ref={"modal2"}>
-        <Container safe={true}>
-          <Header style={{borderBottomWidth: 1, borderColor: variables.lightGray}}>
+        <Modal style={[style.modal]} isOpen={this.state.isOpen} animationDuration={400} swipeToClose={false} coverScreen={true} position={"center"}>
+          <Container safe={true} >
+          <Header style={{borderBottomWidth: 1, borderColor: variables.lightGray, height: 70, width: width}}>
               <Left>
                   <Button transparent onPress={this.dismissModal}>
                       <Icon name="ios-close-outline" style={style.closeIcon} />
                   </Button>
               </Left>
-              <Body>
-                  <Title>DIRECCIÓN</Title>
+              <Body style={{width: 60}}>
+                  <Title>ESCANEAR</Title>
               </Body>
-              <Right />
+              <Right/>
           </Header>
-          <Content style={style.content}>
-          <View style={{ flex: 1 }}>
-            <BarCodeScanner onBarCodeRead={this.handleScan} style={{ flex: 1, height: width}}>
-              <View
-                  style={{
-                    flex: 1,
-                    backgroundColor: 'transparent',
-                    flexDirection: 'row',
-                  }}>
-                </View>
-            </BarCodeScanner>
+          <BarCodeScanner onBarCodeRead={this.handleScan} style={{height: width, width: width}}>
+        </BarCodeScanner>
+          <View style={{justifyContent: 'center', alignItems: 'center'}}>
+            <Text style={{color: variables.darkGray, marginTop: 5, fontSize: 15}}>Escanea Cupones y Descuentos ONEFOOD</Text>
           </View>
-          </Content>
         </Container>
         </Modal>
       );
@@ -146,12 +153,12 @@ class PedidoInfo extends React.Component<PedidoProps> {
     }
 
     render(): React.Node {
-      const {pedidoInfo, pedidoValido} = this.props;
+      const {pedidoInfo, cuponValido} = this.props;
 
       return <Modal style={style.modal} swipeToClose={false} onClosed={this.setModalStateClosed}  isOpen={this.state.detailModalIsOpen} backdrop={true} position={"bottom"} coverScreen={true} ref={"modal"}>
 
           {
-            pedidoValido ?
+            cuponValido ?
             (<Container style={style.container}>
                 <Button transparent onPress={this.dismissModal}>
                     <Icon name="ios-close-outline" style={style.closeIcon} />
@@ -174,9 +181,9 @@ class PedidoInfo extends React.Component<PedidoProps> {
           }
         </Modal>;
     }
-
 }
-const {width, height} = Dimensions.get("window");
+
+
 
 const style = StyleSheet.create({
   container: {
@@ -188,14 +195,15 @@ const style = StyleSheet.create({
   closeIcon: {
       fontSize: 50,
       marginLeft: 20,
-      color: variables.brandPrimary
+      color: variables.brandPrimary,
   },
   closeButton: {
     marginTop: 60,
   },
     modal: {
     height: height,
-    justifyContent: 'center',
+    flex: 1,
+    justifyContent: 'flex-start',
     alignItems: 'center',
     backgroundColor: variables.brandInfo
   },

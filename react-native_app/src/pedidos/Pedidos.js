@@ -7,7 +7,6 @@ import {observable, action} from "mobx";
 import { observer, inject } from "mobx-react/native";
 import Modal from 'react-native-modalbox';
 import QRCode from 'react-native-qrcode';
-import store from "../store";
 import PTRView from 'react-native-pull-to-refresh';
 import * as Constants from '../Constants';
 
@@ -22,6 +21,7 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
 
     state = {
       loading: true,
+      haRefreshedPedidos: false,
       pedidos: [],
       pedidosHistorial: [],
       refreshing: false,
@@ -69,6 +69,7 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
         pedidosHistorial,
         loading: false,
         refreshing: false,
+        haRefreshedPedidos: true,
       });
     }
 
@@ -77,13 +78,39 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
     //     console.error("wadduppp: ", error);
     //   });
     // }
+
+    @autobind @action
+    async updateRepStatus(): Promise<void> {
+      var user = Firebase.auth.currentUser;
+
+      const docRef = await Firebase.firestore.collection("usersInfo").doc(user.uid);
+      var docExists = false;
+      var isRep = false;
+      await docRef.get().then(function(doc) {
+          if (doc.exists) {
+              docExists = true;
+              console.log("Doc exists!!  data:", doc.data());
+              isRep = doc.data().isRep;
+          } else {
+              console.log("No such document!");
+          }
+      }).catch(function(error) {
+          console.log("Error getting document:", error);
+      });
+
+      console.log("es rep firebase? ", isRep);
+      this.props.store.esRep = isRep;
+    }
+
     @action
     componentDidMount() {
       console.log("HAYUUUU ", this.props.store.loading);
-
       this.refreshPedidos();
+      this.updateRepStatus();
+      //setTimeout(() => {this.updateRepStatus()}, 1200);
 
       JankWorkaround.runAfterInteractions(() => {
+
         this.setState({ loading: false });
       });
     }
@@ -137,7 +164,7 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
                         <RefreshControl
                           refreshing={this.state.refreshing}
                           onRefresh={this.refreshPedidos}/> }>
-                        { this.props.store.pedidos.length == 0 && this.state.pedidosHistorial == 0 ? (
+                        { this.state.haRefreshedPedidos && this.props.store.pedidos.length == 0 && this.state.pedidosHistorial == 0 ? (
                           <View>
                             <Text style={style.welcomeMessage}>{welcomeMessage}</Text>
                           </View>

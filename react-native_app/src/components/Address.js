@@ -4,7 +4,7 @@ import autobind from "autobind-decorator";
 import * as React from "react";
 import {View, Image, StyleSheet, Dimensions, InteractionManager, Animated, ScrollView, ActivityIndicator} from "react-native";
 import {H1, Text, Button, Radio, ListItem, Right, Content, Container, CheckBox, Form, Item, Input, Left, Body, Header, Icon, Title} from "native-base";
-import {BaseContainer, Images, Styles, Firebase} from "../components";
+import {BaseContainer, Images, Styles, Firebase, CreditCard} from "../components";
 import type {ScreenProps} from "../components/Types";
 import Modal from 'react-native-modalbox';
 import variables from "../../native-base-theme/variables/commonColor";
@@ -20,6 +20,8 @@ export default class Address extends React.Component {
       estado: "",
       codigoPostal: "",
       loading: false,
+      isCreditCardModalOpen: false,
+      credit_last4: "0000",
     }
 
     componentWillMount() {
@@ -61,6 +63,10 @@ export default class Address extends React.Component {
     setCodigoPostal(text) {
       this.setState({codigoPostal: text});
     }
+    @autobind
+    dismissCreditCardModal(last4) {
+      this.setState({isCreditCardModalOpen: false, credit_last4: last4});
+    }
 
     @autobind
     async saveAddress(): Promise<void> {
@@ -87,6 +93,45 @@ export default class Address extends React.Component {
 
       this.setState({loading: false});
       this.dismissModal();
+      //this.continuar();
+    }
+
+    @autobind
+    async continuar(): Promise<void> {
+      // check whether we already have his credit card details.
+      const docRef = await Firebase.firestore.collection("paymentInfos").doc(user.uid);
+      var docExists = false;
+      var last4 = "";
+      await docRef.get().then(function(doc) {
+          if (doc.exists) {
+              docExists = true;
+              console.log("Doc exists!!  data:", doc.data());
+              var tarjetas = doc.data().tarjetas;
+              for (var i = 0; i < tarjetas.length; i++) {
+                console.log("por aqui ", tarjetas[i]);
+                if (tarjetas[i].usando) {
+                  last4 = tarjetas[i].last4;
+                }
+              }
+              console.log("indiegogo ", last4);
+          } else {
+              // doc.data() will be undefined in this case
+              console.log("No such document!");
+          }
+      }).catch(function(error) {
+          console.log("Error getting document:", error);
+      });
+      this.props.store.last4CreditCard = last4;
+
+      this.setState({loading: false});
+      console.log("tarjeta existe? ", docExists);
+      if (!docExists) {
+        console.log("y entonces");
+        this.setState({isCreditCardModalOpen: true});
+        return;
+      } else {
+        this.setState({credit_last4: last4});
+      }
     }
 
     @autobind
@@ -133,6 +178,7 @@ export default class Address extends React.Component {
                     <Text style={{color: 'white'}}>LISTO</Text>
                   </Button>
                 </Container>
+                <CreditCard isOpen={this.state.isCreditCardModalOpen} dismissModal={this.dismissCreditCardModal} ref={"creditCardModal"}></CreditCard>
         </Modal>;
     }
 }

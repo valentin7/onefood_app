@@ -41,9 +41,10 @@ class QuantityInput extends React.Component<QuantityInputProps> {
     render(): React.Node {
         const {singular, plural, from, to, theme} = this.props;
         return (
-            <View style={[styles.container, { backgroundColor: variables.lighterGray}]}>
+            <View style={[styles.container, { backgroundColor: variables.lighterGray,  borderColor: variables.darkGray, borderWidth: 0}]}>
                 <Button
                     icon="minus"
+                    iconStyle={{color: 'white'}}
                     secondary
                     style={styles.leftButton}
                     disabled={this.quantity === from}
@@ -52,6 +53,7 @@ class QuantityInput extends React.Component<QuantityInputProps> {
                 <Text primary>{`${this.quantity} ${this.quantity != 1 ? plural : singular}`}</Text>
                 <Button
                     icon="plus"
+                    iconStyle={{color: 'white'}}
                     secondary
                     style={styles.rightButton}
                     disabled={this.quantity === to}
@@ -74,6 +76,8 @@ const styles = StyleSheet.create({
     leftButton: {
         marginBottom: 0,
         marginRight: 5,
+        borderColor: variables.darkGray,
+        borderWidth: 0,
         borderTopRightRadius: 0,
         borderBottomRightRadius: 0,
         backgroundColor: variables.brandPrimary,
@@ -81,6 +85,8 @@ const styles = StyleSheet.create({
     rightButton: {
         marginBottom: 0,
         marginLeft: 5,
+        borderColor: variables.darkGray,
+        borderWidth: 0,
         borderTopLeftRadius: 0,
         borderBottomLeftRadius: 0,
         backgroundColor: variables.brandPrimary,

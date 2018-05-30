@@ -48,7 +48,7 @@ const style = StyleSheet.create({
     title: {
         justifyContent: "center",
         flex: 1,
-        padding: variables.contentPadding
+        padding: variables.contentPadding,
     },
     titleText: {
         fontSize: variables.fontSizeBase * 2 + variables.contentPadding,
