@@ -8,7 +8,9 @@ import {BaseContainer, Images, Styles, Firebase, CreditCard} from "../components
 import type {ScreenProps} from "../components/Types";
 import Modal from 'react-native-modalbox';
 import variables from "../../native-base-theme/variables/commonColor";
+import { observer, inject } from "mobx-react/native";
 
+@inject('store') @observer
 export default class Address extends React.Component {
 
     state = {
@@ -66,6 +68,7 @@ export default class Address extends React.Component {
     @autobind
     dismissCreditCardModal(last4) {
       this.setState({isCreditCardModalOpen: false, credit_last4: last4});
+      this.props.dismissModal();
     }
 
     @autobind
@@ -92,12 +95,15 @@ export default class Address extends React.Component {
       });
 
       this.setState({loading: false});
-      this.dismissModal();
-      //this.continuar();
+      //this.dismissModal();
+      this.continuar();
     }
 
     @autobind
     async continuar(): Promise<void> {
+      this.setState({loading: true});
+
+      var user = Firebase.auth.currentUser;
       // check whether we already have his credit card details.
       const docRef = await Firebase.firestore.collection("paymentInfos").doc(user.uid);
       var docExists = false;
@@ -122,26 +128,32 @@ export default class Address extends React.Component {
           console.log("Error getting document:", error);
       });
       this.props.store.last4CreditCard = last4;
-
       this.setState({loading: false});
+
       console.log("tarjeta existe? ", docExists);
       if (!docExists) {
         console.log("y entonces");
         this.setState({isCreditCardModalOpen: true});
+        //setTimeout(() => {this.dismissModal()}, 600);
         return;
       } else {
         this.setState({credit_last4: last4});
+        //setTimeout(() => {this.dismissModal()}, 600);
+        this.props.dismissModal();
+        //this.dismissModal();
       }
     }
 
+
     @autobind
-    dismissModal() {
-      this.setState({isOpen: false});
+    dismissModal(){
+      //this.setState({isOpen: false});
+      this.props.dismissModal();
     }
 
     render(): React.Node {
 
-        return <Modal style={[style.modal]} isOpen={this.state.isOpen} animationDuration={400} swipeToClose={false} coverScreen={true} position={"center"} ref={"modal2"}>
+        return <Modal style={[style.modal]} isOpen={this.props.isOpen} animationDuration={400} swipeToClose={false} coverScreen={true} position={"center"} ref={"modal2"}>
                 <Container safe={true}>
                   <Header style={{borderBottomWidth: 1, borderColor: variables.lightGray}}>
                       <Left>

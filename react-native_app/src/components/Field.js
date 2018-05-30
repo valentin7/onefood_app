@@ -34,7 +34,7 @@ export default class Field extends React.Component<FieldProps> {
 
     render(): React.Node {
         const {label, last, textInputRef} = this.props;
-        
+
         const {value} = this;
         const keysToFilter = ["right", "defaultValue", "inverse", "label", "last"];
         const props = _.pickBy(this.props, (value, key) => keysToFilter.indexOf(key) === -1);
@@ -76,11 +76,11 @@ const style = StyleSheet.create({
     label: {
         marginHorizontal: variables.contentPadding * 2,
         color: variables.mediumGray,
-        fontSize: 12,
+        fontSize: 14,
     },
     input: {
         flex: 1,
         color: variables.darkGray,
-        fontSize: 12,
+        fontSize: 14,
     }
 });

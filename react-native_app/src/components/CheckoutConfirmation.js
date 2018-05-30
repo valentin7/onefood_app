@@ -108,7 +108,7 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
       }
       var tieneDireccion = this.props.domicilio || this.props.subscription;
       var descEntrega = tieneDireccion ? "Se te entregará a tu dirección: \n" : "Reclamar en persona.";
-      var descSubscription = this.props.subscription ? "Este mismo pedido se te entregará cada mes." : "No, este es un pedido único.";
+      var descSubscription = this.props.subscription ? "Este mismo ONEFOOD KIT se te entregará cada mes en el rango de fechas que se muestran." : "No, este es un pedido único.";
       var totalPriceDisplay = "$"+this.props.totalPrice;
       var discountedPrice = "$"+this.props.totalPrice*(1-discount);
 
@@ -123,7 +123,7 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
       var fechaMax = Moment().add(11, 'days').format("dddd, D MMMM"); //.format("dddd, D MMMM YYYY, h:mma");;
 
       console.log("watagit: ", fechaMin);
-      var descExtraDias = "Entrega en 5 a 11 días: entre " + fechaMin + " y " + fechaMax + "."
+      var descExtraDias = "\nEntrega en 5 a 11 días: entre " + fechaMin + " y " + fechaMax + "."
 
       return  <Modal style={[style.modal]} isOpen={this.props.isCheckoutOpen} animationDuration={400} swipeToClose={false} coverScreen={true} position={"center"} ref={"modal2"}>
               <Container safe={true}>
@@ -161,7 +161,7 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
                           <Text style={{fontSize: 12, color: variables.darkGray}}>EDITAR</Text>
                         </Button>
                       </Text>
-                      {this.props.domicilio && <Text>Cargo Mensual</Text>}
+                      {this.props.subscription && <Text>Cargo Mensual</Text>}
                   </View>
                   <Tarjetas isTarjetasOpen={this.state.isTarjetasOpen} dismissTarjetasModal={this.dismissTarjetasModal} creditDisplay={creditDisplay}></Tarjetas>
 

@@ -5,6 +5,7 @@ import {Container, Text} from 'native-base';
 import autobind from "autobind-decorator";
 import Modal from 'react-native-modalbox';
 import variables from "../../native-base-theme/variables/commonColor";
+import * as Constants from '../Constants';
 
 import {Button, Icon, Left, H3} from "native-base";
 
@@ -136,7 +137,7 @@ class PedidoInfo extends React.Component<PedidoProps> {
 
     render(): React.Node {
       const {pedidoInfo, pedidoValido} = this.props;
-
+      var pedidoFecha = Constants.convertirFecha(pedidoInfo.fecha);
       return <Modal style={style.modal} swipeToClose={false} onClosed={this.setModalStateClosed}  isOpen={this.state.detailModalIsOpen} backdrop={true} position={"bottom"} coverScreen={true} ref={"modal"}>
 
           {
@@ -147,10 +148,10 @@ class PedidoInfo extends React.Component<PedidoProps> {
                 </Button>
                 <PedidoItem
                   numero={pedidoInfo.cantidades[0]}
-                  title="CHOCOLATE"
+                  title="COCOA"
               />
               <View style={{marginTop: 20}}>
-                <H3>{pedidoInfo.fecha}</H3>
+                <H3>{pedidoFecha}</H3>
               </View>
             </Container>) :
             (<Container style={style.container}>

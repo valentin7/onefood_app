@@ -160,7 +160,7 @@ export default class Login extends React.Component<ScreenProps<>, LoginState> {
               console.error("Error adding document: ", error);
           });
 
-        Firebase.firestore.collection("usersInfo").doc(user.uid).set({esRep: true})
+        Firebase.firestore.collection("usersInfo").doc(user.uid).set({esRep: false})
           .then(function() {
               console.log("Updated el estado de Rep");
 

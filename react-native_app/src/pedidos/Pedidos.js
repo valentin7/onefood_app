@@ -90,7 +90,7 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
           if (doc.exists) {
               docExists = true;
               console.log("Doc exists!!  data:", doc.data());
-              isRep = doc.data().isRep;
+              isRep = doc.data().esRep;
           } else {
               console.log("No such document!");
           }
@@ -192,7 +192,7 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
 
                     {this.state.pedidosHistorial.map((item, key) =>  (
                       <ListItem key={key} style={{height: 70, backgroundColor: "white"}} onPress={() => this.open(item)}>
-                        <Text style={Styles.grayText}> {item.cantidades[0] + item.cantidades[1]} ONEFOODS</Text>
+                        <Text style={Styles.grayText}> {item.cantidades[0]} ONEFOODS</Text>
                       </ListItem>))
                     }
                    </ScrollView>

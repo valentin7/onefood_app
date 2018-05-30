@@ -31,6 +31,7 @@ export default class Comprar extends React.Component {
       loading: false,
       direccionCompleta: "",
       isCreditCardModalOpen: false,
+      isAddressModalOpen: false,
     }
 
     componentDidMount() {
@@ -77,6 +78,13 @@ export default class Comprar extends React.Component {
     @autobind
     dismissCreditCardModal(last4) {
       this.setState({isCreditCardModalOpen: false, credit_last4: last4});
+      setTimeout(() => {this.setState({isCheckoutOpen: true});}, 410);
+    }
+
+    @autobind
+    dismissAddressModal() {
+      this.setState({isAddressModalOpen: false});
+      setTimeout(() => {this.setState({isCheckoutOpen: true});}, 410);
     }
 
     @autobind
@@ -117,7 +125,8 @@ export default class Comprar extends React.Component {
           console.log("aqui con la direccion existe? ", docExists);
           if (!docExists) {
             //console.log("entoncesss ");
-            this.refs.modal.open();
+            //this.refs.modal.open();
+            this.setState({isAddressModalOpen: true});
             //this.setState({isCheckoutOpen: true});
             return;
           } else {
@@ -262,7 +271,7 @@ export default class Comprar extends React.Component {
               </Button>
             </Container>
             <InformacionNutrimental ref={"infoNutrimentalModal"} />
-            <Address ref={"modal"}></Address>
+            <Address isOpen={this.state.isAddressModalOpen} dismissModal={this.dismissAddressModal} ></Address>
             <ScanCoupon ref={"couponModal"}/>
             <CreditCard isOpen={this.state.isCreditCardModalOpen} dismissModal={this.dismissCreditCardModal} ref={"creditCardModal"}></CreditCard>
             <CheckoutConfirmation isCheckoutOpen={this.state.isCheckoutOpen} onOpenChange={this.onConfirmationOpenChange} madeFinalPurchase={this.madeFinalPurchase} domicilio={this.state.domicilio} subscription={this.state.subscription} totalPrice={this.state.totalPrice} cocoaQuantity={this.state.cocoaQuantity} lastFour={this.state.credit_last4} direccionCompleta={this.state.direccionCompleta} ref={"checkoutModal"}></CheckoutConfirmation>
