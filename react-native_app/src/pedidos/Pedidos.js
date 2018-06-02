@@ -40,13 +40,10 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
     @autobind @action
     async refreshPedidos(): Promise<void> {
       this.setState({refreshing: true});
-
       var user = Firebase.auth.currentUser;
-
       if (user == null) {
         return;
       }
-      console.log("THE USER IS ", user );
 
       this.setState({usersName: user.displayName});
       const query = await Firebase.firestore.collection("pedidos").where("user_id", "==", user.uid).get().catch(function(error) {
@@ -73,12 +70,6 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
       });
     }
 
-    // async componentWillMount(): Promise<void> {
-    //   await this.refreshPedidos().catch(function(error) {
-    //     console.error("wadduppp: ", error);
-    //   });
-    // }
-
     @autobind @action
     async updateRepStatus(): Promise<void> {
       var user = Firebase.auth.currentUser;
@@ -104,13 +95,9 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
 
     @action
     componentDidMount() {
-      console.log("HAYUUUU ", this.props.store.loading);
       this.refreshPedidos();
       this.updateRepStatus();
-      //setTimeout(() => {this.updateRepStatus()}, 1200);
-
       JankWorkaround.runAfterInteractions(() => {
-
         this.setState({ loading: false });
       });
     }
@@ -127,12 +114,6 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
     dismissModal() {
       this.setState({isOpen: false});
     }
-
-    // @autobind
-    // pedidoHecho(pedido) {
-    //   this.setState({pedidos: this.state.pedidos.push(pedido)});
-    //   //store.pedidos.push(pedido);
-    // }
 
     @autobind
     comprar() {
@@ -178,9 +159,10 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
                       </Separator>
                     ) : (<View/>)}
 
-                    {this.props.store.pedidos.map((item, key) =>  (
-                      <ListItem key={key} style={{height: 70, backgroundColor: "white"}} onPress={() => this.open(item)}>
-                        <Text> {item.cantidades.reduce(function(acc, val) {return acc + val})} ONEFOODS</Text>
+                    {this.props.store.pedidos.map((item, key) =>
+                      (<ListItem key={key} style={{height: 70, backgroundColor: "white", flexDirection: 'column', alignItems: 'flex-start'}} onPress={() => this.open(item)}>
+                        <Text style={style.pedidoTitulo}> {item.cantidades.reduce(function(acc, val) {return acc + val})} ONEFOODS</Text>
+                        <Text style={style.pedidoFecha}>{Constants.convertirFechaCorta(item.fecha)}</Text>
                       </ListItem>))
                     }
 
@@ -191,7 +173,7 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
                     ) : (<View/>)}
 
                     {this.state.pedidosHistorial.map((item, key) =>  (
-                      <ListItem key={key} style={{height: 70, backgroundColor: "white"}} onPress={() => this.open(item)}>
+                      <ListItem key={key} style={{height: 70, backgroundColor: "white", flexDirection: 'column'}} onPress={() => this.open(item)}>
                         <Text style={Styles.grayText}> {item.cantidades[0]} ONEFOODS</Text>
                       </ListItem>))
                     }
@@ -389,6 +371,15 @@ const style = StyleSheet.create({
     timelineRight: {
         flex: .5,
         justifyContent: "flex-end"
+    },
+    pedidoTitulo: {
+      top: 10,
+    },
+    pedidoFecha: {
+      color: variables.lightGray,
+      fontSize: 12,
+      left: 5,
+      bottom: -12,
     },
     container: {
       flex: 1,

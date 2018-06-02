@@ -50,15 +50,9 @@ export default class Mapa extends React.Component<ScreenProps<>> {
       });
     }
 
-    // shouldComponentUpdate() {
-    //   return this.state.shouldUpdate
-    // }
-
     @autobind
     openMapMarker(coordinate) {
       openMap({latitude: coordinate.latitude, longitude: coordinate.longitude});
-
-    //  alert("what's up bruvy" + coordinate.latitude + ", " + coordinate.longitude);
     }
 
     componentWillUnmount() {

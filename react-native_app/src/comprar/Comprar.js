@@ -15,6 +15,8 @@ import PedidoModel from "../components/APIStore";
 import Swiper from "react-native-swiper";
 import * as Constants from '../Constants';
 import variables from "../../native-base-theme/variables/commonColor";
+import openMap from 'react-native-open-maps';
+import MapView, {Marker} from "react-native-maps";
 
 @inject('store') @observer
 export default class Comprar extends React.Component {
@@ -191,8 +193,13 @@ export default class Comprar extends React.Component {
     @autobind
     showIngredients() {
       this.refs.infoNutrimentalModal.open();
-
     }
+
+    @autobind
+    showMap() {
+      this.refs.mapa.open();
+    }
+
     static navigationOptions = {
       title: 'Welcome',
     };
@@ -245,7 +252,9 @@ export default class Comprar extends React.Component {
                 </View>
                 {
                   !this.state.domicilio ? (
-                    <View/>
+                    <View style={[style.count, style.information]}>
+                      <Text onPress={this.showMap} style={{color: variables.brandPrimary}}>Ver Mapa de Ubicaciones ONEFOOD</Text>
+                    </View>
                   ) :
                   (
                     <List horizontal style={[style.bottomSeparator, {flex: 1, flexDirection: 'row', justifyContent: 'space-around', marginTop: 20, paddingBottom: 20, alignItems: 'flex-start'}]}>
@@ -271,6 +280,7 @@ export default class Comprar extends React.Component {
               </Button>
             </Container>
             <InformacionNutrimental ref={"infoNutrimentalModal"} />
+            <MapaAdicional ref={"mapa"} />
             <Address isOpen={this.state.isAddressModalOpen} dismissModal={this.dismissAddressModal} ></Address>
             <ScanCoupon ref={"couponModal"}/>
             <CreditCard isOpen={this.state.isCreditCardModalOpen} dismissModal={this.dismissCreditCardModal} ref={"creditCardModal"}></CreditCard>
@@ -329,6 +339,69 @@ class InformacionNutrimental extends React.Component {
                 </Button>
         </Modal>;
     }
+}
+
+let markerId = 0;
+
+class MapaAdicional extends React.Component {
+
+  state = {
+    detailModalIsOpen: false,
+    markers: [{key: markerId++, title: "Camión ONEFOOD #23", description: "Presiona para abrir en Mapa.", coordinate: {latitude: 19.4326, longitude: -99.1335}, color: "green"},
+              {key: markerId++, title: "Camión ONEFOOD #2", description: "Presiona para abrir en Mapa.", coordinate: {latitude: 19.4452, longitude: -99.1359}, color: "green"}
+              ],
+  }
+
+  open() {
+    StatusBar.setBarStyle('light-content', true);
+    this.setState({detailModalIsOpen: true});
+  }
+
+  @autobind
+  openMapMarker(coordinate) {
+    openMap({latitude: coordinate.latitude, longitude: coordinate.longitude});
+  }
+
+  @autobind
+  setModalStateClosed() {
+    this.setState({detailModalIsOpen: false});
+  }
+
+  @autobind
+  dismissModal() {
+    StatusBar.setBarStyle('default', true);
+    this.setState({detailModalIsOpen: false});
+  }
+
+  render(): React.Node {
+    const {pedidoInfo, pedidoValido} = this.props;
+    const { width, height } = Dimensions.get('window');
+    const ratio = width / height;
+    const coordinates = {
+      latitude: 19.4326,
+      longitude: -99.1332,
+      latitudeDelta: 0.0922,
+      longitudeDelta: 0.0922 * ratio,
+    };
+
+    return <Modal style={style.modal} swipeToClose={false} onClosed={this.setModalStateClosed} isOpen={this.state.detailModalIsOpen} backdrop={true} position={"bottom"} coverScreen={true} ref={"modal"}>
+            <MapView
+                  style={style.map}
+                  initialRegion={coordinates}>
+                  {this.state.markers.map(marker => (
+                     <Marker
+                       key={marker.key}
+                       title={marker.title}
+                       description={marker.description}
+                       coordinate={marker.coordinate}
+                       pinColor={marker.color}
+                       onCalloutPress={() => this.openMapMarker(marker.coordinate)}
+                     />
+                   ))}
+                 </MapView>
+      </Modal>;
+  }
+
 }
 
 const ComprarRouter = StackRouter({
@@ -433,4 +506,12 @@ const style = StyleSheet.create({
   modal2: {
     backgroundColor: variables.brandInfo
   },
+  map: {
+     position: 'absolute',
+     top: 20,
+     left: 0,
+     right: 0,
+     bottom: 0,
+     zIndex: -1,
+   }
 });
