@@ -1,6 +1,10 @@
 export const PRECIO_BOTELLA = 49;
 
 export function convertirFecha(date) {
+  if (date == null) {
+    return date;
+  }
+
   var cs = date.split(" ");
   if (cs.length != 5) {
     return date;
@@ -15,6 +19,10 @@ export function convertirFecha(date) {
 }
 
 export function convertirFechaCorta(date) {
+  if (date == null) {
+    return date;
+  }
+  
   var cs = date.split(" ");
   if (cs.length != 5) {
     return date;

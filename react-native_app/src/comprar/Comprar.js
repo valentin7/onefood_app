@@ -3,7 +3,7 @@ import moment from "moment";
 import autobind from "autobind-decorator";
 import * as React from "react";
 import {View, Image, StyleSheet, Dimensions, InteractionManager, Animated, ScrollView, ActivityIndicator, SafeAreaView, StatusBar} from "react-native";
-import {H1, Text, Button, Segment, Radio, List, ListItem, Right, Content, CheckBox, Container, Header, Left, Icon, Title, Body, Footer} from "native-base";
+import {H1, Text, Button, Segment, Radio, List, ListItem, Right, Content, CheckBox, Container, Header, Left, Icon, Title, Body, Footer, Card, CardItem} from "native-base";
 import ImageSlider from 'react-native-image-slider';
 import {TaskOverview, Images, Styles, PrecioTotal, QuantityInput, ScanCoupon, Address, Firebase, CreditCard, CheckoutConfirmation, WindowDimensions} from "../components";
 import type {ScreenProps} from "../components/Types";
@@ -79,13 +79,20 @@ export default class Comprar extends React.Component {
 
     @autobind
     dismissCreditCardModal(last4) {
+      console.log("Aqui chino , ", last4);
       this.setState({isCreditCardModalOpen: false, credit_last4: last4});
       setTimeout(() => {this.setState({isCheckoutOpen: true});}, 410);
     }
 
     @autobind
-    dismissAddressModal() {
+    dismissAddressModal(last4) {
+      console.log("Aqui china , ", last4);
+
       this.setState({isAddressModalOpen: false});
+      if (last4 != null && last4.length > 1) {
+        this.setState({credit_last4: last4});
+      }
+
       setTimeout(() => {this.setState({isCheckoutOpen: true});}, 410);
     }
 
@@ -353,7 +360,7 @@ class MapaAdicional extends React.Component {
   }
 
   open() {
-    StatusBar.setBarStyle('light-content', true);
+    //StatusBar.setBarStyle('light-content', true);
     this.setState({detailModalIsOpen: true});
   }
 
@@ -369,7 +376,7 @@ class MapaAdicional extends React.Component {
 
   @autobind
   dismissModal() {
-    StatusBar.setBarStyle('default', true);
+    //StatusBar.setBarStyle('default', true);
     this.setState({detailModalIsOpen: false});
   }
 
@@ -384,21 +391,30 @@ class MapaAdicional extends React.Component {
       longitudeDelta: 0.0922 * ratio,
     };
 
-    return <Modal style={style.modal} swipeToClose={false} onClosed={this.setModalStateClosed} isOpen={this.state.detailModalIsOpen} backdrop={true} position={"bottom"} coverScreen={true} ref={"modal"}>
-            <MapView
-                  style={style.map}
-                  initialRegion={coordinates}>
-                  {this.state.markers.map(marker => (
-                     <Marker
-                       key={marker.key}
-                       title={marker.title}
-                       description={marker.description}
-                       coordinate={marker.coordinate}
-                       pinColor={marker.color}
-                       onCalloutPress={() => this.openMapMarker(marker.coordinate)}
-                     />
-                   ))}
-                 </MapView>
+    return <Modal style={style.modalMapa} swipeToClose={false} onClosed={this.setModalStateClosed} isOpen={this.state.detailModalIsOpen} backdrop={true} position={"bottom"} entry={"bottom"} coverScreen={false} ref={"modal"}>
+            <Card style={{height: 40}}>
+             <CardItem>
+               <Body>
+                 <Text style={{color: 'gray'}}>
+                   Pasa por tu ONEFOOD a la locación más cercana.
+                 </Text>
+               </Body>
+             </CardItem>
+           </Card>
+           <MapView
+              style={style.map}
+              initialRegion={coordinates}>
+              {this.state.markers.map(marker => (
+                 <Marker
+                   key={marker.key}
+                   title={marker.title}
+                   description={marker.description}
+                   coordinate={marker.coordinate}
+                   pinColor={marker.color}
+                   onCalloutPress={() => this.openMapMarker(marker.coordinate)}
+                 />
+               ))}
+            </MapView>
       </Modal>;
   }
 
@@ -500,18 +516,22 @@ const style = StyleSheet.create({
         color: variables.darkGray,//'#9c5d30',
     },
     modal: {
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  modal2: {
-    backgroundColor: variables.brandInfo
-  },
-  map: {
-     position: 'absolute',
-     top: 20,
-     left: 0,
-     right: 0,
-     bottom: 0,
-     zIndex: -1,
-   }
+      justifyContent: 'center',
+      alignItems: 'center'
+    },
+    modalMapa: {
+      height: 400,
+      flexDirection: "row",
+    },
+    modal2: {
+      backgroundColor: variables.brandInfo
+    },
+    map: {
+       position: 'absolute',
+       top: 0,
+       left: 0,
+       right: 0,
+       bottom: 0,
+       zIndex: -1,
+     }
 });

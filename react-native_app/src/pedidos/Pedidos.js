@@ -140,6 +140,9 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
                     <Button block style={style.compraButton} onPress={this.comprar}>
                       <H3 style={{color: 'white'}}>Nueva Compra</H3>
                     </Button>
+                    <Button block style={style.escanearButton} onPress={this.comprar}>
+                      <H3 style={{color: 'white'}}>Escanear Pedido</H3>
+                    </Button>
 
                     <ScrollView refreshControl={
                         <RefreshControl
@@ -329,6 +332,11 @@ const style = StyleSheet.create({
     compraButton: {
         height: 60,
         borderRadius: 5,
+    },
+    escanearButton: {
+        height: 60,
+        borderRadius: 5,
+        backgroundColor: variables.brandSecondary,
     },
     closeIcon: {
         fontSize: 50,

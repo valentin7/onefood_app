@@ -68,7 +68,7 @@ export default class Address extends React.Component {
     @autobind
     dismissCreditCardModal(last4) {
       this.setState({isCreditCardModalOpen: false, credit_last4: last4});
-      this.props.dismissModal();
+      this.props.dismissModal(last4);
     }
 
     @autobind

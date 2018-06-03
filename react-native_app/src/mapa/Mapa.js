@@ -2,12 +2,14 @@
 import autobind from "autobind-decorator";
 import moment from "moment";
 import * as React from "react";
-import {ScrollView, InteractionManager, StyleSheet, View, Dimensions, Animated} from "react-native";
+import {ScrollView, Platform, InteractionManager, StyleSheet, View, Dimensions, Animated, Switch} from "react-native";
 import {Icon, Picker, H3, Card, CardItem, Text, Body, Container} from "native-base";
 import MapView, {Marker} from "react-native-maps";
 import {observable, action} from "mobx";
+import { Constants, Location, Permissions } from 'expo';
 import { observer } from "mobx-react/native";
 import openMap from 'react-native-open-maps';
+import variables from "../../native-base-theme/variables/commonColor";
 
 import {BaseContainer, Task, JankWorkaround} from "../components";
 import type {ScreenProps} from "../components/Types";
@@ -29,6 +31,8 @@ export default class Mapa extends React.Component<ScreenProps<>> {
       markers: [{key: markerId++, title: "Camión ONEFOOD #23", description: "Presiona para abrir en Mapa.", coordinate: {latitude: 19.4326, longitude: -99.1335}, color: "green"},
                 {key: markerId++, title: "Camión ONEFOOD #2", description: "Presiona para abrir en Mapa.", coordinate: {latitude: 19.4452, longitude: -99.1359}, color: "green"}
                 ],
+      compartiendoUbicacion: false,
+      userLocation: null,
     }
 
     constructor() {
@@ -67,6 +71,41 @@ export default class Mapa extends React.Component<ScreenProps<>> {
       // ).start();                        // Starts the animation
     }
 
+    @autobind
+    updateLocationSharing(value) {
+      this.setState({compartiendoUbicacion: value});
+
+      if (value) {
+        this.updateLocation();
+
+      }
+    }
+
+    @autobind
+    async updateLocation(): Promise<void> {
+      if (Platform.OS === 'android' && !Constants.isDevice) {
+       Alert.alert("Error", "Oops, this will not work on Sketch in an Android emulator. Try it on your device!");
+     } else {
+        let { status } = await Permissions.askAsync(Permissions.LOCATION);
+        if (status !== 'granted') {
+          Alert.alert("Permiso para accesar ubicación negada", "Para una mejor experiencia con el mapa, por favor de permitir acceso a ubicación en configuración del dispositivo.")
+          this.setState({
+            errorMessage: 'Permission to access location was denied',
+          });
+        }
+        let location = await Location.getCurrentPositionAsync({});
+        this.setState({userLocation: location});
+        console.log("new locochon: ", this.state.userLocation);
+        var newMarkers = this.state.markers;
+        var lat = this.state.userLocation["coords"]["latitude"];
+        var lng = this.state.userLocation["coords"]["longitude"];
+        newMarkers.push({key: markerId++, title: "Tú", description: "Compradores te pueden encontrar en el mapa.", coordinate: {latitude: lat, longitude: lng}, color: variables.brandPrimary});
+      }
+    }
+
+
+
+
     @autobind @action
     onChangeDate (date: Date) {
         this.selectedDate = date;
@@ -86,6 +125,18 @@ export default class Mapa extends React.Component<ScreenProps<>> {
         };
 
         return <BaseContainer {...{ navigation, title }}>
+                <Card>
+                 <CardItem>
+                   <Body>
+                    <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
+                     <Text style={{color: 'gray', marginRight: 30}}>
+                       Compartir ubicación en el mapa
+                     </Text>
+                     <Switch value={this.state.compartiendoUbicacion} onValueChange={this.updateLocationSharing} />
+                     </View>
+                   </Body>
+                 </CardItem>
+               </Card>
                 <Card>
                  <CardItem>
                    <Body>

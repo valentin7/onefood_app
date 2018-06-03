@@ -138,6 +138,10 @@ class PedidoInfo extends React.Component<PedidoProps> {
     render(): React.Node {
       const {pedidoInfo, pedidoValido} = this.props;
       var pedidoFecha = Constants.convertirFecha(pedidoInfo.fecha);
+      // if (pedidoInfo.fecha != null) {
+      //   pedidoFecha = Constants.convertirFecha(pedidoInfo.fecha);
+      // }
+
       return <Modal style={style.modal} swipeToClose={false} onClosed={this.setModalStateClosed}  isOpen={this.state.detailModalIsOpen} backdrop={true} position={"bottom"} coverScreen={true} ref={"modal"}>
 
           {
