@@ -60,11 +60,12 @@ export default class Comprar extends React.Component {
     toggleDomicilioYes() {
       var currentPrice = this.state.totalPrice;
       if (this.refs.cocoaQuantity.quantity != 0) {
-        var prevcocoa = this.refs.cocoaQuantity.quantity;
-        var cocoaDifference = (6 - prevcocoa)*Constants.PRECIO_BOTELLA;
-        this.refs.cocoaQuantity.quantity = 6;
-        currentPrice = this.state.totalPrice + cocoaDifference;
-        this.setState({totalPrice: currentPrice});
+        //var prevcocoa = this.refs.cocoaQuantity.quantity;
+        //var cocoaDifference = (6 - prevcocoa)*Constants.PRECIO_BOTELLA;
+        var minimumQuantity = 6;
+        this.refs.cocoaQuantity.quantity = minimumQuantity;
+        //currentPrice = this.state.totalPrice + cocoaDifference;
+        this.setState({totalPrice: Constants.PRECIO_BOTELLA * minimumQuantity, cocoaQuantity: minimumQuantity});
       }
       this.refs.cocoaQuantity.incrementAmount = 6;
 
@@ -81,25 +82,36 @@ export default class Comprar extends React.Component {
     dismissCreditCardModal(last4) {
       console.log("Aqui chino , ", last4);
       this.setState({isCreditCardModalOpen: false, credit_last4: last4});
-      setTimeout(() => {this.setState({isCheckoutOpen: true});}, 410);
+      if (last4.length > 1) {
+        setTimeout(() => {this.setState({isCheckoutOpen: true});}, 410);
+      }
     }
 
     @autobind
-    dismissAddressModal(last4) {
-      console.log("Aqui china , ", last4);
+    dismissAddressModal(last4, finished) {
+      console.log("Aqui china , ", last4, finished);
 
       this.setState({isAddressModalOpen: false});
       if (last4 != null && last4.length > 1) {
         this.setState({credit_last4: last4});
       }
 
-      setTimeout(() => {this.setState({isCheckoutOpen: true});}, 410);
+      if (finished) {
+        setTimeout(() => {this.setState({isCheckoutOpen: true});}, 410);
+      } else {
+        console.log("still needs to add address");
+      }
     }
 
     @autobind
     dismissModal() {
+      console.log("dismissing comprar");
       this.props.onClosing();
       //this.setState({isOpen: false});
+    }
+
+    componentWillUnmount() {
+      console.log("unmounting comprar");
     }
 
     @autobind
@@ -214,14 +226,14 @@ export default class Comprar extends React.Component {
     render(): React.Node {
         const today = moment();
 
-        var descriptionTexto = "(Total: $" + this.state.totalPrice;
+        var descriptionTexto = "  (Total: $" + this.state.totalPrice;
 
         if (this.state.subscription) {
           descriptionTexto += " mensual";
         }
         descriptionTexto += ")";
 
-        return <Modal style={[style.modal, style.modal2]} isOpen={this.props.isModalOpen} swipeToClose={false}  backdrop={false} position={"top"} ref={"modal2"}>
+        return <Modal style={[style.modal, style.modal2]} isOpen={this.props.isModalOpen} coverScreen={true} swipeToClose={false}  backdrop={false} position={"top"} ref={"modal2"}>
             <Container>
               <Header style={{backgroundColor: variables.brandInfo, borderBottomWidth: 1, borderColor: variables.lightGray}}>
                 <Left>
@@ -239,12 +251,12 @@ export default class Comprar extends React.Component {
                 </Right>
               </Header>
               <Content>
-              <Segment>
+              <Segment style={{}}>
                 <Button first active={this.state.domicilio} onPress={this.toggleDomicilioYes}>
-                  <Text>Entrega A Domicilio</Text>
+                  <Text style={{fontSize: 13}}>Entrega A Domicilio</Text>
                 </Button>
                 <Button last active={!this.state.domicilio} onPress={this.toggleDomicilioNo}>
-                  <Text>Recoger Producto</Text>
+                  <Text style={{fontSize: 13}}>Recoger Producto</Text>
                 </Button>
               </Segment>
                 <Image source={Images.botellaNaranja} style={style.img} />
@@ -255,7 +267,7 @@ export default class Comprar extends React.Component {
                 <View style={[style.count, Styles.center]}>
                     <H1 style={style.heading}>COCOA</H1>
                     <Text style={{color: 'gray'}}>SABOR</Text>
-                    <QuantityInput totalPriceChange={this.totalPriceChange} ref="cocoaQuantity" singular="botella" plural="botellas" from={0} to={24*Constants.PRECIO_BOTELLA} />
+                    <QuantityInput totalPriceChange={this.totalPriceChange} ref="cocoaQuantity" singular="botella" plural="botellas" from={0} to={60*Constants.PRECIO_BOTELLA} />
                 </View>
                 {
                   !this.state.domicilio ? (
@@ -283,7 +295,7 @@ export default class Comprar extends React.Component {
               </Content>
               <Button block onPress={this.continuar} disabled={this.state.totalPrice == 0} style={{ height: variables.footerHeight * 1.3 }}>
                 <Text style={{color: 'white'}}>CONTINUAR</Text>
-                <Text style={{color: 'white'}}>  {descriptionTexto} </Text>
+                <Text style={{color: 'white'}}>{descriptionTexto}</Text>
               </Button>
             </Container>
             <InformacionNutrimental ref={"infoNutrimentalModal"} />
@@ -390,14 +402,13 @@ class MapaAdicional extends React.Component {
       latitudeDelta: 0.0922,
       longitudeDelta: 0.0922 * ratio,
     };
+    var textoLocacion = "Pasa por tu ONEFOOD a la locación más cercana.";
 
     return <Modal style={style.modalMapa} swipeToClose={false} onClosed={this.setModalStateClosed} isOpen={this.state.detailModalIsOpen} backdrop={true} position={"bottom"} entry={"bottom"} coverScreen={false} ref={"modal"}>
             <Card style={{height: 40}}>
              <CardItem>
                <Body>
-                 <Text style={{color: 'gray'}}>
-                   Pasa por tu ONEFOOD a la locación más cercana.
-                 </Text>
+                 <Text style={{color: 'gray'}}>{textoLocacion}</Text>
                </Body>
              </CardItem>
            </Card>
@@ -417,7 +428,6 @@ class MapaAdicional extends React.Component {
             </MapView>
       </Modal>;
   }
-
 }
 
 const ComprarRouter = StackRouter({
@@ -426,8 +436,6 @@ const ComprarRouter = StackRouter({
 }, {
   initialRouteName: 'Comprar',
 });
-
-
 
 /*<ImageSlider images={[
      Images.music,
@@ -517,7 +525,7 @@ const style = StyleSheet.create({
     },
     modal: {
       justifyContent: 'center',
-      alignItems: 'center'
+      alignItems: 'center',
     },
     modalMapa: {
       height: 400,

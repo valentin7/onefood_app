@@ -7,18 +7,18 @@ import {Icon, Picker, H3, Card, CardItem, Text, Body, Container} from "native-ba
 import MapView, {Marker} from "react-native-maps";
 import {observable, action} from "mobx";
 import { Constants, Location, Permissions } from 'expo';
-import { observer } from "mobx-react/native";
 import openMap from 'react-native-open-maps';
 import variables from "../../native-base-theme/variables/commonColor";
 
 import {BaseContainer, Task, JankWorkaround} from "../components";
 import type {ScreenProps} from "../components/Types";
+import { observer, inject } from "mobx-react/native";
 
 const now = moment();
 
-let markerId = 0;
+let markerId = 2;
 
-@observer
+@inject('store') @observer
 export default class Mapa extends React.Component<ScreenProps<>> {
 
     @observable selectedMonth: number;
@@ -99,12 +99,11 @@ export default class Mapa extends React.Component<ScreenProps<>> {
         var newMarkers = this.state.markers;
         var lat = this.state.userLocation["coords"]["latitude"];
         var lng = this.state.userLocation["coords"]["longitude"];
-        newMarkers.push({key: markerId++, title: "Tú", description: "Compradores te pueden encontrar en el mapa.", coordinate: {latitude: lat, longitude: lng}, color: variables.brandPrimary});
+        newMarkers.push({key: 1, title: "Tú", description: "Compradores te pueden encontrar en el mapa.", coordinate: {latitude: lat, longitude: lng}, color: variables.brandPrimary});
+        //newMarkers.push({key: markerId++, title: "Tú Nuevo", description: "Compradores te pueden encontrar en el mapa.", coordinate: {latitude: 19.4323, longitude: -99.1331}, color: variables.brandPrimary});
+        this.setState({markers: newMarkers});
       }
     }
-
-
-
 
     @autobind @action
     onChangeDate (date: Date) {
@@ -125,18 +124,22 @@ export default class Mapa extends React.Component<ScreenProps<>> {
         };
 
         return <BaseContainer {...{ navigation, title }}>
-                <Card>
-                 <CardItem>
-                   <Body>
-                    <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
-                     <Text style={{color: 'gray', marginRight: 30}}>
-                       Compartir ubicación en el mapa
-                     </Text>
-                     <Switch value={this.state.compartiendoUbicacion} onValueChange={this.updateLocationSharing} />
-                     </View>
-                   </Body>
-                 </CardItem>
-               </Card>
+                {
+                  this.props.store.esRep &&
+                  <Card>
+                   <CardItem>
+                     <Body>
+                      <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
+                       <Text style={{color: 'gray', marginRight: 30}}>
+                         Compartir ubicación en el mapa
+                       </Text>
+                       <Switch value={this.state.compartiendoUbicacion} onValueChange={this.updateLocationSharing} />
+                       </View>
+                     </Body>
+                   </CardItem>
+                 </Card>
+                }
+
                 <Card>
                  <CardItem>
                    <Body>

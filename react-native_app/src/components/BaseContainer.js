@@ -120,21 +120,20 @@ export default class BaseContainer extends React.Component<BaseContainerProps> {
                 <Content>
                   {this.props.children}
                 </Content>
-                <Comprar isModalOpen={this.state.isComprarModalOpen} onClosing={this.comprarModalClosing} ref={"modal"}></Comprar>
-
                 <Footer style={{backgroundColor: variables.brandInfo, borderTopWidth: 1, borderColor: variables.lightGray}}>
                     <FooterTab>
                         <Button onPress={() => this.pedidos()} transparent>
                             <Icon name="ios-list-outline" style={{ fontSize: 32, color: pedidosIconColor}} />
                         </Button>
                         <Button transparent onPress={() => this.comprar()} transparent>
-                            <Icon name="ios-add-circle"  style={{ fontSize: 72, color: compraIconColor}} />
+                            <Icon name="ios-add-circle"  style={{ fontSize: 60, color: compraIconColor}} />
                         </Button>
                         <Button onPress={() => this.mapa()} transparent>
                             <Icon name="ios-map-outline" style={{ fontSize: 32, color: mapIconColor}} />
                         </Button>
                     </FooterTab>
                 </Footer>
+                <Comprar isModalOpen={this.state.isComprarModalOpen} onClosing={this.comprarModalClosing} ref={"modal"}></Comprar>
             </Container>
             );
     }

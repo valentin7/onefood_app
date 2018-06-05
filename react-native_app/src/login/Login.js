@@ -237,7 +237,7 @@ export default class Login extends React.Component<ScreenProps<>, LoginState> {
                                 </View>
                             </View>
                             <ActivityIndicator size="large" animating={this.state.loading}/>
-                            <View>
+                            <View style={{top: - 50}}>
                               <Field
                                   label="Nombre"
                                   returnKeyType="next"

@@ -38,6 +38,9 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
 
     componentWillMount() {
     }
+    componentWillUnmount() {
+      console.log("unmounting checkout");
+    }
 
     @autobind
     open() {
@@ -92,6 +95,7 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
 
     @autobind
     dismissModal() {
+      console.log("Dismissing the checout");
       this.props.onOpenChange(false);
     }
     @autobind
@@ -152,15 +156,17 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
                       <ActivityIndicator size="large" animating={this.state.loading}/>
                   </View>
 
-                  <View style={style.section}>
+                  <View style={[style.section, {flexDirection: 'column'}]}>
                       <Text style={style.sectionTitle}>MÉTODO DE PAGO</Text>
-                      <Text style={{marginBottom: 10}}>
-                        <Icon name="ios-card" style={{ color: variables.brandSecondary, marginRight: 30 }} />
-                        {creditDisplay}
+                      <View style={{flexDirection: 'row'}}>
+                        <Text style={{marginBottom: 10}}>
+                          <Icon name="ios-card" style={{ color: variables.brandSecondary, marginRight: 30 }} />
+                          {creditDisplay}
+                        </Text>
                         <Button onPress={() => this.setState({isTarjetasOpen: true})} style={{width: 70, height: 25, marginTop: 5, marginLeft: 10, backgroundColor: variables.lighterGray, borderRadius: 6, justifyContent: 'center', position: 'absolute', right: 0}}>
                           <Text style={{fontSize: 12, color: variables.darkGray}}>EDITAR</Text>
                         </Button>
-                      </Text>
+                      </View>
                       {this.props.subscription && <Text>Cargo Mensual</Text>}
                   </View>
                   <Tarjetas isTarjetasOpen={this.state.isTarjetasOpen} dismissTarjetasModal={this.dismissTarjetasModal} creditDisplay={creditDisplay}></Tarjetas>
@@ -185,7 +191,6 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
       </Modal>;
     }
 }
-
 // <PedidoItem
 //     numero={totalPriceDisplay}
 //     title="SUBTOTAL"

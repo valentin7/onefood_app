@@ -21,6 +21,7 @@ export default class Address extends React.Component {
       ciudad: "",
       estado: "",
       codigoPostal: "",
+      savedAddress: false,
       loading: false,
       isCreditCardModalOpen: false,
       credit_last4: "0000",
@@ -68,7 +69,7 @@ export default class Address extends React.Component {
     @autobind
     dismissCreditCardModal(last4) {
       this.setState({isCreditCardModalOpen: false, credit_last4: last4});
-      this.props.dismissModal(last4);
+      this.props.dismissModal(last4, this.state.savedAddress);
     }
 
     @autobind
@@ -94,7 +95,7 @@ export default class Address extends React.Component {
           console.error("Error adding document: ", error);
       });
 
-      this.setState({loading: false});
+      this.setState({loading: false, savedAddress: true});
       //this.dismissModal();
       this.continuar();
     }
@@ -139,7 +140,7 @@ export default class Address extends React.Component {
       } else {
         this.setState({credit_last4: last4});
         //setTimeout(() => {this.dismissModal()}, 600);
-        this.props.dismissModal();
+        this.props.dismissModal(last4, this.state.savedAddress);
         //this.dismissModal();
       }
     }
@@ -148,12 +149,13 @@ export default class Address extends React.Component {
     @autobind
     dismissModal(){
       //this.setState({isOpen: false});
-      this.props.dismissModal();
+      console.log("QUIERO APARACERR");
+      this.props.dismissModal("", this.state.savedAddress);
     }
 
     render(): React.Node {
 
-        return <Modal style={[style.modal]} isOpen={this.props.isOpen} animationDuration={400} swipeToClose={false} coverScreen={true} position={"center"} ref={"modal2"}>
+        return <Modal style={[style.modal]} isOpen={this.props.isOpen} animationDuration={400} swipeToClose={false} backdropPressToClose={false} coverScreen={true} position={"center"} ref={"modal2"}>
                 <Container safe={true}>
                   <Header style={{borderBottomWidth: 1, borderColor: variables.lightGray}}>
                       <Left>
