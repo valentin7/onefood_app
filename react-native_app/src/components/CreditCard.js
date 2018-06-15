@@ -18,6 +18,7 @@ export default class CreditCard extends React.Component {
       last_four: "0000",
       loading: false,
       tarjetas: [],
+      guardoTarjeta: false,
       isGuardarDisabled: true,
     }
 
@@ -82,14 +83,19 @@ export default class CreditCard extends React.Component {
           console.error("Error adding document: ", error);
       });
 
-      this.setState({loading: false});
+      this.setState({loading: false, guardoTarjeta: true});
       this.dismissModal();
     }
 
     @autobind
     dismissModal(){
       //this.setState({isOpen: false});
-      this.props.dismissModal(this.state.last_four);
+      if (this.state.guardoTarjeta) {
+        this.props.dismissModal(this.state.last_four);
+      } else {
+        this.props.dismissModal();
+      }
+
     }
 
     @autobind
@@ -111,7 +117,7 @@ export default class CreditCard extends React.Component {
 
     render(): React.Node {
 
-        return <Modal style={[style.modal]} isOpen={this.props.isOpen} animationDuration={400} swipeToClose={false} coverScreen={true} position={"center"} ref={"modal2"}>
+        return <Modal style={[style.modal]} isOpen={this.props.isOpen} backdropPressToClose={false} backdrop={false} animationDuration={400} swipeToClose={false} coverScreen={true} position={"center"} ref={"modal2"}>
                 <Container safe={true}>
                   <Header>
                       <Left>
@@ -128,10 +134,10 @@ export default class CreditCard extends React.Component {
                     <CreditCardInput ref="CCInput" onChange={this.paymentOnChange} autoFocus={true} labelStyle={style.whiteStyle} inputStyle={style.whiteStyle}/>
                   </Content>
                   <ActivityIndicator size="large" animating={this.state.loading}/>
-                  <Button disabled={this.state.isGuardarDisabled} primary block onPress={this.guardarTarjeta} style={{ height: variables.footerHeight * 1.3 }}>
-                    <Text style={{color: 'white'}}>GUARDAR</Text>
-                  </Button>
                 </Container>
+                <Button disabled={this.state.isGuardarDisabled} primary block onPress={this.guardarTarjeta} style={{ height: variables.footerHeight * 1.3 }}>
+                  <Text style={{color: 'white'}}>GUARDAR</Text>
+                </Button>
         </Modal>;
     }
 }

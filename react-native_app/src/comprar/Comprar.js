@@ -2,7 +2,7 @@
 import moment from "moment";
 import autobind from "autobind-decorator";
 import * as React from "react";
-import {View, Image, StyleSheet, Dimensions, InteractionManager, Animated, ScrollView, ActivityIndicator, SafeAreaView, StatusBar} from "react-native";
+import {View, Image, StyleSheet, Dimensions, InteractionManager, Platform, Animated, ScrollView, ActivityIndicator, SafeAreaView, StatusBar} from "react-native";
 import {H1, Text, Button, Segment, Radio, List, ListItem, Right, Content, CheckBox, Container, Header, Left, Icon, Title, Body, Footer, Card, CardItem} from "native-base";
 import ImageSlider from 'react-native-image-slider';
 import {TaskOverview, Images, Styles, PrecioTotal, QuantityInput, ScanCoupon, Address, Firebase, CreditCard, CheckoutConfirmation, WindowDimensions} from "../components";
@@ -82,16 +82,17 @@ export default class Comprar extends React.Component {
     dismissCreditCardModal(last4) {
       console.log("Aqui chino , ", last4);
       this.setState({isCreditCardModalOpen: false, credit_last4: last4});
-      if (last4.length > 1) {
+      if (last4 != undefined && last4.length > 1) {
         setTimeout(() => {this.setState({isCheckoutOpen: true});}, 410);
       }
     }
 
     @autobind
-    dismissAddressModal(last4, finished) {
+    dismissAddressModal(last4, finished, direccionCompleta) {
       console.log("Aqui china , ", last4, finished);
 
       this.setState({isAddressModalOpen: false});
+      this.setState({direccionCompleta: direccionCompleta});
       if (last4 != null && last4.length > 1) {
         this.setState({credit_last4: last4});
       }
@@ -233,7 +234,7 @@ export default class Comprar extends React.Component {
         }
         descriptionTexto += ")";
 
-        return <Modal style={[style.modal, style.modal2]} isOpen={this.props.isModalOpen} coverScreen={true} swipeToClose={false}  backdrop={false} position={"top"} ref={"modal2"}>
+        return <Modal style={[style.modal, style.modal2]} isOpen={this.props.isModalOpen} swipeToClose={false}  backdrop={false} coverScreen={Platform.OS === 'android'} position={"top"} ref={"modal2"}>
             <Container>
               <Header style={{backgroundColor: variables.brandInfo, borderBottomWidth: 1, borderColor: variables.lightGray}}>
                 <Left>

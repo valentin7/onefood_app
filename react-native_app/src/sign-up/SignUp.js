@@ -85,12 +85,15 @@ export default class SignUp extends React.Component<ScreenProps<>> {
         await Firebase.auth.signInWithEmailAndPassword(email, password);
       } catch (e) {
         console.log("codigo error es: ", e.code);
+        this.setState({loading: false});
         if (e.code == "auth/invalid-email") {
           Alert.alert("El email esta mal formateado.", "");
         } else if(e.code == "auth/wrong-password") {
           Alert.alert("Contraseña Incorrecta", "");
         } else if (e.code == "auth/user-not-found") {
-          Alert.alert("No existe un usuario con esta contraseña.", "Porfavor confirma que tu email esta bien escrito o crea una cuenta.")
+          Alert.alert("No existe un usuario con esta contraseña.", "Porfavor confirma que tu email esta bien escrito o crea una cuenta.");
+        } else if (e.code == "auth/network-request-failed") {
+          Alert.alert("No se pudo conectar a internet.", "Favor de verificar que tu dispositivo tenga acceso a internet.");
         } else {
           Alert.alert("Hubo un error al iniciar sesión.", e.message);
         }

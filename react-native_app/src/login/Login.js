@@ -172,13 +172,13 @@ export default class Login extends React.Component<ScreenProps<>, LoginState> {
 
       } catch (e) {
         console.log("error de crear cuenta: ", e.code);
-        console.log("hey bro ", e.message);
         if (e.code == "auth/email-already-in-use") {
           Alert.alert("Este email ya fue usado.", "Por favor de log in o intentar con otro email.");
+        } else if (e.code == "auth/network-request-failed") {
+          Alert.alert("No se pudo conectar a internet.", "Favor de verificar que tu dispositivo tenga acceso a internet.");
         } else {
           Alert.alert("Hubo un error al crear la cuenta.", e.message);
         }
-
         this.setState({loading: false});
       }
     }

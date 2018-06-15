@@ -2,7 +2,7 @@
 import autobind from "autobind-decorator";
 import moment from "moment";
 import * as React from "react";
-import {ScrollView, Platform, InteractionManager, StyleSheet, View, Dimensions, Animated, Switch} from "react-native";
+import {ScrollView, Platform, InteractionManager, StyleSheet, View, Dimensions, Animated, Switch, Alert} from "react-native";
 import {Icon, Picker, H3, Card, CardItem, Text, Body, Container} from "native-base";
 import MapView, {Marker} from "react-native-maps";
 import {observable, action} from "mobx";
@@ -10,13 +10,15 @@ import { Constants, Location, Permissions } from 'expo';
 import openMap from 'react-native-open-maps';
 import variables from "../../native-base-theme/variables/commonColor";
 
-import {BaseContainer, Task, JankWorkaround} from "../components";
+import {BaseContainer, Task, JankWorkaround, Firebase} from "../components";
 import type {ScreenProps} from "../components/Types";
 import { observer, inject } from "mobx-react/native";
 
 const now = moment();
 
-let markerId = 2;
+var markerId = 2;
+let userId = "";
+let localUserId = "";
 
 @inject('store') @observer
 export default class Mapa extends React.Component<ScreenProps<>> {
@@ -28,12 +30,12 @@ export default class Mapa extends React.Component<ScreenProps<>> {
       loading: true,
       fadeAnim: new Animated.Value(1),
       shouldUpdate: false,
-      markers: [{key: markerId++, title: "Camión ONEFOOD #23", description: "Presiona para abrir en Mapa.", coordinate: {latitude: 19.4326, longitude: -99.1335}, color: "green"},
-                {key: markerId++, title: "Camión ONEFOOD #2", description: "Presiona para abrir en Mapa.", coordinate: {latitude: 19.4452, longitude: -99.1359}, color: "green"}
-                ],
+      markers: [],
       compartiendoUbicacion: false,
       userLocation: null,
     }
+    //{key: markerId++, title: "Camión ONEFOOD #23", description: "Presiona para abrir en Mapa.", coordinate: {latitude: 19.4326, longitude: -99.1335}, color: "green"},
+              //{key: markerId++, title: "Camión ONEFOOD #2", description: "Presiona para abrir en Mapa.", coordinate: {latitude: 19.4452, longitude: -99.1359}, color: "green"}
 
     constructor() {
         super();
@@ -44,6 +46,15 @@ export default class Mapa extends React.Component<ScreenProps<>> {
     }
 
     componentWillMount() {
+      userId = Firebase.auth.currentUser.uid;
+      localUserId = userId + "local";
+
+      if (! this.props.store.showingLocationOnMap) {
+          this.removeSelfLocationIfExists();
+      }
+
+
+      this.updateLocationSharing(this.props.store.showingLocationOnMap);
       //this.setState({shouldUpdate: true});
     }
 
@@ -52,6 +63,10 @@ export default class Mapa extends React.Component<ScreenProps<>> {
       JankWorkaround.runAfterInteractions(() => {
         this.setState({ loading: false });
       });
+
+      this.refreshLocationsInMap();
+      // this.updateLocation();
+
     }
 
     @autobind
@@ -61,24 +76,79 @@ export default class Mapa extends React.Component<ScreenProps<>> {
 
     componentWillUnmount() {
       this.setState({shouldUpdate: false});
-      // console.log("coming out of map");
-      //   Animated.timing(                  // Animate over time
-      //   this.state.fadeAnim,            // The animated value to drive
-      //   {
-      //     toValue: 0,                   // Animate to opacity: 1 (opaque)
-      //     duration: 5,              // Make it take a while
-      //   }
-      // ).start();                        // Starts the animation
     }
 
     @autobind
     updateLocationSharing(value) {
-      this.setState({compartiendoUbicacion: value});
+      //this.setState({compartiendoUbicacion: value});
+      this.props.store.showingLocationOnMap = value;
 
       if (value) {
         this.updateLocation();
-
+        this.showUserLocationOnMap();
+      } else {
+        this.removeUserLocationFromMap();
       }
+    }
+
+    @autobind
+    async refreshLocationsInMap(): Promise<void> {
+
+      var newMarkers = [];
+      const query = await Firebase.firestore.collection("mapalocations").get().then((querySnapshot) => {
+
+        var showingLocOnMap = this.props.store.showingLocationOnMap;
+        var userLoc = this.props.store.userLocationOnMap;
+        console.log("userloc bro ", userLoc);
+        querySnapshot.forEach((doc) => {
+          var locData = doc.data();
+          if (locData.key != userId) {
+            console.log("ADDDDing one w id ", locData.key);
+            console.log("heyy ", locData);
+            newMarkers.push({key: locData.key, title: locData.title, description: locData.description,  coordinate: {latitude: locData.coordinate.latitude, longitude: locData.coordinate.longitude}, color: locData.color});
+            //newMarkers.push({key: userId, title: locData.title, description: locData.description,  coordinate: locData.coordinate, color: variables.brandPrimary});
+          }
+        });
+
+        if (showingLocOnMap) {
+          console.log("HERE BC SHOULD SHOW AND ", showingLocOnMap);
+          newMarkers.unshift({key: localUserId, title: "Tú", description: "Compradores te pueden encontrar en el mapa.",  coordinate: {latitude: userLoc.coords.latitude, longitude: userLoc.coords.longitude}, color: variables.brandPrimary});
+        }
+        this.setState({markers: newMarkers});
+        this.props.store.mapMarkers = newMarkers;
+        console.log("newmarkers locations we got: ", newMarkers);
+      });
+    }
+
+    @autobind
+    removeSelfLocationIfExists() {
+        var newMarkers = this.state.markers;
+        for (var i = 0; i < newMarkers.length; i++) {
+          var marker = newMarkers[i];
+          if (marker["key"] == userId) {
+            newMarkers.splice(i, 1);
+          }
+        }
+      this.setState({markers: newMarkers});
+    }
+
+    @autobind
+    async showUserLocationOnMap(): Promise<void> {
+      var newMarkers = this.state.markers;
+      var lat = this.props.store.userLocationOnMap["coords"]["latitude"];
+      var lng = this.props.store.userLocationOnMap["coords"]["longitude"];
+      this.removeSelfLocationIfExists();
+      newMarkers.unshift({key: localUserId, title: "Tú", description: "Compradores te pueden encontrar en el mapa.", coordinate: {latitude: lat, longitude: lng}, color: variables.brandPrimary});
+      //newMarkers.push({key: markerId++, title: "Tú Nuevo", description: "Compradores te pueden encontrar en el mapa.", coordinate: {latitude: 19.4323, longitude: -99.1331}, color: variables.brandPrimary});
+      this.setState({markers: newMarkers});
+      this.props.store.mapMarkers = newMarkers;
+      var newLocation = {key: userId, title: "ONEFOOD REP Lorenzo", description: "Presiona para abrir locación en Mapa.", coordinate: {latitude: lat, longitude: lng}, color: "green"};
+      await Firebase.firestore.collection("mapalocations").doc(userId).set(newLocation).then(function() {
+          console.log("Puso location del usuario updated");
+      })
+      .catch(function(error) {
+          console.error("Error al agregar el usuario al mapa: ", error.message);
+      });
     }
 
     @autobind
@@ -92,17 +162,46 @@ export default class Mapa extends React.Component<ScreenProps<>> {
           this.setState({
             errorMessage: 'Permission to access location was denied',
           });
+          this.props.store.showingLocationOnMap = false;
         }
         let location = await Location.getCurrentPositionAsync({});
         this.setState({userLocation: location});
-        console.log("new locochon: ", this.state.userLocation);
-        var newMarkers = this.state.markers;
-        var lat = this.state.userLocation["coords"]["latitude"];
-        var lng = this.state.userLocation["coords"]["longitude"];
-        newMarkers.push({key: 1, title: "Tú", description: "Compradores te pueden encontrar en el mapa.", coordinate: {latitude: lat, longitude: lng}, color: variables.brandPrimary});
-        //newMarkers.push({key: markerId++, title: "Tú Nuevo", description: "Compradores te pueden encontrar en el mapa.", coordinate: {latitude: 19.4323, longitude: -99.1331}, color: variables.brandPrimary});
-        this.setState({markers: newMarkers});
+        this.props.store.userLocationOnMap = location;
+        //this.forceUpdate()
+        console.log("FORnew locochon: ", location);
       }
+    }
+
+    @autobind
+    async removeUserLocationFromMap(): Promise<void> {
+      var newMarkers = this.props.store.mapMarkers;//this.state.markers;
+      if (newMarkers.length == 0) {
+        return;
+      }
+      var firstMarker = newMarkers[0];
+      // if the user's location was the most recently added location to the ONEFOOD map, simply remove it.
+      if (firstMarker["key"] == localUserId) {
+        newMarkers.splice(0, 1);
+      } else {
+        // if the user's location wasn't the most recently added in the ONEFOOD map.
+        for (var i = 0; i < newMarkers.length; i++) {
+          var marker = newMarkers[i];
+          if (marker["key"] == localUserId) {
+            newMarkers.splice(i, 1);
+          }
+        }
+      }
+      this.setState({markers: newMarkers});
+      this.props.store.mapMarkers = newMarkers;
+
+      // delete from the Firebase database too
+      await Firebase.firestore.collection("mapalocations").doc(userId).delete()
+      .then(function() {
+          console.log("Deleted location del usuario success");
+      })
+      .catch(function(error) {
+          console.error("Error removing usuario del mapa: ", error.message);
+      });
     }
 
     @autobind @action
@@ -116,11 +215,20 @@ export default class Mapa extends React.Component<ScreenProps<>> {
         const title = "ONEFOOD";
         const { width, height } = Dimensions.get('window');
         const ratio = width / height;
-        const coordinates = {
-          latitude: 19.4326,
-          longitude: -99.1332,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0922 * ratio,
+
+        var lat = 19.4171;
+        var lng = -99.1335;
+
+        if (this.props.store.userLocationOnMap != undefined) {
+          lat = this.props.store.userLocationOnMap["coords"]["latitude"];
+          lng = this.props.store.userLocationOnMap["coords"]["longitude"];
+        }
+
+        var coordinates = {
+          latitude: lat - 0.02,
+          longitude: lng,
+          latitudeDelta: 0.098,
+          longitudeDelta: 0.098 * ratio,
         };
 
         return <BaseContainer {...{ navigation, title }}>
@@ -133,13 +241,12 @@ export default class Mapa extends React.Component<ScreenProps<>> {
                        <Text style={{color: 'gray', marginRight: 30}}>
                          Compartir ubicación en el mapa
                        </Text>
-                       <Switch value={this.state.compartiendoUbicacion} onValueChange={this.updateLocationSharing} />
+                       <Switch value={this.props.store.showingLocationOnMap} onValueChange={this.updateLocationSharing} />
                        </View>
                      </Body>
                    </CardItem>
                  </Card>
                 }
-
                 <Card>
                  <CardItem>
                    <Body>
@@ -156,7 +263,7 @@ export default class Mapa extends React.Component<ScreenProps<>> {
                    <MapView
                      style={styles.map}
                      initialRegion={coordinates}>
-                     {this.state.markers.map(marker => (
+                     {this.props.store.mapMarkers.map(marker => (
                         <Marker
                           key={marker.key}
                           title={marker.title}

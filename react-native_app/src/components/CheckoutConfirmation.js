@@ -1,7 +1,7 @@
 // @flow
 import * as React from "react";
 import autobind from "autobind-decorator";
-import {View, Dimensions, Image, StyleSheet, ActivityIndicator} from "react-native";
+import {View, Dimensions, Image, StyleSheet, ActivityIndicator, Alert} from "react-native";
 import {Text, Icon, Left, Right, Header, Container, Content, Button, Body, Title} from "native-base";
 
 import {BaseContainer, Images, Field, SingleChoice, PedidoItem, Firebase, Controller, Tarjetas, Address} from "../components";
@@ -81,11 +81,10 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
       await Firebase.firestore.collection("pedidos").doc(pedidoId).set(pedido)
       .then(function() {
           console.log("Pedido Hecho");
-
       })
       .catch(function(error) {
           console.error("Error adding document: ", error);
-          alert("No se pudo completar la compra en este momento. Por favor intentar en unos minutos.");
+          Alert.alert("No se pudo completar la compra en este momento.","Por favor intentar en unos minutos.");
       });
 
       this.setState({loading: false});
@@ -98,6 +97,7 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
       console.log("Dismissing the checout");
       this.props.onOpenChange(false);
     }
+
     @autobind
     dismissTarjetasModal(last4) {
       this.setState({last4: last4});
@@ -156,7 +156,7 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
                       <ActivityIndicator size="large" animating={this.state.loading}/>
                   </View>
 
-                  <View style={[style.section, {flexDirection: 'column'}]}>
+                  <View style={style.section}>
                       <Text style={style.sectionTitle}>MÉTODO DE PAGO</Text>
                       <View style={{flexDirection: 'row'}}>
                         <Text style={{marginBottom: 10}}>

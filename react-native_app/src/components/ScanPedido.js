@@ -5,16 +5,14 @@ import {Container, Text, Header, Right, Left, Icon, Content, Button, Body, Title
 import autobind from "autobind-decorator";
 import Modal from 'react-native-modalbox';
 import variables from "../../native-base-theme/variables/commonColor";
-
+import * as Constants from '../Constants';
 import {BaseContainer, PedidoItem, Firebase} from "../components";
 
-const {width, height} = Dimensions.get("window");
-
-export default class ScanCoupon extends React.Component {
+export default class ScanPedido extends React.Component {
   state = {
     hasCameraPermission: null,
     pedidoInfo: {},
-    cuponValido: false,
+    pedidoValido: false,
     justScanned: false,
     isOpen: false,
   };
@@ -42,18 +40,18 @@ export default class ScanCoupon extends React.Component {
     //Firebase.firestore.collection("pedidos").doc("")
     console.log("data and type ", data, type);
 
-    const docRef = await Firebase.firestore.collection("codigosPromociones").doc(data);
+    const docRef = await Firebase.firestore.collection("pedidos").doc(data);
     var docExists = false;
-    var cuponValido = true;
+    var pedidoValido = true;
     var pedidoInfo = {};
 
     await docRef.get().then(function(doc) {
         if (doc.exists) {
             docExists = true;
-            console.log("Codigo Promocion exists!!  data:", doc.data());
+            console.log("Pedido exists!!  data:", doc.data());
 
             if (doc.data().reclamado) {
-              cuponValido = false;
+              pedidoValido = false;
             }
 
             var prevData = doc.data();
@@ -67,7 +65,7 @@ export default class ScanCoupon extends React.Component {
             //   console.error("error writing doc: ", error);
             // });
         } else {
-            cuponValido = false;
+            pedidoValido = false;
             console.log("No such document!");
         }
     }).catch(function(error) {
@@ -75,15 +73,13 @@ export default class ScanCoupon extends React.Component {
     });
 
 
-    if (docExists && cuponValido) {
-      Alert.alert("Cupón Aplicado!", "Tienes 50% de descuento en tu próxima compra");
-      this.setState({pedidoInfo: pedidoInfo, cuponValido: true});
+    if (docExists && pedidoValido) {
+      this.setState({pedidoInfo: pedidoInfo, pedidoValido: true});
     } else {
-      Alert.alert("Cupón Invalido");
-      this.setState({cuponValido: false});
+      this.setState({pedidoValido: false});
     }
 
-    //this.refs.pedidoModal.open();
+    this.refs.pedidoModal.open();
   }
 
   @autobind
@@ -121,9 +117,10 @@ export default class ScanCoupon extends React.Component {
           <BarCodeScanner onBarCodeRead={this.handleScan} style={{height: width, width: width}}>
         </BarCodeScanner>
           <View style={{justifyContent: 'center', alignItems: 'center'}}>
-            <Text style={{color: variables.lightGray, marginTop: 15, fontSize: 16}}>Escanea Cupones y Descuentos ONEFOOD</Text>
+            <Text style={{color: variables.lightGray, marginTop: 15, fontSize: 16}}>Escanea Pedidos ONEFOOD</Text>
           </View>
         </Container>
+        <PedidoInfo ref={"pedidoModal"} onModalClose={this.onModalClose} pedidoInfo={this.state.pedidoInfo} pedidoValido={this.state.pedidoValido}/>
         </Modal>
       );
     }
@@ -137,45 +134,45 @@ class PedidoInfo extends React.Component<PedidoProps> {
     }
 
     open() {
-      this.setState({detailModalIsOpen: true});
+      ///this.setState({detailModalIsOpen: true});
+      this.refs.modal.open();
       //this.refs.modal.open();
     }
 
     @autobind
     setModalStateClosed() {
-      this.setState({detailModalIsOpen: false});
+      console.log("HACIENDO ESTE CIERRE");
+      this.props.onModalClose();
+      //this.setState({detailModalIsOpen: false});
     }
 
     @autobind
     dismissModal() {
-      this.setState({detailModalIsOpen: false});
-      this.props.onModalClose();
+      this.refs.modal.close();
+      //this.setState({detailModalIsOpen: false});
+      //this.props.onModalClose();
     }
 
     render(): React.Node {
-      const {pedidoInfo, cuponValido} = this.props;
+      const {pedidoInfo, pedidoValido} = this.props;
+      var fecha = Constants.convertirFecha(pedidoInfo.fecha);
 
-      return <Modal style={style.modal} swipeToClose={false} onClosed={this.setModalStateClosed}  isOpen={this.state.detailModalIsOpen} backdrop={true} position={"bottom"} coverScreen={true} ref={"modal"}>
-
+      return <Modal style={pedidoValido ? style.modalValido : style.modalChico} swipeToClose={true} position={"center"} onClosed={this.setModalStateClosed} backdrop={true} coverScreen={false} ref={"modal"}>
           {
-            cuponValido ?
-            (<Container style={style.container}>
-                <Button transparent onPress={this.dismissModal}>
-                    <Icon name="ios-close-outline" style={style.closeIcon} />
-                </Button>
+            pedidoValido ?
+            (<Container style={ style.containerChico}>
+              <Text style={{fontSize: 22, fontWeight: "bold"}}>Pedido Válido</Text>
                 <PedidoItem
                   numero={pedidoInfo.cantidades[0]}
-                  title="CHOCOLATE"
+                  title="COCOA"
               />
               <View style={{marginTop: 20}}>
-                <H3>{pedidoInfo.fecha}</H3>
+                <H3>{fecha}</H3>
               </View>
             </Container>) :
-            (<Container style={style.container}>
-                <Button transparent onPress={this.dismissModal}>
-                    <Icon name="ios-close-outline" style={style.closeIcon} />
-                </Button>
-              <Text>Pedido Inválido</Text>
+            (<Container style={style.containerChico}>
+              <Text style={{fontSize: 22, fontWeight: "bold"}}>Pedido Inválido</Text>
+              <Text style={{color: variables.lightGray}}>Este pedido ya fue reclamado.</Text>
               </Container>
             )
           }
@@ -183,7 +180,7 @@ class PedidoInfo extends React.Component<PedidoProps> {
     }
 }
 
-
+const {width, height} = Dimensions.get("window");
 
 const style = StyleSheet.create({
   container: {
@@ -192,19 +189,37 @@ const style = StyleSheet.create({
     alignItems: 'center',
     height: height,
   },
+  containerChico: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 300,
+  },
   closeIcon: {
       fontSize: 50,
       marginLeft: 20,
-      color: variables.brandPrimary,
+      color: variables.brandPrimary
   },
   closeButton: {
     marginTop: 60,
   },
     modal: {
-    height: height,
-    flex: 1,
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: variables.brandInfo
+    backgroundColor: variables.brandInfo,
+  },
+  modalValido: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: variables.brandInfo,
+    height: 350,
+    width: 350,
+  },
+  modalChico: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: variables.brandInfo,
+    height: 300,
+    width: 300,
   },
 });

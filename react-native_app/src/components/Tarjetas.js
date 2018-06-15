@@ -120,7 +120,7 @@ export default class Tarjetas extends React.Component {
     }
 
     render(): React.Node {
-        return <Modal style={[style.modal]} isOpen={this.props.isTarjetasOpen} animationDuration={400} swipeToClose={false} coverScreen={true} position={"center"} ref={"modal2"}>
+        return <Modal style={[style.modal]} isOpen={this.props.isTarjetasOpen} animationDuration={400} swipeToClose={false} coverScreen={true} backdropPressToClose={false} position={"center"} ref={"modal2"}>
                 <Container safe={true}>
                   <Header style={{borderBottomWidth: 1, borderColor: variables.lightGray}}>
                       <Body>

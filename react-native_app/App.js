@@ -29,7 +29,7 @@ import {Timeline} from "./src/timeline";
 import {Settings} from "./src/settings";
 import {Create} from "./src/create";
 import {CameraScreen} from "./src/camera";
-import {SerOnefoodPro} from "./src/pro";
+import {SerOnefoodPro, InfoRep} from "./src/pro";
 
 import getTheme from "./native-base-theme/components";
 import variables from "./native-base-theme/variables/commonColor";
@@ -102,6 +102,8 @@ export default class App extends React.Component<{}, AppState> {
           console.log("the user metadata is:" , user.metadata);
 
           console.log("the difference is : ", differenceInSeconds);
+
+          
           // if (differenceInSeconds < 3) {
           //   this.setState({
           //     isFirstLogin: true,
@@ -189,6 +191,7 @@ const MainNavigator = DrawerNavigator({
     Create: { screen: Create },
     Camera: { screen: CameraScreen },
     SerPro: { screen: SerOnefoodPro},
+    InfoRep: { screen: InfoRep},
 }, {
     drawerWidth: Dimensions.get("window").width,
     // eslint-disable-next-line flowtype/no-weak-types

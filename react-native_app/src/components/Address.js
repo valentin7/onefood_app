@@ -21,6 +21,7 @@ export default class Address extends React.Component {
       ciudad: "",
       estado: "",
       codigoPostal: "",
+      direccionCompleta: "",
       savedAddress: false,
       loading: false,
       isCreditCardModalOpen: false,
@@ -69,7 +70,7 @@ export default class Address extends React.Component {
     @autobind
     dismissCreditCardModal(last4) {
       this.setState({isCreditCardModalOpen: false, credit_last4: last4});
-      this.props.dismissModal(last4, this.state.savedAddress);
+      this.props.dismissModal(last4, this.state.savedAddress, this.state.direccionCompleta);
     }
 
     @autobind
@@ -86,6 +87,8 @@ export default class Address extends React.Component {
         user_id: user.uid,
         direccionCompleta: fullAddress,
       }
+
+      this.setState({direccionCompleta: fullAddress});
 
       await Firebase.firestore.collection("addresses").doc(user.uid).set(addressInfo)
       .then(function() {
@@ -140,7 +143,7 @@ export default class Address extends React.Component {
       } else {
         this.setState({credit_last4: last4});
         //setTimeout(() => {this.dismissModal()}, 600);
-        this.props.dismissModal(last4, this.state.savedAddress);
+        this.props.dismissModal(last4, this.state.savedAddress, this.state.direccionCompleta);
         //this.dismissModal();
       }
     }
@@ -150,7 +153,7 @@ export default class Address extends React.Component {
     dismissModal(){
       //this.setState({isOpen: false});
       console.log("QUIERO APARACERR");
-      this.props.dismissModal("", this.state.savedAddress);
+      this.props.dismissModal("", this.state.savedAddress, this.state.direccionCompleta);
     }
 
     render(): React.Node {

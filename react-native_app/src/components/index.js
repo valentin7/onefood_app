@@ -21,6 +21,7 @@ export {default as Icon} from "./Icon";
 export {default as Text} from "./Text";
 export {default as Address} from "./Address";
 export {default as ScanCoupon} from "./ScanCoupon";
+export {default as ScanPedido} from "./ScanPedido";
 export {default as Tarjetas} from "./Tarjetas";
 export {default as PedidoItem} from "./PedidoItem";
 export {default as JankWorkaround} from "./JankWorkaround";

@@ -76,7 +76,6 @@ export default class BaseContainer extends React.Component<BaseContainerProps> {
     @autobind
     comprar() {
       this.setState({isComprarModalOpen: true, screenSelected: "Comprar", inMap: false});
-      //this.refs.modal.open()
     }
 
     @autobind
@@ -126,7 +125,7 @@ export default class BaseContainer extends React.Component<BaseContainerProps> {
                             <Icon name="ios-list-outline" style={{ fontSize: 32, color: pedidosIconColor}} />
                         </Button>
                         <Button transparent onPress={() => this.comprar()} transparent>
-                            <Icon name="ios-add-circle"  style={{ fontSize: 60, color: compraIconColor}} />
+                            <Icon name="ios-add-circle"  style={{ fontSize: 56, color: compraIconColor}} />
                         </Button>
                         <Button onPress={() => this.mapa()} transparent>
                             <Icon name="ios-map-outline" style={{ fontSize: 32, color: mapIconColor}} />
@@ -138,7 +137,6 @@ export default class BaseContainer extends React.Component<BaseContainerProps> {
             );
     }
 }
-
 
 const {width} = Dimensions.get("window");
 

@@ -5,12 +5,13 @@ import {StyleSheet, View, Text, TouchableOpacity, Dimensions, RefreshControl, Sc
 import {Button, Icon, Card, CardItem, Left, Right, H3, Separator, ListItem, List} from "native-base";
 import {observable, action} from "mobx";
 import { observer, inject } from "mobx-react/native";
+import { Location, Permissions } from 'expo';
 import Modal from 'react-native-modalbox';
 import QRCode from 'react-native-qrcode';
 import PTRView from 'react-native-pull-to-refresh';
 import * as Constants from '../Constants';
 
-import {BaseContainer, Styles, JankWorkaround, Task, PedidoItem, Firebase, Images} from "../components";
+import {BaseContainer, Styles, JankWorkaround, Task, PedidoItem, Firebase, Images, ScanPedido} from "../components";
 import type {ScreenProps} from "../components/Types";
 import PedidoModel from "../components/APIStore";
 
@@ -100,11 +101,21 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
       JankWorkaround.runAfterInteractions(() => {
         this.setState({ loading: false });
       });
+      this.getLocationIfEnabled();
+    }
+
+    @autobind
+    async getLocationIfEnabled(): Promise<void> {
+      let { status } = await Permissions.getAsync(Permissions.LOCATION);
+      if (status == 'granted') {
+        
+        console.log("giving it away here boi");
+        let location = await Location.getCurrentPositionAsync({});
+        this.props.store.userLocationOnMap = location;
+      }
     }
 
     open(pedidoInfo) {
-      // pass in info
-      //this.refreshPedidos();
       console.log("pedidoInfo is ", pedidoInfo);
       this.setState({selectedPedido: pedidoInfo});
       this.refs.pedidoModal.open();
@@ -118,6 +129,11 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
     @autobind
     comprar() {
       this.refs.baseComponent.comprar();
+    }
+
+    @autobind
+    escanearPedido() {
+      this.refs.scanPedidoModal.open();
     }
 
     render(): React.Node {
@@ -140,9 +156,10 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
                     <Button block style={style.compraButton} onPress={this.comprar}>
                       <H3 style={{color: 'white'}}>Nueva Compra</H3>
                     </Button>
-                    <Button block style={style.escanearButton} onPress={this.comprar}>
+
+                    {this.props.store.esRep && <Button block style={style.escanearButton} onPress={this.escanearPedido}>
                       <H3 style={{color: 'white'}}>Escanear Pedido</H3>
-                    </Button>
+                    </Button>}
 
                     <ScrollView refreshControl={
                         <RefreshControl
@@ -176,16 +193,16 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
                     ) : (<View/>)}
 
                     {this.state.pedidosHistorial.map((item, key) =>  (
-                      <ListItem key={key} style={{height: 70, backgroundColor: "white", flexDirection: 'column'}} onPress={() => this.open(item)}>
+                      <ListItem key={key} style={{height: 70, backgroundColor: "white", flexDirection: 'column', alignItems: 'flex-start'}} onPress={() => this.open(item)}>
                         <Text style={Styles.grayText}> {item.cantidades[0]} ONEFOODS</Text>
+                        <Text style={style.pedidoFecha}>{Constants.convertirFechaCorta(item.fecha)}</Text>
                       </ListItem>))
                     }
                    </ScrollView>
-
                    </View>
                   )}
                   </View>
-
+                  {this.props.store.esRep && <ScanPedido ref={"scanPedidoModal"}/>}
                   <PedidoDetalle ref={"pedidoModal"} pedidoInfo={this.state.selectedPedido} pedido_id={this.state.selectedPedidoId} fecha={this.state.selectedDate} cantidades={this.state.selectedPQuantities} precioTotal={this.state.selectedTotalPrice} user_id="rigo" al_mes="false" direccionAEntregar="Isla Dorada"/>
         </BaseContainer>
         </ImageBackground>;
