@@ -78,11 +78,16 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
       const docRef = await Firebase.firestore.collection("usersInfo").doc(user.uid);
       var docExists = false;
       var isRep = false;
+      var phoneNumber = "";
       await docRef.get().then(function(doc) {
           if (doc.exists) {
               docExists = true;
-              console.log("Doc exists!!  data:", doc.data());
+              console.log("acuyo Doc exists!!  data:", doc.data());
               isRep = doc.data().esRep;
+              if (isRep) {
+                phoneNumber = doc.data().phone;
+                console.log("werejo ", phoneNumber);
+              }
           } else {
               console.log("No such document!");
           }
@@ -92,6 +97,7 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
 
       console.log("es rep firebase? ", isRep);
       this.props.store.esRep = isRep;
+      this.props.store.repPhone = phoneNumber;
     }
 
     @action
@@ -108,7 +114,7 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
     async getLocationIfEnabled(): Promise<void> {
       let { status } = await Permissions.getAsync(Permissions.LOCATION);
       if (status == 'granted') {
-        
+
         console.log("giving it away here boi");
         let location = await Location.getCurrentPositionAsync({});
         this.props.store.userLocationOnMap = location;

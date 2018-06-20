@@ -10,6 +10,7 @@ import { Constants, Location, Permissions } from 'expo';
 import openMap from 'react-native-open-maps';
 import variables from "../../native-base-theme/variables/commonColor";
 import Modal from 'react-native-modalbox';
+import Autolink from "react-native-autolink";
 
 import {BaseContainer, Task, JankWorkaround, Firebase, Images} from "../components";
 import type {ScreenProps} from "../components/Types";
@@ -37,6 +38,8 @@ export default class Mapa extends React.Component<ScreenProps<>> {
       userLocation: null,
       coordsToOpen: null,
       repInfoModalVisible: false,
+      nameOfRepToShow: "",
+      phoneOfRepToShow: "",
     }
     //{key: markerId++, title: "Camión ONEFOOD #23", description: "Presiona para abrir en Mapa.", coordinate: {latitude: 19.4326, longitude: -99.1335}, color: "green"},
               //{key: markerId++, title: "Camión ONEFOOD #2", description: "Presiona para abrir en Mapa.", coordinate: {latitude: 19.4452, longitude: -99.1359}, color: "green"}
@@ -60,11 +63,12 @@ export default class Mapa extends React.Component<ScreenProps<>> {
 
 
       this.updateLocationSharing(this.props.store.showingLocationOnMap);
-      //this.setState({shouldUpdate: true});
     }
 
     componentDidMount() {
       //this.setState({ loading: false });
+
+
       JankWorkaround.runAfterInteractions(() => {
         this.setState({ loading: false });
       });
@@ -75,9 +79,10 @@ export default class Mapa extends React.Component<ScreenProps<>> {
     }
 
     @autobind
-    openMapMarker(coordinate) {
-      this.setState({coordsToOpen: {latitude: coordinate.latitude, longitude: coordinate.longitude}});
+    openMapMarker(coordinate, name, phone) {
+      this.setState({nameOfRepToShow: name, phoneOfRepToShow: phone, coordsToOpen: {latitude: coordinate.latitude, longitude: coordinate.longitude}});
       this.refs.infoModal.open();
+
       //this.setState({repInfoModalVisible: true});
       //openMap({latitude: coordinate.latitude, longitude: coordinate.longitude});
     }
@@ -109,14 +114,14 @@ export default class Mapa extends React.Component<ScreenProps<>> {
         querySnapshot.forEach((doc) => {
           var locData = doc.data();
           if (locData.key != userId) {
-            newMarkers.push({key: locData.key, title: locData.title, description: locData.description,  coordinate: {latitude: locData.coordinate.latitude, longitude: locData.coordinate.longitude}, color: locData.color});
+            newMarkers.push({key: locData.key, title: locData.title, name: locData.name, phone: locData.phone, description: locData.description,  coordinate: {latitude: locData.coordinate.latitude, longitude: locData.coordinate.longitude}, color: locData.color});
             //newMarkers.push({key: userId, title: locData.title, description: locData.description,  coordinate: locData.coordinate, color: variables.brandPrimary});
           }
         });
 
         if (showingLocOnMap) {
           console.log("HERE BC SHOULD SHOW AND ", showingLocOnMap);
-          newMarkers.unshift({key: localUserId, title: "Tú", description: "Compradores te pueden encontrar en el mapa.",  coordinate: {latitude: userLoc.coords.latitude, longitude: userLoc.coords.longitude}, color: variables.brandPrimary});
+          newMarkers.unshift({key: localUserId, title: "Tú", name: userDisplayName, phone: this.props.store.repPhone, description: "Compradores te pueden encontrar en el mapa.",  coordinate: {latitude: userLoc.coords.latitude, longitude: userLoc.coords.longitude}, color: variables.brandPrimary});
         }
         this.setState({markers: newMarkers});
         this.props.store.mapMarkers = newMarkers;
@@ -142,12 +147,13 @@ export default class Mapa extends React.Component<ScreenProps<>> {
       var lat = this.props.store.userLocationOnMap["coords"]["latitude"];
       var lng = this.props.store.userLocationOnMap["coords"]["longitude"];
       this.removeSelfLocationIfExists();
-      newMarkers.unshift({key: localUserId, title: "Tú", description: "Compradores te pueden encontrar en el mapa.", coordinate: {latitude: lat, longitude: lng}, color: variables.brandPrimary});
+      console.log("hey, ", userDisplayName + " " + this.props.store.repPhone);
+      newMarkers.unshift({key: localUserId, title: "Tú", name: userDisplayName, phone: this.props.store.repPhone, description: "Compradores te pueden encontrar en el mapa.", coordinate: {latitude: lat, longitude: lng}, color: variables.brandPrimary});
       //newMarkers.push({key: markerId++, title: "Tú Nuevo", description: "Compradores te pueden encontrar en el mapa.", coordinate: {latitude: 19.4323, longitude: -99.1331}, color: variables.brandPrimary});
       this.setState({markers: newMarkers});
       this.props.store.mapMarkers = newMarkers;
       var titleName = "ONEFOOD REP " + userDisplayName;
-      var newLocation = {key: userId, title: titleName, description: "Presiona para abrir locación en Mapa.", coordinate: {latitude: lat, longitude: lng}, color: "green"};
+      var newLocation = {key: userId, title: titleName, name: userDisplayName, phone: this.props.store.repPhone, description: "Presiona para más detalles.", coordinate: {latitude: lat, longitude: lng}, color: "green"};
       await Firebase.firestore.collection("mapalocations").doc(userId).set(newLocation).then(function() {
           console.log("Puso location del usuario updated");
       })
@@ -275,7 +281,7 @@ export default class Mapa extends React.Component<ScreenProps<>> {
                           description={marker.description}
                           coordinate={marker.coordinate}
                           pinColor={marker.color}
-                          onCalloutPress={() => this.openMapMarker(marker.coordinate)}
+                          onCalloutPress={() => this.openMapMarker(marker.coordinate, marker.name, marker.phone)}
                         />
                       ) :
                       (
@@ -285,16 +291,20 @@ export default class Mapa extends React.Component<ScreenProps<>> {
                           description={marker.description}
                           coordinate={marker.coordinate}
                           image={require('../components/images/circleMarker.png')}
-                          onCalloutPress={() => this.openMapMarker(marker.coordinate)}
+                          onCalloutPress={() => this.openMapMarker(marker.coordinate, marker.name, marker.phone)}
                         />
                       )
                     )}
-                    <Modal style={styles.modalValido} presentationStyle={"pageSheet"} swipeToClose={true} position={"center"} onClosed={this.setModalStateClosed} backdrop={true} coverScreen={false} ref={"infoModal"}>
+                    <Modal style={styles.modalValido} swipeToClose={true} position={"center"} onClosed={this.setModalStateClosed} backdrop={true} coverScreen={false} ref={"infoModal"}>
                         <Container style={styles.containerChico}>
-                          <Text style={{fontSize: 22, fontWeight: "bold"}}>ONEFOOD REP Santiago</Text>
+                          <Text style={{fontSize: 22, fontWeight: "bold"}}>ONEFOOD REP</Text>
+                          <Text style={{fontSize: 22}}>{this.state.nameOfRepToShow}</Text>
                           <View style={{marginTop: 20}}>
-                            <Text>(998)1479811</Text>
-                            <Button onPress={() => openMap(this.state.coordsToOpen)}><Text>Ver locación en el mapa.</Text></Button>
+                            <Text>
+                              <Icon name="ios-call" style={styles.icon} />
+                              <Autolink linkStyle={styles.link} text={" " + this.state.phoneOfRepToShow} phone={true} />
+                            </Text>
+                            <Button style={{borderRadius: 5, marginTop: 10}} onPress={() => openMap(this.state.coordsToOpen)}><Text style={{paddingHorizontal: 12, color: "white"}}>Ver locación en el mapa.</Text></Button>
                           </View>
                         </Container>
                      </Modal>
@@ -320,7 +330,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     position: 'relative',
-    height: 900,
+    height: height - 250,
   },
   map: {
      position: 'absolute',
@@ -335,12 +345,20 @@ const styles = StyleSheet.create({
      justifyContent: 'center',
      alignItems: 'center',
      backgroundColor: variables.brandInfo,
-     height: 300,
-     width: 300,
+     height: 270,
+     width: 270,
+     borderRadius: 5,
+
    },
    containerChico: {
      justifyContent: 'center',
      alignItems: 'center',
      height: 300,
    },
+   link: {
+     color: variables.darkGray,
+   },
+   icon: {
+     color: variables.brandPrimary,
+   }
 });

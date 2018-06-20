@@ -5,6 +5,7 @@ class MobxStore {
   @observable pedidos = [];
   @observable last4CreditCard = " ";
   @observable esRep = false;
+  @observable repPhone = "";
   @observable showingLocationOnMap = false;
   @observable userLocationOnMap = undefined;
   @observable mapMarkers = [];
