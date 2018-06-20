@@ -16,6 +16,7 @@ export default class Images {
     static oneFoodLogo = require("./oneFoodLogo.png");
     static oneFull = require("./oneFull.png");
     static tablaNutricional = require("./tablaNutricional.jpg");
+    static markerCirculoAzul = require("./circleMarker.png");
 
     static profile = require("./profile.jpg");
 
@@ -44,6 +45,7 @@ export default class Images {
             Asset.fromModule(Images.botellaNegro).downloadAsync(),
             Asset.fromModule(Images.botellaNaranja).downloadAsync(),
             Asset.fromModule(Images.profile).downloadAsync(),
+            Asset.fromModule(Images.markerCirculoAzul).downloadAsync(),
 
             Asset.fromModule(Images.defaultAvatar).downloadAsync(),
             Asset.fromModule(Images.avatar1).downloadAsync(),

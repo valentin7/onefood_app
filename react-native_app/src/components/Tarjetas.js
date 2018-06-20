@@ -43,7 +43,6 @@ export default class Tarjetas extends React.Component {
               console.log("Doc exists!!  data:", doc.data());
               tarjetas = doc.data().tarjetas;
           } else {
-              // doc.data() will be undefined in this case
               console.log("No such document!");
           }
       }).catch(function(error) {
@@ -129,31 +128,24 @@ export default class Tarjetas extends React.Component {
                   </Header>
                   <Content style={style.content}>
                     <ActivityIndicator size="large" animating={this.state.loading}/>
-
                     {this.state.tarjetas.map((item, key) =>  (
                       <View key={key} style={style.section}>
-                          <Text>
-                            <Icon name="ios-card" style={{ color: variables.brandSecondary, marginRight: 30 }} />
-                            {"    ****" + item.last4}
-                            {item.usando ?
-                              (<Text style={{fontSize: 12, color: variables.brandPrimary}}>     USANDO</Text>)
-                              :
-                              (<Button onPress={() => this.usarTarjeta(key)} style={{width: 70, height: 25, marginTop: 5, marginLeft: 10, backgroundColor: variables.lighterGray, borderRadius: 6, justifyContent: 'center', position: 'absolute', right: 0}}>
-                                <Text style={{fontSize: 12, color: variables.darkGray}}> USAR </Text>
-                              </Button>)
-                            }
-                            {item.usando ?
-                              (<View style={{width: 1, height: 1}}/>)
-                              :
-                              (<Button onPress={() => this.removerTarjeta(key)}style={{width: 70, height: 25, marginTop: 5, marginLeft: 20, backgroundColor: variables.lighterGray, borderRadius: 6, justifyContent: 'center', position: 'absolute', right: 0}}>
-                              <Text style={{fontSize: 12, color: variables.darkGray}}> REMOVER </Text>
-                            </Button>)}
-                          </Text>
+                        <Icon name="ios-card" style={{ color: variables.brandSecondary, marginRight: 30 }} />
+                        <Text>{"    ****" + item.last4}</Text>
+                        {item.usando ?
+                          (<Text style={{fontSize: 12, color: variables.brandPrimary}}>     USANDO</Text>)
+                          :
+                          (<Button onPress={() => this.usarTarjeta(key)} style={{width: 70, height: 25, marginTop: 5, marginLeft: 10, backgroundColor: variables.lighterGray, borderRadius: 6, justifyContent: 'center', position: 'absolute', right: 0}}>
+                            <Text style={{fontSize: 12, color: variables.darkGray}}> USAR </Text>
+                          </Button>)
+                        }{item.usando ?
+                          (<View style={{width: 1, height: 1}}/>)
+                          :
+                          (<Button onPress={() => this.removerTarjeta(key)}style={{width: 70, height: 25, marginTop: 5, marginLeft: 20, backgroundColor: variables.lighterGray, borderRadius: 6, justifyContent: 'center', position: 'absolute', right: 0}}>
+                          <Text style={{fontSize: 12, color: variables.darkGray}}> REMOVER </Text>
+                        </Button>)}
                       </View>
-
-                    ))
-                    }
-
+                    ))}
                     <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center'}}>
                       <Button onPress={this.agregarTarjeta} style={style.agregarButton}><Text style={{color: 'white'}}>Agregar Tarjeta</Text></Button>
                     </View>
@@ -207,6 +199,7 @@ const style = StyleSheet.create({
     },
     section: {
       backgroundColor: "white",
+      flexDirection: "row",
       padding: variables.contentPadding * 2,
       borderTopWidth: variables.borderWidth,
       borderBottomWidth: variables.borderWidth,

@@ -118,7 +118,7 @@ export default class CreditCard extends React.Component {
     render(): React.Node {
 
         return <Modal style={[style.modal]} isOpen={this.props.isOpen} backdropPressToClose={false} backdrop={false} animationDuration={400} swipeToClose={false} coverScreen={true} position={"center"} ref={"modal2"}>
-                <Container safe={true}>
+                <Container safe={false}>
                   <Header>
                       <Left>
                           <Button transparent onPress={this.dismissModal}>

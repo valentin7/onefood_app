@@ -2,7 +2,7 @@
 import moment from "moment";
 import autobind from "autobind-decorator";
 import * as React from "react";
-import {View, Image, StyleSheet, Dimensions, InteractionManager, Platform, Animated, ScrollView, ActivityIndicator, SafeAreaView, StatusBar} from "react-native";
+import {View, Image, StyleSheet, Dimensions, InteractionManager, Platform, Animated, ScrollView, ActivityIndicator, SafeAreaView, StatusBar, Alert} from "react-native";
 import {H1, Text, Button, Segment, Radio, List, ListItem, Right, Content, CheckBox, Container, Header, Left, Icon, Title, Body, Footer, Card, CardItem} from "native-base";
 import ImageSlider from 'react-native-image-slider';
 import {TaskOverview, Images, Styles, PrecioTotal, QuantityInput, ScanCoupon, Address, Firebase, CreditCard, CheckoutConfirmation, WindowDimensions} from "../components";
@@ -10,6 +10,7 @@ import type {ScreenProps} from "../components/Types";
 import Modal from 'react-native-modalbox';
 import {StackNavigator, StackRouter} from 'react-navigation';
 import {action, observable} from "mobx";
+import {Location, Permissions} from "expo";
 import { observer, inject } from "mobx-react/native";
 import PedidoModel from "../components/APIStore";
 import Swiper from "react-native-swiper";
@@ -34,6 +35,7 @@ export default class Comprar extends React.Component {
       direccionCompleta: "",
       isCreditCardModalOpen: false,
       isAddressModalOpen: false,
+      isMapaOpen: false,
     }
 
     componentDidMount() {
@@ -102,6 +104,11 @@ export default class Comprar extends React.Component {
       } else {
         console.log("still needs to add address");
       }
+    }
+
+    @autobind
+    dismissMapaModal() {
+      this.setState({isMapaOpen: false});
     }
 
     @autobind
@@ -217,7 +224,8 @@ export default class Comprar extends React.Component {
 
     @autobind
     showMap() {
-      this.refs.mapa.open();
+      //this.refs.mapa.open();
+      this.setState({isMapaOpen: true});
     }
 
     static navigationOptions = {
@@ -300,7 +308,7 @@ export default class Comprar extends React.Component {
               </Button>
             </Container>
             <InformacionNutrimental ref={"infoNutrimentalModal"} />
-            <MapaAdicional ref={"mapa"} />
+            <MapaAdicional ref={"mapa"} isOpen={this.state.isMapaOpen} dismissModal={this.dismissMapaModal}/>
             <Address isOpen={this.state.isAddressModalOpen} dismissModal={this.dismissAddressModal} ></Address>
             <ScanCoupon ref={"couponModal"}/>
             <CreditCard isOpen={this.state.isCreditCardModalOpen} dismissModal={this.dismissCreditCardModal} ref={"creditCardModal"}></CreditCard>
@@ -362,7 +370,10 @@ class InformacionNutrimental extends React.Component {
 }
 
 let markerId = 0;
+let userId = "";
+let localUserId = "";
 
+@inject('store') @observer
 class MapaAdicional extends React.Component {
 
   state = {
@@ -385,27 +396,94 @@ class MapaAdicional extends React.Component {
   @autobind
   setModalStateClosed() {
     this.setState({detailModalIsOpen: false});
+    this.props.dismissModal();
   }
 
   @autobind
   dismissModal() {
     //StatusBar.setBarStyle('default', true);
-    this.setState({detailModalIsOpen: false});
+    this.props.dismissModal();
+    //this.setState({detailModalIsOpen: false});
+  }
+
+  componentWillMount() {
+    userId = Firebase.auth.currentUser.uid;
+    localUserId = userId + "local";
+  }
+  componentDidMount() {
+    this.updateLocation();
+    this.refreshLocationsInMap();
+  }
+
+  @autobind
+  async updateLocation(): Promise<void> {
+    if (Platform.OS === 'android' && !Constants.isDevice) {
+     Alert.alert("Error", "Oops, this will not work on Sketch in an Android emulator. Try it on your device!");
+   } else {
+      let { status } = await Permissions.askAsync(Permissions.LOCATION);
+      if (status !== 'granted') {
+        Alert.alert("Permiso para accesar ubicación negada", "Para una mejor experiencia con el mapa, por favor de permitir acceso a ubicación en configuración del dispositivo.")
+        this.setState({
+          errorMessage: 'Permission to access location was denied',
+        });
+        this.props.store.showingLocationOnMap = false;
+      }
+      let location = await Location.getCurrentPositionAsync({});
+      this.setState({userLocation: location});
+      this.props.store.userLocationOnMap = location;
+      //this.forceUpdate()
+      console.log("FORnew locochon: ", location);
+    }
+  }
+
+  @autobind
+  async refreshLocationsInMap(): Promise<void> {
+    var newMarkers = [];
+    const query = await Firebase.firestore.collection("mapalocations").get().then((querySnapshot) => {
+
+      var showingLocOnMap = this.props.store.showingLocationOnMap;
+      var userLoc = this.props.store.userLocationOnMap;
+      console.log("userloc bro ", userLoc);
+      querySnapshot.forEach((doc) => {
+        var locData = doc.data();
+        if (locData.key != userId) {
+          console.log("ADDDDing one w id ", locData.key);
+          console.log("heyy ", locData);
+          newMarkers.push({key: locData.key, title: locData.title, description: locData.description,  coordinate: {latitude: locData.coordinate.latitude, longitude: locData.coordinate.longitude}, color: locData.color});
+          //newMarkers.push({key: userId, title: locData.title, description: locData.description,  coordinate: locData.coordinate, color: variables.brandPrimary});
+        }
+      });
+
+      if (showingLocOnMap) {
+        console.log("HERE BC SHOULD SHOW AND ", showingLocOnMap);
+        newMarkers.unshift({key: localUserId, title: "Tú", description: "Compradores te pueden encontrar en el mapa.",  coordinate: {latitude: userLoc.coords.latitude, longitude: userLoc.coords.longitude}, color: variables.brandPrimary});
+      }
+      this.setState({markers: newMarkers});
+      this.props.store.mapMarkers = newMarkers;
+      console.log("newmarkers locations we got: ", newMarkers);
+    });
   }
 
   render(): React.Node {
     const {pedidoInfo, pedidoValido} = this.props;
     const { width, height } = Dimensions.get('window');
     const ratio = width / height;
+    var lat = 19.4171;
+    var lng = -99.1335;
+
+    if (this.props.store.userLocationOnMap != undefined) {
+      lat = this.props.store.userLocationOnMap["coords"]["latitude"];
+      lng = this.props.store.userLocationOnMap["coords"]["longitude"];
+    }
     const coordinates = {
-      latitude: 19.4326,
-      longitude: -99.1332,
+      latitude: lat,
+      longitude: lng,
       latitudeDelta: 0.0922,
       longitudeDelta: 0.0922 * ratio,
     };
     var textoLocacion = "Pasa por tu ONEFOOD a la locación más cercana.";
 
-    return <Modal style={style.modalMapa} swipeToClose={false} onClosed={this.setModalStateClosed} isOpen={this.state.detailModalIsOpen} backdrop={true} position={"bottom"} entry={"bottom"} coverScreen={false} ref={"modal"}>
+    return <Modal style={style.modalMapa} swipeToClose={false} isOpen={this.props.isOpen} onClosed={this.setModalStateClosed} backdrop={true} position={"bottom"} entry={"bottom"} coverScreen={false} ref={"modal"}>
             <Card style={{height: 40}}>
              <CardItem>
                <Body>
@@ -416,7 +494,7 @@ class MapaAdicional extends React.Component {
            <MapView
               style={style.map}
               initialRegion={coordinates}>
-              {this.state.markers.map(marker => (
+              {this.props.store.mapMarkers.map(marker => (
                  <Marker
                    key={marker.key}
                    title={marker.title}

@@ -121,7 +121,7 @@ export default class ScanCoupon extends React.Component {
           <BarCodeScanner onBarCodeRead={this.handleScan} style={{height: width, width: width}}>
         </BarCodeScanner>
           <View style={{justifyContent: 'center', alignItems: 'center'}}>
-            <Text style={{color: variables.lightGray, marginTop: 15, fontSize: 16}}>Escanea Cupones y Descuentos ONEFOOD</Text>
+            <Text style={{color: variables.darkGray, marginTop: 15, fontSize: 18}}>Escanea Cupones y Descuentos ONEFOOD</Text>
           </View>
         </Container>
         </Modal>

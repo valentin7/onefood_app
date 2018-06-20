@@ -141,9 +141,7 @@ class PedidoInfo extends React.Component<PedidoProps> {
 
     @autobind
     setModalStateClosed() {
-      console.log("HACIENDO ESTE CIERRE");
       this.props.onModalClose();
-      //this.setState({detailModalIsOpen: false});
     }
 
     @autobind

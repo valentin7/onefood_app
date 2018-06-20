@@ -2,15 +2,16 @@
 import autobind from "autobind-decorator";
 import moment from "moment";
 import * as React from "react";
-import {ScrollView, Platform, InteractionManager, StyleSheet, View, Dimensions, Animated, Switch, Alert} from "react-native";
-import {Icon, Picker, H3, Card, CardItem, Text, Body, Container} from "native-base";
-import MapView, {Marker} from "react-native-maps";
+import {ScrollView, Platform, InteractionManager, StyleSheet, View, Dimensions, Animated, Switch, Alert, Image} from "react-native";
+import {Icon, Button, Picker, H3, Card, CardItem, Text, Body, Container} from "native-base";
+import MapView, {Marker, Circle} from "react-native-maps";
 import {observable, action} from "mobx";
 import { Constants, Location, Permissions } from 'expo';
 import openMap from 'react-native-open-maps';
 import variables from "../../native-base-theme/variables/commonColor";
+import Modal from 'react-native-modalbox';
 
-import {BaseContainer, Task, JankWorkaround, Firebase} from "../components";
+import {BaseContainer, Task, JankWorkaround, Firebase, Images} from "../components";
 import type {ScreenProps} from "../components/Types";
 import { observer, inject } from "mobx-react/native";
 
@@ -19,6 +20,7 @@ const now = moment();
 var markerId = 2;
 let userId = "";
 let localUserId = "";
+let userDisplayName = "";
 
 @inject('store') @observer
 export default class Mapa extends React.Component<ScreenProps<>> {
@@ -33,6 +35,8 @@ export default class Mapa extends React.Component<ScreenProps<>> {
       markers: [],
       compartiendoUbicacion: false,
       userLocation: null,
+      coordsToOpen: null,
+      repInfoModalVisible: false,
     }
     //{key: markerId++, title: "Camión ONEFOOD #23", description: "Presiona para abrir en Mapa.", coordinate: {latitude: 19.4326, longitude: -99.1335}, color: "green"},
               //{key: markerId++, title: "Camión ONEFOOD #2", description: "Presiona para abrir en Mapa.", coordinate: {latitude: 19.4452, longitude: -99.1359}, color: "green"}
@@ -48,6 +52,7 @@ export default class Mapa extends React.Component<ScreenProps<>> {
     componentWillMount() {
       userId = Firebase.auth.currentUser.uid;
       localUserId = userId + "local";
+      userDisplayName = Firebase.auth.currentUser.displayName;
 
       if (! this.props.store.showingLocationOnMap) {
           this.removeSelfLocationIfExists();
@@ -71,7 +76,10 @@ export default class Mapa extends React.Component<ScreenProps<>> {
 
     @autobind
     openMapMarker(coordinate) {
-      openMap({latitude: coordinate.latitude, longitude: coordinate.longitude});
+      this.setState({coordsToOpen: {latitude: coordinate.latitude, longitude: coordinate.longitude}});
+      this.refs.infoModal.open();
+      //this.setState({repInfoModalVisible: true});
+      //openMap({latitude: coordinate.latitude, longitude: coordinate.longitude});
     }
 
     componentWillUnmount() {
@@ -93,18 +101,14 @@ export default class Mapa extends React.Component<ScreenProps<>> {
 
     @autobind
     async refreshLocationsInMap(): Promise<void> {
-
       var newMarkers = [];
       const query = await Firebase.firestore.collection("mapalocations").get().then((querySnapshot) => {
 
         var showingLocOnMap = this.props.store.showingLocationOnMap;
         var userLoc = this.props.store.userLocationOnMap;
-        console.log("userloc bro ", userLoc);
         querySnapshot.forEach((doc) => {
           var locData = doc.data();
           if (locData.key != userId) {
-            console.log("ADDDDing one w id ", locData.key);
-            console.log("heyy ", locData);
             newMarkers.push({key: locData.key, title: locData.title, description: locData.description,  coordinate: {latitude: locData.coordinate.latitude, longitude: locData.coordinate.longitude}, color: locData.color});
             //newMarkers.push({key: userId, title: locData.title, description: locData.description,  coordinate: locData.coordinate, color: variables.brandPrimary});
           }
@@ -142,7 +146,8 @@ export default class Mapa extends React.Component<ScreenProps<>> {
       //newMarkers.push({key: markerId++, title: "Tú Nuevo", description: "Compradores te pueden encontrar en el mapa.", coordinate: {latitude: 19.4323, longitude: -99.1331}, color: variables.brandPrimary});
       this.setState({markers: newMarkers});
       this.props.store.mapMarkers = newMarkers;
-      var newLocation = {key: userId, title: "ONEFOOD REP Lorenzo", description: "Presiona para abrir locación en Mapa.", coordinate: {latitude: lat, longitude: lng}, color: "green"};
+      var titleName = "ONEFOOD REP " + userDisplayName;
+      var newLocation = {key: userId, title: titleName, description: "Presiona para abrir locación en Mapa.", coordinate: {latitude: lat, longitude: lng}, color: "green"};
       await Firebase.firestore.collection("mapalocations").doc(userId).set(newLocation).then(function() {
           console.log("Puso location del usuario updated");
       })
@@ -225,13 +230,13 @@ export default class Mapa extends React.Component<ScreenProps<>> {
         }
 
         var coordinates = {
-          latitude: lat - 0.02,
+          latitude: lat - 0.008,
           longitude: lng,
-          latitudeDelta: 0.098,
-          longitudeDelta: 0.098 * ratio,
+          latitudeDelta: 0.038,
+          longitudeDelta: 0.038 * ratio,
         };
 
-        return <BaseContainer {...{ navigation, title }}>
+        return <BaseContainer {...{ navigation, title }}  hasRefresh={true} refresh={this.refreshLocationsInMap}>
                 {
                   this.props.store.esRep &&
                   <Card>
@@ -263,7 +268,7 @@ export default class Mapa extends React.Component<ScreenProps<>> {
                    <MapView
                      style={styles.map}
                      initialRegion={coordinates}>
-                     {this.props.store.mapMarkers.map(marker => (
+                     {this.props.store.mapMarkers.map(marker => (marker.key != localUserId) ? (
                         <Marker
                           key={marker.key}
                           title={marker.title}
@@ -272,14 +277,34 @@ export default class Mapa extends React.Component<ScreenProps<>> {
                           pinColor={marker.color}
                           onCalloutPress={() => this.openMapMarker(marker.coordinate)}
                         />
-                      ))}
+                      ) :
+                      (
+                        <Marker
+                          key={marker.key}
+                          title={marker.title}
+                          description={marker.description}
+                          coordinate={marker.coordinate}
+                          image={require('../components/images/circleMarker.png')}
+                          onCalloutPress={() => this.openMapMarker(marker.coordinate)}
+                        />
+                      )
+                    )}
+                    <Modal style={styles.modalValido} presentationStyle={"pageSheet"} swipeToClose={true} position={"center"} onClosed={this.setModalStateClosed} backdrop={true} coverScreen={false} ref={"infoModal"}>
+                        <Container style={styles.containerChico}>
+                          <Text style={{fontSize: 22, fontWeight: "bold"}}>ONEFOOD REP Santiago</Text>
+                          <View style={{marginTop: 20}}>
+                            <Text>(998)1479811</Text>
+                            <Button onPress={() => openMap(this.state.coordsToOpen)}><Text>Ver locación en el mapa.</Text></Button>
+                          </View>
+                        </Container>
+                     </Modal>
                     </MapView>
                  )}
+
                 </View>
              </BaseContainer>;
     }
 }
-
 
 const Loading = () => (
   <View style={styles.container}>
@@ -304,5 +329,18 @@ const styles = StyleSheet.create({
      right: 0,
      bottom: 0,
      zIndex: -1,
-   }
+   },
+   modalValido: {
+     position: 'absolute',
+     justifyContent: 'center',
+     alignItems: 'center',
+     backgroundColor: variables.brandInfo,
+     height: 300,
+     width: 300,
+   },
+   containerChico: {
+     justifyContent: 'center',
+     alignItems: 'center',
+     height: 300,
+   },
 });
