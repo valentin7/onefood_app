@@ -1,11 +1,10 @@
 // @flow
-import moment from "moment";
 import autobind from "autobind-decorator";
 import * as React from "react";
 import {View, Image, StyleSheet, Dimensions, InteractionManager, Platform, Animated, ScrollView, ActivityIndicator, SafeAreaView, StatusBar, Alert} from "react-native";
 import {H1, Text, Button, Segment, Radio, List, ListItem, Right, Content, CheckBox, Container, Header, Left, Icon, Title, Body, Footer, Card, CardItem} from "native-base";
 import ImageSlider from 'react-native-image-slider';
-import {TaskOverview, Images, Styles, PrecioTotal, QuantityInput, ScanCoupon, Address, Firebase, CreditCard, CheckoutConfirmation, WindowDimensions} from "../components";
+import {TaskOverview, Images, Styles, PrecioTotal, QuantityInput, ScanCoupon, Address, Firebase, CreditCard, CheckoutConfirmation, WindowDimensions, MapaComponent} from "../components";
 import type {ScreenProps} from "../components/Types";
 import Modal from 'react-native-modalbox';
 import {StackNavigator, StackRouter} from 'react-navigation';
@@ -18,6 +17,8 @@ import * as Constants from '../Constants';
 import variables from "../../native-base-theme/variables/commonColor";
 import openMap from 'react-native-open-maps';
 import MapView, {Marker} from "react-native-maps";
+import Moment from 'moment';
+import localization from 'moment/locale/es';
 
 @inject('store') @observer
 export default class Comprar extends React.Component {
@@ -233,14 +234,20 @@ export default class Comprar extends React.Component {
     };
 
     render(): React.Node {
-        const today = moment();
+        const today = Moment();
 
         var descriptionTexto = "  (Total: $" + this.state.totalPrice;
-
+        var descEntrega = "";
         if (this.state.subscription) {
           descriptionTexto += " mensual";
+          descEntrega += "¡Despreocúpate y ocúpate!\n\n"
+          descEntrega += "La entrega a domicilio por subscripción se hará mensualmente en las fechas establecidas a continuación.\n\n"
         }
         descriptionTexto += ")";
+        Moment.updateLocale('es', localization);
+        var fechaMin = Moment().add(5, 'days').format("dddd, D MMMM");
+        var fechaMax = Moment().add(11, 'days').format("dddd, D MMMM");
+        descEntrega += "Entrega en 5 a 11 días: entre " + fechaMin + " y " + fechaMax + ".";
 
         return <Modal style={[style.modal, style.modal2]} isOpen={this.props.isModalOpen} swipeToClose={false}  backdrop={false} coverScreen={Platform.OS === 'android'} position={"top"} ref={"modal2"}>
             <Container>
@@ -285,6 +292,7 @@ export default class Comprar extends React.Component {
                     </View>
                   ) :
                   (
+                    <View>
                     <List horizontal style={[style.bottomSeparator, {flex: 1, flexDirection: 'row', justifyContent: 'space-around', marginTop: 20, paddingBottom: 20, alignItems: 'flex-start'}]}>
                       <ListItem onPress={this.toggleSubscriptionNo} style={{borderBottomWidth: 0}}>
                         <Text>Compra única</Text>
@@ -299,13 +307,19 @@ export default class Comprar extends React.Component {
                         </Right>
                       </ListItem>
                     </List>
+                    <View style={{justifyContent: 'space-around', marginTop: 20, paddingBottom: 20, marginHorizontal: 15, alignItems: 'center'}}>
+                      <Text style={{color: variables.darkGray}}>{descEntrega}</Text>
+                    </View>
+                    </View>
                   )
                 }
               </Content>
-              <Button block onPress={this.continuar} disabled={this.state.totalPrice == 0} style={{ height: variables.footerHeight * 1.3 }}>
-                <Text style={{color: 'white'}}>CONTINUAR</Text>
-                <Text style={{color: 'white'}}>{descriptionTexto}</Text>
-              </Button>
+              <Footer>
+                <Button block onPress={this.continuar} disabled={this.state.totalPrice == 0} style={{ height: variables.footerHeight * 1.3, width: width, paddingBottom: 10}}>
+                  <Text style={{color: 'white'}}>CONTINUAR</Text>
+                  <Text style={{color: 'white'}}>{descriptionTexto}</Text>
+                </Button>
+              </Footer>
             </Container>
             <InformacionNutrimental ref={"infoNutrimentalModal"} />
             <MapaAdicional ref={"mapa"} isOpen={this.state.isMapaOpen} dismissModal={this.dismissMapaModal}/>
@@ -369,28 +383,16 @@ class InformacionNutrimental extends React.Component {
     }
 }
 
-let markerId = 0;
-let userId = "";
-let localUserId = "";
-
 @inject('store') @observer
 class MapaAdicional extends React.Component {
 
   state = {
     detailModalIsOpen: false,
-    markers: [{key: markerId++, title: "Camión ONEFOOD #23", description: "Presiona para abrir en Mapa.", coordinate: {latitude: 19.4326, longitude: -99.1335}, color: "green"},
-              {key: markerId++, title: "Camión ONEFOOD #2", description: "Presiona para abrir en Mapa.", coordinate: {latitude: 19.4452, longitude: -99.1359}, color: "green"}
-              ],
   }
 
   open() {
     //StatusBar.setBarStyle('light-content', true);
     this.setState({detailModalIsOpen: true});
-  }
-
-  @autobind
-  openMapMarker(coordinate) {
-    openMap({latitude: coordinate.latitude, longitude: coordinate.longitude});
   }
 
   @autobind
@@ -406,82 +408,18 @@ class MapaAdicional extends React.Component {
     //this.setState({detailModalIsOpen: false});
   }
 
-  componentWillMount() {
-    userId = Firebase.auth.currentUser.uid;
-    localUserId = userId + "local";
-  }
-  componentDidMount() {
-    this.updateLocation();
-    this.refreshLocationsInMap();
-  }
-
-  @autobind
-  async updateLocation(): Promise<void> {
-    if (Platform.OS === 'android' && !Constants.isDevice) {
-     Alert.alert("Error", "Oops, this will not work on Sketch in an Android emulator. Try it on your device!");
-   } else {
-      let { status } = await Permissions.askAsync(Permissions.LOCATION);
-      if (status !== 'granted') {
-        Alert.alert("Permiso para accesar ubicación negada", "Para una mejor experiencia con el mapa, por favor de permitir acceso a ubicación en configuración del dispositivo.")
-        this.setState({
-          errorMessage: 'Permission to access location was denied',
-        });
-        this.props.store.showingLocationOnMap = false;
-      }
-      let location = await Location.getCurrentPositionAsync({});
-      this.setState({userLocation: location});
-      this.props.store.userLocationOnMap = location;
-      //this.forceUpdate()
-      console.log("FORnew locochon: ", location);
-    }
-  }
-
-  @autobind
-  async refreshLocationsInMap(): Promise<void> {
-    var newMarkers = [];
-    const query = await Firebase.firestore.collection("mapalocations").get().then((querySnapshot) => {
-
-      var showingLocOnMap = this.props.store.showingLocationOnMap;
-      var userLoc = this.props.store.userLocationOnMap;
-      console.log("userloc bro ", userLoc);
-      querySnapshot.forEach((doc) => {
-        var locData = doc.data();
-        if (locData.key != userId) {
-          console.log("ADDDDing one w id ", locData.key);
-          console.log("heyy ", locData);
-          newMarkers.push({key: locData.key, title: locData.title, description: locData.description,  coordinate: {latitude: locData.coordinate.latitude, longitude: locData.coordinate.longitude}, color: locData.color});
-          //newMarkers.push({key: userId, title: locData.title, description: locData.description,  coordinate: locData.coordinate, color: variables.brandPrimary});
-        }
-      });
-
-      if (showingLocOnMap) {
-        console.log("HERE BC SHOULD SHOW AND ", showingLocOnMap);
-        newMarkers.unshift({key: localUserId, title: "Tú", description: "Compradores te pueden encontrar en el mapa.",  coordinate: {latitude: userLoc.coords.latitude, longitude: userLoc.coords.longitude}, color: variables.brandPrimary});
-      }
-      this.setState({markers: newMarkers});
-      this.props.store.mapMarkers = newMarkers;
-      console.log("newmarkers locations we got: ", newMarkers);
-    });
-  }
-
   render(): React.Node {
-    const {pedidoInfo, pedidoValido} = this.props;
+    var textoLocacion = "Pasa por tu ONEFOOD a la locación más cercana.";
     const { width, height } = Dimensions.get('window');
     const ratio = width / height;
     var lat = 19.4171;
     var lng = -99.1335;
-
-    if (this.props.store.userLocationOnMap != undefined) {
-      lat = this.props.store.userLocationOnMap["coords"]["latitude"];
-      lng = this.props.store.userLocationOnMap["coords"]["longitude"];
-    }
     const coordinates = {
       latitude: lat,
       longitude: lng,
       latitudeDelta: 0.0922,
       longitudeDelta: 0.0922 * ratio,
     };
-    var textoLocacion = "Pasa por tu ONEFOOD a la locación más cercana.";
 
     return <Modal style={style.modalMapa} swipeToClose={false} isOpen={this.props.isOpen} onClosed={this.setModalStateClosed} backdrop={true} position={"bottom"} entry={"bottom"} coverScreen={false} ref={"modal"}>
             <Card style={{height: 40}}>
@@ -491,20 +429,7 @@ class MapaAdicional extends React.Component {
                </Body>
              </CardItem>
            </Card>
-           <MapView
-              style={style.map}
-              initialRegion={coordinates}>
-              {this.props.store.mapMarkers.map(marker => (
-                 <Marker
-                   key={marker.key}
-                   title={marker.title}
-                   description={marker.description}
-                   coordinate={marker.coordinate}
-                   pinColor={marker.color}
-                   onCalloutPress={() => this.openMapMarker(marker.coordinate)}
-                 />
-               ))}
-            </MapView>
+           <MapaComponent principal={false}/>
       </Modal>;
   }
 }
@@ -602,13 +527,13 @@ const style = StyleSheet.create({
     heading: {
         color: variables.darkGray,//'#9c5d30',
     },
-    modal: {
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
     modalMapa: {
       height: 400,
       flexDirection: "row",
+    },
+    modal: {
+      justifyContent: 'center',
+      alignItems: 'center',
     },
     modal2: {
       backgroundColor: variables.brandInfo

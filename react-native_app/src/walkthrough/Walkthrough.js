@@ -92,7 +92,7 @@ const style = StyleSheet.create({
       height: windowHeight,
       width: width,
       justifyContent: 'center',
-      resizeMode: 'contain',
+      resizeMode: 'stretch',
     },
     infoImgOld: {
       flex: 1,

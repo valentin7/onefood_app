@@ -3,7 +3,7 @@ import moment from "moment";
 import autobind from "autobind-decorator";
 import * as React from "react";
 import {CreditCardInput, LiteCreditCardInput, CardView} from "react-native-credit-card-input";
-import {View, Image, StyleSheet, Dimensions, ScrollView, ActivityIndicator} from "react-native";
+import {View, Image, StyleSheet, Dimensions, ScrollView, ActivityIndicator, Platform, UIManager} from "react-native";
 import {H1, Text, Button, Radio, ListItem, Right, Content, Container, CheckBox, Form, Item, Input, Left, Body, Header, Icon, Title} from "native-base";
 import {BaseContainer, Images, Styles, Firebase} from "../components";
 import type {ScreenProps} from "../components/Types";
@@ -24,6 +24,10 @@ export default class CreditCard extends React.Component {
 
     componentWillMount() {
       this.setState({shouldUpdate: true});
+      // Enable LayoutAnimation under Android
+      if (Platform.OS === 'android') {
+        UIManager.setLayoutAnimationEnabledExperimental(true)
+      }
     }
     componentDidMount() {
       this.refreshTarjetas()
@@ -131,7 +135,7 @@ export default class CreditCard extends React.Component {
                       <Right />
                   </Header>
                   <Content style={style.content}>
-                    <CreditCardInput ref="CCInput" onChange={this.paymentOnChange} autoFocus={true} labelStyle={style.whiteStyle} inputStyle={style.whiteStyle}/>
+                   {Platform.OS == "android" ? <LiteCreditCardInput ref="CCInput" onChange={this.paymentOnChange} autoFocus={true} labelStyle={style.whiteStyle} inputStyle={style.whiteStyle}/> : <CreditCardInput ref="CCInput" onChange={this.paymentOnChange} autoFocus={true} labelStyle={style.whiteStyle} inputStyle={style.whiteStyle}/>}
                   </Content>
                   <ActivityIndicator size="large" animating={this.state.loading}/>
                 </Container>

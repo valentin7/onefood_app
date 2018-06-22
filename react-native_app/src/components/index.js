@@ -24,6 +24,7 @@ export {default as ScanCoupon} from "./ScanCoupon";
 export {default as ScanPedido} from "./ScanPedido";
 export {default as Tarjetas} from "./Tarjetas";
 export {default as PedidoItem} from "./PedidoItem";
+export {default as MapaComponent} from "./MapaComponent";
 export {default as JankWorkaround} from "./JankWorkaround";
 export {default as Firebase} from "./Firebase";
 export {default as CreditCard} from "./CreditCard";

@@ -112,7 +112,7 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
 
     @autobind
     async getLocationIfEnabled(): Promise<void> {
-      let { status } = await Permissions.getAsync(Permissions.LOCATION);
+      let { status } = await Permissions.askAsync(Permissions.LOCATION);
       if (status == 'granted') {
 
         console.log("giving it away here boi");

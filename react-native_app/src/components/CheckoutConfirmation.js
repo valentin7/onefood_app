@@ -122,12 +122,9 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
 
 
       Moment.updateLocale('es', localization);
-
-      var fechaMin = Moment().add(5, 'days').format("dddd, D MMMM"); //.format("dddd, D MMMM YYYY, h:mma");;
-      var fechaMax = Moment().add(11, 'days').format("dddd, D MMMM"); //.format("dddd, D MMMM YYYY, h:mma");;
-
-      console.log("watagit: ", fechaMin);
-      var descExtraDias = "\nEntrega en 5 a 11 días: entre " + fechaMin + " y " + fechaMax + "."
+      var fechaMin = Moment().add(5, 'days').format("dddd, D MMMM");
+      var fechaMax = Moment().add(11, 'days').format("dddd, D MMMM");
+      var descExtraDias = "\nEntrega en 5 a 11 días: entre " + fechaMin + " y " + fechaMax + ".";
 
       return  <Modal style={[style.modal]} isOpen={this.props.isCheckoutOpen} animationDuration={400} swipeToClose={false} coverScreen={true} position={"center"} ref={"modal2"}>
               <Container safe={true}>

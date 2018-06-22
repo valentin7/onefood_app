@@ -19,17 +19,16 @@ export default class ScanCoupon extends React.Component {
     isOpen: false,
   };
 
-  open() {
+  async open() {
+    const { status } = await Permissions.askAsync(Permissions.CAMERA);
+    this.setState({ hasCameraPermission: status === 'granted' });
     this.setState({isOpen: true});
   }
 
   componentDidMount () {
     this.setState({justScanned: false});
   }
-  async componentWillMount() {
-    const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    this.setState({ hasCameraPermission: status === 'granted' });
-  }
+
 
   @autobind
   async handleScan({type, data}): Promise<void> {
