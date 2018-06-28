@@ -3,7 +3,7 @@ import * as React from "react";
 import autobind from "autobind-decorator";
 import {View, StyleSheet, Image, Platform, Text, Dimensions} from "react-native";
 import {H1} from "native-base";
-import {StackNavigator} from "react-navigation";
+import {createStackNavigator} from "react-navigation";
 import {Footer, FooterTab, Button, Header as NBHeader, Left, Body, Title, Right, Icon, Content, Tab, Tabs} from "native-base";
 import {EvilIcons} from "@expo/vector-icons";
 import {Constants} from "expo";
@@ -31,7 +31,7 @@ type BaseContainerProps = NavigationProps<> & {
     title: string | React.Node
 };
 
-const AppNavigator = StackNavigator(
+const AppNavigator = createStackNavigator(
   {
     ComprarStack: {
       name: "Comprar",

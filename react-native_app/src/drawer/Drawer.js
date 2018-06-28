@@ -31,7 +31,7 @@ export default class Drawer extends React.Component<NavigationProps<>> {
             <Container safe={true}>
                 <Header style={{borderBottomWidth: 1, borderColor: variables.lightGray}}>
                     <Left>
-                        <Button transparent onPress={() => this.go("DrawerClose")}>
+                        <Button transparent onPress={() => this.props.navigation.toggleDrawer()}>
                             <Icon name="ios-close-outline" style={style.closeIcon} />
                         </Button>
                     </Left>

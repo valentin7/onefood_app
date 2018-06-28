@@ -227,10 +227,10 @@ export default class MapaComponent extends React.Component<> {
         }
 
         var coordinates = {
-          latitude: lat - 0.008,
+          latitude: lat - 0.0042,
           longitude: lng,
-          latitudeDelta: 0.038,
-          longitudeDelta: 0.038 * ratio,
+          latitudeDelta: 0.018,
+          longitudeDelta: 0.018 * ratio,
         };
 
         return <View style={this.props.principal ? (this.props.store.esRep ? styles.containerRep : styles.container) : styles.map}>
@@ -253,7 +253,7 @@ export default class MapaComponent extends React.Component<> {
                   title={marker.title}
                   description={marker.description}
                   coordinate={marker.coordinate}
-                  image={require('../components/images/circleMarker.png')}
+                  image={require('../components/images/circleMarkerB.png')}
                   onCalloutPress={() => this.openMapMarker(true, marker.coordinate, marker.name, marker.phone)}
                 />
               )

@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "/Users/valentin/Dropbox/CS/onefood_app/react-native_app/android/app/build/intermediates/incremental/mergeDev19DebugResources/merged.dir/values-land/values-land.xml",
+            "map": [
+                {
+                    "source": "/Users/valentin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.0.1.aar/b9751f8902acfe75d18bc49e3e63c1db/res/values-land/values-land.xml",
+                    "from": {
+                        "startLines": "2,3,4,5",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,125,189,260",
+                        "endColumns": "69,63,70,67",
+                        "endOffsets": "120,184,255,323"
+                    }
+                }
+            ]
+        }
+    ]
+}

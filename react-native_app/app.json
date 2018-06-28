@@ -1,21 +1,40 @@
 {
-    "expo": {
-        "sdkVersion": "24.0.0",
-        "orientation": "portrait",
-        "privacy": "public",
-        "icon": "./app.png",
-        "primaryColor": "#2660A4",
-        "splash": {
-            "image": "./oneSplash.png",
-            "backgroundColor": "#2660A4",
-            "resizeMode": "cover"
-        },
-        "androidStatusBar": {
-            "barStyle": "light-content",
-            "backgroundColor": "#2660A4"
-        },
-        "packagerOpts": {
-            "assetExts": ["ttf"]
-        }
+  "expo": {
+    "sdkVersion": "28.0.0",
+    "orientation": "portrait",
+    "privacy": "public",
+    "icon": "./app.png",
+    "primaryColor": "#2660A4",
+    "splash": {
+      "image": "./oneSplash.png",
+      "backgroundColor": "#2660A4",
+      "resizeMode": "cover"
+    },
+    "androidStatusBar": {
+      "barStyle": "light-content",
+      "backgroundColor": "#2660A4"
+    },
+    "packagerOpts": {
+      "assetExts": [
+        "ttf"
+      ]
+    },
+    "ios": {
+      "bundleIdentifier": "com.onefood.onefoodapp",
+      "publishBundlePath": "ios/onefood/Supporting/shell-app.bundle",
+      "publishManifestPath": "ios/onefood/Supporting/shell-app-manifest.json"
+    },
+    "android": {
+      "package": "com.onefood.onefoodapp"
+    },
+    "name": "ONEFOOD",
+    "slug": "onefood",
+    "version": "0.9.1",
+    "isDetached": true,
+    "detach": {
+      "scheme": "exp7fe70279ec08435dbd3ca4fb930eebd7",
+      "iosExpoViewUrl": "https://s3.amazonaws.com/exp-exponent-view-code/ios-v2.2.1-sdk24.0.0-36ff2264-629d-44df-a819-8c982454e5e8.tar.gz",
+      "androidExpoViewUrl": "https://s3.amazonaws.com/exp-exponent-view-code/android-v2.2.0-sdk24.0.0-16620828-4df4-4e2d-b0af-5dc1352b82cb.tar.gz"
     }
+  }
 }

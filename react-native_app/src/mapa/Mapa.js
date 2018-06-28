@@ -70,13 +70,11 @@ export default class Mapa extends React.Component<ScreenProps<>> {
                  </Card>
                 }
                 <Card>
-                 <CardItem>
-                   <Body>
+                   <Body style={{marginVertical: 10}}>
                      <Text style={{color: 'gray'}}>
                        Pasa por tu ONEFOOD a la locación más cercana.
                      </Text>
                    </Body>
-                 </CardItem>
                </Card>
                <MapaComponent onRef={ref => (this.child = ref)} principal={true}/>
              </BaseContainer>;

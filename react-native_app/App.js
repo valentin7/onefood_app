@@ -1,8 +1,8 @@
 // @flow
 import * as React from "react";
-import {Dimensions} from "react-native";
+import {Dimensions, YellowBox} from "react-native";
 import {StyleProvider} from "native-base";
-import {StackNavigator, DrawerNavigator} from "react-navigation";
+import {createStackNavigator, createDrawerNavigator} from "react-navigation";
 import {Font, AppLoading} from "expo";
 import {useStrict} from "mobx";
 import {Provider} from "mobx-react"
@@ -102,8 +102,9 @@ export default class App extends React.Component<{}, AppState> {
           console.log("the user metadata is:" , user.metadata);
 
           console.log("the difference is : ", differenceInSeconds);
+          YellowBox.ignoreWarnings(['Class RCTCxxModule']);
 
-          
+
           // if (differenceInSeconds < 3) {
           //   this.setState({
           //     isFirstLogin: true,
@@ -128,6 +129,11 @@ export default class App extends React.Component<{}, AppState> {
           // });
 
         });
+        ///const firestore = ;
+        const settings = {timestampsInSnapshots: true};
+        Firebase.firestore.settings(settings);
+
+
 
 
     }
@@ -176,7 +182,7 @@ const fade = (props) => {
 }
 
 
-const MainNavigator = DrawerNavigator({
+const MainNavigator = createDrawerNavigator({
     Pedidos: {screen: Pedidos },
     Mapa: {screen: Mapa },
     Overview: { screen: Overview },
@@ -204,7 +210,7 @@ const MainNavigator = DrawerNavigator({
     })
 });
 
-const AuthenticatedAppNavigator = StackNavigator({
+const AuthenticatedAppNavigator = createStackNavigator({
     Main: { screen: MainNavigator },
     Login: { screen: Login },
     SignUp: { screen: SignUp },
@@ -215,7 +221,7 @@ const AuthenticatedAppNavigator = StackNavigator({
     }
 });
 
-const FirstLoginAppNavigator = StackNavigator({
+const FirstLoginAppNavigator = createStackNavigator({
     Walkthrough: { screen: Walkthrough },
     Main: { screen: MainNavigator },
     Login: { screen: Login },
@@ -228,7 +234,7 @@ const FirstLoginAppNavigator = StackNavigator({
 });
 
 
-const AppNavigator = StackNavigator({
+const AppNavigator = createStackNavigator({
     Login: { screen: Login },
     SignUp: { screen: SignUp },
     Walkthrough: { screen: Walkthrough },

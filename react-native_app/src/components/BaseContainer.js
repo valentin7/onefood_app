@@ -3,7 +3,7 @@ import * as React from "react";
 import autobind from "autobind-decorator";
 import {View, StyleSheet, Image, Platform, Text, Dimensions} from "react-native";
 import {H1} from "native-base";
-import {StackNavigator} from "react-navigation";
+import {createStackNavigator, NavigationActions} from "react-navigation";
 import {Footer, FooterTab, Button, Header as NBHeader, Left, Body, Title, Right, Icon, Content} from "native-base";
 import {EvilIcons} from "@expo/vector-icons";
 import {Constants} from "expo";
@@ -31,7 +31,7 @@ type BaseContainerProps = NavigationProps<> & ChildrenProps & {
     title: string | React.Node
 };
 
-const AppNavigator = StackNavigator(
+const AppNavigator = createStackNavigator(
   {
     ComprarStack: {
       name: "Comprar",
@@ -100,7 +100,7 @@ export default class BaseContainer extends React.Component<BaseContainerProps> {
             <Container safe={true}>
                 <NBHeader style={{backgroundColor: variables.brandInfo, borderBottomWidth: 1, borderColor: variables.lightGray}}>
                     <Left>
-                        <Button onPress={() => navigation.navigate("DrawerOpen")} transparent>
+                        <Button onPress={() => navigation.toggleDrawer()} transparent>
                             <EvilIcons name="navicon" size={32} color={variables.brandPrimary}/>
                         </Button>
                     </Left>

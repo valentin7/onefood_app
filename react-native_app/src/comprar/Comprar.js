@@ -7,7 +7,7 @@ import ImageSlider from 'react-native-image-slider';
 import {TaskOverview, Images, Styles, PrecioTotal, QuantityInput, ScanCoupon, Address, Firebase, CreditCard, CheckoutConfirmation, WindowDimensions, MapaComponent} from "../components";
 import type {ScreenProps} from "../components/Types";
 import Modal from 'react-native-modalbox';
-import {StackNavigator, StackRouter} from 'react-navigation';
+import {StackRouter} from 'react-navigation';
 import {action, observable} from "mobx";
 import {Location, Permissions} from "expo";
 import { observer, inject } from "mobx-react/native";
