@@ -1,0 +1,13 @@
+#Wed Jul 04 10:37:03 WITA 2018
+path.3=classes4.dex
+path.2=classes3.dex
+path.1=classes2.dex
+path.0=classes.dex
+renamed.3=classes4.dex
+renamed.2=classes3.dex
+renamed.1=classes2.dex
+renamed.0=classes.dex
+base.3=/Users/valentin/Dropbox/CS/onefood_app/react-native_app/android/app/build/intermediates/transforms/dexMerger/dev19/debug/10
+base.2=/Users/valentin/Dropbox/CS/onefood_app/react-native_app/android/app/build/intermediates/transforms/dexMerger/dev19/debug/10
+base.1=/Users/valentin/Dropbox/CS/onefood_app/react-native_app/android/app/build/intermediates/transforms/dexMerger/dev19/debug/10
+base.0=/Users/valentin/Dropbox/CS/onefood_app/react-native_app/android/app/build/intermediates/transforms/dexMerger/dev19/debug/10

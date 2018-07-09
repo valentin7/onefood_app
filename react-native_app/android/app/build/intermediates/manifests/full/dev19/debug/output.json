@@ -1,1 +1,1 @@
-[{"outputType":{"type":"MERGED_MANIFESTS"},"apkInfo":{"type":"MAIN","splits":[],"versionCode":1},"path":"AndroidManifest.xml","properties":{"packageId":"com.onefood.onefoodapp","split":"","minSdkVersion":"19"}}]
+[{"outputType":{"type":"MERGED_MANIFESTS"},"apkInfo":{"type":"MAIN","splits":[],"versionCode":1,"versionName":"0.9.1","enabled":true,"outputFile":"app-dev19-debug.apk","fullName":"dev19Debug","baseName":"dev19-debug"},"path":"AndroidManifest.xml","properties":{"packageId":"com.onefood.onefoodapp","split":"","minSdkVersion":"19"}}]

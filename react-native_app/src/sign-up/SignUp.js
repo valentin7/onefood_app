@@ -11,7 +11,7 @@ import {Container, Images, Field, NavigationHelpers, Styles, SingleChoice, Windo
 import type {ScreenProps} from "../components/Types";
 import {AnimatedView} from "../components/Animations";
 
-
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import variables from "../../native-base-theme/variables/commonColor";
 
 type LoginState = {
@@ -115,14 +115,14 @@ export default class SignUp extends React.Component<ScreenProps<>> {
                     </Body>
                     <Right />
                 </Header>
+                <KeyboardAwareScrollView>
                 <View style={style.logo}>
                     <View>
                     <Image source={Images.oneFoodLogo} style={style.image} />
                         <H1 style={style.title}>ONEFOOD</H1>
                     </View>
                 </View>
-                <ActivityIndicator size="large" animating={this.state.loading}/>
-                <KeyboardAvoidingView behavior="position">
+                <ActivityIndicator size="small" animating={this.state.loading}/>
                     <View style={[Styles.form, style.formView]}>
                         <Field
                             label="Email"
@@ -145,7 +145,7 @@ export default class SignUp extends React.Component<ScreenProps<>> {
                     <Button primary block onPress={this.logIn} style={{ height: variables.footerHeight }}>
                         <Text style={{color: "white"}}>LOG IN</Text>
                     </Button>
-                </KeyboardAvoidingView>
+                </KeyboardAwareScrollView>
 
             </Container>
         );
@@ -166,6 +166,7 @@ const style = StyleSheet.create({
         resizeMode: 'contain',
     },
     formView: {
+      top: -30,
     },
     row: {
         flexDirection: "row"

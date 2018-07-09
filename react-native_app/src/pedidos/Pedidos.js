@@ -1,7 +1,7 @@
 // @flow
 import autobind from "autobind-decorator";
 import * as React from "react";
-import {StyleSheet, View, Text, TouchableOpacity, Dimensions, RefreshControl, ScrollView, Image, ImageBackground} from "react-native";
+import {StyleSheet, View, Text, TouchableOpacity, Dimensions, RefreshControl, ScrollView, Image, ImageBackground, YellowBox} from "react-native";
 import {Button, Icon, Card, CardItem, Left, Right, H3, Separator, ListItem, List} from "native-base";
 import {observable, action} from "mobx";
 import { observer, inject } from "mobx-react/native";
@@ -36,6 +36,10 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
     constructor(props) {
       super(props);
       this.open = this.open.bind(this);
+    }
+
+    componentWillMount() {
+      YellowBox.ignoreWarnings(['Class RCTCxxModule']);
     }
 
     @autobind @action

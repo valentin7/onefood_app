@@ -11,11 +11,12 @@ import { observer, inject } from "mobx-react/native";
 import {action} from "mobx";
 import variables from "../../native-base-theme/variables/commonColor";
 import Pedidos from "../pedidos";
-import Moment from 'moment';
-import localization from 'moment/locale/es';
+import Moment from "moment";
+import Conekta from "react-native-conekta";
+import localization from "moment/locale/es";
 
 //import 'moment/min/moment-with-locales';
-import * as Constants from '../Constants';
+import * as Constants from "../Constants";
 //
 
 @inject('store') @observer
@@ -71,6 +72,33 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
           subscription: this.props.subscription,
           domicilio: this.props.domicilio,
       };
+
+      var conektaApi = new Conekta();
+      console.log("conektaApi 1st: ", conektaApi);
+      conektaApi.setPublicKey('key_KoqjzW5XMEVcwxdqHsCFY4Q');
+      console.log("conektaApi: ", conektaApi);
+      // conektaApi.createToken({
+      //   cardNumber: '4242424242424242',
+      //   name: 'Manolo Virolo',
+      //   cvc: '111',
+      //   expMonth: '11',
+      //   expYear: '21',
+      // }, function(data){
+      //   console.log( 'DATA:', data ); // data.id to get the Token ID
+      // }, function(){
+      //   console.log( 'Error!' );
+      // });
+      // conektaApi.token().create({
+      //   cardNumber: '4242424242424242',
+      //   name: 'Manolo Virolo',
+      //   cvc: '111',
+      //   expMonth: '11',
+      //   expYear: '21',
+      // }, function(data){
+      //   console.log( 'Conektaa DATA:', data ); // data.id to get the Token ID
+      // }, function(){
+      //   console.log( 'Error!' );
+      // });
 
       this.props.store.pedidos.push(pedido);
       //console.log("DAMN ", this.props.store.pedidos);

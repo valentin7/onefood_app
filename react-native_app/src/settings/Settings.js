@@ -54,12 +54,11 @@ export default class Settings extends React.Component<ScreenProps<>> {
 
   render(): React.Node {
       var user = Firebase.auth.currentUser;
-      console.log("HEY HARAMBE", this.props.store.last4CreditCard);
       var creditDisplay = "    **** "+ this.props.store.last4CreditCard;
       if (this.props.store.last4CreditCard.length <= 1) {
         creditDisplay = "  Agregar Tarjeta";
       }
-      return <BaseContainer title="Settings" navigation={this.props.navigation} scrollable>
+      return <BaseContainer title="Perfil" navigation={this.props.navigation} scrollable>
           <View style={style.section}>
               <Text>GENERAL</Text>
           </View>

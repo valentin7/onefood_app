@@ -4,7 +4,7 @@
             "outputFile": "/Users/valentin/Dropbox/CS/onefood_app/react-native_app/android/app/build/intermediates/incremental/mergeDev19DebugResources/merged.dir/values-zh/values-zh.xml",
             "map": [
                 {
-                    "source": "/Users/valentin/.gradle/caches/transforms-1/files-1.1/android-image-cropper-2.4.7.aar/f7f8edb334911fcf62960dab69a09ddc/res/values-zh/values-zh.xml",
+                    "source": "/Users/valentin/.gradle/caches/transforms-1/files-1.1/android-image-cropper-2.4.7.aar/4d4c40562886f01208d1eb032f393958/res/values-zh/values-zh.xml",
                     "from": {
                         "startLines": "2,3,4,5",
                         "startColumns": "4,4,4,4",

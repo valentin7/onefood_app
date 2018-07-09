@@ -10,6 +10,41 @@ import type {NavigationProps} from "../components/Types";
 import { observer, inject } from "mobx-react/native";
 import variables from "../../native-base-theme/variables/commonColor";
 
+const iconImages = {
+  perfil: {
+    normal: require('../components/images/iconos/perfil.png'),
+    active: require('../components/images/iconos/perfil_v.png')
+  },
+  compartir: {
+    normal: require('../components/images/iconos/compartir.png'),
+    active: require('../components/images/iconos/compartir_v.png')
+  },
+  comprar: {
+     normal: require('../components/images/iconos/comprar.png'),
+     active: require('../components/images/iconos/comprar_v.png')
+  },
+  contacto: {
+    normal: require('../components/images/iconos/contacto.png'),
+    active: require('../components/images/iconos/contacto_v.png'),
+  },
+  info: {
+    normal: require('../components/images/iconos/info.png'),
+    active: require('../components/images/iconos/info_v.png')
+  },
+  nosotros: {
+    normal: require('../components/images/iconos/nosotros.png'),
+    active: require('../components/images/iconos/nosotros_v.png')
+  },
+  rep: {
+    normal: require('../components/images/iconos/rep.png'),
+    active: require('../components/images/iconos/rep_v.png')
+  },
+  mapa: {
+    normal: require('../components/images/iconos/mapa.png'),
+    active: require('../components/images/iconos/mapa_v.png')
+  }
+};
+
 @inject('store') @observer
 export default class Drawer extends React.Component<NavigationProps<>> {
 
@@ -24,6 +59,8 @@ export default class Drawer extends React.Component<NavigationProps<>> {
         Firebase.auth.signOut();
         NavigationHelpers.reset(this.props.navigation, "Login");
     }
+
+
 
     render(): React.Node {
         const {navigation} = this.props;
@@ -42,20 +79,20 @@ export default class Drawer extends React.Component<NavigationProps<>> {
                 </Header>
                 <View style={style.itemContainer}>
                     <View style={style.row}>
-                        <DrawerItem {...{navigation}} name="Información" id="Walkthrough" icon="ios-information-circle-outline" left/>
-                        <DrawerItem {...{navigation}} name="Mapa" id="Mapa" icon="ios-map-outline" />
+                        <DrawerItem {...{navigation}} name="Información" id="Info" icon={iconImages.info} left/>
+                        <DrawerItem {...{navigation}} name="Mapa" id="Mapa" icon={iconImages.mapa} />
                     </View>
                     <View style={style.row}>
-                        <DrawerItem {...{navigation}} name="Pedidos" id="Pedidos" icon="ios-list-outline" left />
-                        <DrawerItem {...{navigation}} name="Compartir" id="Compartir" icon="ios-bonfire-outline" />
+                        <DrawerItem {...{navigation}} name="Pedidos" id="Pedidos" icon={iconImages.comprar} left />
+                        <DrawerItem {...{navigation}} name="Compartir" id="Compartir" icon={iconImages.compartir} />
                     </View>
                     <View style={style.row}>
-                        <DrawerItem {...{navigation}} name="Nosotros" id="Nosotros" icon="ios-leaf-outline" left />
-                        {this.props.store.esRep ? (<DrawerItem {...{navigation}} name="Info Rep" id="InfoRep" icon="ios-star-outline" />) : (<DrawerItem {...{navigation}} name="Ser ONEFOOD Rep" id="SerPro" icon="ios-contact-outline" />)}
+                        <DrawerItem {...{navigation}} name="Nosotros" id="Nosotros" icon={iconImages.nosotros} left />
+                        {this.props.store.esRep ? (<DrawerItem {...{navigation}} name="Info Rep" id="InfoRep" icon={iconImages.rep} />) : (<DrawerItem {...{navigation}} name="Ser ONEFOOD Rep" id="SerPro" icon={iconImages.rep} />)}
                     </View>
                     <View style={style.row}>
-                        <DrawerItem {...{navigation}} name="Contacto" id="Contacto" icon="ios-mail-outline" left />
-                        <DrawerItem {...{navigation}} name="Settings" id="Settings" icon="ios-options-outline" />
+                        <DrawerItem {...{navigation}} name="Contacto" id="Contacto" icon={iconImages.contacto} left />
+                        <DrawerItem {...{navigation}} name="Perfil" id="Settings" icon={iconImages.perfil} />
                     </View>
                 </View>
                 <Button style={{backgroundColor: variables.lighterGray}} block onPress={this.logout}>
@@ -73,6 +110,7 @@ type DrawerItemProps = NavigationProps<> & {
 };
 
 class DrawerItem extends React.Component<DrawerItemProps> {
+
     render(): React.Node {
         const {name, navigation, icon, left, id} = this.props;
         const navState = this.props.navigation.state;
@@ -81,9 +119,15 @@ class DrawerItem extends React.Component<DrawerItemProps> {
             onPress: () => navigation.navigate(id),
             style: [style.item, left ? { borderRightWidth: variables.borderWidth } : undefined]
         };
+        // var active_icon = '../components/images/iconos/' + icon + '_v.png';
+        // var icon_img = '../components/images/iconos/' + icon + '.png'
         return <TouchableHighlight {...props} activeOpacity={.5} underlayColor="rgba(255, 255, 255, .2)">
             <View style={[Styles.center, Styles.flexGrow]}>
-                <Icon name={icon} style={{ color: active ? variables.brandPrimary : variables.listBorderColor }} />
+              {active ?
+                <Image resizeMode="contain" style={{height: 40}} source={icon.active} />
+                :
+                <Image resizeMode="contain" style={{height: 40}} source={icon.normal} />
+              }
                 <Text style={{ marginTop: variables.contentPadding }}>{name}</Text>
                 {
                     active && <View style={style.dot} />

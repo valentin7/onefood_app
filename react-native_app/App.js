@@ -138,6 +138,10 @@ export default class App extends React.Component<{}, AppState> {
 
     }
 
+    componentDidMount() {
+      YellowBox.ignoreWarnings(['Class RCTCxxModule']);
+    }
+
     render(): React.Node {
         const {staticAssetsLoaded, authStatusReported, isUserAuthenticated, isFirstLogin} = this.state;
         return <StyleProvider style={getTheme(variables)}>

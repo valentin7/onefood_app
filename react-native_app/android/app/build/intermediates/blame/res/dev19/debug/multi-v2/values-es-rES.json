@@ -4,7 +4,7 @@
             "outputFile": "/Users/valentin/Dropbox/CS/onefood_app/react-native_app/android/app/build/intermediates/incremental/mergeDev19DebugResources/merged.dir/values-es-rES/values-es-rES.xml",
             "map": [
                 {
-                    "source": "/Users/valentin/.gradle/caches/transforms-1/files-1.1/facebook-login-4.28.0.aar/ceae6003d916bdb2f2b748bcd200b9f2/res/values-es-rES/values-es-rES.xml",
+                    "source": "/Users/valentin/.gradle/caches/transforms-1/files-1.1/facebook-login-4.28.0.aar/ae8f10f634e797333d71eee21f50d505/res/values-es-rES/values-es-rES.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",

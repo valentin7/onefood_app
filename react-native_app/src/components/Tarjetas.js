@@ -122,9 +122,15 @@ export default class Tarjetas extends React.Component {
         return <Modal style={[style.modal]} isOpen={this.props.isTarjetasOpen} animationDuration={400} swipeToClose={false} coverScreen={true} backdropPressToClose={false} position={"center"} ref={"modal2"}>
                 <Container safe={true}>
                   <Header style={{borderBottomWidth: 1, borderColor: variables.lightGray}}>
+                      <Left>
+                          <Button transparent onPress={this.dismissModal}>
+                              <Icon name="ios-close-outline" style={style.closeIcon} />
+                          </Button>
+                      </Left>
                       <Body>
                           <Title>TARJETAS</Title>
                       </Body>
+                      <Right />
                   </Header>
                   <Content style={style.content}>
                     <ActivityIndicator size="large" animating={this.state.loading}/>

@@ -4,13 +4,13 @@
             "outputFile": "/Users/valentin/Dropbox/CS/onefood_app/react-native_app/android/app/build/intermediates/incremental/mergeDev19DebugResources/merged.dir/values-kn-rIN/values-kn-rIN.xml",
             "map": [
                 {
-                    "source": "/Users/valentin/.gradle/caches/transforms-1/files-1.1/exoplayer-r2.0.3.aar/e8320956ec4a5e5f3f2306fe2b649e70/res/values-kn-rIN/values-kn-rIN.xml",
+                    "source": "/Users/valentin/.gradle/caches/transforms-1/files-1.1/exoplayer-ui-r2.5.4.aar/a001709ff592312d57611574902970ab/res/values-kn-rIN/values-kn-rIN.xml",
                     "from": {
-                        "startLines": "2,3,4,5,6,7,8",
-                        "startColumns": "4,4,4,4,4,4,4",
-                        "startOffsets": "55,139,215,288,358,438,513",
-                        "endColumns": "83,75,72,69,79,74,68",
-                        "endOffsets": "134,210,283,353,433,508,577"
+                        "startLines": "2,3,4,5,6,7,8,9,10,11",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,139,215,288,358,438,527,619,706,781",
+                        "endColumns": "83,75,72,69,79,88,91,86,74,68",
+                        "endOffsets": "134,210,283,353,433,522,614,701,776,845"
                     }
                 }
             ]

@@ -4,7 +4,7 @@
             "outputFile": "/Users/valentin/Dropbox/CS/onefood_app/react-native_app/android/app/build/intermediates/incremental/mergeDev19DebugResources/merged.dir/values-land/values-land.xml",
             "map": [
                 {
-                    "source": "/Users/valentin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.0.1.aar/b9751f8902acfe75d18bc49e3e63c1db/res/values-land/values-land.xml",
+                    "source": "/Users/valentin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/a4895b2ab84682859a1e8ae1fddc4fdc/res/values-land/values-land.xml",
                     "from": {
                         "startLines": "2,3,4,5",
                         "startColumns": "4,4,4,4",

@@ -135,13 +135,14 @@ export default class CreditCard extends React.Component {
                       <Right />
                   </Header>
                   <Content style={style.content}>
-                   {Platform.OS == "android" ? <LiteCreditCardInput ref="CCInput" onChange={this.paymentOnChange} autoFocus={true} labelStyle={style.whiteStyle} inputStyle={style.whiteStyle}/> : <CreditCardInput ref="CCInput" onChange={this.paymentOnChange} autoFocus={true} labelStyle={style.whiteStyle} inputStyle={style.whiteStyle}/>}
+                   {Platform.OS == "android" ? <LiteCreditCardInput ref="CCInput" onChange={this.paymentOnChange} autoFocus={false} labelStyle={style.whiteStyle} inputStyle={style.whiteStyle}/> : <CreditCardInput ref="CCInput" onChange={this.paymentOnChange} autoFocus={false} labelStyle={style.whiteStyle} inputStyle={style.whiteStyle}/>}
+                   <ActivityIndicator size="large" animating={this.state.loading}/>
+                   <Button disabled={this.state.isGuardarDisabled} primary block onPress={this.guardarTarjeta} style={{ height: variables.footerHeight * 1.3, }}>
+                     <Text style={{color: 'white'}}>GUARDAR</Text>
+                   </Button>
                   </Content>
-                  <ActivityIndicator size="large" animating={this.state.loading}/>
+
                 </Container>
-                <Button disabled={this.state.isGuardarDisabled} primary block onPress={this.guardarTarjeta} style={{ height: variables.footerHeight * 1.3 }}>
-                  <Text style={{color: 'white'}}>GUARDAR</Text>
-                </Button>
         </Modal>;
     }
 }

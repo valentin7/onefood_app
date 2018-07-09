@@ -1,0 +1,4 @@
+#Wed Jul 04 10:37:04 WITA 2018
+base.0=/Users/valentin/Dropbox/CS/onefood_app/react-native_app/android/app/build/intermediates/transforms/dexMerger/dev19/debug/20
+path.0=classes.dex
+renamed.0=classes.dex

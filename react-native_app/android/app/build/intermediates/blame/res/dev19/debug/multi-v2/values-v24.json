@@ -4,17 +4,17 @@
             "outputFile": "/Users/valentin/Dropbox/CS/onefood_app/react-native_app/android/app/build/intermediates/incremental/mergeDev19DebugResources/merged.dir/values-v24/values-v24.xml",
             "map": [
                 {
-                    "source": "/Users/valentin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.0.1.aar/b9751f8902acfe75d18bc49e3e63c1db/res/values-v24/values-v24.xml",
+                    "source": "/Users/valentin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/a4895b2ab84682859a1e8ae1fddc4fdc/res/values-v24/values-v24.xml",
                     "from": {
-                        "startLines": "2,3,4,5,6,7",
-                        "startColumns": "4,4,4,4,4,4",
-                        "startOffsets": "55,212,347,416,480,549",
-                        "endColumns": "156,134,68,63,68,69",
-                        "endOffsets": "207,342,411,475,544,614"
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,212",
+                        "endColumns": "156,134",
+                        "endOffsets": "207,342"
                     }
                 },
                 {
-                    "source": "/Users/valentin/.gradle/caches/transforms-1/files-1.1/support-media-compat-26.0.1.aar/360766a41bbd736f0b51793d85ca0a05/res/values-v24/values-v24.xml",
+                    "source": "/Users/valentin/.gradle/caches/transforms-1/files-1.1/support-media-compat-26.1.0.aar/2ce4328e00ff04c1a3266ad1e7620e76/res/values-v24/values-v24.xml",
                     "from": {
                         "startLines": "2,3,4,5",
                         "startColumns": "4,4,4,4",
@@ -23,11 +23,11 @@
                         "endOffsets": "116,177,243,310"
                     },
                     "to": {
-                        "startLines": "8,9,10,11",
+                        "startLines": "4,5,6,7",
                         "startColumns": "4,4,4,4",
-                        "startOffsets": "619,685,746,812",
+                        "startOffsets": "347,413,474,540",
                         "endColumns": "65,60,65,66",
-                        "endOffsets": "680,741,807,874"
+                        "endOffsets": "408,469,535,602"
                     }
                 }
             ]

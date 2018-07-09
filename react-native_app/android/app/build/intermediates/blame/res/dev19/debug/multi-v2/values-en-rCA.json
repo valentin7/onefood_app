@@ -4,20 +4,30 @@
             "outputFile": "/Users/valentin/Dropbox/CS/onefood_app/react-native_app/android/app/build/intermediates/incremental/mergeDev19DebugResources/merged.dir/values-en-rCA/values-en-rCA.xml",
             "map": [
                 {
-                    "source": "/Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-wallet-9.8.0.aar/4ca7d686b870028d2142288e8b189cec/res/values-en-rCA/values.xml",
+                    "source": "/Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-wallet-12.0.1.aar/fb656adbb8946eb4d6ecf93419784cd8/res/values-en-rCA/values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",
-                        "startOffsets": "244",
+                        "startOffsets": "206",
                         "endColumns": "99",
-                        "endOffsets": "343"
+                        "endOffsets": "305"
                     },
                     "to": {
-                        "startLines": "2",
+                        "startLines": "20",
                         "startColumns": "4",
-                        "startOffsets": "55",
+                        "startOffsets": "1907",
                         "endColumns": "103",
-                        "endOffsets": "154"
+                        "endOffsets": "2006"
+                    }
+                },
+                {
+                    "source": "/Users/valentin/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/a4895b2ab84682859a1e8ae1fddc4fdc/res/values-en-rCA/values-en-rCA.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "105,209,309,417,501,601,716,793,869,951,1054,1158,1257,1362,1465,1569,1725,1825",
+                        "endColumns": "103,99,107,83,99,114,76,75,81,102,103,98,104,102,103,155,99,81",
+                        "endOffsets": "204,304,412,496,596,711,788,864,946,1049,1153,1252,1357,1460,1564,1720,1820,1902"
                     }
                 }
             ]

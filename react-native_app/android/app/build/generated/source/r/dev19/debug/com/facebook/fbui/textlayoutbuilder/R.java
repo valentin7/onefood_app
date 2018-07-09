@@ -8,7 +8,7 @@ package com.facebook.fbui.textlayoutbuilder;
 
 public final class R {
     public static final class styleable {
-        public static final int[] TextAppearance = { 0x01010095, 0x01010096, 0x01010097, 0x01010098, 0x0101009a, 0x0101009b, 0x01010161, 0x01010162, 0x01010163, 0x01010164, 0x010103ac, 0x7f0400cf, 0x7f040169 };
+        public static final int[] TextAppearance = { 0x01010095, 0x01010096, 0x01010097, 0x01010098, 0x0101009a, 0x0101009b, 0x01010161, 0x01010162, 0x01010163, 0x01010164, 0x010103ac, 0x7f0400da, 0x7f040189 };
         public static final int TextAppearance_android_textSize = 0;
         public static final int TextAppearance_android_typeface = 1;
         public static final int TextAppearance_android_textStyle = 2;
