@@ -124,9 +124,9 @@ class DrawerItem extends React.Component<DrawerItemProps> {
         return <TouchableHighlight {...props} activeOpacity={.5} underlayColor="rgba(255, 255, 255, .2)">
             <View style={[Styles.center, Styles.flexGrow]}>
               {active ?
-                <Image resizeMode="contain" style={{height: 40}} source={icon.active} />
+                <Image resizeMode="contain" style={{height: 30, width: 30}} source={icon.active} />
                 :
-                <Image resizeMode="contain" style={{height: 40}} source={icon.normal} />
+                <Image resizeMode="contain" style={{height: 30, width: 30}} source={icon.normal} />
               }
                 <Text style={{ marginTop: variables.contentPadding }}>{name}</Text>
                 {
