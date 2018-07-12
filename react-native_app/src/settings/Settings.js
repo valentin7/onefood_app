@@ -60,7 +60,7 @@ export default class Settings extends React.Component<ScreenProps<>> {
       }
       return <BaseContainer title="Perfil" navigation={this.props.navigation} scrollable>
           <View style={style.section}>
-              <Text>GENERAL</Text>
+              <Text style={{fontWeight: "bold"}}>GENERAL</Text>
           </View>
           <View>
             <View style={style.row}>
@@ -74,11 +74,11 @@ export default class Settings extends React.Component<ScreenProps<>> {
           </View>
 
           <View style={style.section}>
-              <Text>MÉTODO DE PAGO</Text>
+              <Text style={{fontWeight: "bold"}}>MÉTODO DE PAGO</Text>
           </View>
           <View style={[style.section, {flexDirection: 'row'}]}>
-          <Text>
-            <Icon name="ios-card" style={{ color: variables.brandSecondary, marginRight: 30 }} />
+          <Icon name="ios-card" style={{ color: variables.brandSecondary, marginRight: 30}} />
+          <Text style={{top: 2, left: -5}}>
             {creditDisplay}
           </Text>
           <Button onPress={() => this.setState({isTarjetasOpen: true})} style={{width: 70, height: 25, marginTop: 5, marginLeft: 10, backgroundColor: variables.lighterGray, borderRadius: 6, justifyContent: 'center'}}>
@@ -86,6 +86,13 @@ export default class Settings extends React.Component<ScreenProps<>> {
           </Button>
           </View>
           <Tarjetas isTarjetasOpen={this.state.isTarjetasOpen} dismissTarjetasModal={this.dismissTarjetasModal} creditDisplay={creditDisplay}></Tarjetas>
+
+          <View style={style.section}>
+              <Text style={{fontWeight: "bold"}}>SUBSCRIPCIÓN</Text>
+          </View>
+          <View style={{justifyContent: 'space-around', marginTop: 20, paddingBottom: 20, marginHorizontal: 15, alignItems: 'center'}}>
+            <Text>No tienes subscripción activa. ¡Crea una en la página de compra!</Text>
+          </View>
       </BaseContainer>;
   }
 }

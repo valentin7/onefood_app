@@ -2,7 +2,7 @@
 import autobind from "autobind-decorator";
 import * as React from "react";
 import {View, Image, StyleSheet, Dimensions, InteractionManager, Platform, Animated, ScrollView, ActivityIndicator, SafeAreaView, StatusBar, Alert} from "react-native";
-import {H1, Text, Button, Segment, Radio, List, ListItem, Right, Content, CheckBox, Container, Header, Left, Icon, Title, Body, Footer, Card, CardItem} from "native-base";
+import {H1, Text, Button, Segment, Radio, List, ListItem, Right, Content, CheckBox, Container, Header, Left, Icon, Title, Body, Footer, Card, CardItem, Fab} from "native-base";
 import ImageSlider from 'react-native-image-slider';
 import {TaskOverview, Images, Styles, PrecioTotal, QuantityInput, ScanCoupon, Address, Firebase, CreditCard, CheckoutConfirmation, WindowDimensions, MapaComponent} from "../components";
 import type {ScreenProps} from "../components/Types";
@@ -278,6 +278,11 @@ export default class Comprar extends React.Component {
                 <Image source={Images.botellaNaranja} style={style.img} />
                 <View style={[style.count, style.information]}>
                   <Text onPress={this.showIngredients} style={{color: variables.brandPrimary}}>ⓘ Información Nutricional</Text>
+                </View>
+                <View style={[style.information, {marginBottom: -10}]}>
+                  <Button disabled={true} style={{backgroundColor: variables.brandInfo}}>
+                    <Icon name="arrow-down"/>
+                  </Button>
                 </View>
                 <ActivityIndicator size="large" animating={this.state.loading}/>
                 <View style={[style.count, Styles.center]}>

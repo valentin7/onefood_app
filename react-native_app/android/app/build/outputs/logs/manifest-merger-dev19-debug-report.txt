@@ -4,10 +4,13 @@ ADDED from /Users/valentin/Dropbox/CS/onefood_app/react-native_app/android/app/s
 INJECTED from /Users/valentin/Dropbox/CS/onefood_app/react-native_app/android/app/src/main/AndroidManifest.xml:2:1-262:12
 INJECTED from /Users/valentin/Dropbox/CS/onefood_app/react-native_app/android/app/src/main/AndroidManifest.xml:2:1-262:12
 INJECTED from /Users/valentin/Dropbox/CS/onefood_app/react-native_app/android/app/src/main/AndroidManifest.xml:2:1-262:12
+MERGED from [:react-native-maps] /Users/valentin/Dropbox/CS/onefood_app/react-native_app/node_modules/react-native-maps/lib/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:2:1-12:12
+MERGED from [:react-native-conekta] /Users/valentin/Dropbox/CS/onefood_app/react-native_app/node_modules/react-native-conekta/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:2:1-17:12
 MERGED from [host.exp.exponent:expoview:28.0.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/expoview-28.0.0.aar/cfd1b94c67beeb7e18b39ab3d032c82a/AndroidManifest.xml:2:1-86:12
 MERGED from [com.android.support:multidex:1.0.2] /Users/valentin/.gradle/caches/transforms-1/files-1.1/multidex-1.0.2.aar/017fdcebc3c0faa208c423d954831155/AndroidManifest.xml:17:1-22:12
 MERGED from [com.theartofdev.edmodo:android-image-cropper:2.4.7] /Users/valentin/.gradle/caches/transforms-1/files-1.1/android-image-cropper-2.4.7.aar/4d4c40562886f01208d1eb032f393958/AndroidManifest.xml:2:1-12:12
 MERGED from [com.facebook.react:react-native:28.0.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/react-native-28.0.0.aar/84e32336d7fbc0c0420095f87ce0e1cf/AndroidManifest.xml:2:1-15:12
+MERGED from [io.conekta:conektasdk:2.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/conektasdk-2.1.aar/80edf00655b9455c1768fc88db9c1bba/AndroidManifest.xml:2:1-17:12
 MERGED from [com.google.android:cameraview:1.0.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/cameraview-1.0.0.aar/d9bee89ab8725b9de3f2a8f9ca847eea/AndroidManifest.xml:14:1-34:12
 MERGED from [com.facebook.android:facebook-android-sdk:4.28.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/facebook-android-sdk-4.28.0.aar/3944d4b7f0f7e2cf5f939d8ee0d63672/AndroidManifest.xml:21:1-31:12
 MERGED from [com.facebook.android:facebook-login:4.28.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/facebook-login-4.28.0.aar/ae8f10f634e797333d71eee21f50d505/AndroidManifest.xml:21:1-31:12
@@ -35,42 +38,43 @@ MERGED from [com.android.support:exifinterface:27.1.1] /Users/valentin/.gradle/c
 MERGED from [com.facebook.fresco:imagepipeline-okhttp3:1.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/imagepipeline-okhttp3-1.0.1.aar/b7e23a390adff35b0fd9a8a984f57e38/AndroidManifest.xml:2:1-9:12
 MERGED from [com.google.firebase:firebase-core:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-core-12.0.1.aar/85a78779c7f751eeec568c55b8c0b1ef/AndroidManifest.xml:2:1-6:12
 MERGED from [com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/leakcanary-android-no-op-1.4-beta1.aar/609bd21a35406faa012190561e601091/AndroidManifest.xml:17:1-24:12
-MERGED from [com.stripe:stripe-android:2.1.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/stripe-android-2.1.0.aar/7367e666e60f4d7894305f0be405e3a2/AndroidManifest.xml:2:1-11:12
+MERGED from [com.google.android.gms:play-services-vision:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-vision-12.0.1.aar/f1b7dc935c15cf71ca0cba489dae1d2f/AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.android.gms:play-services-vision-common:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-vision-common-12.0.1.aar/9def768909aaeba3a3de63b184a8e733/AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.android.gms:play-services-identity:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-identity-12.0.1.aar/3d60c823a3690e829a4ea06bf2febe7f/AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.android.gms:play-services-tagmanager-v4-impl:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-tagmanager-v4-impl-12.0.1.aar/338fc1158deadab552af7089610d5962/AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.android.gms:play-services-auth-api-phone:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-auth-api-phone-12.0.1.aar/ee3013827047628053ee19d90a05079c/AndroidManifest.xml:2:1-7:12
+MERGED from [com.google.android.gms:play-services-iid:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-iid-12.0.1.aar/72942504a9e1f24c8f04d620cbe8b03b/AndroidManifest.xml:17:1-28:12
+MERGED from [com.google.android.gms:play-services-analytics-impl:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-analytics-impl-12.0.1.aar/aea282446874ce2ebf7a5d4be8bf7283/AndroidManifest.xml:17:1-31:12
+MERGED from [com.google.android.gms:play-services-auth-base:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-auth-base-12.0.1.aar/731802570b1bc8a9f0196897a8d08c23/AndroidManifest.xml:2:1-7:12
+MERGED from [com.google.android.gms:play-services-base:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-base-12.0.1.aar/663a776742e8372c0700d816a81da544/AndroidManifest.xml:17:1-29:12
+MERGED from [com.google.maps.android:android-maps-utils:0.5] /Users/valentin/.gradle/caches/transforms-1/files-1.1/android-maps-utils-0.5.aar/7f648a2645295dbabb2ae4c9e36d3b71/AndroidManifest.xml:2:1-13:12
 MERGED from [com.facebook.android:facebook-places:4.28.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/facebook-places-4.28.0.aar/47499cb5d72d48188f572e0338728a6c/AndroidManifest.xml:21:1-31:12
 MERGED from [com.facebook.android:facebook-applinks:4.28.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/facebook-applinks-4.28.0.aar/1be378a8c0a7b3be25706eacd64cd8e9/AndroidManifest.xml:21:1-31:12
 MERGED from [com.facebook.android:facebook-messenger:4.28.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/facebook-messenger-4.28.0.aar/dc770a24b2adc20ec67d84f8e97f7eb7/AndroidManifest.xml:21:1-31:12
 MERGED from [com.facebook.android:facebook-core:4.28.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/facebook-core-4.28.0.aar/b263bef2dd5c580c907f6617033587e4/AndroidManifest.xml:21:1-45:12
+MERGED from [com.github.thefuntasty:CreditCardEntry:1.4.8.4] /Users/valentin/.gradle/caches/transforms-1/files-1.1/CreditCardEntry-1.4.8.4.aar/e44f0e435df495247a00cfcc8ea6a604/AndroidManifest.xml:2:1-12:12
+MERGED from [com.google.firebase:firebase-messaging:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-messaging-12.0.1.aar/6837ce70d13971ed638f20e973395c1f/AndroidManifest.xml:17:1-37:12
+MERGED from [com.google.firebase:firebase-analytics:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-analytics-12.0.1.aar/9fffe6f5726c57e731c3bbc0370bb8fc/AndroidManifest.xml:17:1-54:12
+MERGED from [com.google.firebase:firebase-analytics-impl:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-analytics-impl-12.0.1.aar/d3d805c87962f1abf025664136c4966e/AndroidManifest.xml:17:1-40:12
+MERGED from [com.google.firebase:firebase-iid:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-iid-12.0.1.aar/7ffc15850b7f207777d08c2c74e51acd/AndroidManifest.xml:17:1-59:12
+MERGED from [com.google.firebase:firebase-common:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-common-12.0.1.aar/7c9209b8ab7b5c864e15884b09a9c71b/AndroidManifest.xml:2:1-15:12
+MERGED from [com.google.android.gms:play-services-tasks:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-tasks-12.0.1.aar/4e483d23f81b1cc14d3895bd704673b5/AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.android.gms:play-services-ads-lite:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-ads-lite-12.0.1.aar/d91f147e09da474356198d8dc4d56902/AndroidManifest.xml:17:1-36:12
+MERGED from [com.google.android.gms:play-services-gass:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-gass-12.0.1.aar/9cddc06b7ab3a6255a942d0a41373168/AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.android.gms:play-services-basement:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-basement-12.0.1.aar/ca000ba3581de9d31e6d9006e44903d1/AndroidManifest.xml:17:1-28:12
+MERGED from [com.android.support:support-v4:26.1.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/support-v4-26.1.0.aar/14ba1df2573f033ba7bd4b3c49a33b7c/AndroidManifest.xml:17:1-31:12
+MERGED from [com.android.support:recyclerview-v7:27.1.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/recyclerview-v7-27.1.1.aar/4fd7ec949d4c830e1571b5e5c6b2e567/AndroidManifest.xml:17:1-22:12
+MERGED from [com.stripe:stripe-android:2.1.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/stripe-android-2.1.0.aar/7367e666e60f4d7894305f0be405e3a2/AndroidManifest.xml:2:1-11:12
+MERGED from [com.android.support:animated-vector-drawable:27.1.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-27.1.1.aar/f417784c1aabf404ce058febcc8f0db1/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-vector-drawable:27.1.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-27.1.1.aar/886f63e2f8eba3b778325c280ad56d57/AndroidManifest.xml:17:1-22:12
 MERGED from [com.google.android.exoplayer:exoplayer:r2.5.4] /Users/valentin/.gradle/caches/transforms-1/files-1.1/exoplayer-r2.5.4.aar/cb0351d7436778b7c105fd5660fbaea2/AndroidManifest.xml:17:1-25:12
 MERGED from [com.google.android.exoplayer:exoplayer-dash:r2.5.4] /Users/valentin/.gradle/caches/transforms-1/files-1.1/exoplayer-dash-r2.5.4.aar/fc3e50f915a09994abe1664bd6394ffc/AndroidManifest.xml:17:1-25:12
 MERGED from [com.google.android.exoplayer:exoplayer-hls:r2.5.4] /Users/valentin/.gradle/caches/transforms-1/files-1.1/exoplayer-hls-r2.5.4.aar/dadd728219df666e243e83c724fd7d86/AndroidManifest.xml:17:1-25:12
 MERGED from [com.google.android.exoplayer:exoplayer-smoothstreaming:r2.5.4] /Users/valentin/.gradle/caches/transforms-1/files-1.1/exoplayer-smoothstreaming-r2.5.4.aar/852d95e25b14f8a5578015440235cb57/AndroidManifest.xml:17:1-25:12
 MERGED from [com.google.android.exoplayer:exoplayer-ui:r2.5.4] /Users/valentin/.gradle/caches/transforms-1/files-1.1/exoplayer-ui-r2.5.4.aar/a001709ff592312d57611574902970ab/AndroidManifest.xml:17:1-25:12
 MERGED from [com.google.android.exoplayer:exoplayer-core:r2.5.4] /Users/valentin/.gradle/caches/transforms-1/files-1.1/exoplayer-core-r2.5.4.aar/a923923192845f8f3309a3b4517fe196/AndroidManifest.xml:17:1-25:12
-MERGED from [com.android.support:animated-vector-drawable:27.1.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-27.1.1.aar/f417784c1aabf404ce058febcc8f0db1/AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:support-vector-drawable:27.1.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-27.1.1.aar/886f63e2f8eba3b778325c280ad56d57/AndroidManifest.xml:17:1-22:12
 MERGED from [com.android.support:cardview-v7:27.1.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/cardview-v7-27.1.1.aar/833de7839fe30592ac9da0d5cd0ae308/AndroidManifest.xml:17:1-22:12
 MERGED from [com.android.support:customtabs:27.1.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/customtabs-27.1.1.aar/5fe4448835736339bc990e132bf13669/AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support:recyclerview-v7:27.1.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/recyclerview-v7-27.1.1.aar/4fd7ec949d4c830e1571b5e5c6b2e567/AndroidManifest.xml:17:1-22:12
-MERGED from [com.github.thefuntasty:CreditCardEntry:1.4.8.4] /Users/valentin/.gradle/caches/transforms-1/files-1.1/CreditCardEntry-1.4.8.4.aar/e44f0e435df495247a00cfcc8ea6a604/AndroidManifest.xml:2:1-12:12
-MERGED from [com.google.android.gms:play-services-vision:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-vision-12.0.1.aar/f1b7dc935c15cf71ca0cba489dae1d2f/AndroidManifest.xml:2:1-9:12
-MERGED from [com.google.firebase:firebase-messaging:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-messaging-12.0.1.aar/6837ce70d13971ed638f20e973395c1f/AndroidManifest.xml:17:1-37:12
-MERGED from [com.google.firebase:firebase-analytics:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-analytics-12.0.1.aar/9fffe6f5726c57e731c3bbc0370bb8fc/AndroidManifest.xml:17:1-54:12
-MERGED from [com.google.firebase:firebase-analytics-impl:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-analytics-impl-12.0.1.aar/d3d805c87962f1abf025664136c4966e/AndroidManifest.xml:17:1-40:12
-MERGED from [com.google.firebase:firebase-iid:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-iid-12.0.1.aar/7ffc15850b7f207777d08c2c74e51acd/AndroidManifest.xml:17:1-59:12
-MERGED from [com.google.firebase:firebase-common:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-common-12.0.1.aar/7c9209b8ab7b5c864e15884b09a9c71b/AndroidManifest.xml:2:1-15:12
-MERGED from [com.google.android.gms:play-services-auth-api-phone:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-auth-api-phone-12.0.1.aar/ee3013827047628053ee19d90a05079c/AndroidManifest.xml:2:1-7:12
-MERGED from [com.google.android.gms:play-services-vision-common:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-vision-common-12.0.1.aar/9def768909aaeba3a3de63b184a8e733/AndroidManifest.xml:2:1-9:12
-MERGED from [com.google.android.gms:play-services-identity:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-identity-12.0.1.aar/3d60c823a3690e829a4ea06bf2febe7f/AndroidManifest.xml:17:1-24:12
-MERGED from [com.google.android.gms:play-services-tagmanager-v4-impl:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-tagmanager-v4-impl-12.0.1.aar/338fc1158deadab552af7089610d5962/AndroidManifest.xml:17:1-24:12
-MERGED from [com.google.android.gms:play-services-iid:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-iid-12.0.1.aar/72942504a9e1f24c8f04d620cbe8b03b/AndroidManifest.xml:17:1-28:12
-MERGED from [com.google.android.gms:play-services-analytics-impl:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-analytics-impl-12.0.1.aar/aea282446874ce2ebf7a5d4be8bf7283/AndroidManifest.xml:17:1-31:12
-MERGED from [com.google.android.gms:play-services-auth-base:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-auth-base-12.0.1.aar/731802570b1bc8a9f0196897a8d08c23/AndroidManifest.xml:2:1-7:12
-MERGED from [com.google.android.gms:play-services-base:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-base-12.0.1.aar/663a776742e8372c0700d816a81da544/AndroidManifest.xml:17:1-29:12
-MERGED from [com.google.android.gms:play-services-tasks:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-tasks-12.0.1.aar/4e483d23f81b1cc14d3895bd704673b5/AndroidManifest.xml:2:1-9:12
-MERGED from [com.google.android.gms:play-services-ads-lite:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-ads-lite-12.0.1.aar/d91f147e09da474356198d8dc4d56902/AndroidManifest.xml:17:1-36:12
-MERGED from [com.google.android.gms:play-services-gass:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-gass-12.0.1.aar/9cddc06b7ab3a6255a942d0a41373168/AndroidManifest.xml:2:1-9:12
-MERGED from [com.google.android.gms:play-services-basement:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-basement-12.0.1.aar/ca000ba3581de9d31e6d9006e44903d1/AndroidManifest.xml:17:1-28:12
-MERGED from [com.android.support:support-v4:26.1.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/support-v4-26.1.0.aar/14ba1df2573f033ba7bd4b3c49a33b7c/AndroidManifest.xml:17:1-31:12
 MERGED from [com.android.support:support-media-compat:26.1.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/support-media-compat-26.1.0.aar/2ce4328e00ff04c1a3266ad1e7620e76/AndroidManifest.xml:17:1-31:12
 MERGED from [com.android.support:support-fragment:27.1.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/support-fragment-27.1.1.aar/cce2f8780bc9a873ee725d5a7cfb501c/AndroidManifest.xml:17:1-22:12
 MERGED from [com.android.support:support-core-ui:27.1.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/support-core-ui-27.1.1.aar/d19f057e83e926ef884a7abab310ee33/AndroidManifest.xml:17:1-22:12
@@ -93,7 +97,6 @@ MERGED from [expolib_v1.com.facebook.fresco:expolib_v1-imagepipeline-okhttp3:1.0
 MERGED from [com.facebook.soloader:soloader:0.1.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/soloader-0.1.0.aar/9fff7a34e8c7101376f2e9002605438f/AndroidManifest.xml:1:1-4:12
 MERGED from [org.webkit:android-jsc:r174650] /Users/valentin/.gradle/caches/transforms-1/files-1.1/android-jsc-r174650.aar/9689d72cade03f1e0e632d676fb4123a/AndroidManifest.xml:1:1-3:12
 MERGED from [com.crashlytics.sdk.android:crashlytics:2.5.5] /Users/valentin/.gradle/caches/transforms-1/files-1.1/crashlytics-2.5.5.aar/fc9407dae70e3432f801c983d5e511e5/AndroidManifest.xml:2:1-13:12
-MERGED from [com.google.maps.android:android-maps-utils:0.5] /Users/valentin/.gradle/caches/transforms-1/files-1.1/android-maps-utils-0.5.aar/7f648a2645295dbabb2ae4c9e36d3b71/AndroidManifest.xml:2:1-13:12
 MERGED from [com.facebook.fresco:drawee:1.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/drawee-1.0.1.aar/3aa1a2b5f268ee5c44483d680e048dca/AndroidManifest.xml:2:1-9:12
 MERGED from [com.facebook.fresco:animated-base:1.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/animated-base-1.0.1.aar/2674a6c7207687e71f7193f603766a39/AndroidManifest.xml:2:1-9:12
 MERGED from [com.facebook.fresco:imagepipeline:1.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/imagepipeline-1.0.1.aar/ec2fd0900aa506514924ae93bd1428d8/AndroidManifest.xml:2:1-9:12
@@ -112,21 +115,21 @@ MERGED from [com.google.android.gms:play-services-vision-common-license:12.0.1] 
 MERGED from [com.google.android.gms:play-services-identity-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-identity-license-12.0.1.aar/d5f62891a7ff5bf3329f5049d3427b4b/AndroidManifest.xml:17:1-24:12
 MERGED from [com.google.firebase:firebase-iid-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-iid-license-12.0.1.aar/c50e31383fa7923b8414cc04df4a37a2/AndroidManifest.xml:17:1-24:12
 MERGED from [com.google.firebase:firebase-common-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-common-license-12.0.1.aar/4ba10210095b27ed3148cd005cbb9144/AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.android.gms:play-services-maps-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-maps-license-12.0.1.aar/c3e1733a4bc67235229d972d290366f7/AndroidManifest.xml:17:1-24:12
+MERGED from [android.arch.lifecycle:livedata-core:1.1.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/livedata-core-1.1.0.aar/0b332cb24b4f5d39edc022bf75f52f40/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:viewmodel:1.1.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/viewmodel-1.1.0.aar/dfab59eb89fdea2dfb0242efa08557e5/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:runtime:1.1.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/runtime-1.1.0.aar/1a0f6916e66f4f19fb5cad07cc22be7f/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.core:runtime:1.1.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/runtime-1.1.0.aar/9db7ac7965fdbb8170815e5bead3979b/AndroidManifest.xml:17:1-22:12
+MERGED from [com.google.android.gms:play-services-base-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-base-license-12.0.1.aar/033235915212b23d65b0b2daaa78bb64/AndroidManifest.xml:17:1-24:12
 MERGED from [com.google.android.gms:play-services-gcm-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-gcm-license-12.0.1.aar/f54b2067d7b17866b64ade2eb381bff3/AndroidManifest.xml:17:1-24:12
 MERGED from [com.google.android.gms:play-services-analytics-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-analytics-license-12.0.1.aar/2c19770f4f92e40652d18ac854ed6151/AndroidManifest.xml:17:1-24:12
 MERGED from [com.google.android.gms:play-services-tagmanager-v4-impl-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-tagmanager-v4-impl-license-12.0.1.aar/c9484009e441d29ba7e0e6a786cdce07/AndroidManifest.xml:17:1-24:12
-MERGED from [com.google.android.gms:play-services-maps-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-maps-license-12.0.1.aar/c3e1733a4bc67235229d972d290366f7/AndroidManifest.xml:17:1-24:12
 MERGED from [com.google.android.gms:play-services-auth-api-phone-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-auth-api-phone-license-12.0.1.aar/ed3cf0109aba7d32527b3c3666e2cb38/AndroidManifest.xml:17:1-24:12
 MERGED from [com.google.android.gms:play-services-location-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-location-license-12.0.1.aar/29ac1aceb9eafc8a3e35b80b2b21773b/AndroidManifest.xml:17:1-24:12
 MERGED from [com.google.android.gms:play-services-ads-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-ads-license-12.0.1.aar/bbb6483f1f484b929e2dbe2bbe2f4d6e/AndroidManifest.xml:17:1-24:12
 MERGED from [com.google.firebase:firebase-analytics-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-analytics-license-12.0.1.aar/a4760c7c681ceed44199a03c69a17add/AndroidManifest.xml:17:1-24:12
 MERGED from [com.google.firebase:firebase-analytics-impl-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-analytics-impl-license-12.0.1.aar/7de182f570beb396a38322ad7671f90f/AndroidManifest.xml:17:1-24:12
-MERGED from [com.google.android.gms:play-services-base-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-base-license-12.0.1.aar/033235915212b23d65b0b2daaa78bb64/AndroidManifest.xml:17:1-24:12
 MERGED from [com.google.android.gms:play-services-basement-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-basement-license-12.0.1.aar/60b9c9a9348589463e8652f45ea2e979/AndroidManifest.xml:17:1-24:12
-MERGED from [android.arch.lifecycle:livedata-core:1.1.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/livedata-core-1.1.0.aar/0b332cb24b4f5d39edc022bf75f52f40/AndroidManifest.xml:17:1-22:12
-MERGED from [android.arch.lifecycle:viewmodel:1.1.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/viewmodel-1.1.0.aar/dfab59eb89fdea2dfb0242efa08557e5/AndroidManifest.xml:17:1-22:12
-MERGED from [android.arch.lifecycle:runtime:1.1.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/runtime-1.1.0.aar/1a0f6916e66f4f19fb5cad07cc22be7f/AndroidManifest.xml:17:1-22:12
-MERGED from [android.arch.core:runtime:1.1.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/runtime-1.1.0.aar/9db7ac7965fdbb8170815e5bead3979b/AndroidManifest.xml:17:1-22:12
 MERGED from [com.google.android.gms:play-services-iid-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-iid-license-12.0.1.aar/c3af4cb221876d0249cb1caee9c5cba0/AndroidManifest.xml:17:1-24:12
 MERGED from [com.google.android.gms:play-services-analytics-impl-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-analytics-impl-license-12.0.1.aar/5aff3472fcac344715b874d33e5183e9/AndroidManifest.xml:17:1-24:12
 MERGED from [com.google.android.gms:play-services-auth-base-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-auth-base-license-12.0.1.aar/5632c44bc747fbbbb8a588f6ff12781a/AndroidManifest.xml:17:1-24:12
@@ -167,10 +170,10 @@ uses-permission#com.google.android.c2dm.permission.RECEIVE
 ADDED from /Users/valentin/Dropbox/CS/onefood_app/react-native_app/android/app/src/main/AndroidManifest.xml:13:3-80
 MERGED from [com.google.android.gms:play-services-gcm:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-gcm-12.0.1.aar/a1288dc4de8d8e1cd1f4297fb6794599/AndroidManifest.xml:23:5-82
 MERGED from [com.google.android.gms:play-services-gcm:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-gcm-12.0.1.aar/a1288dc4de8d8e1cd1f4297fb6794599/AndroidManifest.xml:23:5-82
-MERGED from [com.google.firebase:firebase-iid:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-iid-12.0.1.aar/7ffc15850b7f207777d08c2c74e51acd/AndroidManifest.xml:26:5-82
-MERGED from [com.google.firebase:firebase-iid:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-iid-12.0.1.aar/7ffc15850b7f207777d08c2c74e51acd/AndroidManifest.xml:26:5-82
 MERGED from [com.google.android.gms:play-services-iid:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-iid-12.0.1.aar/72942504a9e1f24c8f04d620cbe8b03b/AndroidManifest.xml:23:5-82
 MERGED from [com.google.android.gms:play-services-iid:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-iid-12.0.1.aar/72942504a9e1f24c8f04d620cbe8b03b/AndroidManifest.xml:23:5-82
+MERGED from [com.google.firebase:firebase-iid:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-iid-12.0.1.aar/7ffc15850b7f207777d08c2c74e51acd/AndroidManifest.xml:26:5-82
+MERGED from [com.google.firebase:firebase-iid:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-iid-12.0.1.aar/7ffc15850b7f207777d08c2c74e51acd/AndroidManifest.xml:26:5-82
 	android:name
 		ADDED from /Users/valentin/Dropbox/CS/onefood_app/react-native_app/android/app/src/main/AndroidManifest.xml:13:20-77
 uses-permission#android.permission.ACCESS_NETWORK_STATE
@@ -185,20 +188,22 @@ MERGED from [com.google.android.gms:play-services-maps:12.0.1] /Users/valentin/.
 MERGED from [com.google.android.gms:play-services-maps:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-maps-12.0.1.aar/ed175eef8b373c5a1dfec48d202d19fa/AndroidManifest.xml:23:5-79
 MERGED from [io.nlopez.smartlocation:library:3.2.11] /Users/valentin/.gradle/caches/transforms-1/files-1.1/library-3.2.11.aar/4e3a15571341c757b1889a41b78f6b83/AndroidManifest.xml:13:5-79
 MERGED from [io.nlopez.smartlocation:library:3.2.11] /Users/valentin/.gradle/caches/transforms-1/files-1.1/library-3.2.11.aar/4e3a15571341c757b1889a41b78f6b83/AndroidManifest.xml:13:5-79
+MERGED from [com.google.android.gms:play-services-analytics-impl:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-analytics-impl-12.0.1.aar/aea282446874ce2ebf7a5d4be8bf7283/AndroidManifest.xml:24:5-79
+MERGED from [com.google.android.gms:play-services-analytics-impl:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-analytics-impl-12.0.1.aar/aea282446874ce2ebf7a5d4be8bf7283/AndroidManifest.xml:24:5-79
 MERGED from [com.google.firebase:firebase-analytics:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-analytics-12.0.1.aar/9fffe6f5726c57e731c3bbc0370bb8fc/AndroidManifest.xml:24:5-79
 MERGED from [com.google.firebase:firebase-analytics:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-analytics-12.0.1.aar/9fffe6f5726c57e731c3bbc0370bb8fc/AndroidManifest.xml:24:5-79
 MERGED from [com.google.firebase:firebase-analytics-impl:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-analytics-impl-12.0.1.aar/d3d805c87962f1abf025664136c4966e/AndroidManifest.xml:24:5-79
 MERGED from [com.google.firebase:firebase-analytics-impl:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-analytics-impl-12.0.1.aar/d3d805c87962f1abf025664136c4966e/AndroidManifest.xml:24:5-79
 MERGED from [com.google.firebase:firebase-iid:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-iid-12.0.1.aar/7ffc15850b7f207777d08c2c74e51acd/AndroidManifest.xml:22:5-79
 MERGED from [com.google.firebase:firebase-iid:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-iid-12.0.1.aar/7ffc15850b7f207777d08c2c74e51acd/AndroidManifest.xml:22:5-79
-MERGED from [com.google.android.gms:play-services-analytics-impl:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-analytics-impl-12.0.1.aar/aea282446874ce2ebf7a5d4be8bf7283/AndroidManifest.xml:24:5-79
-MERGED from [com.google.android.gms:play-services-analytics-impl:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-analytics-impl-12.0.1.aar/aea282446874ce2ebf7a5d4be8bf7283/AndroidManifest.xml:24:5-79
 MERGED from [com.google.android.gms:play-services-ads-lite:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-ads-lite-12.0.1.aar/d91f147e09da474356198d8dc4d56902/AndroidManifest.xml:24:5-79
 MERGED from [com.google.android.gms:play-services-ads-lite:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-ads-lite-12.0.1.aar/d91f147e09da474356198d8dc4d56902/AndroidManifest.xml:24:5-79
 	android:name
 		ADDED from /Users/valentin/Dropbox/CS/onefood_app/react-native_app/android/app/src/main/AndroidManifest.xml:14:20-74
 uses-permission#android.permission.INTERNET
 ADDED from /Users/valentin/Dropbox/CS/onefood_app/react-native_app/android/app/src/main/AndroidManifest.xml:15:3-65
+MERGED from [:react-native-maps] /Users/valentin/Dropbox/CS/onefood_app/react-native_app/node_modules/react-native-maps/lib/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:9:5-67
+MERGED from [:react-native-maps] /Users/valentin/Dropbox/CS/onefood_app/react-native_app/node_modules/react-native-maps/lib/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:9:5-67
 MERGED from [host.exp.exponent:expoview:28.0.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/expoview-28.0.0.aar/cfd1b94c67beeb7e18b39ab3d032c82a/AndroidManifest.xml:19:5-67
 MERGED from [host.exp.exponent:expoview:28.0.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/expoview-28.0.0.aar/cfd1b94c67beeb7e18b39ab3d032c82a/AndroidManifest.xml:19:5-67
 MERGED from [com.facebook.android:audience-network-sdk:4.26.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/audience-network-sdk-4.26.1.aar/a522cb0147bf175cc220cb9ca4109ebf/AndroidManifest.xml:11:5-67
@@ -211,16 +216,16 @@ MERGED from [com.google.android.gms:play-services-maps:12.0.1] /Users/valentin/.
 MERGED from [com.google.android.gms:play-services-maps:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-maps-12.0.1.aar/ed175eef8b373c5a1dfec48d202d19fa/AndroidManifest.xml:24:5-67
 MERGED from [net.openid:appauth:0.4.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/appauth-0.4.1.aar/ba91abd6ccb24b491d2fa83d3337ca96/AndroidManifest.xml:24:5-67
 MERGED from [net.openid:appauth:0.4.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/appauth-0.4.1.aar/ba91abd6ccb24b491d2fa83d3337ca96/AndroidManifest.xml:24:5-67
+MERGED from [com.google.android.gms:play-services-iid:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-iid-12.0.1.aar/72942504a9e1f24c8f04d620cbe8b03b/AndroidManifest.xml:24:5-67
+MERGED from [com.google.android.gms:play-services-iid:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-iid-12.0.1.aar/72942504a9e1f24c8f04d620cbe8b03b/AndroidManifest.xml:24:5-67
+MERGED from [com.google.android.gms:play-services-analytics-impl:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-analytics-impl-12.0.1.aar/aea282446874ce2ebf7a5d4be8bf7283/AndroidManifest.xml:23:5-67
+MERGED from [com.google.android.gms:play-services-analytics-impl:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-analytics-impl-12.0.1.aar/aea282446874ce2ebf7a5d4be8bf7283/AndroidManifest.xml:23:5-67
 MERGED from [com.google.firebase:firebase-analytics:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-analytics-12.0.1.aar/9fffe6f5726c57e731c3bbc0370bb8fc/AndroidManifest.xml:23:5-67
 MERGED from [com.google.firebase:firebase-analytics:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-analytics-12.0.1.aar/9fffe6f5726c57e731c3bbc0370bb8fc/AndroidManifest.xml:23:5-67
 MERGED from [com.google.firebase:firebase-analytics-impl:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-analytics-impl-12.0.1.aar/d3d805c87962f1abf025664136c4966e/AndroidManifest.xml:23:5-67
 MERGED from [com.google.firebase:firebase-analytics-impl:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-analytics-impl-12.0.1.aar/d3d805c87962f1abf025664136c4966e/AndroidManifest.xml:23:5-67
 MERGED from [com.google.firebase:firebase-iid:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-iid-12.0.1.aar/7ffc15850b7f207777d08c2c74e51acd/AndroidManifest.xml:23:5-67
 MERGED from [com.google.firebase:firebase-iid:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-iid-12.0.1.aar/7ffc15850b7f207777d08c2c74e51acd/AndroidManifest.xml:23:5-67
-MERGED from [com.google.android.gms:play-services-iid:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-iid-12.0.1.aar/72942504a9e1f24c8f04d620cbe8b03b/AndroidManifest.xml:24:5-67
-MERGED from [com.google.android.gms:play-services-iid:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-iid-12.0.1.aar/72942504a9e1f24c8f04d620cbe8b03b/AndroidManifest.xml:24:5-67
-MERGED from [com.google.android.gms:play-services-analytics-impl:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-analytics-impl-12.0.1.aar/aea282446874ce2ebf7a5d4be8bf7283/AndroidManifest.xml:23:5-67
-MERGED from [com.google.android.gms:play-services-analytics-impl:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-analytics-impl-12.0.1.aar/aea282446874ce2ebf7a5d4be8bf7283/AndroidManifest.xml:23:5-67
 MERGED from [com.google.android.gms:play-services-ads-lite:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-ads-lite-12.0.1.aar/d91f147e09da474356198d8dc4d56902/AndroidManifest.xml:23:5-67
 MERGED from [com.google.android.gms:play-services-ads-lite:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-ads-lite-12.0.1.aar/d91f147e09da474356198d8dc4d56902/AndroidManifest.xml:23:5-67
 MERGED from [com.crashlytics.sdk.android:crashlytics:2.5.5] /Users/valentin/.gradle/caches/transforms-1/files-1.1/crashlytics-2.5.5.aar/fc9407dae70e3432f801c983d5e511e5/AndroidManifest.xml:9:5-67
@@ -263,14 +268,14 @@ MERGED from [host.exp.exponent:expoview:28.0.0] /Users/valentin/.gradle/caches/t
 MERGED from [host.exp.exponent:expoview:28.0.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/expoview-28.0.0.aar/cfd1b94c67beeb7e18b39ab3d032c82a/AndroidManifest.xml:22:5-68
 MERGED from [com.google.android.gms:play-services-analytics:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-analytics-12.0.1.aar/a2c4ada116b157bb943bc8bb5708b9c0/AndroidManifest.xml:27:5-68
 MERGED from [com.google.android.gms:play-services-analytics:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-analytics-12.0.1.aar/a2c4ada116b157bb943bc8bb5708b9c0/AndroidManifest.xml:27:5-68
+MERGED from [com.google.android.gms:play-services-analytics-impl:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-analytics-impl-12.0.1.aar/aea282446874ce2ebf7a5d4be8bf7283/AndroidManifest.xml:27:5-68
+MERGED from [com.google.android.gms:play-services-analytics-impl:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-analytics-impl-12.0.1.aar/aea282446874ce2ebf7a5d4be8bf7283/AndroidManifest.xml:27:5-68
 MERGED from [com.google.firebase:firebase-analytics:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-analytics-12.0.1.aar/9fffe6f5726c57e731c3bbc0370bb8fc/AndroidManifest.xml:25:5-68
 MERGED from [com.google.firebase:firebase-analytics:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-analytics-12.0.1.aar/9fffe6f5726c57e731c3bbc0370bb8fc/AndroidManifest.xml:25:5-68
 MERGED from [com.google.firebase:firebase-analytics-impl:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-analytics-impl-12.0.1.aar/d3d805c87962f1abf025664136c4966e/AndroidManifest.xml:25:5-68
 MERGED from [com.google.firebase:firebase-analytics-impl:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-analytics-impl-12.0.1.aar/d3d805c87962f1abf025664136c4966e/AndroidManifest.xml:25:5-68
 MERGED from [com.google.firebase:firebase-iid:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-iid-12.0.1.aar/7ffc15850b7f207777d08c2c74e51acd/AndroidManifest.xml:24:5-68
 MERGED from [com.google.firebase:firebase-iid:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-iid-12.0.1.aar/7ffc15850b7f207777d08c2c74e51acd/AndroidManifest.xml:24:5-68
-MERGED from [com.google.android.gms:play-services-analytics-impl:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-analytics-impl-12.0.1.aar/aea282446874ce2ebf7a5d4be8bf7283/AndroidManifest.xml:27:5-68
-MERGED from [com.google.android.gms:play-services-analytics-impl:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-analytics-impl-12.0.1.aar/aea282446874ce2ebf7a5d4be8bf7283/AndroidManifest.xml:27:5-68
 	android:name
 		ADDED from /Users/valentin/Dropbox/CS/onefood_app/react-native_app/android/app/src/main/AndroidManifest.xml:17:20-63
 uses-permission#android.permission.MANAGE_DOCUMENTS
@@ -307,6 +312,8 @@ MERGED from [host.exp.exponent:expoview:28.0.0] /Users/valentin/.gradle/caches/t
 		ADDED from /Users/valentin/Dropbox/CS/onefood_app/react-native_app/android/app/src/main/AndroidManifest.xml:26:20-83
 uses-permission#android.permission.ACCESS_COARSE_LOCATION
 ADDED from /Users/valentin/Dropbox/CS/onefood_app/react-native_app/android/app/src/main/AndroidManifest.xml:29:3-79
+MERGED from [:react-native-maps] /Users/valentin/Dropbox/CS/onefood_app/react-native_app/node_modules/react-native-maps/lib/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:10:5-81
+MERGED from [:react-native-maps] /Users/valentin/Dropbox/CS/onefood_app/react-native_app/node_modules/react-native-maps/lib/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:10:5-81
 MERGED from [host.exp.exponent:expoview:28.0.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/expoview-28.0.0.aar/cfd1b94c67beeb7e18b39ab3d032c82a/AndroidManifest.xml:37:5-81
 MERGED from [host.exp.exponent:expoview:28.0.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/expoview-28.0.0.aar/cfd1b94c67beeb7e18b39ab3d032c82a/AndroidManifest.xml:37:5-81
 MERGED from [io.nlopez.smartlocation:library:3.2.11] /Users/valentin/.gradle/caches/transforms-1/files-1.1/library-3.2.11.aar/4e3a15571341c757b1889a41b78f6b83/AndroidManifest.xml:12:5-81
@@ -365,10 +372,14 @@ MERGED from [com.google.android.gms:play-services-maps:12.0.1] /Users/valentin/.
 		ADDED from /Users/valentin/Dropbox/CS/onefood_app/react-native_app/android/app/src/main/AndroidManifest.xml:41:50-74
 application
 ADDED from /Users/valentin/Dropbox/CS/onefood_app/react-native_app/android/app/src/main/AndroidManifest.xml:43:3-260:17
+MERGED from [:react-native-conekta] /Users/valentin/Dropbox/CS/onefood_app/react-native_app/node_modules/react-native-conekta/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:11:5-15:19
+MERGED from [:react-native-conekta] /Users/valentin/Dropbox/CS/onefood_app/react-native_app/node_modules/react-native-conekta/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:11:5-15:19
 MERGED from [host.exp.exponent:expoview:28.0.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/expoview-28.0.0.aar/cfd1b94c67beeb7e18b39ab3d032c82a/AndroidManifest.xml:68:5-84:19
 MERGED from [host.exp.exponent:expoview:28.0.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/expoview-28.0.0.aar/cfd1b94c67beeb7e18b39ab3d032c82a/AndroidManifest.xml:68:5-84:19
 MERGED from [com.facebook.react:react-native:28.0.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/react-native-28.0.0.aar/84e32336d7fbc0c0420095f87ce0e1cf/AndroidManifest.xml:13:5-20
 MERGED from [com.facebook.react:react-native:28.0.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/react-native-28.0.0.aar/84e32336d7fbc0c0420095f87ce0e1cf/AndroidManifest.xml:13:5-20
+MERGED from [io.conekta:conektasdk:2.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/conektasdk-2.1.aar/80edf00655b9455c1768fc88db9c1bba/AndroidManifest.xml:11:5-15:19
+MERGED from [io.conekta:conektasdk:2.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/conektasdk-2.1.aar/80edf00655b9455c1768fc88db9c1bba/AndroidManifest.xml:11:5-15:19
 MERGED from [com.google.android:cameraview:1.0.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/cameraview-1.0.0.aar/d9bee89ab8725b9de3f2a8f9ca847eea/AndroidManifest.xml:32:5-20
 MERGED from [com.google.android:cameraview:1.0.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/cameraview-1.0.0.aar/d9bee89ab8725b9de3f2a8f9ca847eea/AndroidManifest.xml:32:5-20
 MERGED from [com.facebook.android:facebook-android-sdk:4.28.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/facebook-android-sdk-4.28.0.aar/3944d4b7f0f7e2cf5f939d8ee0d63672/AndroidManifest.xml:28:5-29:19
@@ -403,26 +414,8 @@ MERGED from [io.nlopez.smartlocation:library:3.2.11] /Users/valentin/.gradle/cac
 MERGED from [io.nlopez.smartlocation:library:3.2.11] /Users/valentin/.gradle/caches/transforms-1/files-1.1/library-3.2.11.aar/4e3a15571341c757b1889a41b78f6b83/AndroidManifest.xml:18:5-28:19
 MERGED from [com.google.firebase:firebase-core:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-core-12.0.1.aar/85a78779c7f751eeec568c55b8c0b1ef/AndroidManifest.xml:5:5-20
 MERGED from [com.google.firebase:firebase-core:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-core-12.0.1.aar/85a78779c7f751eeec568c55b8c0b1ef/AndroidManifest.xml:5:5-20
-MERGED from [com.facebook.android:facebook-places:4.28.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/facebook-places-4.28.0.aar/47499cb5d72d48188f572e0338728a6c/AndroidManifest.xml:28:5-29:19
-MERGED from [com.facebook.android:facebook-places:4.28.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/facebook-places-4.28.0.aar/47499cb5d72d48188f572e0338728a6c/AndroidManifest.xml:28:5-29:19
-MERGED from [com.facebook.android:facebook-applinks:4.28.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/facebook-applinks-4.28.0.aar/1be378a8c0a7b3be25706eacd64cd8e9/AndroidManifest.xml:28:5-29:19
-MERGED from [com.facebook.android:facebook-applinks:4.28.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/facebook-applinks-4.28.0.aar/1be378a8c0a7b3be25706eacd64cd8e9/AndroidManifest.xml:28:5-29:19
-MERGED from [com.facebook.android:facebook-messenger:4.28.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/facebook-messenger-4.28.0.aar/dc770a24b2adc20ec67d84f8e97f7eb7/AndroidManifest.xml:28:5-29:19
-MERGED from [com.facebook.android:facebook-messenger:4.28.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/facebook-messenger-4.28.0.aar/dc770a24b2adc20ec67d84f8e97f7eb7/AndroidManifest.xml:28:5-29:19
-MERGED from [com.facebook.android:facebook-core:4.28.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/facebook-core-4.28.0.aar/b263bef2dd5c580c907f6617033587e4/AndroidManifest.xml:28:5-43:19
-MERGED from [com.facebook.android:facebook-core:4.28.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/facebook-core-4.28.0.aar/b263bef2dd5c580c907f6617033587e4/AndroidManifest.xml:28:5-43:19
 MERGED from [com.google.android.gms:play-services-vision:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-vision-12.0.1.aar/f1b7dc935c15cf71ca0cba489dae1d2f/AndroidManifest.xml:7:5-20
 MERGED from [com.google.android.gms:play-services-vision:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-vision-12.0.1.aar/f1b7dc935c15cf71ca0cba489dae1d2f/AndroidManifest.xml:7:5-20
-MERGED from [com.google.firebase:firebase-messaging:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-messaging-12.0.1.aar/6837ce70d13971ed638f20e973395c1f/AndroidManifest.xml:22:5-35:19
-MERGED from [com.google.firebase:firebase-messaging:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-messaging-12.0.1.aar/6837ce70d13971ed638f20e973395c1f/AndroidManifest.xml:22:5-35:19
-MERGED from [com.google.firebase:firebase-analytics:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-analytics-12.0.1.aar/9fffe6f5726c57e731c3bbc0370bb8fc/AndroidManifest.xml:27:5-52:19
-MERGED from [com.google.firebase:firebase-analytics:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-analytics-12.0.1.aar/9fffe6f5726c57e731c3bbc0370bb8fc/AndroidManifest.xml:27:5-52:19
-MERGED from [com.google.firebase:firebase-analytics-impl:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-analytics-impl-12.0.1.aar/d3d805c87962f1abf025664136c4966e/AndroidManifest.xml:27:5-38:19
-MERGED from [com.google.firebase:firebase-analytics-impl:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-analytics-impl-12.0.1.aar/d3d805c87962f1abf025664136c4966e/AndroidManifest.xml:27:5-38:19
-MERGED from [com.google.firebase:firebase-iid:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-iid-12.0.1.aar/7ffc15850b7f207777d08c2c74e51acd/AndroidManifest.xml:34:5-57:19
-MERGED from [com.google.firebase:firebase-iid:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-iid-12.0.1.aar/7ffc15850b7f207777d08c2c74e51acd/AndroidManifest.xml:34:5-57:19
-MERGED from [com.google.firebase:firebase-common:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-common-12.0.1.aar/7c9209b8ab7b5c864e15884b09a9c71b/AndroidManifest.xml:7:5-13:19
-MERGED from [com.google.firebase:firebase-common:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-common-12.0.1.aar/7c9209b8ab7b5c864e15884b09a9c71b/AndroidManifest.xml:7:5-13:19
 MERGED from [com.google.android.gms:play-services-vision-common:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-vision-common-12.0.1.aar/9def768909aaeba3a3de63b184a8e733/AndroidManifest.xml:7:5-20
 MERGED from [com.google.android.gms:play-services-vision-common:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-vision-common-12.0.1.aar/9def768909aaeba3a3de63b184a8e733/AndroidManifest.xml:7:5-20
 MERGED from [com.google.android.gms:play-services-identity:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-identity-12.0.1.aar/3d60c823a3690e829a4ea06bf2febe7f/AndroidManifest.xml:22:5-20
@@ -435,6 +428,26 @@ MERGED from [com.google.android.gms:play-services-analytics-impl:12.0.1] /Users/
 MERGED from [com.google.android.gms:play-services-analytics-impl:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-analytics-impl-12.0.1.aar/aea282446874ce2ebf7a5d4be8bf7283/AndroidManifest.xml:29:5-20
 MERGED from [com.google.android.gms:play-services-base:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-base-12.0.1.aar/663a776742e8372c0700d816a81da544/AndroidManifest.xml:22:5-27:19
 MERGED from [com.google.android.gms:play-services-base:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-base-12.0.1.aar/663a776742e8372c0700d816a81da544/AndroidManifest.xml:22:5-27:19
+MERGED from [com.google.maps.android:android-maps-utils:0.5] /Users/valentin/.gradle/caches/transforms-1/files-1.1/android-maps-utils-0.5.aar/7f648a2645295dbabb2ae4c9e36d3b71/AndroidManifest.xml:7:5-11:19
+MERGED from [com.google.maps.android:android-maps-utils:0.5] /Users/valentin/.gradle/caches/transforms-1/files-1.1/android-maps-utils-0.5.aar/7f648a2645295dbabb2ae4c9e36d3b71/AndroidManifest.xml:7:5-11:19
+MERGED from [com.facebook.android:facebook-places:4.28.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/facebook-places-4.28.0.aar/47499cb5d72d48188f572e0338728a6c/AndroidManifest.xml:28:5-29:19
+MERGED from [com.facebook.android:facebook-places:4.28.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/facebook-places-4.28.0.aar/47499cb5d72d48188f572e0338728a6c/AndroidManifest.xml:28:5-29:19
+MERGED from [com.facebook.android:facebook-applinks:4.28.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/facebook-applinks-4.28.0.aar/1be378a8c0a7b3be25706eacd64cd8e9/AndroidManifest.xml:28:5-29:19
+MERGED from [com.facebook.android:facebook-applinks:4.28.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/facebook-applinks-4.28.0.aar/1be378a8c0a7b3be25706eacd64cd8e9/AndroidManifest.xml:28:5-29:19
+MERGED from [com.facebook.android:facebook-messenger:4.28.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/facebook-messenger-4.28.0.aar/dc770a24b2adc20ec67d84f8e97f7eb7/AndroidManifest.xml:28:5-29:19
+MERGED from [com.facebook.android:facebook-messenger:4.28.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/facebook-messenger-4.28.0.aar/dc770a24b2adc20ec67d84f8e97f7eb7/AndroidManifest.xml:28:5-29:19
+MERGED from [com.facebook.android:facebook-core:4.28.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/facebook-core-4.28.0.aar/b263bef2dd5c580c907f6617033587e4/AndroidManifest.xml:28:5-43:19
+MERGED from [com.facebook.android:facebook-core:4.28.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/facebook-core-4.28.0.aar/b263bef2dd5c580c907f6617033587e4/AndroidManifest.xml:28:5-43:19
+MERGED from [com.google.firebase:firebase-messaging:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-messaging-12.0.1.aar/6837ce70d13971ed638f20e973395c1f/AndroidManifest.xml:22:5-35:19
+MERGED from [com.google.firebase:firebase-messaging:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-messaging-12.0.1.aar/6837ce70d13971ed638f20e973395c1f/AndroidManifest.xml:22:5-35:19
+MERGED from [com.google.firebase:firebase-analytics:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-analytics-12.0.1.aar/9fffe6f5726c57e731c3bbc0370bb8fc/AndroidManifest.xml:27:5-52:19
+MERGED from [com.google.firebase:firebase-analytics:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-analytics-12.0.1.aar/9fffe6f5726c57e731c3bbc0370bb8fc/AndroidManifest.xml:27:5-52:19
+MERGED from [com.google.firebase:firebase-analytics-impl:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-analytics-impl-12.0.1.aar/d3d805c87962f1abf025664136c4966e/AndroidManifest.xml:27:5-38:19
+MERGED from [com.google.firebase:firebase-analytics-impl:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-analytics-impl-12.0.1.aar/d3d805c87962f1abf025664136c4966e/AndroidManifest.xml:27:5-38:19
+MERGED from [com.google.firebase:firebase-iid:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-iid-12.0.1.aar/7ffc15850b7f207777d08c2c74e51acd/AndroidManifest.xml:34:5-57:19
+MERGED from [com.google.firebase:firebase-iid:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-iid-12.0.1.aar/7ffc15850b7f207777d08c2c74e51acd/AndroidManifest.xml:34:5-57:19
+MERGED from [com.google.firebase:firebase-common:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-common-12.0.1.aar/7c9209b8ab7b5c864e15884b09a9c71b/AndroidManifest.xml:7:5-13:19
+MERGED from [com.google.firebase:firebase-common:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-common-12.0.1.aar/7c9209b8ab7b5c864e15884b09a9c71b/AndroidManifest.xml:7:5-13:19
 MERGED from [com.google.android.gms:play-services-tasks:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-tasks-12.0.1.aar/4e483d23f81b1cc14d3895bd704673b5/AndroidManifest.xml:7:5-20
 MERGED from [com.google.android.gms:play-services-tasks:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-tasks-12.0.1.aar/4e483d23f81b1cc14d3895bd704673b5/AndroidManifest.xml:7:5-20
 MERGED from [com.google.android.gms:play-services-ads-lite:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-ads-lite-12.0.1.aar/d91f147e09da474356198d8dc4d56902/AndroidManifest.xml:26:5-34:19
@@ -469,8 +482,6 @@ MERGED from [org.webkit:android-jsc:r174650] /Users/valentin/.gradle/caches/tran
 MERGED from [org.webkit:android-jsc:r174650] /Users/valentin/.gradle/caches/transforms-1/files-1.1/android-jsc-r174650.aar/9689d72cade03f1e0e632d676fb4123a/AndroidManifest.xml:2:3-17
 MERGED from [com.crashlytics.sdk.android:crashlytics:2.5.5] /Users/valentin/.gradle/caches/transforms-1/files-1.1/crashlytics-2.5.5.aar/fc9407dae70e3432f801c983d5e511e5/AndroidManifest.xml:11:5-20
 MERGED from [com.crashlytics.sdk.android:crashlytics:2.5.5] /Users/valentin/.gradle/caches/transforms-1/files-1.1/crashlytics-2.5.5.aar/fc9407dae70e3432f801c983d5e511e5/AndroidManifest.xml:11:5-20
-MERGED from [com.google.maps.android:android-maps-utils:0.5] /Users/valentin/.gradle/caches/transforms-1/files-1.1/android-maps-utils-0.5.aar/7f648a2645295dbabb2ae4c9e36d3b71/AndroidManifest.xml:7:5-11:19
-MERGED from [com.google.maps.android:android-maps-utils:0.5] /Users/valentin/.gradle/caches/transforms-1/files-1.1/android-maps-utils-0.5.aar/7f648a2645295dbabb2ae4c9e36d3b71/AndroidManifest.xml:7:5-11:19
 MERGED from [com.crashlytics.sdk.android:crashlytics-core:2.3.8] /Users/valentin/.gradle/caches/transforms-1/files-1.1/crashlytics-core-2.3.8.aar/e5f1be8fc0bcc7e6421956948da88b1d/AndroidManifest.xml:11:5-20
 MERGED from [com.crashlytics.sdk.android:crashlytics-core:2.3.8] /Users/valentin/.gradle/caches/transforms-1/files-1.1/crashlytics-core-2.3.8.aar/e5f1be8fc0bcc7e6421956948da88b1d/AndroidManifest.xml:11:5-20
 MERGED from [com.crashlytics.sdk.android:answers:1.3.6] /Users/valentin/.gradle/caches/transforms-1/files-1.1/answers-1.3.6.aar/19452beebac5b96b379dc17f20fa1c0d/AndroidManifest.xml:11:5-20
@@ -497,14 +508,16 @@ MERGED from [com.google.firebase:firebase-iid-license:12.0.1] /Users/valentin/.g
 MERGED from [com.google.firebase:firebase-iid-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-iid-license-12.0.1.aar/c50e31383fa7923b8414cc04df4a37a2/AndroidManifest.xml:22:5-20
 MERGED from [com.google.firebase:firebase-common-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-common-license-12.0.1.aar/4ba10210095b27ed3148cd005cbb9144/AndroidManifest.xml:22:5-20
 MERGED from [com.google.firebase:firebase-common-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-common-license-12.0.1.aar/4ba10210095b27ed3148cd005cbb9144/AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-maps-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-maps-license-12.0.1.aar/c3e1733a4bc67235229d972d290366f7/AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-maps-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-maps-license-12.0.1.aar/c3e1733a4bc67235229d972d290366f7/AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-base-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-base-license-12.0.1.aar/033235915212b23d65b0b2daaa78bb64/AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-base-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-base-license-12.0.1.aar/033235915212b23d65b0b2daaa78bb64/AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.gms:play-services-gcm-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-gcm-license-12.0.1.aar/f54b2067d7b17866b64ade2eb381bff3/AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.gms:play-services-gcm-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-gcm-license-12.0.1.aar/f54b2067d7b17866b64ade2eb381bff3/AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.gms:play-services-analytics-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-analytics-license-12.0.1.aar/2c19770f4f92e40652d18ac854ed6151/AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.gms:play-services-analytics-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-analytics-license-12.0.1.aar/2c19770f4f92e40652d18ac854ed6151/AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.gms:play-services-tagmanager-v4-impl-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-tagmanager-v4-impl-license-12.0.1.aar/c9484009e441d29ba7e0e6a786cdce07/AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.gms:play-services-tagmanager-v4-impl-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-tagmanager-v4-impl-license-12.0.1.aar/c9484009e441d29ba7e0e6a786cdce07/AndroidManifest.xml:22:5-20
-MERGED from [com.google.android.gms:play-services-maps-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-maps-license-12.0.1.aar/c3e1733a4bc67235229d972d290366f7/AndroidManifest.xml:22:5-20
-MERGED from [com.google.android.gms:play-services-maps-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-maps-license-12.0.1.aar/c3e1733a4bc67235229d972d290366f7/AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.gms:play-services-auth-api-phone-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-auth-api-phone-license-12.0.1.aar/ed3cf0109aba7d32527b3c3666e2cb38/AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.gms:play-services-auth-api-phone-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-auth-api-phone-license-12.0.1.aar/ed3cf0109aba7d32527b3c3666e2cb38/AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.gms:play-services-location-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-location-license-12.0.1.aar/29ac1aceb9eafc8a3e35b80b2b21773b/AndroidManifest.xml:22:5-20
@@ -515,8 +528,6 @@ MERGED from [com.google.firebase:firebase-analytics-license:12.0.1] /Users/valen
 MERGED from [com.google.firebase:firebase-analytics-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-analytics-license-12.0.1.aar/a4760c7c681ceed44199a03c69a17add/AndroidManifest.xml:22:5-20
 MERGED from [com.google.firebase:firebase-analytics-impl-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-analytics-impl-license-12.0.1.aar/7de182f570beb396a38322ad7671f90f/AndroidManifest.xml:22:5-20
 MERGED from [com.google.firebase:firebase-analytics-impl-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-analytics-impl-license-12.0.1.aar/7de182f570beb396a38322ad7671f90f/AndroidManifest.xml:22:5-20
-MERGED from [com.google.android.gms:play-services-base-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-base-license-12.0.1.aar/033235915212b23d65b0b2daaa78bb64/AndroidManifest.xml:22:5-20
-MERGED from [com.google.android.gms:play-services-base-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-base-license-12.0.1.aar/033235915212b23d65b0b2daaa78bb64/AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.gms:play-services-basement-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-basement-license-12.0.1.aar/60b9c9a9348589463e8652f45ea2e979/AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.gms:play-services-basement-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-basement-license-12.0.1.aar/60b9c9a9348589463e8652f45ea2e979/AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.gms:play-services-iid-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-iid-license-12.0.1.aar/c3af4cb221876d0249cb1caee9c5cba0/AndroidManifest.xml:22:5-20
@@ -530,7 +541,7 @@ MERGED from [com.google.android.gms:play-services-ads-lite-license:12.0.1] /User
 MERGED from [com.google.android.gms:play-services-gass-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-gass-license-12.0.1.aar/f2f1b82336cedeb6429ef22ac8728842/AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.gms:play-services-gass-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-gass-license-12.0.1.aar/f2f1b82336cedeb6429ef22ac8728842/AndroidManifest.xml:22:5-20
 	android:supportsRtl
-		ADDED from [com.facebook.android:facebook-android-sdk:4.28.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/facebook-android-sdk-4.28.0.aar/3944d4b7f0f7e2cf5f939d8ee0d63672/AndroidManifest.xml:28:18-44
+		ADDED from [:react-native-conekta] /Users/valentin/Dropbox/CS/onefood_app/react-native_app/node_modules/react-native-conekta/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:14:9-35
 	android:label
 		ADDED from /Users/valentin/Dropbox/CS/onefood_app/react-native_app/android/app/src/main/AndroidManifest.xml:47:5-37
 	android:largeHeap
@@ -861,6 +872,10 @@ uses-sdk
 INJECTED from /Users/valentin/Dropbox/CS/onefood_app/react-native_app/android/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /Users/valentin/Dropbox/CS/onefood_app/react-native_app/android/app/src/main/AndroidManifest.xml
 INJECTED from /Users/valentin/Dropbox/CS/onefood_app/react-native_app/android/app/src/main/AndroidManifest.xml
+MERGED from [:react-native-maps] /Users/valentin/Dropbox/CS/onefood_app/react-native_app/node_modules/react-native-maps/lib/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:react-native-maps] /Users/valentin/Dropbox/CS/onefood_app/react-native_app/node_modules/react-native-maps/lib/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:react-native-conekta] /Users/valentin/Dropbox/CS/onefood_app/react-native_app/node_modules/react-native-conekta/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:7:5-9:41
+MERGED from [:react-native-conekta] /Users/valentin/Dropbox/CS/onefood_app/react-native_app/node_modules/react-native-conekta/android/build/intermediates/manifests/full/debug/AndroidManifest.xml:7:5-9:41
 MERGED from [host.exp.exponent:expoview:28.0.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/expoview-28.0.0.aar/cfd1b94c67beeb7e18b39ab3d032c82a/AndroidManifest.xml:7:5-9:41
 MERGED from [host.exp.exponent:expoview:28.0.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/expoview-28.0.0.aar/cfd1b94c67beeb7e18b39ab3d032c82a/AndroidManifest.xml:7:5-9:41
 MERGED from [com.android.support:multidex:1.0.2] /Users/valentin/.gradle/caches/transforms-1/files-1.1/multidex-1.0.2.aar/017fdcebc3c0faa208c423d954831155/AndroidManifest.xml:20:5-43
@@ -869,6 +884,8 @@ MERGED from [com.theartofdev.edmodo:android-image-cropper:2.4.7] /Users/valentin
 MERGED from [com.theartofdev.edmodo:android-image-cropper:2.4.7] /Users/valentin/.gradle/caches/transforms-1/files-1.1/android-image-cropper-2.4.7.aar/4d4c40562886f01208d1eb032f393958/AndroidManifest.xml:8:5-10:41
 MERGED from [com.facebook.react:react-native:28.0.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/react-native-28.0.0.aar/84e32336d7fbc0c0420095f87ce0e1cf/AndroidManifest.xml:7:5-9:41
 MERGED from [com.facebook.react:react-native:28.0.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/react-native-28.0.0.aar/84e32336d7fbc0c0420095f87ce0e1cf/AndroidManifest.xml:7:5-9:41
+MERGED from [io.conekta:conektasdk:2.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/conektasdk-2.1.aar/80edf00655b9455c1768fc88db9c1bba/AndroidManifest.xml:7:5-9:41
+MERGED from [io.conekta:conektasdk:2.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/conektasdk-2.1.aar/80edf00655b9455c1768fc88db9c1bba/AndroidManifest.xml:7:5-9:41
 MERGED from [com.google.android:cameraview:1.0.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/cameraview-1.0.0.aar/d9bee89ab8725b9de3f2a8f9ca847eea/AndroidManifest.xml:19:5-21:41
 MERGED from [com.google.android:cameraview:1.0.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/cameraview-1.0.0.aar/d9bee89ab8725b9de3f2a8f9ca847eea/AndroidManifest.xml:19:5-21:41
 MERGED from [com.facebook.android:facebook-android-sdk:4.28.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/facebook-android-sdk-4.28.0.aar/3944d4b7f0f7e2cf5f939d8ee0d63672/AndroidManifest.xml:24:5-26:41
@@ -923,8 +940,26 @@ MERGED from [com.google.firebase:firebase-core:12.0.1] /Users/valentin/.gradle/c
 MERGED from [com.google.firebase:firebase-core:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-core-12.0.1.aar/85a78779c7f751eeec568c55b8c0b1ef/AndroidManifest.xml:4:5-43
 MERGED from [com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/leakcanary-android-no-op-1.4-beta1.aar/609bd21a35406faa012190561e601091/AndroidManifest.xml:20:5-22:41
 MERGED from [com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/leakcanary-android-no-op-1.4-beta1.aar/609bd21a35406faa012190561e601091/AndroidManifest.xml:20:5-22:41
-MERGED from [com.stripe:stripe-android:2.1.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/stripe-android-2.1.0.aar/7367e666e60f4d7894305f0be405e3a2/AndroidManifest.xml:7:5-9:41
-MERGED from [com.stripe:stripe-android:2.1.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/stripe-android-2.1.0.aar/7367e666e60f4d7894305f0be405e3a2/AndroidManifest.xml:7:5-9:41
+MERGED from [com.google.android.gms:play-services-vision:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-vision-12.0.1.aar/f1b7dc935c15cf71ca0cba489dae1d2f/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-vision:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-vision-12.0.1.aar/f1b7dc935c15cf71ca0cba489dae1d2f/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-vision-common:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-vision-common-12.0.1.aar/9def768909aaeba3a3de63b184a8e733/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-vision-common:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-vision-common-12.0.1.aar/9def768909aaeba3a3de63b184a8e733/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-identity:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-identity-12.0.1.aar/3d60c823a3690e829a4ea06bf2febe7f/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-identity:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-identity-12.0.1.aar/3d60c823a3690e829a4ea06bf2febe7f/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-tagmanager-v4-impl:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-tagmanager-v4-impl-12.0.1.aar/338fc1158deadab552af7089610d5962/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-tagmanager-v4-impl:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-tagmanager-v4-impl-12.0.1.aar/338fc1158deadab552af7089610d5962/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-auth-api-phone:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-auth-api-phone-12.0.1.aar/ee3013827047628053ee19d90a05079c/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-auth-api-phone:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-auth-api-phone-12.0.1.aar/ee3013827047628053ee19d90a05079c/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-iid:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-iid-12.0.1.aar/72942504a9e1f24c8f04d620cbe8b03b/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-iid:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-iid-12.0.1.aar/72942504a9e1f24c8f04d620cbe8b03b/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-analytics-impl:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-analytics-impl-12.0.1.aar/aea282446874ce2ebf7a5d4be8bf7283/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-analytics-impl:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-analytics-impl-12.0.1.aar/aea282446874ce2ebf7a5d4be8bf7283/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-auth-base:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-auth-base-12.0.1.aar/731802570b1bc8a9f0196897a8d08c23/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-auth-base:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-auth-base-12.0.1.aar/731802570b1bc8a9f0196897a8d08c23/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-base:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-base-12.0.1.aar/663a776742e8372c0700d816a81da544/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-base:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-base-12.0.1.aar/663a776742e8372c0700d816a81da544/AndroidManifest.xml:20:5-44
+MERGED from [com.google.maps.android:android-maps-utils:0.5] /Users/valentin/.gradle/caches/transforms-1/files-1.1/android-maps-utils-0.5.aar/7f648a2645295dbabb2ae4c9e36d3b71/AndroidManifest.xml:5:5-43
+MERGED from [com.google.maps.android:android-maps-utils:0.5] /Users/valentin/.gradle/caches/transforms-1/files-1.1/android-maps-utils-0.5.aar/7f648a2645295dbabb2ae4c9e36d3b71/AndroidManifest.xml:5:5-43
 MERGED from [com.facebook.android:facebook-places:4.28.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/facebook-places-4.28.0.aar/47499cb5d72d48188f572e0338728a6c/AndroidManifest.xml:24:5-26:41
 MERGED from [com.facebook.android:facebook-places:4.28.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/facebook-places-4.28.0.aar/47499cb5d72d48188f572e0338728a6c/AndroidManifest.xml:24:5-26:41
 MERGED from [com.facebook.android:facebook-applinks:4.28.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/facebook-applinks-4.28.0.aar/1be378a8c0a7b3be25706eacd64cd8e9/AndroidManifest.xml:24:5-26:41
@@ -933,6 +968,36 @@ MERGED from [com.facebook.android:facebook-messenger:4.28.0] /Users/valentin/.gr
 MERGED from [com.facebook.android:facebook-messenger:4.28.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/facebook-messenger-4.28.0.aar/dc770a24b2adc20ec67d84f8e97f7eb7/AndroidManifest.xml:24:5-26:41
 MERGED from [com.facebook.android:facebook-core:4.28.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/facebook-core-4.28.0.aar/b263bef2dd5c580c907f6617033587e4/AndroidManifest.xml:24:5-26:41
 MERGED from [com.facebook.android:facebook-core:4.28.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/facebook-core-4.28.0.aar/b263bef2dd5c580c907f6617033587e4/AndroidManifest.xml:24:5-26:41
+MERGED from [com.github.thefuntasty:CreditCardEntry:1.4.8.4] /Users/valentin/.gradle/caches/transforms-1/files-1.1/CreditCardEntry-1.4.8.4.aar/e44f0e435df495247a00cfcc8ea6a604/AndroidManifest.xml:8:5-10:41
+MERGED from [com.github.thefuntasty:CreditCardEntry:1.4.8.4] /Users/valentin/.gradle/caches/transforms-1/files-1.1/CreditCardEntry-1.4.8.4.aar/e44f0e435df495247a00cfcc8ea6a604/AndroidManifest.xml:8:5-10:41
+MERGED from [com.google.firebase:firebase-messaging:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-messaging-12.0.1.aar/6837ce70d13971ed638f20e973395c1f/AndroidManifest.xml:20:5-44
+MERGED from [com.google.firebase:firebase-messaging:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-messaging-12.0.1.aar/6837ce70d13971ed638f20e973395c1f/AndroidManifest.xml:20:5-44
+MERGED from [com.google.firebase:firebase-analytics:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-analytics-12.0.1.aar/9fffe6f5726c57e731c3bbc0370bb8fc/AndroidManifest.xml:20:5-44
+MERGED from [com.google.firebase:firebase-analytics:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-analytics-12.0.1.aar/9fffe6f5726c57e731c3bbc0370bb8fc/AndroidManifest.xml:20:5-44
+MERGED from [com.google.firebase:firebase-analytics-impl:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-analytics-impl-12.0.1.aar/d3d805c87962f1abf025664136c4966e/AndroidManifest.xml:20:5-44
+MERGED from [com.google.firebase:firebase-analytics-impl:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-analytics-impl-12.0.1.aar/d3d805c87962f1abf025664136c4966e/AndroidManifest.xml:20:5-44
+MERGED from [com.google.firebase:firebase-iid:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-iid-12.0.1.aar/7ffc15850b7f207777d08c2c74e51acd/AndroidManifest.xml:20:5-44
+MERGED from [com.google.firebase:firebase-iid:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-iid-12.0.1.aar/7ffc15850b7f207777d08c2c74e51acd/AndroidManifest.xml:20:5-44
+MERGED from [com.google.firebase:firebase-common:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-common-12.0.1.aar/7c9209b8ab7b5c864e15884b09a9c71b/AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-common:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-common-12.0.1.aar/7c9209b8ab7b5c864e15884b09a9c71b/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-tasks:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-tasks-12.0.1.aar/4e483d23f81b1cc14d3895bd704673b5/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-tasks:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-tasks-12.0.1.aar/4e483d23f81b1cc14d3895bd704673b5/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-ads-lite:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-ads-lite-12.0.1.aar/d91f147e09da474356198d8dc4d56902/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-ads-lite:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-ads-lite-12.0.1.aar/d91f147e09da474356198d8dc4d56902/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-gass:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-gass-12.0.1.aar/9cddc06b7ab3a6255a942d0a41373168/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-gass:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-gass-12.0.1.aar/9cddc06b7ab3a6255a942d0a41373168/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-basement:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-basement-12.0.1.aar/ca000ba3581de9d31e6d9006e44903d1/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-basement:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-basement-12.0.1.aar/ca000ba3581de9d31e6d9006e44903d1/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-v4:26.1.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/support-v4-26.1.0.aar/14ba1df2573f033ba7bd4b3c49a33b7c/AndroidManifest.xml:21:5-23:54
+MERGED from [com.android.support:support-v4:26.1.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/support-v4-26.1.0.aar/14ba1df2573f033ba7bd4b3c49a33b7c/AndroidManifest.xml:21:5-23:54
+MERGED from [com.android.support:recyclerview-v7:27.1.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/recyclerview-v7-27.1.1.aar/4fd7ec949d4c830e1571b5e5c6b2e567/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:recyclerview-v7:27.1.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/recyclerview-v7-27.1.1.aar/4fd7ec949d4c830e1571b5e5c6b2e567/AndroidManifest.xml:20:5-44
+MERGED from [com.stripe:stripe-android:2.1.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/stripe-android-2.1.0.aar/7367e666e60f4d7894305f0be405e3a2/AndroidManifest.xml:7:5-9:41
+MERGED from [com.stripe:stripe-android:2.1.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/stripe-android-2.1.0.aar/7367e666e60f4d7894305f0be405e3a2/AndroidManifest.xml:7:5-9:41
+MERGED from [com.android.support:animated-vector-drawable:27.1.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-27.1.1.aar/f417784c1aabf404ce058febcc8f0db1/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:27.1.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-27.1.1.aar/f417784c1aabf404ce058febcc8f0db1/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:27.1.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-27.1.1.aar/886f63e2f8eba3b778325c280ad56d57/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:27.1.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-27.1.1.aar/886f63e2f8eba3b778325c280ad56d57/AndroidManifest.xml:20:5-44
 MERGED from [com.google.android.exoplayer:exoplayer:r2.5.4] /Users/valentin/.gradle/caches/transforms-1/files-1.1/exoplayer-r2.5.4.aar/cb0351d7436778b7c105fd5660fbaea2/AndroidManifest.xml:21:5-23:41
 MERGED from [com.google.android.exoplayer:exoplayer:r2.5.4] /Users/valentin/.gradle/caches/transforms-1/files-1.1/exoplayer-r2.5.4.aar/cb0351d7436778b7c105fd5660fbaea2/AndroidManifest.xml:21:5-23:41
 MERGED from [com.google.android.exoplayer:exoplayer-dash:r2.5.4] /Users/valentin/.gradle/caches/transforms-1/files-1.1/exoplayer-dash-r2.5.4.aar/fc3e50f915a09994abe1664bd6394ffc/AndroidManifest.xml:21:5-23:41
@@ -945,56 +1010,10 @@ MERGED from [com.google.android.exoplayer:exoplayer-ui:r2.5.4] /Users/valentin/.
 MERGED from [com.google.android.exoplayer:exoplayer-ui:r2.5.4] /Users/valentin/.gradle/caches/transforms-1/files-1.1/exoplayer-ui-r2.5.4.aar/a001709ff592312d57611574902970ab/AndroidManifest.xml:21:5-23:41
 MERGED from [com.google.android.exoplayer:exoplayer-core:r2.5.4] /Users/valentin/.gradle/caches/transforms-1/files-1.1/exoplayer-core-r2.5.4.aar/a923923192845f8f3309a3b4517fe196/AndroidManifest.xml:21:5-23:41
 MERGED from [com.google.android.exoplayer:exoplayer-core:r2.5.4] /Users/valentin/.gradle/caches/transforms-1/files-1.1/exoplayer-core-r2.5.4.aar/a923923192845f8f3309a3b4517fe196/AndroidManifest.xml:21:5-23:41
-MERGED from [com.android.support:animated-vector-drawable:27.1.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-27.1.1.aar/f417784c1aabf404ce058febcc8f0db1/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:animated-vector-drawable:27.1.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-27.1.1.aar/f417784c1aabf404ce058febcc8f0db1/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-vector-drawable:27.1.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-27.1.1.aar/886f63e2f8eba3b778325c280ad56d57/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-vector-drawable:27.1.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-27.1.1.aar/886f63e2f8eba3b778325c280ad56d57/AndroidManifest.xml:20:5-44
 MERGED from [com.android.support:cardview-v7:27.1.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/cardview-v7-27.1.1.aar/833de7839fe30592ac9da0d5cd0ae308/AndroidManifest.xml:20:5-44
 MERGED from [com.android.support:cardview-v7:27.1.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/cardview-v7-27.1.1.aar/833de7839fe30592ac9da0d5cd0ae308/AndroidManifest.xml:20:5-44
 MERGED from [com.android.support:customtabs:27.1.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/customtabs-27.1.1.aar/5fe4448835736339bc990e132bf13669/AndroidManifest.xml:20:5-44
 MERGED from [com.android.support:customtabs:27.1.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/customtabs-27.1.1.aar/5fe4448835736339bc990e132bf13669/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:recyclerview-v7:27.1.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/recyclerview-v7-27.1.1.aar/4fd7ec949d4c830e1571b5e5c6b2e567/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:recyclerview-v7:27.1.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/recyclerview-v7-27.1.1.aar/4fd7ec949d4c830e1571b5e5c6b2e567/AndroidManifest.xml:20:5-44
-MERGED from [com.github.thefuntasty:CreditCardEntry:1.4.8.4] /Users/valentin/.gradle/caches/transforms-1/files-1.1/CreditCardEntry-1.4.8.4.aar/e44f0e435df495247a00cfcc8ea6a604/AndroidManifest.xml:8:5-10:41
-MERGED from [com.github.thefuntasty:CreditCardEntry:1.4.8.4] /Users/valentin/.gradle/caches/transforms-1/files-1.1/CreditCardEntry-1.4.8.4.aar/e44f0e435df495247a00cfcc8ea6a604/AndroidManifest.xml:8:5-10:41
-MERGED from [com.google.android.gms:play-services-vision:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-vision-12.0.1.aar/f1b7dc935c15cf71ca0cba489dae1d2f/AndroidManifest.xml:5:5-44
-MERGED from [com.google.android.gms:play-services-vision:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-vision-12.0.1.aar/f1b7dc935c15cf71ca0cba489dae1d2f/AndroidManifest.xml:5:5-44
-MERGED from [com.google.firebase:firebase-messaging:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-messaging-12.0.1.aar/6837ce70d13971ed638f20e973395c1f/AndroidManifest.xml:20:5-44
-MERGED from [com.google.firebase:firebase-messaging:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-messaging-12.0.1.aar/6837ce70d13971ed638f20e973395c1f/AndroidManifest.xml:20:5-44
-MERGED from [com.google.firebase:firebase-analytics:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-analytics-12.0.1.aar/9fffe6f5726c57e731c3bbc0370bb8fc/AndroidManifest.xml:20:5-44
-MERGED from [com.google.firebase:firebase-analytics:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-analytics-12.0.1.aar/9fffe6f5726c57e731c3bbc0370bb8fc/AndroidManifest.xml:20:5-44
-MERGED from [com.google.firebase:firebase-analytics-impl:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-analytics-impl-12.0.1.aar/d3d805c87962f1abf025664136c4966e/AndroidManifest.xml:20:5-44
-MERGED from [com.google.firebase:firebase-analytics-impl:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-analytics-impl-12.0.1.aar/d3d805c87962f1abf025664136c4966e/AndroidManifest.xml:20:5-44
-MERGED from [com.google.firebase:firebase-iid:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-iid-12.0.1.aar/7ffc15850b7f207777d08c2c74e51acd/AndroidManifest.xml:20:5-44
-MERGED from [com.google.firebase:firebase-iid:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-iid-12.0.1.aar/7ffc15850b7f207777d08c2c74e51acd/AndroidManifest.xml:20:5-44
-MERGED from [com.google.firebase:firebase-common:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-common-12.0.1.aar/7c9209b8ab7b5c864e15884b09a9c71b/AndroidManifest.xml:5:5-44
-MERGED from [com.google.firebase:firebase-common:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-common-12.0.1.aar/7c9209b8ab7b5c864e15884b09a9c71b/AndroidManifest.xml:5:5-44
-MERGED from [com.google.android.gms:play-services-auth-api-phone:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-auth-api-phone-12.0.1.aar/ee3013827047628053ee19d90a05079c/AndroidManifest.xml:5:5-44
-MERGED from [com.google.android.gms:play-services-auth-api-phone:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-auth-api-phone-12.0.1.aar/ee3013827047628053ee19d90a05079c/AndroidManifest.xml:5:5-44
-MERGED from [com.google.android.gms:play-services-vision-common:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-vision-common-12.0.1.aar/9def768909aaeba3a3de63b184a8e733/AndroidManifest.xml:5:5-44
-MERGED from [com.google.android.gms:play-services-vision-common:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-vision-common-12.0.1.aar/9def768909aaeba3a3de63b184a8e733/AndroidManifest.xml:5:5-44
-MERGED from [com.google.android.gms:play-services-identity:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-identity-12.0.1.aar/3d60c823a3690e829a4ea06bf2febe7f/AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-identity:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-identity-12.0.1.aar/3d60c823a3690e829a4ea06bf2febe7f/AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-tagmanager-v4-impl:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-tagmanager-v4-impl-12.0.1.aar/338fc1158deadab552af7089610d5962/AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-tagmanager-v4-impl:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-tagmanager-v4-impl-12.0.1.aar/338fc1158deadab552af7089610d5962/AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-iid:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-iid-12.0.1.aar/72942504a9e1f24c8f04d620cbe8b03b/AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-iid:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-iid-12.0.1.aar/72942504a9e1f24c8f04d620cbe8b03b/AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-analytics-impl:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-analytics-impl-12.0.1.aar/aea282446874ce2ebf7a5d4be8bf7283/AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-analytics-impl:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-analytics-impl-12.0.1.aar/aea282446874ce2ebf7a5d4be8bf7283/AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-auth-base:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-auth-base-12.0.1.aar/731802570b1bc8a9f0196897a8d08c23/AndroidManifest.xml:5:5-44
-MERGED from [com.google.android.gms:play-services-auth-base:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-auth-base-12.0.1.aar/731802570b1bc8a9f0196897a8d08c23/AndroidManifest.xml:5:5-44
-MERGED from [com.google.android.gms:play-services-base:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-base-12.0.1.aar/663a776742e8372c0700d816a81da544/AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-base:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-base-12.0.1.aar/663a776742e8372c0700d816a81da544/AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-tasks:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-tasks-12.0.1.aar/4e483d23f81b1cc14d3895bd704673b5/AndroidManifest.xml:5:5-44
-MERGED from [com.google.android.gms:play-services-tasks:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-tasks-12.0.1.aar/4e483d23f81b1cc14d3895bd704673b5/AndroidManifest.xml:5:5-44
-MERGED from [com.google.android.gms:play-services-ads-lite:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-ads-lite-12.0.1.aar/d91f147e09da474356198d8dc4d56902/AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-ads-lite:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-ads-lite-12.0.1.aar/d91f147e09da474356198d8dc4d56902/AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-gass:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-gass-12.0.1.aar/9cddc06b7ab3a6255a942d0a41373168/AndroidManifest.xml:5:5-44
-MERGED from [com.google.android.gms:play-services-gass:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-gass-12.0.1.aar/9cddc06b7ab3a6255a942d0a41373168/AndroidManifest.xml:5:5-44
-MERGED from [com.google.android.gms:play-services-basement:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-basement-12.0.1.aar/ca000ba3581de9d31e6d9006e44903d1/AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-basement:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-basement-12.0.1.aar/ca000ba3581de9d31e6d9006e44903d1/AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-v4:26.1.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/support-v4-26.1.0.aar/14ba1df2573f033ba7bd4b3c49a33b7c/AndroidManifest.xml:21:5-23:54
-MERGED from [com.android.support:support-v4:26.1.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/support-v4-26.1.0.aar/14ba1df2573f033ba7bd4b3c49a33b7c/AndroidManifest.xml:21:5-23:54
 MERGED from [com.android.support:support-media-compat:26.1.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/support-media-compat-26.1.0.aar/2ce4328e00ff04c1a3266ad1e7620e76/AndroidManifest.xml:21:5-23:63
 MERGED from [com.android.support:support-media-compat:26.1.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/support-media-compat-26.1.0.aar/2ce4328e00ff04c1a3266ad1e7620e76/AndroidManifest.xml:21:5-23:63
 MERGED from [com.android.support:support-fragment:27.1.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/support-fragment-27.1.1.aar/cce2f8780bc9a873ee725d5a7cfb501c/AndroidManifest.xml:20:5-44
@@ -1037,8 +1056,6 @@ MERGED from [com.facebook.soloader:soloader:0.1.0] /Users/valentin/.gradle/cache
 MERGED from [com.facebook.soloader:soloader:0.1.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/soloader-0.1.0.aar/9fff7a34e8c7101376f2e9002605438f/AndroidManifest.xml:2:3-70
 MERGED from [com.crashlytics.sdk.android:crashlytics:2.5.5] /Users/valentin/.gradle/caches/transforms-1/files-1.1/crashlytics-2.5.5.aar/fc9407dae70e3432f801c983d5e511e5/AndroidManifest.xml:7:5-43
 MERGED from [com.crashlytics.sdk.android:crashlytics:2.5.5] /Users/valentin/.gradle/caches/transforms-1/files-1.1/crashlytics-2.5.5.aar/fc9407dae70e3432f801c983d5e511e5/AndroidManifest.xml:7:5-43
-MERGED from [com.google.maps.android:android-maps-utils:0.5] /Users/valentin/.gradle/caches/transforms-1/files-1.1/android-maps-utils-0.5.aar/7f648a2645295dbabb2ae4c9e36d3b71/AndroidManifest.xml:5:5-43
-MERGED from [com.google.maps.android:android-maps-utils:0.5] /Users/valentin/.gradle/caches/transforms-1/files-1.1/android-maps-utils-0.5.aar/7f648a2645295dbabb2ae4c9e36d3b71/AndroidManifest.xml:5:5-43
 MERGED from [com.facebook.fresco:drawee:1.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/drawee-1.0.1.aar/3aa1a2b5f268ee5c44483d680e048dca/AndroidManifest.xml:5:5-7:41
 MERGED from [com.facebook.fresco:drawee:1.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/drawee-1.0.1.aar/3aa1a2b5f268ee5c44483d680e048dca/AndroidManifest.xml:5:5-7:41
 MERGED from [com.facebook.fresco:animated-base:1.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/animated-base-1.0.1.aar/2674a6c7207687e71f7193f603766a39/AndroidManifest.xml:5:5-7:41
@@ -1075,14 +1092,24 @@ MERGED from [com.google.firebase:firebase-iid-license:12.0.1] /Users/valentin/.g
 MERGED from [com.google.firebase:firebase-iid-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-iid-license-12.0.1.aar/c50e31383fa7923b8414cc04df4a37a2/AndroidManifest.xml:20:5-44
 MERGED from [com.google.firebase:firebase-common-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-common-license-12.0.1.aar/4ba10210095b27ed3148cd005cbb9144/AndroidManifest.xml:20:5-44
 MERGED from [com.google.firebase:firebase-common-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-common-license-12.0.1.aar/4ba10210095b27ed3148cd005cbb9144/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-maps-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-maps-license-12.0.1.aar/c3e1733a4bc67235229d972d290366f7/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-maps-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-maps-license-12.0.1.aar/c3e1733a4bc67235229d972d290366f7/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata-core:1.1.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/livedata-core-1.1.0.aar/0b332cb24b4f5d39edc022bf75f52f40/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata-core:1.1.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/livedata-core-1.1.0.aar/0b332cb24b4f5d39edc022bf75f52f40/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:viewmodel:1.1.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/viewmodel-1.1.0.aar/dfab59eb89fdea2dfb0242efa08557e5/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:viewmodel:1.1.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/viewmodel-1.1.0.aar/dfab59eb89fdea2dfb0242efa08557e5/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.1.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/runtime-1.1.0.aar/1a0f6916e66f4f19fb5cad07cc22be7f/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.1.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/runtime-1.1.0.aar/1a0f6916e66f4f19fb5cad07cc22be7f/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.core:runtime:1.1.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/runtime-1.1.0.aar/9db7ac7965fdbb8170815e5bead3979b/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.core:runtime:1.1.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/runtime-1.1.0.aar/9db7ac7965fdbb8170815e5bead3979b/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-base-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-base-license-12.0.1.aar/033235915212b23d65b0b2daaa78bb64/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-base-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-base-license-12.0.1.aar/033235915212b23d65b0b2daaa78bb64/AndroidManifest.xml:20:5-44
 MERGED from [com.google.android.gms:play-services-gcm-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-gcm-license-12.0.1.aar/f54b2067d7b17866b64ade2eb381bff3/AndroidManifest.xml:20:5-44
 MERGED from [com.google.android.gms:play-services-gcm-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-gcm-license-12.0.1.aar/f54b2067d7b17866b64ade2eb381bff3/AndroidManifest.xml:20:5-44
 MERGED from [com.google.android.gms:play-services-analytics-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-analytics-license-12.0.1.aar/2c19770f4f92e40652d18ac854ed6151/AndroidManifest.xml:20:5-44
 MERGED from [com.google.android.gms:play-services-analytics-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-analytics-license-12.0.1.aar/2c19770f4f92e40652d18ac854ed6151/AndroidManifest.xml:20:5-44
 MERGED from [com.google.android.gms:play-services-tagmanager-v4-impl-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-tagmanager-v4-impl-license-12.0.1.aar/c9484009e441d29ba7e0e6a786cdce07/AndroidManifest.xml:20:5-44
 MERGED from [com.google.android.gms:play-services-tagmanager-v4-impl-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-tagmanager-v4-impl-license-12.0.1.aar/c9484009e441d29ba7e0e6a786cdce07/AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-maps-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-maps-license-12.0.1.aar/c3e1733a4bc67235229d972d290366f7/AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-maps-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-maps-license-12.0.1.aar/c3e1733a4bc67235229d972d290366f7/AndroidManifest.xml:20:5-44
 MERGED from [com.google.android.gms:play-services-auth-api-phone-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-auth-api-phone-license-12.0.1.aar/ed3cf0109aba7d32527b3c3666e2cb38/AndroidManifest.xml:20:5-44
 MERGED from [com.google.android.gms:play-services-auth-api-phone-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-auth-api-phone-license-12.0.1.aar/ed3cf0109aba7d32527b3c3666e2cb38/AndroidManifest.xml:20:5-44
 MERGED from [com.google.android.gms:play-services-location-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-location-license-12.0.1.aar/29ac1aceb9eafc8a3e35b80b2b21773b/AndroidManifest.xml:20:5-44
@@ -1093,18 +1120,8 @@ MERGED from [com.google.firebase:firebase-analytics-license:12.0.1] /Users/valen
 MERGED from [com.google.firebase:firebase-analytics-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-analytics-license-12.0.1.aar/a4760c7c681ceed44199a03c69a17add/AndroidManifest.xml:20:5-44
 MERGED from [com.google.firebase:firebase-analytics-impl-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-analytics-impl-license-12.0.1.aar/7de182f570beb396a38322ad7671f90f/AndroidManifest.xml:20:5-44
 MERGED from [com.google.firebase:firebase-analytics-impl-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-analytics-impl-license-12.0.1.aar/7de182f570beb396a38322ad7671f90f/AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-base-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-base-license-12.0.1.aar/033235915212b23d65b0b2daaa78bb64/AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-base-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-base-license-12.0.1.aar/033235915212b23d65b0b2daaa78bb64/AndroidManifest.xml:20:5-44
 MERGED from [com.google.android.gms:play-services-basement-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-basement-license-12.0.1.aar/60b9c9a9348589463e8652f45ea2e979/AndroidManifest.xml:20:5-44
 MERGED from [com.google.android.gms:play-services-basement-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-basement-license-12.0.1.aar/60b9c9a9348589463e8652f45ea2e979/AndroidManifest.xml:20:5-44
-MERGED from [android.arch.lifecycle:livedata-core:1.1.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/livedata-core-1.1.0.aar/0b332cb24b4f5d39edc022bf75f52f40/AndroidManifest.xml:20:5-44
-MERGED from [android.arch.lifecycle:livedata-core:1.1.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/livedata-core-1.1.0.aar/0b332cb24b4f5d39edc022bf75f52f40/AndroidManifest.xml:20:5-44
-MERGED from [android.arch.lifecycle:viewmodel:1.1.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/viewmodel-1.1.0.aar/dfab59eb89fdea2dfb0242efa08557e5/AndroidManifest.xml:20:5-44
-MERGED from [android.arch.lifecycle:viewmodel:1.1.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/viewmodel-1.1.0.aar/dfab59eb89fdea2dfb0242efa08557e5/AndroidManifest.xml:20:5-44
-MERGED from [android.arch.lifecycle:runtime:1.1.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/runtime-1.1.0.aar/1a0f6916e66f4f19fb5cad07cc22be7f/AndroidManifest.xml:20:5-44
-MERGED from [android.arch.lifecycle:runtime:1.1.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/runtime-1.1.0.aar/1a0f6916e66f4f19fb5cad07cc22be7f/AndroidManifest.xml:20:5-44
-MERGED from [android.arch.core:runtime:1.1.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/runtime-1.1.0.aar/9db7ac7965fdbb8170815e5bead3979b/AndroidManifest.xml:20:5-44
-MERGED from [android.arch.core:runtime:1.1.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/runtime-1.1.0.aar/9db7ac7965fdbb8170815e5bead3979b/AndroidManifest.xml:20:5-44
 MERGED from [com.google.android.gms:play-services-iid-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-iid-license-12.0.1.aar/c3af4cb221876d0249cb1caee9c5cba0/AndroidManifest.xml:20:5-44
 MERGED from [com.google.android.gms:play-services-iid-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-iid-license-12.0.1.aar/c3af4cb221876d0249cb1caee9c5cba0/AndroidManifest.xml:20:5-44
 MERGED from [com.google.android.gms:play-services-analytics-impl-license:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-analytics-impl-license-12.0.1.aar/5aff3472fcac344715b874d33e5183e9/AndroidManifest.xml:20:5-44
@@ -1333,6 +1350,22 @@ ADDED from [io.nlopez.smartlocation:library:3.2.11] /Users/valentin/.gradle/cach
 		ADDED from [io.nlopez.smartlocation:library:3.2.11] /Users/valentin/.gradle/caches/transforms-1/files-1.1/library-3.2.11.aar/4e3a15571341c757b1889a41b78f6b83/AndroidManifest.xml:27:13-37
 	android:name
 		ADDED from [io.nlopez.smartlocation:library:3.2.11] /Users/valentin/.gradle/caches/transforms-1/files-1.1/library-3.2.11.aar/4e3a15571341c757b1889a41b78f6b83/AndroidManifest.xml:26:13-120
+activity#com.google.android.gms.common.api.GoogleApiActivity
+ADDED from [com.google.android.gms:play-services-base:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-base-12.0.1.aar/663a776742e8372c0700d816a81da544/AndroidManifest.xml:23:9-26:75
+	android:exported
+		ADDED from [com.google.android.gms:play-services-base:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-base-12.0.1.aar/663a776742e8372c0700d816a81da544/AndroidManifest.xml:25:13-37
+	android:theme
+		ADDED from [com.google.android.gms:play-services-base:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-base-12.0.1.aar/663a776742e8372c0700d816a81da544/AndroidManifest.xml:26:13-72
+	android:name
+		ADDED from [com.google.android.gms:play-services-base:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-base-12.0.1.aar/663a776742e8372c0700d816a81da544/AndroidManifest.xml:24:13-79
+meta-data#com.google.android.gms.version
+ADDED from [com.google.maps.android:android-maps-utils:0.5] /Users/valentin/.gradle/caches/transforms-1/files-1.1/android-maps-utils-0.5.aar/7f648a2645295dbabb2ae4c9e36d3b71/AndroidManifest.xml:8:9-10:69
+MERGED from [com.google.android.gms:play-services-basement:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-basement-12.0.1.aar/ca000ba3581de9d31e6d9006e44903d1/AndroidManifest.xml:23:9-25:69
+MERGED from [com.google.android.gms:play-services-basement:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-basement-12.0.1.aar/ca000ba3581de9d31e6d9006e44903d1/AndroidManifest.xml:23:9-25:69
+	android:value
+		ADDED from [com.google.maps.android:android-maps-utils:0.5] /Users/valentin/.gradle/caches/transforms-1/files-1.1/android-maps-utils-0.5.aar/7f648a2645295dbabb2ae4c9e36d3b71/AndroidManifest.xml:10:13-66
+	android:name
+		ADDED from [com.google.maps.android:android-maps-utils:0.5] /Users/valentin/.gradle/caches/transforms-1/files-1.1/android-maps-utils-0.5.aar/7f648a2645295dbabb2ae4c9e36d3b71/AndroidManifest.xml:9:13-58
 provider#com.facebook.internal.FacebookInitProvider
 ADDED from [com.facebook.android:facebook-core:4.28.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/facebook-core-4.28.0.aar/b263bef2dd5c580c907f6617033587e4/AndroidManifest.xml:39:9-42:40
 	android:authorities
@@ -1439,14 +1472,6 @@ ADDED from [com.google.firebase:firebase-common:12.0.1] /Users/valentin/.gradle/
 		ADDED from [com.google.firebase:firebase-common:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-common-12.0.1.aar/7c9209b8ab7b5c864e15884b09a9c71b/AndroidManifest.xml:12:13-36
 	android:name
 		ADDED from [com.google.firebase:firebase-common:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/firebase-common-12.0.1.aar/7c9209b8ab7b5c864e15884b09a9c71b/AndroidManifest.xml:9:13-77
-activity#com.google.android.gms.common.api.GoogleApiActivity
-ADDED from [com.google.android.gms:play-services-base:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-base-12.0.1.aar/663a776742e8372c0700d816a81da544/AndroidManifest.xml:23:9-26:75
-	android:exported
-		ADDED from [com.google.android.gms:play-services-base:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-base-12.0.1.aar/663a776742e8372c0700d816a81da544/AndroidManifest.xml:25:13-37
-	android:theme
-		ADDED from [com.google.android.gms:play-services-base:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-base-12.0.1.aar/663a776742e8372c0700d816a81da544/AndroidManifest.xml:26:13-72
-	android:name
-		ADDED from [com.google.android.gms:play-services-base:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-base-12.0.1.aar/663a776742e8372c0700d816a81da544/AndroidManifest.xml:24:13-79
 activity#com.google.android.gms.ads.AdActivity
 ADDED from [com.google.android.gms:play-services-ads-lite:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-ads-lite-12.0.1.aar/d91f147e09da474356198d8dc4d56902/AndroidManifest.xml:29:9-33:64
 	android:exported
@@ -1457,14 +1482,6 @@ ADDED from [com.google.android.gms:play-services-ads-lite:12.0.1] /Users/valenti
 		ADDED from [com.google.android.gms:play-services-ads-lite:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-ads-lite-12.0.1.aar/d91f147e09da474356198d8dc4d56902/AndroidManifest.xml:33:13-61
 	android:name
 		ADDED from [com.google.android.gms:play-services-ads-lite:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-ads-lite-12.0.1.aar/d91f147e09da474356198d8dc4d56902/AndroidManifest.xml:30:13-65
-meta-data#com.google.android.gms.version
-ADDED from [com.google.android.gms:play-services-basement:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-basement-12.0.1.aar/ca000ba3581de9d31e6d9006e44903d1/AndroidManifest.xml:23:9-25:69
-MERGED from [com.google.maps.android:android-maps-utils:0.5] /Users/valentin/.gradle/caches/transforms-1/files-1.1/android-maps-utils-0.5.aar/7f648a2645295dbabb2ae4c9e36d3b71/AndroidManifest.xml:8:9-10:69
-MERGED from [com.google.maps.android:android-maps-utils:0.5] /Users/valentin/.gradle/caches/transforms-1/files-1.1/android-maps-utils-0.5.aar/7f648a2645295dbabb2ae4c9e36d3b71/AndroidManifest.xml:8:9-10:69
-	android:value
-		ADDED from [com.google.android.gms:play-services-basement:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-basement-12.0.1.aar/ca000ba3581de9d31e6d9006e44903d1/AndroidManifest.xml:25:13-66
-	android:name
-		ADDED from [com.google.android.gms:play-services-basement:12.0.1] /Users/valentin/.gradle/caches/transforms-1/files-1.1/play-services-basement-12.0.1.aar/ca000ba3581de9d31e6d9006e44903d1/AndroidManifest.xml:24:13-58
 meta-data#android.support.VERSION
 ADDED from [com.android.support:support-v4:26.1.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/support-v4-26.1.0.aar/14ba1df2573f033ba7bd4b3c49a33b7c/AndroidManifest.xml:26:9-28:38
 MERGED from [com.android.support:support-media-compat:26.1.0] /Users/valentin/.gradle/caches/transforms-1/files-1.1/support-media-compat-26.1.0.aar/2ce4328e00ff04c1a3266ad1e7620e76/AndroidManifest.xml:26:9-28:38

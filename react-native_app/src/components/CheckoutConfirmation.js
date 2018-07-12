@@ -77,17 +77,17 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
       console.log("conektaApi 1st: ", conektaApi);
       conektaApi.setPublicKey('key_KoqjzW5XMEVcwxdqHsCFY4Q');
       console.log("conektaApi: ", conektaApi);
-      // conektaApi.createToken({
-      //   cardNumber: '4242424242424242',
-      //   name: 'Manolo Virolo',
-      //   cvc: '111',
-      //   expMonth: '11',
-      //   expYear: '21',
-      // }, function(data){
-      //   console.log( 'DATA:', data ); // data.id to get the Token ID
-      // }, function(){
-      //   console.log( 'Error!' );
-      // });
+      conektaApi.createToken({
+        cardNumber: '4242424242424242',
+        name: 'Manolo Virolo',
+        cvc: '111',
+        expMonth: '11',
+        expYear: '21',
+      }, function(data){
+        console.log( 'Conekta DATA:', data ); // data.id to get the Token ID
+      }, function(e){
+        console.log( 'Conekta Error!', e);
+      });
       // conektaApi.token().create({
       //   cardNumber: '4242424242424242',
       //   name: 'Manolo Virolo',
