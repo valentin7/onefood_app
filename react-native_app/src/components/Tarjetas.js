@@ -141,13 +141,13 @@ export default class Tarjetas extends React.Component {
                         {item.usando ?
                           (<Text style={{fontSize: 12, color: variables.brandPrimary}}>     USANDO</Text>)
                           :
-                          (<Button onPress={() => this.usarTarjeta(key)} style={{width: 70, height: 25, marginTop: 5, marginLeft: 10, backgroundColor: variables.lighterGray, borderRadius: 6, justifyContent: 'center', position: 'absolute', right: 0}}>
+                          (<Button onPress={() => this.usarTarjeta(key)} style={{width: 70, height: 25, marginTop: 5, marginLeft: 10, backgroundColor: variables.lighterGray, borderRadius: 6, justifyContent: 'center'}}>
                             <Text style={{fontSize: 12, color: variables.darkGray}}> USAR </Text>
                           </Button>)
                         }{item.usando ?
                           (<View style={{width: 1, height: 1}}/>)
                           :
-                          (<Button onPress={() => this.removerTarjeta(key)}style={{width: 70, height: 25, marginTop: 5, marginLeft: 20, backgroundColor: variables.lighterGray, borderRadius: 6, justifyContent: 'center', position: 'absolute', right: 0}}>
+                          (<Button onPress={() => this.removerTarjeta(key)}style={{width: 70, height: 25, marginTop: 5, marginLeft: 20, backgroundColor: variables.lighterGray, borderRadius: 6, justifyContent: 'center' }}>
                           <Text style={{fontSize: 12, color: variables.darkGray}}> REMOVER </Text>
                         </Button>)}
                       </View>

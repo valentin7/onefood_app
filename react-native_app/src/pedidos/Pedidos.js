@@ -103,6 +103,32 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
       this.props.store.esRep = isRep;
       this.props.store.repPhone = phoneNumber;
     }
+    
+    @autobind @action
+    async fetchCreditCardDetails(): Promise<void> {
+      var user = Firebase.auth.currentUser;
+      // check whether we already have his credit card details.
+      const docRef = await Firebase.firestore.collection("paymentInfos").doc(user.uid);
+      var docExists = false;
+      var last4 = "";
+      await docRef.get().then(function(doc) {
+          if (doc.exists) {
+              docExists = true;
+              var tarjetas = doc.data().tarjetas;
+              for (var i = 0; i < tarjetas.length; i++) {
+                if (tarjetas[i].usando) {
+                  last4 = tarjetas[i].last4;
+                }
+              }
+          } else {
+              // doc.data() will be undefined in this case
+              console.log("No such document!");
+          }
+      }).catch(function(error) {
+          console.log("Error getting document:", error);
+      });
+      this.props.store.last4CreditCard = last4;
+    }
 
     @action
     componentDidMount() {
