@@ -103,7 +103,7 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
       this.props.store.esRep = isRep;
       this.props.store.repPhone = phoneNumber;
     }
-    
+
     @autobind @action
     async fetchCreditCardDetails(): Promise<void> {
       var user = Firebase.auth.currentUser;
@@ -138,6 +138,7 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
         this.setState({ loading: false });
       });
       this.getLocationIfEnabled();
+      this.fetchCreditCardDetails();
     }
 
     @autobind
