@@ -27,12 +27,14 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
       loading: false,
       isTarjetasOpen: false,
       last4: "",
+      direccionCompleta: "",
+      isAddressModalOpen: false,
     }
 
     componentDidMount() {
       console.log("hey watags ", this.props.isCheckoutOpen);
       this.setState({isOpen: this.props.isCheckoutOpen});
-
+      this.setState({direccionCompleta: this.props.direccionCompleta});
     //  this.setState({last4: this.props.store.last4CreditCard});
       //this.setState({last4: this.props.lastFour});
     }
@@ -71,6 +73,7 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
           user_id: user.uid,
           subscription: this.props.subscription,
           domicilio: this.props.domicilio,
+          direccionCompleta: this.state.direccionCompleta,
       };
 
       var conektaApi = new Conekta();
@@ -84,21 +87,11 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
         expMonth: '11',
         expYear: '21',
       }, function(data){
-        console.log( 'Conekta DATA:', data ); // data.id to get the Token ID
+        console.log( 'Conekta DATA SUCCESS:', data ); // data.id to get the Token ID
       }, function(e){
         console.log( 'Conekta Error!', e);
       });
-      // conektaApi.token().create({
-      //   cardNumber: '4242424242424242',
-      //   name: 'Manolo Virolo',
-      //   cvc: '111',
-      //   expMonth: '11',
-      //   expYear: '21',
-      // }, function(data){
-      //   console.log( 'Conektaa DATA:', data ); // data.id to get the Token ID
-      // }, function(){
-      //   console.log( 'Error!' );
-      // });
+
 
       this.props.store.pedidos.push(pedido);
       //console.log("DAMN ", this.props.store.pedidos);
@@ -132,6 +125,22 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
       this.setState({isTarjetasOpen: false});
     }
 
+    @autobind
+    dismissAddressModal(last4, finished, direccionCompleta) {
+      console.log("Aqui chinoo, ", last4, finished);
+
+      this.setState({isAddressModalOpen: false});
+
+      if (finished) {
+        // means they actually wanted to change it.
+        this.setState({direccionCompleta: direccionCompleta});
+        //setTimeout(() => {this.setState({isCheckoutOpen: true});}, 410);
+      } else {
+        // means they cancelled the change and address stays the same.
+        console.log("address stays the same");
+      }
+    }
+
     render(): React.Node {
       var discount = 0.00;
       var creditDisplay = "    **** "+ this.props.lastFour;
@@ -145,7 +154,11 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
       var discountedPrice = "$"+this.props.totalPrice*(1-discount);
 
       if (this.props.direccionCompleta.length > 1) {
-        descEntrega += this.props.direccionCompleta;
+        if (this.state.direccionCompleta.length > 1) {
+          descEntrega += this.state.direccionCompleta;
+        } else {
+          descEntrega += this.props.direccionCompleta;
+        }
       }
 
 
@@ -199,6 +212,9 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
                   <View style={style.section}>
                       <Text style={style.sectionTitle}>MÉTODO DE ENTREGA</Text>
                       <Text>{descEntrega}</Text>
+                      {this.props.domicilio && <Button onPress={() => this.setState({isAddressModalOpen: true})} style={{width: 150, height: 25, marginTop: 10, backgroundColor: variables.lighterGray, borderRadius: 6, justifyContent: 'center'}}>
+                        <Text style={{fontSize: 12, color: variables.darkGray}}>CAMBIAR DIRECCIÓN</Text>
+                      </Button>}
                       {this.props.domicilio && <Text>{descExtraDias}</Text>}
                   </View>
 
@@ -212,7 +228,7 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
                   <Text style={{color: 'white'}}>COMPRAR</Text>
                 </Button>
               </Container>
-              <Address ref={"modal"}></Address>
+              <Address isOpen={this.state.isAddressModalOpen} dismissModal={this.dismissAddressModal}> </Address>
       </Modal>;
     }
 }
