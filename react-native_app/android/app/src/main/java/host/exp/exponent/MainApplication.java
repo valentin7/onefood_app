@@ -8,7 +8,6 @@ import java.util.List;
 
 // Needed for `react-native link`
 // import com.facebook.react.ReactApplication;
-import com.airbnb.android.react.maps.MapsPackage;
 
 public class MainApplication extends ExpoApplication {
 
@@ -24,8 +23,7 @@ public class MainApplication extends ExpoApplication {
         // TODO: add native modules!
 
         // Needed for `react-native link`
-        // new MainReactPackage(),
-            new MapsPackage()
+        // new MainReactPackage()
     );
   }
 

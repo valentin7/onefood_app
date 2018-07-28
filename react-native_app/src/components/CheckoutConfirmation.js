@@ -12,9 +12,10 @@ import {action} from "mobx";
 import variables from "../../native-base-theme/variables/commonColor";
 import Pedidos from "../pedidos";
 import Moment from "moment";
-import Conekta from "react-native-conekta";
+//import Conekta from "Conekta";
 import localization from "moment/locale/es";
-
+//import Conekta from "./Conekta";/
+//import Conekta from "conekta-card-tokenizer";
 //import 'moment/min/moment-with-locales';
 import * as Constants from "../Constants";
 //
@@ -76,21 +77,22 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
           direccionCompleta: this.state.direccionCompleta,
       };
 
-      var conektaApi = new Conekta();
-      console.log("conektaApi 1st: ", conektaApi);
-      conektaApi.setPublicKey('key_KoqjzW5XMEVcwxdqHsCFY4Q');
-      console.log("conektaApi: ", conektaApi);
-      conektaApi.createToken({
-        cardNumber: '4242424242424242',
-        name: 'Manolo Virolo',
-        cvc: '111',
-        expMonth: '11',
-        expYear: '21',
-      }, function(data){
-        console.log( 'Conekta DATA SUCCESS:', data ); // data.id to get the Token ID
-      }, function(e){
-        console.log( 'Conekta Error!', e);
-      });
+      //var conektaApi = new Conekta();
+      //console.log("conektaApi 1st: ", conektaApi);
+      //conektaApi.setPublicKey('key_KoqjzW5XMEVcwxdqHsCFY4Q');
+      //console.log("conektaApi: ", conektaApi);
+      Conekta.setPublicKey("key_KoqjzW5XMEVcwxdqHsCFY4Q");
+      // conektaApi.createToken({
+      //   cardNumber: '4242424242424242',
+      //   name: 'Manolo Virolo',
+      //   cvc: '111',
+      //   expMonth: '11',
+      //   expYear: '21',
+      // }, function(data){
+      //   console.log( 'Conekta DATA SUCCESS:', data ); // data.id to get the Token ID
+      // }, function(e){
+      //   console.log( 'Conekta Error!', e);
+      // });
 
 
       this.props.store.pedidos.push(pedido);

@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E3D9967EE34FCF47E87C5F1584B838BB"
+               BlueprintIdentifier = "91BB4FE2B6BD3CF627E8A72F0190B263"
                BlueprintName = "ExpoKit"
                ReferencedContainer = "container:Pods.xcodeproj"
                BuildableName = "libExpoKit.a">

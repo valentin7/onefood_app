@@ -1,7 +1,7 @@
 PODS:
   - Amplitude-iOS (3.14.1)
   - Analytics (3.6.9)
-  - AppAuth (0.92.0)
+  - AppAuth (0.94.0)
   - Bolts (1.9.0):
     - Bolts/AppLinks (= 1.9.0)
     - Bolts/Tasks (= 1.9.0)
@@ -18,18 +18,58 @@ PODS:
   - CocoaLumberjack/Default (3.2.1)
   - CocoaLumberjack/Extensions (3.2.1):
     - CocoaLumberjack/Default
-  - Crashlytics (3.10.2):
-    - Fabric (~> 1.7.7)
+  - Crashlytics (3.10.5):
+    - Fabric (~> 1.7.9)
   - DoubleConversion (1.1.5)
-  - ExpoKit/Core (2.6.5):
+  - EXCamera (1.0.0):
+    - EXCore
+    - EXFaceDetectorInterface
+    - EXFileSystemInterface
+    - EXPermissionsInterface
+  - EXCameraInterface (1.0.0):
+    - EXCore
+  - EXConstants (1.0.0):
+    - EXConstantsInterface
+    - EXCore
+  - EXConstantsInterface (1.0.0):
+    - EXCore
+  - EXCore (1.0.0)
+  - EXFaceDetectorInterface (1.0.0):
+    - EXCore
+  - EXFileSystem (1.0.0):
+    - EXCore
+    - EXFileSystemInterface
+  - EXFileSystemInterface (1.0.0):
+    - EXCore
+  - EXGL (1.0.0):
+    - EXCameraInterface
+    - EXCore
+    - EXFileSystemInterface
+    - EXGL-CPP
+  - EXGL-CPP (1.0.0):
+    - EXGL-CPP/UEXGL (= 1.0.0)
+  - EXGL-CPP/UEXGL (1.0.0)
+  - EXPermissions (1.0.0):
+    - EXCore
+    - EXPermissionsInterface
+  - EXPermissionsInterface (1.0.0):
+    - EXCore
+  - ExpoKit/Core (2.7.0):
     - Amplitude-iOS (~> 3.8)
     - Analytics (~> 3.5)
     - AppAuth (~> 0.4)
     - Branch (~> 0.24.2)
     - CocoaLumberjack (~> 3.2.1)
     - Crashlytics (~> 3.8)
+    - EXCameraInterface
+    - EXConstantsInterface
+    - EXCore
+    - EXFileSystemInterface
+    - EXPermissionsInterface
+    - EXReactNativeAdapter
+    - EXSensorsInterface
     - Fabric (~> 1.6)
-    - FBAudienceNetwork (= 4.28.1)
+    - FBAudienceNetwork (= 4.99.0)
     - FBSDKCoreKit (~> 4.28)
     - FBSDKLoginKit (~> 4.28)
     - FBSDKShareKit (~> 4.28)
@@ -41,18 +81,19 @@ PODS:
     - JKBigInteger2 (= 0.0.5)
     - lottie-ios (~> 2.5.0)
     - React
-  - ExpoKit/CPP (2.6.5):
-    - ExpoKit/Core
-  - ExpoKit/GL (2.6.5):
-    - ExpoKit/CPP
-  - Fabric (1.7.7)
-  - FBAudienceNetwork (4.28.1)
-  - FBSDKCoreKit (4.34.0):
+  - EXReactNativeAdapter (1.0.0):
+    - EXCore
+    - React
+  - EXSensorsInterface (1.0.0):
+    - EXCore
+  - Fabric (1.7.9)
+  - FBAudienceNetwork (4.99.0)
+  - FBSDKCoreKit (4.35.0):
     - Bolts (~> 1.7)
-  - FBSDKLoginKit (4.34.0):
+  - FBSDKLoginKit (4.35.0):
     - FBSDKCoreKit
-  - FBSDKShareKit (4.34.0):
-    - FBSDKCoreKit (~> 4.34.0)
+  - FBSDKShareKit (4.35.0):
+    - FBSDKCoreKit (~> 4.35.0)
   - Folly (2016.09.26.00):
     - boost-for-react-native
     - DoubleConversion
@@ -150,9 +191,21 @@ PODS:
 
 DEPENDENCIES:
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
-  - ExpoKit/Core (from `http://github.com/expo/expo.git`, tag `ios/2.6.5`)
-  - ExpoKit/CPP (from `http://github.com/expo/expo.git`, tag `ios/2.6.5`)
-  - ExpoKit/GL (from `http://github.com/expo/expo.git`, tag `ios/2.6.5`)
+  - EXCamera (from `../node_modules/expo-camera/ios`)
+  - EXCameraInterface (from `../node_modules/expo-camera-interface/ios`)
+  - EXConstants (from `../node_modules/expo-constants/ios`)
+  - EXConstantsInterface (from `../node_modules/expo-constants-interface/ios`)
+  - EXCore (from `../node_modules/expo-core/ios`)
+  - EXFaceDetectorInterface (from `../node_modules/expo-face-detector-interface/ios`)
+  - EXFileSystem (from `../node_modules/expo-file-system/ios`)
+  - EXFileSystemInterface (from `../node_modules/expo-file-system-interface/ios`)
+  - EXGL (from `../node_modules/expo-gl/ios`)
+  - EXGL-CPP (from `../node_modules/expo-gl-cpp/cpp`)
+  - EXPermissions (from `../node_modules/expo-permissions/ios`)
+  - EXPermissionsInterface (from `../node_modules/expo-permissions-interface/ios`)
+  - ExpoKit/Core (from `http://github.com/expo/expo.git`, tag `ios/2.7.0`)
+  - EXReactNativeAdapter (from `../node_modules/expo-react-native-adapter/ios`)
+  - EXSensorsInterface (from `../node_modules/expo-sensors-interface/ios`)
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - React/ART (from `../node_modules/react-native`)
@@ -170,42 +223,112 @@ DEPENDENCIES:
   - React/RCTWebSocket (from `../node_modules/react-native`)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Amplitude-iOS
+    - Analytics
+    - AppAuth
+    - Bolts
+    - boost-for-react-native
+    - Branch
+    - CocoaLumberjack
+    - Crashlytics
+    - Fabric
+    - FBAudienceNetwork
+    - FBSDKCoreKit
+    - FBSDKLoginKit
+    - FBSDKShareKit
+    - Google-Maps-iOS-Utils
+    - Google-Mobile-Ads-SDK
+    - GoogleAppUtilities
+    - GoogleAuthUtilities
+    - GoogleMaps
+    - GoogleNetworkingUtilities
+    - GoogleSignIn
+    - GoogleSymbolUtilities
+    - GoogleUtilities
+    - GPUImage
+    - JKBigInteger2
+    - lottie-ios
+
 EXTERNAL SOURCES:
   DoubleConversion:
-    :podspec: ../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec
+    :podspec: "../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec"
+  EXCamera:
+    :path: "../node_modules/expo-camera/ios"
+  EXCameraInterface:
+    :path: "../node_modules/expo-camera-interface/ios"
+  EXConstants:
+    :path: "../node_modules/expo-constants/ios"
+  EXConstantsInterface:
+    :path: "../node_modules/expo-constants-interface/ios"
+  EXCore:
+    :path: "../node_modules/expo-core/ios"
+  EXFaceDetectorInterface:
+    :path: "../node_modules/expo-face-detector-interface/ios"
+  EXFileSystem:
+    :path: "../node_modules/expo-file-system/ios"
+  EXFileSystemInterface:
+    :path: "../node_modules/expo-file-system-interface/ios"
+  EXGL:
+    :path: "../node_modules/expo-gl/ios"
+  EXGL-CPP:
+    :path: "../node_modules/expo-gl-cpp/cpp"
+  EXPermissions:
+    :path: "../node_modules/expo-permissions/ios"
+  EXPermissionsInterface:
+    :path: "../node_modules/expo-permissions-interface/ios"
   ExpoKit:
     :git: http://github.com/expo/expo.git
-    :tag: ios/2.6.5
+    :tag: ios/2.7.0
+  EXReactNativeAdapter:
+    :path: "../node_modules/expo-react-native-adapter/ios"
+  EXSensorsInterface:
+    :path: "../node_modules/expo-sensors-interface/ios"
   Folly:
-    :podspec: ../node_modules/react-native/third-party-podspecs/Folly.podspec
+    :podspec: "../node_modules/react-native/third-party-podspecs/Folly.podspec"
   glog:
-    :podspec: ../node_modules/react-native/third-party-podspecs/glog.podspec
+    :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
   React:
-    :path: ../node_modules/react-native
+    :path: "../node_modules/react-native"
   yoga:
-    :path: ../node_modules/react-native/ReactCommon/yoga
+    :path: "../node_modules/react-native/ReactCommon/yoga"
 
 CHECKOUT OPTIONS:
   ExpoKit:
     :git: http://github.com/expo/expo.git
-    :tag: ios/2.6.5
+    :tag: ios/2.7.0
 
 SPEC CHECKSUMS:
   Amplitude-iOS: 4a3c8807b2ea5369dc11e87e23825bff01e5a922
   Analytics: 6541ce337e99d9f7a2240a8b3953940a7be5f998
-  AppAuth: 3f4f1d6d85ad631d0bbf15ffcdc10c447face97a
+  AppAuth: 0f099c2286a1a9754e5bd27211c43d307dc4f778
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   Branch: 0d98d22745a9b68bcb4fa6dc1c6a92b64d4fdd7b
   CocoaLumberjack: 2800c03334042fe80589423c8d80e582dcaec482
-  Crashlytics: 0360624eea1c978a743feddb2fb1ef8b37fb7a0d
+  Crashlytics: 7f2e38d302d9da96475b3d64d86fb29e31a542b7
   DoubleConversion: e22e0762848812a87afd67ffda3998d9ef29170c
-  ExpoKit: 441d1c7592f0715a5c81ac2346d7e743ac50428e
-  Fabric: bda89e242bce1b7b8ab264248cf3407774ce0095
-  FBAudienceNetwork: c0cda151bb2f7b55d1e045e59ebc81f3153989b2
-  FBSDKCoreKit: 0ff57f093b85c8c9d5aba697d3edf68a8960ce78
-  FBSDKLoginKit: 8c78f57a145afb756e4755e69195ebe08a42466e
-  FBSDKShareKit: 511d1dfc71204c0a8d69e6c5e3c964dcf0d4f3d9
+  EXCamera: a16bd0fb5db5eb71336401cd3d9444af03c1d9fb
+  EXCameraInterface: 58c53f9feaeabca7ddc71bf22690a0c9b49fdb6b
+  EXConstants: e239c6706d5968939d593d859d8144fe4884a103
+  EXConstantsInterface: 7c617b24b2cd075da04d8d3ea0b55f625f3f1dcf
+  EXCore: 70e5cb8627048c5373820d6372faa54cbefb3b12
+  EXFaceDetectorInterface: 9f895eb64ce5da86b6efc1980e293cf90c629df7
+  EXFileSystem: 02c505c7954258a3b239cdc3e3b6f956a73fd88d
+  EXFileSystemInterface: effe9ede025f8d487fbdfbc59b4e5d6fd1c6c2fd
+  EXGL: ce6f87dc239b56a0c7c8e0bcb18c96c64a6db27f
+  EXGL-CPP: a7fd8224fdc8a2503ba5531ceca1b02c4432f2b2
+  EXPermissions: 1c524493270ba64f494f805b6e0e75d4b498ecb5
+  EXPermissionsInterface: 814a15d3259873c39646ed3cfe58bb49160445c1
+  ExpoKit: b895ccc9a78de47bb463f9718f1842a6705d2517
+  EXReactNativeAdapter: 75eb0f3343ac335516c32fe4b93eb28bacac3f7b
+  EXSensorsInterface: eca1381ec807ec2439e2f1607f3fa4297deaaf20
+  Fabric: a2917d3895e4c1569b9c3170de7320ea1b1e6661
+  FBAudienceNetwork: 80275c0a28574ff5ce820abdc251d05e07e6ae7a
+  FBSDKCoreKit: 1a5b2e3ceb5ca827a53c54aa5f4a3480efff80d2
+  FBSDKLoginKit: 00a3d65d1226852f9d76dcddff01981e5e6d9c38
+  FBSDKShareKit: 2ddbd7e6432023fff957af62e23a3671b84319f7
   Folly: 211775e49d8da0ca658aebc8eab89d642935755c
   glog: 1de0bb937dccdc981596d3b5825ebfb765017ded
   Google-Maps-iOS-Utils: c32891ff472eaaa1fca032beedafa1a013af7875
@@ -223,6 +346,6 @@ SPEC CHECKSUMS:
   React: aa2040dbb6f317b95314968021bd2888816e03d5
   yoga: a23273df0088bf7f2bb7e5d7b00044ea57a2a54a
 
-PODFILE CHECKSUM: 31ba647d96a099f04dabe275ea3717d351d65734
+PODFILE CHECKSUM: 1ae9b146efc076e88fdd61635cb90688e02e6fdc
 
-COCOAPODS: 1.4.0
+COCOAPODS: 1.5.3
