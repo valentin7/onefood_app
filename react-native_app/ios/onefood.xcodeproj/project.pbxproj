@@ -17,7 +17,12 @@
 		87310B05FD0A449C84732547 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6B0DB9CD9CE046B7BB572E98 /* Ionicons.ttf */; };
 		90EE0BF35B2C43B9BECA6CD3 /* rubicon-icon-font.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BE6D918493744B818D2A325C /* rubicon-icon-font.ttf */; };
 		90F9B394BA9042D1848A09BC /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E3A8A268216C49BCB61E1372 /* EvilIcons.ttf */; };
-		A7611374210F3C940039339C /* libRNConekta.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A7611373210F3C940039339C /* libRNConekta.a */; };
+		A7611377210F45930039339C /* CalendarManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A7611376210F45930039339C /* CalendarManager.m */; };
+		A761138B210F4A680039339C /* Conekta.m in Sources */ = {isa = PBXBuildFile; fileRef = A7611385210F4A680039339C /* Conekta.m */; };
+		A761138C210F4A680039339C /* Token.m in Sources */ = {isa = PBXBuildFile; fileRef = A7611386210F4A680039339C /* Token.m */; };
+		A761138D210F4A680039339C /* Connection.m in Sources */ = {isa = PBXBuildFile; fileRef = A7611387210F4A680039339C /* Connection.m */; };
+		A761138E210F4A680039339C /* Card.m in Sources */ = {isa = PBXBuildFile; fileRef = A7611388210F4A680039339C /* Card.m */; };
+		A7611391210F4A860039339C /* RNConekta.m in Sources */ = {isa = PBXBuildFile; fileRef = A761138F210F4A860039339C /* RNConekta.m */; };
 		B501732B1DC01252003445D9 /* EXShell.plist in Resources */ = {isa = PBXBuildFile; fileRef = B501732A1DC01252003445D9 /* EXShell.plist */; };
 		B56386491DB9693800A0598C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B56386481DB9693800A0598C /* AppDelegate.m */; };
 		B56386511DB9693800A0598C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B56386501DB9693800A0598C /* Assets.xcassets */; };
@@ -34,6 +39,16 @@
 		EBB8117C1BFA0514F79CAF74 /* libPods-onefood.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C4A88D15726AD99E8A257BC7 /* libPods-onefood.a */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		A761137D210F4A150039339C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A7611378210F4A150039339C /* RNConekta.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 38F1D31C1C0B82FA0012D62E;
+			remoteInfo = RNConekta;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		2C1548D9E4CB1AEFA5CCAE6D /* Pods-onefood.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-onefood.debug.xcconfig"; path = "Pods/Target Support Files/Pods-onefood/Pods-onefood.debug.xcconfig"; sourceTree = "<group>"; };
 		360EFDE9F6AC459F86FA79E8 /* Roboto.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Roboto.ttf; path = "../node_modules/native-base/Fonts/Roboto.ttf"; sourceTree = "<group>"; };
@@ -45,8 +60,21 @@
 		6B0DB9CD9CE046B7BB572E98 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/native-base/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		6D4A573FD7A347BEA94EF278 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/native-base/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
 		A47FE4D7F70906B7DC8CE39B /* Pods-onefood.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-onefood.release.xcconfig"; path = "Pods/Target Support Files/Pods-onefood/Pods-onefood.release.xcconfig"; sourceTree = "<group>"; };
-		A761136C210F3C430039339C /* RNConekta.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNConekta.xcodeproj; path = "../node_modules/react-native-conekta/RNConekta/RNConekta.xcodeproj"; sourceTree = "<group>"; };
 		A7611373210F3C940039339C /* libRNConekta.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libRNConekta.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		A7611375210F45930039339C /* CalendarManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CalendarManager.h; path = Libraries/CalendarManager.h; sourceTree = "<group>"; };
+		A7611376210F45930039339C /* CalendarManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = CalendarManager.m; path = Libraries/CalendarManager.m; sourceTree = "<group>"; };
+		A7611378210F4A150039339C /* RNConekta.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNConekta.xcodeproj; path = Libraries/RNConekta.xcodeproj; sourceTree = "<group>"; };
+		A7611380210F4A680039339C /* Connection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Connection.h; sourceTree = "<group>"; };
+		A7611381210F4A680039339C /* Conekta.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = Conekta.xcodeproj; sourceTree = "<group>"; };
+		A7611384210F4A680039339C /* Card.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Card.h; sourceTree = "<group>"; };
+		A7611385210F4A680039339C /* Conekta.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Conekta.m; sourceTree = "<group>"; };
+		A7611386210F4A680039339C /* Token.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Token.m; sourceTree = "<group>"; };
+		A7611387210F4A680039339C /* Connection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Connection.m; sourceTree = "<group>"; };
+		A7611388210F4A680039339C /* Card.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Card.m; sourceTree = "<group>"; };
+		A7611389210F4A680039339C /* Token.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Token.h; sourceTree = "<group>"; };
+		A761138A210F4A680039339C /* Conekta.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Conekta.h; sourceTree = "<group>"; };
+		A761138F210F4A860039339C /* RNConekta.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RNConekta.m; path = Libraries/RNConekta/RNConekta.m; sourceTree = "<group>"; };
+		A7611390210F4A860039339C /* RNConekta.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RNConekta.h; path = Libraries/RNConekta/RNConekta.h; sourceTree = "<group>"; };
 		B501732A1DC01252003445D9 /* EXShell.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = EXShell.plist; sourceTree = "<group>"; };
 		B56386411DB9693800A0598C /* onefood.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = onefood.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B56386471DB9693800A0598C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -74,7 +102,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				EBB8117C1BFA0514F79CAF74 /* libPods-onefood.a in Frameworks */,
-				A7611374210F3C940039339C /* libRNConekta.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -121,9 +148,46 @@
 		8E81D27217094507BFECF457 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				A761136C210F3C430039339C /* RNConekta.xcodeproj */,
+				A761137F210F4A680039339C /* Conekta */,
+				A7611378210F4A150039339C /* RNConekta.xcodeproj */,
+				A7611375210F45930039339C /* CalendarManager.h */,
+				A7611390210F4A860039339C /* RNConekta.h */,
+				A761138F210F4A860039339C /* RNConekta.m */,
+				A7611376210F45930039339C /* CalendarManager.m */,
 			);
 			name = Libraries;
+			sourceTree = "<group>";
+		};
+		A7611379210F4A150039339C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A761137E210F4A150039339C /* libRNConekta.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A761137F210F4A680039339C /* Conekta */ = {
+			isa = PBXGroup;
+			children = (
+				A7611380210F4A680039339C /* Connection.h */,
+				A7611381210F4A680039339C /* Conekta.xcodeproj */,
+				A7611384210F4A680039339C /* Card.h */,
+				A7611385210F4A680039339C /* Conekta.m */,
+				A7611386210F4A680039339C /* Token.m */,
+				A7611387210F4A680039339C /* Connection.m */,
+				A7611388210F4A680039339C /* Card.m */,
+				A7611389210F4A680039339C /* Token.h */,
+				A761138A210F4A680039339C /* Conekta.h */,
+			);
+			name = Conekta;
+			path = Libraries/Conekta;
+			sourceTree = "<group>";
+		};
+		A7611382210F4A680039339C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		A76C4D72210CD230007B8E41 /* Recovered References */ = {
@@ -232,12 +296,32 @@
 			mainGroup = B56386381DB9693800A0598C;
 			productRefGroup = B56386421DB9693800A0598C /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = A7611382210F4A680039339C /* Products */;
+					ProjectRef = A7611381210F4A680039339C /* Conekta.xcodeproj */;
+				},
+				{
+					ProductGroup = A7611379210F4A150039339C /* Products */;
+					ProjectRef = A7611378210F4A150039339C /* RNConekta.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				B56386401DB9693800A0598C /* onefood */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		A761137E210F4A150039339C /* libRNConekta.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNConekta.a;
+			remoteRef = A761137D210F4A150039339C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		B563863F1DB9693800A0598C /* Resources */ = {
@@ -353,7 +437,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				B56386611DB96A5E00A0598C /* main.m in Sources */,
+				A761138C210F4A680039339C /* Token.m in Sources */,
+				A761138B210F4A680039339C /* Conekta.m in Sources */,
+				A7611391210F4A860039339C /* RNConekta.m in Sources */,
 				B56386491DB9693800A0598C /* AppDelegate.m in Sources */,
+				A7611377210F45930039339C /* CalendarManager.m in Sources */,
+				A761138E210F4A680039339C /* Card.m in Sources */,
+				A761138D210F4A680039339C /* Connection.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
