@@ -82,7 +82,8 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
       conektaApi.setPublicKey('key_KoqjzW5XMEVcwxdqHsCFY4Q');
       console.log("conektaApi: ", conektaApi);
       //Conekta.setPublicKey("key_KoqjzW5XMEVcwxdqHsCFY4Q");
-      conektaApi.createToken({
+      var conektaToken = "";
+      await conektaApi.createToken({
         cardNumber: '4242424242424242',
         name: 'Manolo Virolo',
         cvc: '111',
@@ -90,9 +91,32 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
         expYear: '21',
       }, function(data){
         console.log( 'Conekta DATA SUCCESS:', data ); // data.id to get the Token ID
+        conektaToken = data.id;
       }, function(e){
         console.log( 'Conekta Error!', e);
       });
+
+      try {
+        let response = await fetch('https://d88zd3d2ok.execute-api.us-east-1.amazonaws.com/production/charges', {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            token: conektaToken,
+            type: 'onlyCharge',
+          }),
+        });
+        let responseJSON = await response.json();
+
+        console.log("responseJSON is: ", responseJSON);
+
+
+      } catch (error) {
+        console.error(error);
+      }
+
 
 
       this.props.store.pedidos.push(pedido);

@@ -4,9 +4,12 @@
   "description": "Serverless para pagos por Conekta.",
   "main": "createCharge.js",
   "dependencies": {
+    "body-parser": "^1.18.3",
+    "conekta": "^3.3.1",
     "config": "^1.24.0",
+    "express": "^4.16.3",
     "js-yaml": "^3.7.0",
-    "conekta": "^3.3.1"
+    "serverless-http": "^1.6.0"
   },
   "devDependencies": {},
   "scripts": {
