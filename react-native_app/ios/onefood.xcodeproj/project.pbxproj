@@ -17,6 +17,7 @@
 		87310B05FD0A449C84732547 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6B0DB9CD9CE046B7BB572E98 /* Ionicons.ttf */; };
 		90EE0BF35B2C43B9BECA6CD3 /* rubicon-icon-font.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BE6D918493744B818D2A325C /* rubicon-icon-font.ttf */; };
 		90F9B394BA9042D1848A09BC /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E3A8A268216C49BCB61E1372 /* EvilIcons.ttf */; };
+		A7611374210F3C940039339C /* libRNConekta.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A7611373210F3C940039339C /* libRNConekta.a */; };
 		B501732B1DC01252003445D9 /* EXShell.plist in Resources */ = {isa = PBXBuildFile; fileRef = B501732A1DC01252003445D9 /* EXShell.plist */; };
 		B56386491DB9693800A0598C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B56386481DB9693800A0598C /* AppDelegate.m */; };
 		B56386511DB9693800A0598C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B56386501DB9693800A0598C /* Assets.xcassets */; };
@@ -44,6 +45,8 @@
 		6B0DB9CD9CE046B7BB572E98 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/native-base/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		6D4A573FD7A347BEA94EF278 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/native-base/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
 		A47FE4D7F70906B7DC8CE39B /* Pods-onefood.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-onefood.release.xcconfig"; path = "Pods/Target Support Files/Pods-onefood/Pods-onefood.release.xcconfig"; sourceTree = "<group>"; };
+		A761136C210F3C430039339C /* RNConekta.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNConekta.xcodeproj; path = "../node_modules/react-native-conekta/RNConekta/RNConekta.xcodeproj"; sourceTree = "<group>"; };
+		A7611373210F3C940039339C /* libRNConekta.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libRNConekta.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		B501732A1DC01252003445D9 /* EXShell.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = EXShell.plist; sourceTree = "<group>"; };
 		B56386411DB9693800A0598C /* onefood.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = onefood.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B56386471DB9693800A0598C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -71,6 +74,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EBB8117C1BFA0514F79CAF74 /* libPods-onefood.a in Frameworks */,
+				A7611374210F3C940039339C /* libRNConekta.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,6 +85,7 @@
 			isa = PBXGroup;
 			children = (
 				C4A88D15726AD99E8A257BC7 /* libPods-onefood.a */,
+				A7611373210F3C940039339C /* libRNConekta.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -116,6 +121,7 @@
 		8E81D27217094507BFECF457 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				A761136C210F3C430039339C /* RNConekta.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
