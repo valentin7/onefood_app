@@ -80,6 +80,16 @@ export default class Tarjetas extends React.Component {
       tarjetas[index].usando = true;
       this.props.store.last4CreditCard = tarjetas[index].last4;
 
+      // conekta cambiar a default payment source
+      //       conekta.Customer.find('cus_2gJHRkVXdMeoezZnA', function(err, customer) {
+      // 	var srcId = customer.toObject().payment_sources.data[0].id;
+      // 	customer.update({
+      // 		default_payment_source_id: srcId
+      // 	}, function(err, customer) {
+      // 		console.log(customer.toObject());
+      // 	});
+      // });
+
       this.setState({tarjetas: tarjetas});
     }
 

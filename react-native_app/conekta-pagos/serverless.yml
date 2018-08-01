@@ -68,6 +68,16 @@ functions:
       events:
         - http: 'POST /createCharge'
 
+  createOrder:
+      handler: createCharge.handler
+      events:
+        - http: 'POST /createOrder'
+
+  createCustomer:
+      handler: createCharge.handler
+      events:
+        - http: 'POST /createCustomer'
+
   hello:
     handler: handler.hello
 

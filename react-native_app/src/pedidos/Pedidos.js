@@ -86,11 +86,9 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
       await docRef.get().then(function(doc) {
           if (doc.exists) {
               docExists = true;
-              console.log("acuyo Doc exists!!  data:", doc.data());
               isRep = doc.data().esRep;
               if (isRep) {
                 phoneNumber = doc.data().phone;
-                console.log("werejo ", phoneNumber);
               }
           } else {
               console.log("No such document!");
@@ -99,7 +97,6 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
           console.log("Error getting document:", error);
       });
 
-      console.log("es rep firebase? ", isRep);
       this.props.store.esRep = isRep;
       this.props.store.repPhone = phoneNumber;
     }
@@ -145,15 +142,12 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
     async getLocationIfEnabled(): Promise<void> {
       let { status } = await Permissions.askAsync(Permissions.LOCATION);
       if (status == 'granted') {
-
-        console.log("giving it away here boi");
         let location = await Location.getCurrentPositionAsync({});
         this.props.store.userLocationOnMap = location;
       }
     }
 
     open(pedidoInfo) {
-      console.log("pedidoInfo is ", pedidoInfo);
       this.setState({selectedPedido: pedidoInfo});
       this.refs.pedidoModal.open();
     }
@@ -174,8 +168,8 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
     }
 
     render(): React.Node {
-        console.log("rendering pedidoss ", this.props.store.pedidos);
-        console.log("historial: ", this.state.pedidosHistorial);
+        //console.log("rendering pedidoss ", this.props.store.pedidos);
+        //console.log("historial: ", this.state.pedidosHistorial);
         //var user = Firebase.auth.currentUser;
         var welcomeMessage = "Bienvenid@, ahora eres parte de la familia OneFood.";
         if (this.state.usersName.length > 1) {

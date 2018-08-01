@@ -9,13 +9,24 @@ import {BaseContainer, Images, Styles, Firebase} from "../components";
 import type {ScreenProps} from "../components/Types";
 import Modal from 'react-native-modalbox';
 import variables from "../../native-base-theme/variables/commonColor";
+import { observer, inject } from "mobx-react/native";
+import {action} from "mobx";
+import Conekta from "react-native-conekta";
 
+@inject('store') @observer
 export default class CreditCard extends React.Component {
 
     state = {
       subscription: false,
       isOpen: false,
       last_four: "0000",
+      cardNumner: "",
+      cvc: "",
+      expMonth: "",
+      expYear: "",
+      cardholderName: "",
+      conektaCustomerId: "",
+
       loading: false,
       tarjetas: [],
       guardoTarjeta: false,
@@ -30,6 +41,7 @@ export default class CreditCard extends React.Component {
       }
     }
     componentDidMount() {
+      //this.refs.CCInput.setValues({name: })
       this.refreshTarjetas()
     }
 
@@ -39,6 +51,103 @@ export default class CreditCard extends React.Component {
 
     open() {
       this.setState({isOpen: true});
+    }
+
+    // checks if customer is already a Conekta customer; if so, adds new payment method to customer and sets it as default.
+    // if it's not a Conekta customer, it creates a Conekta customer, saves the id to Firebase and singleton storage, and returns that id.
+    @autobind @action
+    async getCustomerId(): Promise<void> {
+      var user = Firebase.auth.currentUser;
+      var conektaCustomerId = undefined;
+
+      //return new Promise(async (resolve, reject) => {
+        // check if customer already has a Conekta Id
+      const docRef = await Firebase.firestore.collection("usersInfo").doc(user.uid);
+      await docRef.get().then(function(doc) {
+        if (doc.exists) {
+            console.log("el wey existe!!  data:", doc.data());
+            conektaCustomerId = doc.data().conektaCustomerId;
+            if (conektaCustomerId) {
+              console.log("y su customer id existe! , ", conektaCustomerId);
+              return;
+            }
+        } else {
+            console.log("No conektaCustomerId!");
+        }
+
+      }).catch(function(error) {
+        console.log("Error getting document:", error);
+      });
+
+
+      console.log("pasando a la seccion que no deberia de haber conektaCustomerId: ", conektaCustomerId);
+
+      if (conektaCustomerId.length > 1) {
+        this.setState({conektaCustomerId: conektaCustomerId});
+        // aca agregar nuevo payment method a Conekta y ponerlo como default.
+        // El otro lugar que se cambia de payment method (ya no agregarlo) seria en "usar" tarjeta en Tarjetas.js
+        return;
+      }
+      // send request to AWS lambda to create customer.
+      var conektaApi = new Conekta();
+      conektaApi.setPublicKey('key_KoqjzW5XMEVcwxdqHsCFY4Q');
+      var conektaToken = "";
+      await conektaApi.createToken({
+        cardNumber: this.state.cardNumber,
+        cvc: this.state.cvc,
+        expMonth: this.state.expMonth,
+        expYear: this.state.expYear,
+      }, async function(data){
+        console.log( 'Conekta TOKEN DATA SUCCESS:', data ); // data.id to get the Token ID
+        conektaToken = data.id;
+
+        console.log("intentando con el token asi: ", conektaToken);
+          try {
+            let response = await fetch('https://d88zd3d2ok.execute-api.us-east-1.amazonaws.com/production/createCustomer', {
+              method: 'POST',
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                token: conektaToken,
+                name: user.displayName,
+                email: user.email,
+              }),
+            });
+            let responseJSON = await response.json();
+            console.log("responseJSON is: ", responseJSON);
+
+            if (responseJSON.message != "Customer creation successful") {
+              console.log("hubo error al crear usuario ", responseJSON.message);
+              //reject(responseJSON.message);
+            } else {
+              conektaCustomerId = responseJSON.customer.id;
+
+              await Firebase.firestore.collection("usersInfo").doc(user.uid).update({conektaCustomerId: conektaCustomerId})
+              .then(function() {
+                  console.log("Updated el conektaCustomerId");
+              })
+              .catch(function(error) {
+                  console.error("Error updating conektaCustomerId: ", error.message);
+                  //Alert.alert("Hubo un error al actualizar el código", error.message);
+              });
+            }
+            //resolve(conektaCustomerId);
+          } catch (error) {
+            console.error(error);
+            //reject(error.message);
+          }
+
+      }, function(e){
+        console.log( 'Conekta Error!', e);
+      });
+
+      console.log("listo aca??? ", conektaCustomerId);
+      this.setState({conektaCustomerId: conektaCustomerId});
+      this.props.store.conektaCustomerId = conektaCustomerId;
+
+      //});
     }
 
     @autobind
@@ -64,10 +173,21 @@ export default class CreditCard extends React.Component {
     }
 
     @autobind
+    testFunction() {
+      console.log("heyy");
+    }
+
+    @autobind
     async guardarTarjeta(): Promise<void> {
       // guardar credit card details
       this.setState({loading: true});
       var user = Firebase.auth.currentUser;
+
+      //testFunction();
+      console.log("conektaCustomerId before: ", this.state.conektaCustomerId);
+      await this.getCustomerId();
+      console.log("conektaCustomerId is: ", this.state.conektaCustomerId);
+      this.props.store.conektaCustomerId = this.state.conektaCustomerId;
 
       var tarjetas = this.state.tarjetas;
       for (var i = 0; i < tarjetas.length; i++) {
@@ -108,13 +228,21 @@ export default class CreditCard extends React.Component {
       var currNumber = info.values.number;
       console.log("paymentChange" , currNumber);
 
+
       if (currNumber.length > 4) {
         var last4 = currNumber.slice(-4);
-        this.setState({last_four: last4});
+        this.setState({last_four: last4, });
       }
 
+      var expMonth = info.values.expiry.split("/")[0];
+      var expYear = info.values.expiry.split("/")[1];
+
+      this.setState({cardNumber: currNumber, expMonth: expMonth, expYear: expYear, cvc: info.values.cvc});
+
       var cvcStatus = info.status.cvc;
-      if (cvcStatus == "valid") {
+      var expiryStatus = info.status.expiry;
+      var numberStatus = info.status.number;
+      if (cvcStatus == "valid" && expiryStatus == "valid" && numberStatus == "valid") {
         this.setState({isGuardarDisabled: false});
       }
     }
@@ -135,7 +263,7 @@ export default class CreditCard extends React.Component {
                       <Right />
                   </Header>
                   <Content style={style.content}>
-                   {Platform.OS == "android" ? <LiteCreditCardInput ref="CCInput" onChange={this.paymentOnChange} autoFocus={false} labelStyle={style.whiteStyle} inputStyle={style.whiteStyle}/> : <CreditCardInput ref="CCInput" onChange={this.paymentOnChange} autoFocus={false} labelStyle={style.whiteStyle} inputStyle={style.whiteStyle}/>}
+                    {Platform.OS == "android" ? <LiteCreditCardInput ref="CCInput" onChange={this.paymentOnChange} autoFocus={false} labelStyle={style.whiteStyle} inputStyle={style.whiteStyle}/> : <CreditCardInput ref="CCInput" onChange={this.paymentOnChange} autoFocus={false} labelStyle={style.whiteStyle} inputStyle={style.whiteStyle}/>}
                    <ActivityIndicator size="large" animating={this.state.loading}/>
                    <Button disabled={this.state.isGuardarDisabled} primary block onPress={this.guardarTarjeta} style={{ height: variables.footerHeight * 1.3, }}>
                      <Text style={{color: 'white'}}>GUARDAR</Text>
@@ -147,6 +275,8 @@ export default class CreditCard extends React.Component {
     }
 }
 
+
+// nombre del titular de la tarjeta
 const {width} = Dimensions.get("window");
 const style = StyleSheet.create({
   modal: {

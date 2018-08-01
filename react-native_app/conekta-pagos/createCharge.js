@@ -21,19 +21,106 @@ app.get("/", function(req, res) {
   res.send("Woahhh si");
 });
 
+app.post("/createCustomer", function(request, response) {
+  //console.log("the full request is: ", request);
+  console.log("the full body is ", request.body);
+  const token = request.body.token;
+  const name = request.body.name;
+  const email = request.body.email;
+
+  return conekta.Customer.create({
+    'name': name,
+    'email': email,
+    'payment_sources': [{
+      'type': 'card',
+      'token_id': token
+    }]
+  }, function(err, res) {
+      if(err) {
+        console.log(err);
+        err.status(500).json({error: err.message});
+        return;
+      }
+      var customer = res.toObject();
+      console.log("successfully created customer: ", customer);
+      response.status(200).json({message: "Customer creation successful", customer});
+  });
+});
+
+app.post("/createOrder", function(request, response) {
+  //console.log("the full request is: ", request);
+  console.log("the full body is ", request.body);
+  const customerInfo = request.body.customerInfo;
+  const lineItems = request.body.lineItems;
+  const discountLines = request.body.discountLines;
+  //const liveMode = request.body.liveMode;
+  const entregaADomicilio = request.body.domicilio;
+  const shippingContact = request.body.shippingContact;
+  const metadata = request.body.metadata;
+
+  var orderObject = {
+    'line_items': lineItems,
+    'currency': 'MXN',
+    'customer_info': customerInfo,
+    'discount_lines': discountLines,
+    'metadata': metadata,
+    'entrega_a_domicilio': entregaADomicilio,
+    'charges': [{
+      'payment_method': {
+        'type': 'default'
+      }
+    }],
+    'shipping_contact': shippingContact,
+    'shipping_lines': [{
+      'amount': 0,
+      'carrier': 'FEDEX'
+    }],
+  };
+
+  // if (entregaADomicilio) {
+  //   orderObject["shipping_contact"] = shippingContact;
+  //   orderObject["shipping_lines"] = [{
+  //     'amount': 0,
+  //     'carrier': 'FEDEX'
+  //   }];
+  // } else {
+  //   orderObject["shipping_contact"] = {address: {
+  //           street1: "El usuario lo recoge",
+  //           city: "Ciudad de Mexico",
+  //           state: "Ciudad de Mexico",
+  //           country: "mx",
+  //           postal_code: "78215"
+  //       }};
+  //   orderObject["shipping_lines"] = [{
+  //     'amount': 0,
+  //     'carrier': 'FEDEX'
+  //   }];
+  // }
+
+  return conekta.Order.create(orderObject, function(err, res) {
+      if(err) {
+        console.log("errorrr es ", err);
+        response.json({error: err.message, message: err.details[0].message});
+        return;
+      }
+      var order = res.toObject();
+      console.log("successfully created order!: ", order);
+      response.status(200).json({message: "Order made succesfully", order});
+  });
+});
+
 app.post("/createCharge", function(request, response) {
   console.log("the full body is ", request.body);
   const token = request.body.token;
-  const type = request.body.type;
+  const customerId = request.body.customerId;
+  const name = request.body.name;
+  const email = request.body.email;
 
   return conekta.Order.create({
         "currency": "MXN",
         "customer_info": {
             "name": "Charls Crypto",
-            "phone": "+5215555555555",
             "email": "jul@conekta.io",
-            "type": type,
-            "token": token
         },
         "line_items": [{
             "name": "OneFood",
@@ -58,7 +145,7 @@ app.post("/createCharge", function(request, response) {
             //  };
              //callback(null, response);
 
-             res.status(500).json({error: err.message});
+             err.status(500).json({error: err.message});
             return;
         }
         // successfully made the charge

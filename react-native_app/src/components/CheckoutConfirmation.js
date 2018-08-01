@@ -14,11 +14,7 @@ import Pedidos from "../pedidos";
 import Moment from "moment";
 import Conekta from "react-native-conekta";
 import localization from "moment/locale/es";
-//import Conekta from "./Conekta";/
-//import Conekta from "conekta-card-tokenizer";
-//import 'moment/min/moment-with-locales';
 import * as Constants from "../Constants";
-//
 
 @inject('store') @observer
 export default class CheckoutConfirmation extends React.Component<ScreenProps<>> {
@@ -36,8 +32,7 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
       console.log("hey watags ", this.props.isCheckoutOpen);
       this.setState({isOpen: this.props.isCheckoutOpen});
       this.setState({direccionCompleta: this.props.direccionCompleta});
-    //  this.setState({last4: this.props.store.last4CreditCard});
-      //this.setState({last4: this.props.lastFour});
+      this.updateCustomerId();
     }
 
     componentWillMount() {
@@ -48,8 +43,28 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
 
     @autobind
     open() {
-      //this.setState({isOpen: true});
       this.props.onOpenChange(true);
+    }
+
+    @autobind @action
+    async updateCustomerId(): Promise<void> {
+      var user = Firebase.auth.currentUser;
+
+      const docRef = await Firebase.firestore.collection("usersInfo").doc(user.uid);
+      var docExists = false;
+      var conektaCustomerId = undefined;
+      await docRef.get().then(function(doc) {
+          if (doc.exists) {
+              docExists = true;
+              conektaCustomerId = doc.data().conektaCustomerId;
+          } else {
+              console.log("No such document!");
+          }
+      }).catch(function(error) {
+          console.log("Error getting document:", error);
+      });
+
+      this.props.store.conektaCustomerId = conektaCustomerId;
     }
 
     @autobind @action
@@ -57,7 +72,6 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
       this.setState({loading: true});
       Moment.locale('en');
       var date = Moment().format("dddd, D MMMM YYYY, h:mma");
-      //var date = new Date().toDateString();
       var user = Firebase.auth.currentUser;
 
       var pedidoId = "O-";
@@ -81,40 +95,74 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
       console.log("conektaApi 1st: ", conektaApi);
       conektaApi.setPublicKey('key_KoqjzW5XMEVcwxdqHsCFY4Q');
       console.log("conektaApi: ", conektaApi);
-      //Conekta.setPublicKey("key_KoqjzW5XMEVcwxdqHsCFY4Q");
-      var conektaToken = "";
-      await conektaApi.createToken({
-        cardNumber: '4242424242424242',
-        name: 'Manolo Virolo',
-        cvc: '111',
-        expMonth: '11',
-        expYear: '21',
-      }, function(data){
-        console.log( 'Conekta DATA SUCCESS:', data ); // data.id to get the Token ID
-        conektaToken = data.id;
-      }, function(e){
-        console.log( 'Conekta Error!', e);
-      });
 
+      if (this.props.store.conektaCustomerId == undefined) {
+        console.log("tiene que esperar un ratin");
+        await this.updateCustomerId();
+      }
+
+    //     const customerInfo = request.body.customerInfo;
+    // const lineItems = request.body.lineItems;
+    // const discountLines = request.body.discountLines;
+    // const liveMode = request.body.liveMode;
+    // const shippingContact = request.body.shippingContact;
+    // const amount = request.body.amount;
+    // const metadata = request.body.metadata;
+
+      const customerInfo = {'customer_id': this.props.store.conektaCustomerId, 'corporate': this.props.store.esRep};
+
+      const lineItems =  [{"name": "ONEFOOD COCOA",
+                          "unit_price": Constants.PRECIO_BOTELLA * 100,
+                          "quantity": this.props.cocoaQuantity}];
+      const discountLines = [{"code": "Cupón de descuento",
+                              "type": "loyalty",
+                              "amount": 600}]; // type can be loyalty, campaign, coupon, sign
+      const liveMode = false;
+      console.log("TIENE DIRECCION OBJECT?? " , this.props.direccionObject);
+      var shippingContact = {"address": this.props.direccionObject};
+      if (!this.props.domicilio) {
+        shippingContact = {address: {
+            street1: "El usuario lo recoge",
+            city: "Ciudad de Mexico",
+            state: "Ciudad de Mexico",
+            country: "mx",
+            postal_code: "78215"
+        }};
+      }
+       
+      const metadata = {"nota": ""};
+
+      console.log("creating order with customerId: ", this.props.store.conektaCustomerId);
       try {
-        let response = await fetch('https://d88zd3d2ok.execute-api.us-east-1.amazonaws.com/production/charges', {
+        let response = await fetch('https://d88zd3d2ok.execute-api.us-east-1.amazonaws.com/production/createOrder', {
           method: 'POST',
           headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            token: conektaToken,
-            type: 'onlyCharge',
+            customerInfo: customerInfo,
+            lineItems: lineItems,
+            discountLines: discountLines,
+            shippingContact: shippingContact,
+            metadata: metadata,
+            type: 'singleOrder',
+            domicilio: this.props.domicilio,
           }),
         });
         let responseJSON = await response.json();
-
         console.log("responseJSON is: ", responseJSON);
 
-
+        if (responseJSON.message != "Order made succesfully") {
+          this.setState({loading: false});
+          Alert.alert("Hubo un error al hacer tu pedido.", responseJSON.message);
+          return;
+        }
       } catch (error) {
         console.error(error);
+        this.setState({loading: false});
+        Alert.alert("Hubo un error al hacer tu pedido.", error.message);
+        return;
       }
 
 
@@ -139,6 +187,19 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
       this.dismissModal();
     }
 
+    // var conektaToken = "";
+    // await conektaApi.createToken({
+    //   cardNumber: '4242424242424242',
+    //   cvc: '111',
+    //   expMonth: '11',
+    //   expYear: '21',
+    // }, function(data){
+    //   console.log( 'Conekta TOKEN DATA SUCCESS:', data ); // data.id to get the Token ID
+    //   conektaToken = data.id;
+    // }, function(e){
+    //   console.log( 'Conekta Error!', e);
+    // });
+
     @autobind
     dismissModal() {
       console.log("Dismissing the checout");
@@ -152,14 +213,14 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
     }
 
     @autobind
-    dismissAddressModal(last4, finished, direccionCompleta) {
+    dismissAddressModal(last4, finished, direccionCompleta, direccionObject) {
       console.log("Aqui chinoo, ", last4, finished);
 
       this.setState({isAddressModalOpen: false});
 
       if (finished) {
         // means they actually wanted to change it.
-        this.setState({direccionCompleta: direccionCompleta});
+        this.setState({direccionCompleta: direccionCompleta, direccionObject: direccionObject});
         //setTimeout(() => {this.setState({isCheckoutOpen: true});}, 410);
       } else {
         // means they cancelled the change and address stays the same.

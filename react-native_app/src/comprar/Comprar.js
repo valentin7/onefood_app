@@ -34,6 +34,7 @@ export default class Comprar extends React.Component {
       isCheckoutOpen: false,
       loading: false,
       direccionCompleta: "",
+      direccionObject: undefined,
       isCreditCardModalOpen: false,
       isAddressModalOpen: false,
       isMapaOpen: false,
@@ -83,7 +84,6 @@ export default class Comprar extends React.Component {
 
     @autobind
     dismissCreditCardModal(last4) {
-      console.log("Aqui chino , ", last4);
       this.setState({isCreditCardModalOpen: false, credit_last4: last4});
       if (last4 != undefined && last4.length > 1) {
         setTimeout(() => {this.setState({isCheckoutOpen: true});}, 410);
@@ -91,11 +91,9 @@ export default class Comprar extends React.Component {
     }
 
     @autobind
-    dismissAddressModal(last4, finished, direccionCompleta) {
-      console.log("Aqui china , ", last4, finished);
-
+    dismissAddressModal(last4, finished, direccionCompleta, direccionObject) {
       this.setState({isAddressModalOpen: false});
-      this.setState({direccionCompleta: direccionCompleta});
+      this.setState({direccionCompleta: direccionCompleta, direccionObject: direccionObject});
       if (last4 != null && last4.length > 1) {
         this.setState({credit_last4: last4});
       }
@@ -114,13 +112,8 @@ export default class Comprar extends React.Component {
 
     @autobind
     dismissModal() {
-      console.log("dismissing comprar");
       this.props.onClosing();
       //this.setState({isOpen: false});
-    }
-
-    componentWillUnmount() {
-      console.log("unmounting comprar");
     }
 
     @autobind
@@ -138,11 +131,12 @@ export default class Comprar extends React.Component {
           const docRef = await Firebase.firestore.collection("addresses").doc(user.uid);
           var docExists = false;
           var fullAddress = "";
+          var direccionObject = undefined;
           await docRef.get().then(function(doc) {
               if (doc.exists) {
                   docExists = true;
-                  console.log("Doc exists!!  data:", doc.data());
                   fullAddress = doc.data().direccionCompleta;
+                  direccionObject = doc.data().direccionObject;
               } else {
                   console.log("No such document!");
               }
@@ -151,8 +145,6 @@ export default class Comprar extends React.Component {
           });
 
           this.setState({loading: false});
-
-          console.log("aqui con la direccion existe? ", docExists);
           if (!docExists) {
             //console.log("entoncesss ");
             //this.refs.modal.open();
@@ -160,7 +152,7 @@ export default class Comprar extends React.Component {
             //this.setState({isCheckoutOpen: true});
             return;
           } else {
-            this.setState({direccionCompleta: fullAddress});
+            this.setState({direccionCompleta: fullAddress, direccionObject: direccionObject});
           }
         }
 
@@ -171,15 +163,12 @@ export default class Comprar extends React.Component {
         await docRef.get().then(function(doc) {
             if (doc.exists) {
                 docExists = true;
-                console.log("Doc exists!!  data:", doc.data());
                 var tarjetas = doc.data().tarjetas;
                 for (var i = 0; i < tarjetas.length; i++) {
-                  console.log("por aqui ", tarjetas[i]);
                   if (tarjetas[i].usando) {
                     last4 = tarjetas[i].last4;
                   }
                 }
-                console.log("indiegogo ", last4);
             } else {
                 // doc.data() will be undefined in this case
                 console.log("No such document!");
@@ -188,18 +177,13 @@ export default class Comprar extends React.Component {
             console.log("Error getting document:", error);
         });
         this.props.store.last4CreditCard = last4;
-
         this.setState({loading: false});
-        console.log("tarjeta existe? ", docExists);
         if (!docExists) {
-          console.log("y entonces");
           this.setState({isCreditCardModalOpen: true});
           return;
         } else {
           this.setState({credit_last4: last4});
         }
-
-        console.log("state of the union senor ", this.state.credit_last4);
         this.setState({isCheckoutOpen: true});
     }
 
@@ -331,7 +315,7 @@ export default class Comprar extends React.Component {
             <Address isOpen={this.state.isAddressModalOpen} dismissModal={this.dismissAddressModal} ></Address>
             <ScanCoupon ref={"couponModal"}/>
             <CreditCard isOpen={this.state.isCreditCardModalOpen} dismissModal={this.dismissCreditCardModal} ref={"creditCardModal"}></CreditCard>
-            <CheckoutConfirmation isCheckoutOpen={this.state.isCheckoutOpen} onOpenChange={this.onConfirmationOpenChange} madeFinalPurchase={this.madeFinalPurchase} domicilio={this.state.domicilio} subscription={this.state.subscription} totalPrice={this.state.totalPrice} cocoaQuantity={this.state.cocoaQuantity} lastFour={this.state.credit_last4} direccionCompleta={this.state.direccionCompleta} ref={"checkoutModal"}></CheckoutConfirmation>
+            <CheckoutConfirmation isCheckoutOpen={this.state.isCheckoutOpen} onOpenChange={this.onConfirmationOpenChange} madeFinalPurchase={this.madeFinalPurchase} domicilio={this.state.domicilio} subscription={this.state.subscription} totalPrice={this.state.totalPrice} cocoaQuantity={this.state.cocoaQuantity} lastFour={this.state.credit_last4} direccionCompleta={this.state.direccionCompleta} direccionObject={this.state.direccionObject} ref={"checkoutModal"}></CheckoutConfirmation>
         </Modal>;
     }
 }

@@ -26,6 +26,7 @@ export default class Address extends React.Component {
       loading: false,
       isCreditCardModalOpen: false,
       credit_last4: "0000",
+      direccionObject: undefined,
     }
 
     componentWillMount() {
@@ -83,12 +84,20 @@ export default class Address extends React.Component {
       fullAddress += this.state.linea2 + "\n";
       fullAddress += this.state.ciudad + ", " + this.state.estado + ", " + this.state.codigoPostal;
 
+      var direccionObject = { "street1": this.state.linea1,
+                              "street2": this.state.linea2,
+                              "postal_code": this.state.codigoPostal,
+                              "city": this.state.ciudad,
+                              "state": this.state.estado,
+                              "country": "MX"}
+
       var addressInfo = {
         user_id: user.uid,
         direccionCompleta: fullAddress,
+        direccionObject: direccionObject
       }
 
-      this.setState({direccionCompleta: fullAddress});
+      this.setState({direccionCompleta: fullAddress, direccionObject: direccionObject});
 
       await Firebase.firestore.collection("addresses").doc(user.uid).set(addressInfo)
       .then(function() {
@@ -115,15 +124,12 @@ export default class Address extends React.Component {
       await docRef.get().then(function(doc) {
           if (doc.exists) {
               docExists = true;
-              console.log("Doc exists!!  data:", doc.data());
               var tarjetas = doc.data().tarjetas;
               for (var i = 0; i < tarjetas.length; i++) {
-                console.log("por aqui ", tarjetas[i]);
                 if (tarjetas[i].usando) {
                   last4 = tarjetas[i].last4;
                 }
               }
-              console.log("indiegogo ", last4);
           } else {
               // doc.data() will be undefined in this case
               console.log("No such document!");
@@ -133,17 +139,14 @@ export default class Address extends React.Component {
       });
       this.props.store.last4CreditCard = last4;
       this.setState({loading: false});
-
-      console.log("tarjeta existe? ", docExists);
       if (!docExists) {
-        console.log("y entonces");
         this.setState({isCreditCardModalOpen: true});
         //setTimeout(() => {this.dismissModal()}, 600);
         return;
       } else {
         this.setState({credit_last4: last4});
         //setTimeout(() => {this.dismissModal()}, 600);
-        this.props.dismissModal(last4, this.state.savedAddress, this.state.direccionCompleta);
+        this.props.dismissModal(last4, this.state.savedAddress, this.state.direccionCompleta, this.state.direccionObject);
         //this.dismissModal();
       }
     }
@@ -151,9 +154,7 @@ export default class Address extends React.Component {
 
     @autobind
     dismissModal(){
-      //this.setState({isOpen: false});
-      console.log("QUIERO APARACERR");
-      this.props.dismissModal("", this.state.savedAddress, this.state.direccionCompleta);
+      this.props.dismissModal("", this.state.savedAddress, this.state.direccionCompleta, this.state.direccionObject);
     }
 
     render(): React.Node {
