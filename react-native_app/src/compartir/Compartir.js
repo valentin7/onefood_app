@@ -34,7 +34,7 @@ export default class Compartir extends React.Component<ScreenProps<>> {
               <Text>Comparte tu código personal y te daremos un OneFood gratis a ti y a la otra persona con la que lo compartiste.</Text>
             </View>
             <TouchableOpacity style={style.row} onPress={this.shareCode}>
-              <Text style={{fontWeight: "bold", color: variables.brandPrimary}} selectable={true}>ONE-33452</Text>
+              <Text style={{fontWeight: "bold", color: variables.brandPrimary}} selectable={true}>ONE33452</Text>
               <Icon name="ios-share-alt" style={style.icon} />
             </TouchableOpacity>
 

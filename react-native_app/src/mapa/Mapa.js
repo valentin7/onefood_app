@@ -56,17 +56,15 @@ export default class Mapa extends React.Component<ScreenProps<>> {
         return <BaseContainer {...{ navigation, title }}  hasRefresh={true} refresh={this.refreshLocationsInMap}>
                 {
                   this.props.store.esRep &&
-                  <Card>
-                   <CardItem>
+                  <Card >
                      <Body>
-                      <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
-                       <Text style={{color: 'gray', marginRight: 30}}>
+                      <View style={{paddingVertical: 6, flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
+                       <Text style={{color: 'gray', marginRight: 30, top: 4}}>
                          Compartir ubicación en el mapa
                        </Text>
                        <Switch value={this.props.store.showingLocationOnMap} onValueChange={this.updateLocationSharing} />
                        </View>
                      </Body>
-                   </CardItem>
                  </Card>
                 }
                 <Card>
