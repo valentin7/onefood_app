@@ -32,6 +32,23 @@ export function convertirFechaCorta(date) {
   return  fecha;
 }
 
+export function convertirFechaParaSubscripcion(date) {
+  if (date == null) {
+    return date;
+  }
+
+  var cs = date.split(" ");
+  if (cs.length != 5) {
+    return date;
+  }
+  var minDay = parseInt(cs[1]) + 5;
+  var maxDay = minDay + 6;
+
+  var fecha = "Entre el " + minDay + " y el " + maxDay + " de cada mes.";
+
+  return  fecha;
+}
+
 
 export function addDaysToDate(date, days) {
   var result = new Date(date);

@@ -78,14 +78,18 @@ functions:
       events:
         - http: 'POST /createCustomer'
 
+  createSubscription:
+      handler: createCharge.handler
+      events:
+        - http: 'POST /createSubscription'
+
   hello:
     handler: handler.hello
 
-  app:
-    handler: createCharge.handler
+  conektaWebhook:
+    handler: webhookHandler.conektaWebhookListener
     events:
-      - http: ANY /
-      - http: 'ANY {proxy+}'
+      - http: POST /conektaWebhookListener
 
 
 #    The following are a few example events you can configure

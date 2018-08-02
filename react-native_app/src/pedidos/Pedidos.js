@@ -56,8 +56,12 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
       });
       var pedidos = [];
       var pedidosHistorial = [];
+      var pedidosSubscriptions = [];
       query.forEach(doc => {
-        if (doc.data().reclamado) {
+        if (doc.data().subscription) {
+          pedidosSubscriptions.push(doc.data());
+        }
+        else if (doc.data().reclamado) {
           pedidosHistorial.push(doc.data());
         } else {
           pedidos.push(doc.data());
@@ -65,10 +69,12 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
       });
 
       this.props.store.pedidos = pedidos;
+      this.props.store.subscriptions = pedidosSubscriptions;
 
       this.setState({
         pedidos,
         pedidosHistorial,
+        pedidosSubscriptions,
         loading: false,
         refreshing: false,
         haRefreshedPedidos: true,
@@ -177,6 +183,8 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
           welcomeMessage = "Bienvenid@ " + this.state.usersName + ".";
         }
 
+        console.log("length de Subscripciones: ", this.props.store.subscriptions.length);
+
         return <ImageBackground source={Images.oneFull} style={style.fullScreenImage}>
                 <BaseContainer ref="baseComponent" title="Pedidos" hasRefresh={true} refresh={this.refreshPedidos} navigation={this.props.navigation} >
                   <View style={style.transparent}>
@@ -203,6 +211,22 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
                         ) :
                         (<View/>)
                         }
+
+                    { this.props.store.subscriptions.length > 0 ? (
+                      <Separator style={style.divider}>
+                        <Text style={{color: variables.darkGray, fontWeight: "bold"}}>Subscripciones</Text>
+                      </Separator>
+                    ) : (<View/>)}
+
+                    {this.props.store.subscriptions.map((item, key) =>
+                      (<ListItem key={key} style={{height: 70, backgroundColor: "white", flexDirection: 'column', alignItems: 'flex-start'}} onPress={() => this.open(item)}>
+                        <Text style={style.pedidoTitulo}> {item.cantidades.reduce(function(acc, val) {return acc + val})} ONEFOODS AL MES</Text>
+                        <View style={{flexDirection: 'row'}}>
+                          <Text style={style.pedidoFecha}>{Constants.convertirFechaParaSubscripcion(item.fecha)}</Text>
+                          <Text style={style.subscriptionActive}>ACTIVA</Text>
+                        </View>
+                      </ListItem>))
+                    }
 
                     { this.props.store.pedidos.length > 0 ? (
                       <Separator style={style.divider}>
@@ -436,6 +460,11 @@ const style = StyleSheet.create({
       fontSize: 12,
       left: 5,
       bottom: -12,
+    },
+    subscriptionActive: {
+      color: variables.brandPrimary,
+      fontSize: 14,
+      marginLeft: 30,
     },
     container: {
       flex: 1,

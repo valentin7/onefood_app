@@ -55,6 +55,7 @@ export default class Drawer extends React.Component<NavigationProps<>> {
     @autobind
     logout() {
         this.props.store.pedidos = [];
+        this.props.store.subscriptions = [];
         this.props.store.last4CreditCard = "";
         Firebase.auth.signOut();
         NavigationHelpers.reset(this.props.navigation, "Login");

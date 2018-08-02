@@ -92,86 +92,114 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
       };
 
       var conektaApi = new Conekta();
-      console.log("conektaApi 1st: ", conektaApi);
       conektaApi.setPublicKey('key_KoqjzW5XMEVcwxdqHsCFY4Q');
-      console.log("conektaApi: ", conektaApi);
-
       if (this.props.store.conektaCustomerId == undefined) {
         console.log("tiene que esperar un ratin");
         await this.updateCustomerId();
       }
 
-    //     const customerInfo = request.body.customerInfo;
-    // const lineItems = request.body.lineItems;
-    // const discountLines = request.body.discountLines;
-    // const liveMode = request.body.liveMode;
-    // const shippingContact = request.body.shippingContact;
-    // const amount = request.body.amount;
-    // const metadata = request.body.metadata;
-
       const customerInfo = {'customer_id': this.props.store.conektaCustomerId, 'corporate': this.props.store.esRep};
 
-      const lineItems =  [{"name": "ONEFOOD COCOA",
-                          "unit_price": Constants.PRECIO_BOTELLA * 100,
-                          "quantity": this.props.cocoaQuantity}];
-      const discountLines = [{"code": "Cupón de descuento",
-                              "type": "loyalty",
-                              "amount": 600}]; // type can be loyalty, campaign, coupon, sign
-      const liveMode = false;
-      console.log("TIENE DIRECCION OBJECT?? " , this.props.direccionObject);
-      var shippingContact = {"address": this.props.direccionObject};
-      if (!this.props.domicilio) {
-        shippingContact = {address: {
-            street1: "El usuario lo recoge",
-            city: "Ciudad de Mexico",
-            state: "Ciudad de Mexico",
-            country: "mx",
-            postal_code: "78215"
-        }};
-      }
-       
-      const metadata = {"nota": ""};
+      if (this.props.subscription) {
+        console.log("creating subscription with customerId: ", this.props.store.conektaCustomerId);
+        const id = "plan"+this.props.store.subscriptions.length + "_" + user.uid;
+        const name = "Plan mensual #" + this.props.store.subscriptions.length + " del usuario " + user.uid;
+        const amount = this.props.totalPrice * 100; // conekta trabaja con centavos.
+        const currency = "MXN";
+        const interval = "month";
+        const customerId = this.props.store.conektaCustomerId;
 
-      console.log("creating order with customerId: ", this.props.store.conektaCustomerId);
-      try {
-        let response = await fetch('https://d88zd3d2ok.execute-api.us-east-1.amazonaws.com/production/createOrder', {
-          method: 'POST',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            customerInfo: customerInfo,
-            lineItems: lineItems,
-            discountLines: discountLines,
-            shippingContact: shippingContact,
-            metadata: metadata,
-            type: 'singleOrder',
-            domicilio: this.props.domicilio,
-          }),
-        });
-        let responseJSON = await response.json();
-        console.log("responseJSON is: ", responseJSON);
+        try {
+          let response = await fetch('https://d88zd3d2ok.execute-api.us-east-1.amazonaws.com/production/createSubscription', {
+            method: 'POST',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              id: id,
+              name: name,
+              amount: amount,
+              currency: currency,
+              interval: interval,
+              customerId: customerId,
+            }),
+          });
+          let responseJSON = await response.json();
+          console.log("responseJSON is: ", responseJSON);
 
-        if (responseJSON.message != "Order made succesfully") {
+          if (responseJSON.message != "Subscription creation successful") {
+            this.setState({loading: false});
+            //Alert.alert("Hubo un error al crear tu subscripción.", responseJSON.message);
+            return;
+          }
+        } catch (error) {
+          console.error(error);
           this.setState({loading: false});
-          Alert.alert("Hubo un error al hacer tu pedido.", responseJSON.message);
+          Alert.alert("Hubo un error al crear tu subscripción.", error.message);
           return;
         }
-      } catch (error) {
-        console.error(error);
-        this.setState({loading: false});
-        Alert.alert("Hubo un error al hacer tu pedido.", error.message);
-        return;
+      } else {
+
+        const lineItems =  [{"name": "ONEFOOD COCOA",
+                            "unit_price": Constants.PRECIO_BOTELLA * 100,
+                            "quantity": this.props.cocoaQuantity}];
+        const discountLines = [{"code": "Cupón de descuento",
+                                "type": "loyalty",
+                                "amount": 600}]; // type can be loyalty, campaign, coupon, sign
+        const liveMode = false;
+        console.log("TIENE DIRECCION OBJECT?? " , this.props.direccionObject);
+        var shippingContact = {"address": this.props.direccionObject};
+        if (!this.props.domicilio) {
+          shippingContact = {address: {
+              street1: "El usuario lo recoge",
+              city: "Ciudad de Mexico",
+              state: "Ciudad de Mexico",
+              country: "mx",
+              postal_code: "78215"
+          }};
+        }
+
+        const metadata = {"nota": ""};
+        console.log("creating order with customerId: ", this.props.store.conektaCustomerId);
+        try {
+          let response = await fetch('https://d88zd3d2ok.execute-api.us-east-1.amazonaws.com/production/createOrder', {
+            method: 'POST',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              customerInfo: customerInfo,
+              lineItems: lineItems,
+              discountLines: discountLines,
+              shippingContact: shippingContact,
+              metadata: metadata,
+              type: 'singleOrder',
+              domicilio: this.props.domicilio,
+            }),
+          });
+          let responseJSON = await response.json();
+          console.log("responseJSON is: ", responseJSON);
+
+          if (responseJSON.message != "Order made succesfully") {
+            this.setState({loading: false});
+            //Alert.alert("Hubo un error al hacer tu pedido.", responseJSON.message);
+            return;
+          }
+        } catch (error) {
+          console.error(error);
+          this.setState({loading: false});
+          Alert.alert("Hubo un error al hacer tu pedido.", error.message);
+          return;
+        }
       }
 
-
-
-      this.props.store.pedidos.push(pedido);
-      //console.log("DAMN ", this.props.store.pedidos);
-      //Pedidos.pedidos.push(pedido);
-    //  this.props.pedidoHecho(pedido);
-      //storeSingleton.pedidos.push(pedido);
+      if (this.props.subscription) {
+        this.props.store.subscriptions.push(pedido);
+      } else {
+        this.props.store.pedidos.push(pedido);
+      }
 
       await Firebase.firestore.collection("pedidos").doc(pedidoId).set(pedido)
       .then(function() {
@@ -186,19 +214,6 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
       this.props.madeFinalPurchase();
       this.dismissModal();
     }
-
-    // var conektaToken = "";
-    // await conektaApi.createToken({
-    //   cardNumber: '4242424242424242',
-    //   cvc: '111',
-    //   expMonth: '11',
-    //   expYear: '21',
-    // }, function(data){
-    //   console.log( 'Conekta TOKEN DATA SUCCESS:', data ); // data.id to get the Token ID
-    //   conektaToken = data.id;
-    // }, function(e){
-    //   console.log( 'Conekta Error!', e);
-    // });
 
     @autobind
     dismissModal() {

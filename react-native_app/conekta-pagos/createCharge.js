@@ -38,12 +38,64 @@ app.post("/createCustomer", function(request, response) {
   }, function(err, res) {
       if(err) {
         console.log(err);
-        err.status(500).json({error: err.message});
+        response.status(500).json({error: err.message, message: "error creating customer"});
         return;
       }
       var customer = res.toObject();
       console.log("successfully created customer: ", customer);
       response.status(200).json({message: "Customer creation successful", customer});
+  });
+});
+
+app.post("/createSubscription", function(request, response) {
+  console.log("the full body is ", request.body);
+  const b = request.body;
+  const id = b.id;
+  const name = b.name;
+  const amount = b.amount;
+  const currency = "MXN";
+  const interval = b.interval;
+  const customerId = b.customerId;
+
+  const plan = conekta.Plan.create({
+    "id": id,
+    "name": name,
+    "amount": amount,
+    "currency": currency,
+    "interval": interval
+  }, function(err, res) {
+    var planId = id;
+
+    if (err) {
+      if (err.details[0].code == 'conekta.errors.parameter_validation.plan.id_collission') {
+        planId = id;
+      } else {
+        console.log("error making plan: ", err);
+        response.status(500).json({error: err.message, message: err.details.message});
+      }
+    }
+    // const planCreated = res.toObject();
+  //  console.log("made plan: ", res.toObject());
+
+    const customer = conekta.Customer.find(customerId, function(err, customer) {
+      if (err) {
+        console.log("error finding customer: ", err, customerId);
+        response.status(500).json({error: err.message, message: err.details.message});
+      }
+
+      customer.createSubscription({
+        plan: planId
+      }, function(err, resp) {
+        if (err) {
+          response.status(500).json({error: err.message, message: err.details.message});
+          console.log("error creating subscription: ", err);
+        }
+        console.log("response bro ", resp)
+        //const subscription = resp.toObject();
+        console.log("subscription created succesfully: ", resp);
+        response.status(200).json({message: "Subscription creation successful", resp});
+      });
+    });
   });
 });
 
@@ -76,26 +128,6 @@ app.post("/createOrder", function(request, response) {
       'carrier': 'FEDEX'
     }],
   };
-
-  // if (entregaADomicilio) {
-  //   orderObject["shipping_contact"] = shippingContact;
-  //   orderObject["shipping_lines"] = [{
-  //     'amount': 0,
-  //     'carrier': 'FEDEX'
-  //   }];
-  // } else {
-  //   orderObject["shipping_contact"] = {address: {
-  //           street1: "El usuario lo recoge",
-  //           city: "Ciudad de Mexico",
-  //           state: "Ciudad de Mexico",
-  //           country: "mx",
-  //           postal_code: "78215"
-  //       }};
-  //   orderObject["shipping_lines"] = [{
-  //     'amount': 0,
-  //     'carrier': 'FEDEX'
-  //   }];
-  // }
 
   return conekta.Order.create(orderObject, function(err, res) {
       if(err) {
@@ -145,7 +177,7 @@ app.post("/createCharge", function(request, response) {
             //  };
              //callback(null, response);
 
-             err.status(500).json({error: err.message});
+             response.status(500).json({error: err.message, message: "error making charge"});
             return;
         }
         // successfully made the charge

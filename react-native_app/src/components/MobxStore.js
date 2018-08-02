@@ -3,6 +3,7 @@ import {observable, action} from 'mobx'
 class MobxStore {
   @observable loading = true;
   @observable pedidos = [];
+  @observable subscriptions = [];
   @observable last4CreditCard = " ";
   @observable esRep = false;
   @observable repPhone = "";
