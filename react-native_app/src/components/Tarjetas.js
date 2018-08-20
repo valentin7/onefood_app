@@ -40,7 +40,6 @@ export default class Tarjetas extends React.Component {
       await docRef.get().then(function(doc) {
           if (doc.exists) {
               docExists = true;
-              console.log("Doc exists!!  data:", doc.data());
               tarjetas = doc.data().tarjetas;
           } else {
               console.log("No such document!");

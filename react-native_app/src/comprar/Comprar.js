@@ -30,6 +30,8 @@ export default class Comprar extends React.Component {
       isOpen: false,
       totalPrice: Constants.PRECIO_BOTELLA,
       cocoaQuantity: 1,
+      defaultQuantity: 1,
+      defaultIncrement: 1,
       credit_last4: "0000",
       isCheckoutOpen: false,
       loading: false,
@@ -38,16 +40,26 @@ export default class Comprar extends React.Component {
       isCreditCardModalOpen: false,
       isAddressModalOpen: false,
       isMapaOpen: false,
+      userActiveSubscription: "",
     }
 
     componentDidMount() {
       this.setState({totalPrice: Constants.PRECIO_BOTELLA});
+      this.props.store.totalPrice = Constants.PRECIO_BOTELLA * this.state.defaultQuantity; // this.refs.cocoaQuantity.quantity;
+      this.props.store.cocoaQuantity = this.state.defaultQuantity;
+      // this.refs.cocoaQuantity.quantity = this.state.defaultQuantity;
+      // if (this.state.domicilio) {
+      //   this.updateMinimumToDomicilio();
+      // }
     }
 
     @autobind @action
     open() {
-      this.setState({totalPrice: Constants.PRECIO_BOTELLA});
-      this.setState({isOpen: true});
+      // this.setState({totalPrice: Constants.PRECIO_BOTELLA});
+      // if (this.state.domicilio) {
+      //   this.updateMinimumToDomicilio();
+      // }
+      // this.setState({isOpen: true});
     }
 
     @autobind
@@ -63,23 +75,56 @@ export default class Comprar extends React.Component {
     @autobind @action
     toggleDomicilioYes() {
       var currentPrice = this.state.totalPrice;
-      if (this.refs.cocoaQuantity.quantity != 0) {
+      this.updateMinimumToDomicilio();
+
+      this.setState({domicilio: true});
+    }
+
+    @autobind @action
+    async updateUserHasSubscription(): Promise<void> {
+
+      var user = Firebase.auth.currentUser;
+
+      const docRef = await Firebase.firestore.collection("usersInfo").doc(user.uid);
+      var docExists = false;
+      var activeSubscription = "";
+      await docRef.get().then(function(doc) {
+          if (doc.exists) {
+              docExists = true;
+              activeSubscription = doc.data().activeSubscription;
+          } else {
+              console.log("No such document!");
+          }
+      }).catch(function(error) {
+          console.log("Error getting document:", error);
+      });
+      this.setState({userActiveSubscription: activeSubscription})
+    }
+
+    @autobind @action
+    updateMinimumToDomicilio(){
+      if (this.refs.cocoaQuantity.quantity != 0 && this.refs.cocoaQuantity.quantity % 6 != 0) {
         //var prevcocoa = this.refs.cocoaQuantity.quantity;
         //var cocoaDifference = (6 - prevcocoa)*Constants.PRECIO_BOTELLA;
         var minimumQuantity = 6;
         this.refs.cocoaQuantity.quantity = minimumQuantity;
         //currentPrice = this.state.totalPrice + cocoaDifference;
         this.setState({totalPrice: Constants.PRECIO_BOTELLA * minimumQuantity, cocoaQuantity: minimumQuantity});
+        this.props.store.totalPrice = Constants.PRECIO_BOTELLA * minimumQuantity;
+        this.props.store.cocoaQuantity = minimumQuantity;
+        this.setState({defaultQuantity: 6});
       }
       this.refs.cocoaQuantity.incrementAmount = 6;
-
-      this.setState({domicilio: true});
+      this.setState({defaultIncrement: 6});
     }
 
     @autobind @action
     toggleDomicilioNo() {
+      console.log("HEREE");
       this.refs.cocoaQuantity.incrementAmount = 1;
-      this.setState({domicilio: false});
+      this.setState({defaultQuantity: this.refs.cocoaQuantity.quantity, defaultIncrement: 1});
+    //  this.setState({totalPrice: Constants.PRECIO_BOTELLA * this.refs.cocoaQuantity.quantity, cocoaQuantity: this.refs.cocoaQuantity.quantity});
+      this.setState({domicilio: false, subscription: false});
     }
 
     @autobind
@@ -184,6 +229,22 @@ export default class Comprar extends React.Component {
         } else {
           this.setState({credit_last4: last4});
         }
+
+        if (this.state.userActiveSubscription == undefined) {
+          this.setState({isCheckoutOpen: true});
+          return;
+        }
+
+        if (this.state.userActiveSubscription.length > 1) {
+          console.log("ACTIVE SUBSCC?? ", this.state.userActiveSubscription);
+          if (this.state.subscription ) {
+              Alert.alert("Esta nueva subscripción reemplazará tu subscripción actual", "",
+              [{text: 'Cancelar', onPress: () => console.log("cancelo")},
+              {text: 'Continuar', onPress: () => this.setState({isCheckoutOpen: true})}])
+              return;
+            }
+        }
+
         this.setState({isCheckoutOpen: true});
     }
 
@@ -213,6 +274,14 @@ export default class Comprar extends React.Component {
       this.setState({isMapaOpen: true});
     }
 
+    @autobind
+    onOpened() {
+      this.updateUserHasSubscription();
+      this.refs.cocoaQuantity.quantity = this.props.store.cocoaQuantity;
+      this.setState({totalPrice: this.props.store.cocoaQuantity * Constants.PRECIO_BOTELLA});
+      this.props.store.totalPrice = Constants.PRECIO_BOTELLA * this.refs.cocoaQuantity.quantity;
+    }
+
     static navigationOptions = {
       title: 'Welcome',
     };
@@ -233,7 +302,7 @@ export default class Comprar extends React.Component {
         var fechaMax = Moment().add(11, 'days').format("dddd, D MMMM");
         descEntrega += "Entrega en 5 a 11 días: entre " + fechaMin + " y " + fechaMax + ".";
 
-        return <Modal style={[style.modal, style.modal2]} isOpen={this.props.isModalOpen} swipeToClose={false}  backdrop={false} coverScreen={Platform.OS === 'android'} position={"top"} ref={"modal2"}>
+        return <Modal style={[style.modal, style.modal2]} isOpen={this.props.isModalOpen} onOpened={this.onOpened} swipeToClose={false}  backdrop={false} coverScreen={Platform.OS === 'android'} position={"top"} ref={"modal2"}>
             <Container>
               <Header style={{backgroundColor: variables.brandInfo, borderBottomWidth: 1, borderColor: variables.lightGray}}>
                 <Left>
@@ -272,7 +341,7 @@ export default class Comprar extends React.Component {
                 <View style={[style.count, Styles.center]}>
                     <H1 style={style.heading}>COCOA</H1>
                     <Text style={{color: 'gray'}}>SABOR</Text>
-                    <QuantityInput totalPriceChange={this.totalPriceChange} ref="cocoaQuantity" singular="botella" plural="botellas" from={0} to={60*Constants.PRECIO_BOTELLA} />
+                    <QuantityInput totalPriceChange={this.totalPriceChange} defaultQuantity={this.props.store.cocoaQuantity} defaultIncrement={this.state.defaultIncrement} ref="cocoaQuantity" singular="botella" plural="botellas" from={0} to={60*Constants.PRECIO_BOTELLA} />
                 </View>
                 {
                   !this.state.domicilio ? (
@@ -315,7 +384,7 @@ export default class Comprar extends React.Component {
             <Address isOpen={this.state.isAddressModalOpen} dismissModal={this.dismissAddressModal} ></Address>
             <ScanCoupon ref={"couponModal"}/>
             <CreditCard isOpen={this.state.isCreditCardModalOpen} dismissModal={this.dismissCreditCardModal} ref={"creditCardModal"}></CreditCard>
-            <CheckoutConfirmation isCheckoutOpen={this.state.isCheckoutOpen} onOpenChange={this.onConfirmationOpenChange} madeFinalPurchase={this.madeFinalPurchase} domicilio={this.state.domicilio} subscription={this.state.subscription} totalPrice={this.state.totalPrice} cocoaQuantity={this.state.cocoaQuantity} lastFour={this.state.credit_last4} direccionCompleta={this.state.direccionCompleta} direccionObject={this.state.direccionObject} ref={"checkoutModal"}></CheckoutConfirmation>
+            <CheckoutConfirmation isCheckoutOpen={this.state.isCheckoutOpen} onOpenChange={this.onConfirmationOpenChange} madeFinalPurchase={this.madeFinalPurchase} userActiveSubscription={this.state.userActiveSubscription} domicilio={this.state.domicilio} subscription={this.state.subscription} totalPrice={this.state.totalPrice} cocoaQuantity={this.state.cocoaQuantity} lastFour={this.state.credit_last4} direccionCompleta={this.state.direccionCompleta} direccionObject={this.state.direccionObject} ref={"checkoutModal"}></CheckoutConfirmation>
         </Modal>;
     }
 }
@@ -412,11 +481,9 @@ class MapaAdicional extends React.Component {
 
     return <Modal style={style.modalMapa} swipeToClose={false} isOpen={this.props.isOpen} onClosed={this.setModalStateClosed} backdrop={true} position={"bottom"} entry={"bottom"} coverScreen={false} ref={"modal"}>
             <Card style={{height: 40}}>
-             <CardItem>
                <Body>
                  <Text style={{color: 'gray'}}>{textoLocacion}</Text>
                </Body>
-             </CardItem>
            </Card>
            <MapaComponent principal={false}/>
       </Modal>;

@@ -203,7 +203,6 @@ export default class Login extends React.Component<ScreenProps<>, LoginState> {
       await docRef.get().then(function(doc) {
           if (doc.exists) {
               docExists = true;
-              console.log("Doc exists!!  data:", doc.data());
               descuento = doc.data().descuento;
               var descuentoDisplay = descuento * 100 + "%";
               Alert.alert("Código Válido", "Un descuento de " + descuentoDisplay + " será aplicado a tu próxima compra");

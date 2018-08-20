@@ -11,6 +11,9 @@ class MobxStore {
   @observable showingLocationOnMap = true;
   @observable userLocationOnMap = undefined;
   @observable mapMarkers = [];
+  @observable totalPrice = 0;
+  @observable cocoaQuantity = 0;
+  @observable subscriptionStatus = "";
 
   @action loadingCompleted() {
     this.loading = false;

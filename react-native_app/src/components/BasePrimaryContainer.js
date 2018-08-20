@@ -93,7 +93,6 @@ export default class BaseContainer extends React.Component<BaseContainerProps> {
 
     render(): React.Node {
         const {title, navigation, hasRefresh} = this.props;
-        console.log("RENDERING w mapaIconcolor: ", this.state.mapaIconcolor);
         var pedidosIconColor = this.state.screenSelected == "Pedidos" ? variables.brandPrimary : variables.lightGray;
         var mapIconColor =  this.state.screenSelected == "Mapa" ? variables.brandPrimary : variables.lightGray;
         var compraIconColor = this.state.screenSelected == "Comprar" ? variables.brandPrimary : variables.lightGray;

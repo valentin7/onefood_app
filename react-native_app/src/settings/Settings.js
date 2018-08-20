@@ -29,7 +29,6 @@ export default class Settings extends React.Component<ScreenProps<>> {
     await docRef.get().then(function(doc) {
         if (doc.exists) {
             docExists = true;
-            console.log("Doc exists!!  data:", doc.data());
             var tarjetas = doc.data().tarjetas;
             for (var i = 0; i < tarjetas.length; i++) {
               if (tarjetas[i].usando) {
@@ -86,13 +85,6 @@ export default class Settings extends React.Component<ScreenProps<>> {
           </Button>
           </View>
           <Tarjetas isTarjetasOpen={this.state.isTarjetasOpen} dismissTarjetasModal={this.dismissTarjetasModal} creditDisplay={creditDisplay}></Tarjetas>
-
-          <View style={style.section}>
-              <Text style={{fontWeight: "bold"}}>SUBSCRIPCIÓN</Text>
-          </View>
-          <View style={{justifyContent: 'space-around', marginTop: 20, paddingBottom: 20, marginHorizontal: 15, alignItems: 'center'}}>
-            <Text>No tienes subscripción activa. ¡Crea una en la página de compra!</Text>
-          </View>
       </BaseContainer>;
   }
 }

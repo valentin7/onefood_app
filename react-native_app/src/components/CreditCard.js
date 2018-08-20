@@ -82,7 +82,7 @@ export default class CreditCard extends React.Component {
 
       console.log("pasando a la seccion que no deberia de haber conektaCustomerId: ", conektaCustomerId);
 
-      if (conektaCustomerId.length > 1) {
+      if (conektaCustomerId != undefined) {
         this.setState({conektaCustomerId: conektaCustomerId});
         // aca agregar nuevo payment method a Conekta y ponerlo como default.
         // El otro lugar que se cambia de payment method (ya no agregarlo) seria en "usar" tarjeta en Tarjetas.js
@@ -159,7 +159,6 @@ export default class CreditCard extends React.Component {
       await docRef.get().then(function(doc) {
           if (doc.exists) {
               docExists = true;
-              console.log("Doc exists!!  data:", doc.data());
               tarjetas = doc.data().tarjetas;
           } else {
               // doc.data() will be undefined in this case

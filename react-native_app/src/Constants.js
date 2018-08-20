@@ -1,4 +1,5 @@
 export const PRECIO_BOTELLA = 49;
+export const serverlessURL = 'https://d88zd3d2ok.execute-api.us-east-1.amazonaws.com';
 
 export function convertirFecha(date) {
   if (date == null) {
@@ -48,7 +49,6 @@ export function convertirFechaParaSubscripcion(date) {
 
   return  fecha;
 }
-
 
 export function addDaysToDate(date, days) {
   var result = new Date(date);

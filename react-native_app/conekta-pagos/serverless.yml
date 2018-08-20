@@ -83,6 +83,21 @@ functions:
       events:
         - http: 'POST /createSubscription'
 
+  pauseSubscription:
+      handler: createCharge.handler
+      events:
+        - http: 'POST /pauseSubscription'
+
+  resumeSubscription:
+      handler: createCharge.handler
+      events:
+        - http: 'POST /resumeSubscription'
+
+  cancelSubscription:
+      handler: createCharge.handler
+      events:
+        - http: 'POST /cancelSubscription'
+
   hello:
     handler: handler.hello
 

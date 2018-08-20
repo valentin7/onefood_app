@@ -29,16 +29,9 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
     }
 
     componentDidMount() {
-      console.log("hey watags ", this.props.isCheckoutOpen);
       this.setState({isOpen: this.props.isCheckoutOpen});
       this.setState({direccionCompleta: this.props.direccionCompleta});
       this.updateCustomerId();
-    }
-
-    componentWillMount() {
-    }
-    componentWillUnmount() {
-      console.log("unmounting checkout");
     }
 
     @autobind
@@ -87,6 +80,7 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
           precio_total: this.props.totalPrice,
           user_id: user.uid,
           subscription: this.props.subscription,
+          subscriptionStatus: "ACTIVA",
           domicilio: this.props.domicilio,
           direccionCompleta: this.state.direccionCompleta,
       };
@@ -102,7 +96,7 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
 
       if (this.props.subscription) {
         console.log("creating subscription with customerId: ", this.props.store.conektaCustomerId);
-        const id = "plan"+this.props.store.subscriptions.length + "_" + user.uid;
+        const id = "plan" + this.props.store.subscriptions.length + "_" + user.uid;
         const name = "Plan mensual #" + this.props.store.subscriptions.length + " del usuario " + user.uid;
         const amount = this.props.totalPrice * 100; // conekta trabaja con centavos.
         const currency = "MXN";
@@ -133,20 +127,51 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
             //Alert.alert("Hubo un error al crear tu subscripción.", responseJSON.message);
             return;
           }
+
+          await Firebase.firestore.collection("usersInfo").doc(user.uid).update({activeSubscription: pedidoId})
+          .then(function() {
+              console.log("Subscripcion ACTIVADA en FIREBASE");
+          })
+          .catch(function(error) {
+              console.error("Error updating document: ", error);
+              //Alert.alert("No se pudo pausar tu subscripción automáticamente en este momento.", "Por favor mandar un email a soporte@onefood.com.mx para pausarla.");
+          });
+
+          this.props.store.subscriptionStatus = "ACTIVA";
+
+
+          console.log("created subscription and deleting ", this.props.userActiveSubscription);
+          // pause subscription (firebase) at this.props.userActiveSubscription
+          if (this.props.userActiveSubscription != undefined && this.props.userActiveSubscription.length > 1) {
+            await Firebase.firestore.collection("pedidos").doc(this.props.userActiveSubscription).delete()
+            .then(function() {
+                console.log("Subscripcion BORRADA en FIREBASE");
+            })
+            .catch(function(error) {
+                console.error("Error updating document: ", error);
+                //Alert.alert("No se pudo pausar tu subscripción automáticamente en este momento.", "Por favor mandar un email a soporte@onefood.com.mx para pausarla.");
+            });
+            this.props.store.subscriptions = this.props.store.subscriptions.filter(pedido => pedido.pedido_id != this.props.userActiveSubscription);
+          }
+
         } catch (error) {
           console.error(error);
           this.setState({loading: false});
           Alert.alert("Hubo un error al crear tu subscripción.", error.message);
           return;
         }
+
+
       } else {
 
         const lineItems =  [{"name": "ONEFOOD COCOA",
                             "unit_price": Constants.PRECIO_BOTELLA * 100,
                             "quantity": this.props.cocoaQuantity}];
-        const discountLines = [{"code": "Cupón de descuento",
-                                "type": "loyalty",
-                                "amount": 600}]; // type can be loyalty, campaign, coupon, sign
+        const discountLines =  [];//[{"code": "Cupón de descuento",
+                                //"type": "loyalty",
+                                //"amount": 600}]; // type can be loyalty, campaign, coupon, sign
+
+
         const liveMode = false;
         console.log("TIENE DIRECCION OBJECT?? " , this.props.direccionObject);
         var shippingContact = {"address": this.props.direccionObject};
@@ -196,8 +221,10 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
       }
 
       if (this.props.subscription) {
+        console.log("DOING IT HEREEE");
         this.props.store.subscriptions.push(pedido);
       } else {
+        console.log("ON THE OTHER ONE");
         this.props.store.pedidos.push(pedido);
       }
 
@@ -262,7 +289,6 @@ export default class CheckoutConfirmation extends React.Component<ScreenProps<>>
           descEntrega += this.props.direccionCompleta;
         }
       }
-
 
       Moment.updateLocale('es', localization);
       var fechaMin = Moment().add(5, 'days').format("dddd, D MMMM");

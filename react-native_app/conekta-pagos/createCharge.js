@@ -47,6 +47,71 @@ app.post("/createCustomer", function(request, response) {
   });
 });
 
+app.post("/pauseSubscription", function(request, response) {
+  console.log("the full body is ", request.body);
+  const b = request.body;
+  const customerId = b.customerId;
+  console.log("customerId: ", b);
+  conekta.Customer.find(customerId, function(err, customer) {
+        console.log("found customer info: ", customer);
+      //  console.log("subscrips: ", customer.subscriptions);
+
+        customer.subscription.pause(function(err, res) {
+          if (err) {
+            console.log("Error al pausar subscricion: ", err);
+            response.status(200).json({message: "error", err});
+            return;
+          }
+          console.log("RESPONSE");
+          response.status(200).json({message: "Subscription paused successfully", res});
+
+          //console.log(res.toObject());
+        });
+      });
+});
+
+app.post("/resumeSubscription", function(request, response) {
+  console.log("the full body is ", request.body);
+  const b = request.body;
+  const customerId = b.customerId;
+  console.log("customerId: ", b);
+  conekta.Customer.find(customerId, function(err, customer) {
+        console.log("found customer info: ", customer);
+
+        customer.subscription.resume(function(err, res) {
+          if (err) {
+            console.log("Error al resumir subscricion: ", err);
+            response.status(200).json({message: "error", err});
+            return;
+          }
+          response.status(200).json({message: "Subscription resumed successfully", res});
+
+          //console.log(res.toObject());
+        });
+      });
+});
+
+app.post("/cancelSubscription", function(request, response) {
+  console.log("the full body is ", request.body);
+  const b = request.body;
+  const customerId = b.customerId;
+  console.log("customerId: ", b);
+  conekta.Customer.find(customerId, function(err, customer) {
+        console.log("found customer info: ", customer);
+
+        customer.subscription.cancel(function(err, res) {
+          if (err) {
+            console.log("Error al cancelar subscricion: ", err);
+            response.status(200).json({message: "error", err});
+            return;
+          }
+          response.status(200).json({message: "Subscription cancelled successfully", res});
+
+          //console.log(res.toObject());
+        });
+      });
+});
+
 app.post("/createSubscription", function(request, response) {
   console.log("the full body is ", request.body);
   const b = request.body;
