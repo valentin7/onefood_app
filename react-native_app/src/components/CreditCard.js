@@ -12,6 +12,7 @@ import variables from "../../native-base-theme/variables/commonColor";
 import { observer, inject } from "mobx-react/native";
 import {action} from "mobx";
 import Conekta from "react-native-conekta";
+// import Conekta from "conekta-react-native";
 
 @inject('store') @observer
 export default class CreditCard extends React.Component {
@@ -91,7 +92,26 @@ export default class CreditCard extends React.Component {
       // send request to AWS lambda to create customer.
       var conektaApi = new Conekta();
       conektaApi.setPublicKey('key_KoqjzW5XMEVcwxdqHsCFY4Q');
+    //  const conektaApi = new Conekta('key_KoqjzW5XMEVcwxdqHsCFY4Q');
+      console.log("hey the conektaApi: ", conektaApi);
+      // const card = conektaApi.createCard({
+      //   number: this.state.cardNumber,
+      //   cvc: this.state.cvc,
+      //   expMonth: this.state.expMonth,
+      //   expYear: this.state.expYear,
+      // });
+
       var conektaToken = "";
+      // try {
+      //   const data = await card.createToken();
+      //   console.log('DATA', data);
+      //   conektaToken = data.id;
+      // } catch (error) {
+      //   console.log('ERROR', error);
+      // }
+
+      // //var conektaToken = "";
+      console.log("Hey this is the conektaApi: ", conektaApi);
       await conektaApi.createToken({
         cardNumber: this.state.cardNumber,
         cvc: this.state.cvc,
@@ -147,7 +167,7 @@ export default class CreditCard extends React.Component {
       this.setState({conektaCustomerId: conektaCustomerId});
       this.props.store.conektaCustomerId = conektaCustomerId;
 
-      //});
+    //  });
     }
 
     @autobind

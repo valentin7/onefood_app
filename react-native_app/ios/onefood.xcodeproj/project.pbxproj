@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		1AD0ADB805D24102BDF4298F /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6D4A573FD7A347BEA94EF278 /* Foundation.ttf */; };
 		3FE260E21FDA41F7AD891875 /* Roboto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 360EFDE9F6AC459F86FA79E8 /* Roboto.ttf */; };
@@ -151,9 +150,9 @@
 				A761137F210F4A680039339C /* Conekta */,
 				A7611378210F4A150039339C /* RNConekta.xcodeproj */,
 				A7611375210F45930039339C /* CalendarManager.h */,
+				A7611376210F45930039339C /* CalendarManager.m */,
 				A7611390210F4A860039339C /* RNConekta.h */,
 				A761138F210F4A860039339C /* RNConekta.m */,
-				A7611376210F45930039339C /* CalendarManager.m */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -193,6 +192,7 @@
 		A76C4D72210CD230007B8E41 /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
+				9F6DB8AF99B24D2A83EBDE71 /* libRCTConekta.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -275,7 +275,7 @@
 		B56386391DB9693800A0598C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0940;
+				LastUpgradeCheck = 940;
 				ORGANIZATIONNAME = "650 Industries, Inc.";
 				TargetAttributes = {
 					B56386401DB9693800A0598C = {
@@ -564,9 +564,12 @@
 				DEVELOPMENT_TEAM = C8D8QTF339;
 				INFOPLIST_FILE = "$(SRCROOT)/onefood/Supporting/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.onefood.onefoodapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -578,9 +581,12 @@
 				DEVELOPMENT_TEAM = C8D8QTF339;
 				INFOPLIST_FILE = "$(SRCROOT)/onefood/Supporting/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.onefood.onefoodapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
