@@ -20,6 +20,7 @@ type LoginState = {
   loading: boolean
 };
 
+// Nota: este es el login.
 export default class SignUp extends React.Component<ScreenProps<>> {
 
     username: TextInput;
@@ -82,7 +83,7 @@ export default class SignUp extends React.Component<ScreenProps<>> {
 
       try {
         this.setState({loading: true});
-        await Firebase.auth.signInWithEmailAndPassword(email, password);
+        await Firebase.auth.signInWithEmailAndPassword(email.trim(), password.trim());
       } catch (e) {
         console.log("codigo error es: ", e.code);
         this.setState({loading: false});

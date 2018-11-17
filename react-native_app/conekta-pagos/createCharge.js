@@ -53,8 +53,6 @@ app.post("/pauseSubscription", function(request, response) {
   const customerId = b.customerId;
   console.log("customerId: ", b);
   conekta.Customer.find(customerId, function(err, customer) {
-        console.log("found customer info: ", customer);
-      //  console.log("subscrips: ", customer.subscriptions);
 
         customer.subscription.pause(function(err, res) {
           if (err) {
@@ -65,7 +63,6 @@ app.post("/pauseSubscription", function(request, response) {
           console.log("RESPONSE");
           response.status(200).json({message: "Subscription paused successfully", res});
 
-          //console.log(res.toObject());
         });
       });
 });

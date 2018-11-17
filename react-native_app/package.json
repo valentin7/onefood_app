@@ -31,6 +31,7 @@
   },
   "dependencies": {
     "@expo/vector-icons": "6.2.0",
+    "base-64": "^0.1.0",
     "colors": "1.0.3",
     "conekta": "^3.3.1",
     "conekta-card-tokenizer": "^1.0.1",

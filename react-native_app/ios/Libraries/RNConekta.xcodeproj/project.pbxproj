@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		38F1D3201C0B82FA0012D62E /* RNConekta.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 38F1D31F1C0B82FA0012D62E /* RNConekta.h */; };
-		38F1D3221C0B82FA0012D62E /* RNConekta.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F1D3211C0B82FA0012D62E /* RNConekta.m */; };
 		38F1D33C1C0B8E2A0012D62E /* Card.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F1D3321C0B8E2A0012D62E /* Card.m */; };
 		38F1D33D1C0B8E2A0012D62E /* Conekta.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F1D3341C0B8E2A0012D62E /* Conekta.m */; };
 		38F1D33E1C0B8E2A0012D62E /* Connection.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F1D3391C0B8E2A0012D62E /* Connection.m */; };
@@ -22,7 +20,6 @@
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
-				38F1D3201C0B82FA0012D62E /* RNConekta.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -30,8 +27,6 @@
 
 /* Begin PBXFileReference section */
 		38F1D31C1C0B82FA0012D62E /* libRNConekta.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRNConekta.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		38F1D31F1C0B82FA0012D62E /* RNConekta.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNConekta.h; sourceTree = "<group>"; };
-		38F1D3211C0B82FA0012D62E /* RNConekta.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNConekta.m; sourceTree = "<group>"; };
 		38F1D3311C0B8E2A0012D62E /* Card.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Card.h; path = Conekta/Card.h; sourceTree = "<group>"; };
 		38F1D3321C0B8E2A0012D62E /* Card.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Card.m; path = Conekta/Card.m; sourceTree = "<group>"; };
 		38F1D3331C0B8E2A0012D62E /* Conekta.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Conekta.h; path = Conekta/Conekta.h; sourceTree = "<group>"; };
@@ -74,8 +69,6 @@
 		38F1D31E1C0B82FA0012D62E /* RNConekta */ = {
 			isa = PBXGroup;
 			children = (
-				38F1D31F1C0B82FA0012D62E /* RNConekta.h */,
-				38F1D3211C0B82FA0012D62E /* RNConekta.m */,
 			);
 			path = RNConekta;
 			sourceTree = "<group>";
@@ -165,7 +158,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				38F1D3221C0B82FA0012D62E /* RNConekta.m in Sources */,
 				38F1D33F1C0B8E2A0012D62E /* Token.m in Sources */,
 				38F1D33D1C0B8E2A0012D62E /* Conekta.m in Sources */,
 				38F1D33C1C0B8E2A0012D62E /* Card.m in Sources */,
@@ -222,10 +214,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../../react-native/Libraries",
-					"$(SRCROOT)/../../react-native/React/**",
-				);
+				HEADER_SEARCH_PATHS = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -273,10 +262,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/../../react-native/Libraries",
-					"$(SRCROOT)/../../react-native/React/**",
-				);
+				HEADER_SEARCH_PATHS = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
@@ -288,11 +274,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				HEADER_SEARCH_PATHS = (
-					"$(PROJECT_DIR)/Conekta",
-					"\"${PODS_ROOT}/Headers/Public/React\"",
-					"\"${PODS_ROOT}/Headers/Public\"",
 					"$(SRCROOT)/../../react-native/React/**",
-					"$(SRCROOT)/../../react-native/Libraries",
+					"$(PROJECT_DIR)/Conekta/**",
 				);
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/Conekta";
 				OTHER_LDFLAGS = "-ObjC";
@@ -305,11 +288,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				HEADER_SEARCH_PATHS = (
-					"$(PROJECT_DIR)/Conekta",
-					"\"${PODS_ROOT}/Headers/Public/React\"",
-					"\"${PODS_ROOT}/Headers/Public\"",
 					"$(SRCROOT)/../../react-native/React/**",
-					"$(SRCROOT)/../../react-native/Libraries",
+					"$(PROJECT_DIR)/Conekta/**",
 				);
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/Conekta";
 				OTHER_LDFLAGS = "-ObjC";

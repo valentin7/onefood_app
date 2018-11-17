@@ -141,7 +141,11 @@ export default class MapaComponent extends React.Component<> {
         this.props.store.mapMarkers = newMarkers;
 
         var titleName = "ONEFOOD REP " + userDisplayName;
-        var newLocation = {key: userId, title: titleName, name: userDisplayName, phone: this.props.store.repPhone, description: "Presiona para más detalles.", coordinate: {latitude: lat, longitude: lng}, color: "green"};
+        var phone = this.props.repPhone;
+        if (phone == undefined) {
+          phone = "";
+        }
+        var newLocation = {key: userId, title: titleName, name: userDisplayName, phone: phone, description: "Presiona para más detalles.", coordinate: {latitude: lat, longitude: lng}, color: "green"};
         await Firebase.firestore.collection("mapalocations").doc(userId).set(newLocation).then(function() {
             console.log("Puso location del usuario updated");
         })
@@ -309,7 +313,6 @@ const styles = StyleSheet.create({
    height: 270,
    width: 270,
    borderRadius: 5,
-
  },
  containerChico: {
    justifyContent: 'center',

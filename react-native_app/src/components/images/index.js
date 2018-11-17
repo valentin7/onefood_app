@@ -13,6 +13,17 @@ export default class Images {
     static ingredientes = require("./ingredientes.jpg");
     static botellaNaranja = require("./botellaNaranja.jpg");
     static botellaNegro = require("./botellaNegro.jpg");
+
+    static chaiCompleta = require("./SABORES-ONE-FOOD-A-CHAI.jpg");
+    static cocoaCompleta = require("./SABORES-ONE-FOOD-A-COCOA.jpg");
+    static frutosCompleta = require("./SABORES-ONE-FOOD-A-FRUTOS-ROJOS.jpg");
+    static mixtoCompleta = require("./SABORES-ONE-FOOD-A-MIXTO.jpg");
+
+    static chaiSnack = require("./SABORES-ONE-FOOD-B-CHAI.jpg");
+    static cocoaSnack= require("./SABORES-ONE-FOOD-B-COCOA.jpg");
+    static frutosSnack = require("./SABORES-ONE-FOOD-B-FRUTOS-ROJOS.jpg");
+    static mixtoSnack = require("./SABORES-ONE-FOOD-B-MIXTO.jpg");
+
     static oneFoodLogo = require("./oneFoodLogo.png");
     static oneFull = require("./oneFull.png");
     static tablaNutricional = require("./tablaNutricional.jpg");
@@ -44,6 +55,16 @@ export default class Images {
             Asset.fromModule(Images.oneFoodLogo).downloadAsync(),
             Asset.fromModule(Images.botellaNegro).downloadAsync(),
             Asset.fromModule(Images.botellaNaranja).downloadAsync(),
+
+            Asset.fromModule(Images.chaiCompleta).downloadAsync(),
+            Asset.fromModule(Images.cocoaCompleta).downloadAsync(),
+            Asset.fromModule(Images.frutosCompleta).downloadAsync(),
+            Asset.fromModule(Images.mixtoCompleta).downloadAsync(),
+            Asset.fromModule(Images.chaiSnack).downloadAsync(),
+            Asset.fromModule(Images.cocoaSnack).downloadAsync(),
+            Asset.fromModule(Images.frutosSnack).downloadAsync(),
+            Asset.fromModule(Images.mixtoSnack).downloadAsync(),
+
             Asset.fromModule(Images.profile).downloadAsync(),
             Asset.fromModule(Images.markerCirculoAzul).downloadAsync(),
 

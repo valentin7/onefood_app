@@ -54,6 +54,8 @@ const AppNavigator = createStackNavigator(
   }
 );
 
+const mapaIcon = require('../components/images/iconos/mapa_v.png');
+
 @observer
 export default class BaseContainer extends React.Component<BaseContainerProps> {
 
@@ -62,6 +64,8 @@ export default class BaseContainer extends React.Component<BaseContainerProps> {
       isComprarModalOpen: false,
       screenSelected: "Pedidos",
       mapIconColor: variables.lightGray,
+      isConfirmationPopUpOpen: false,
+
     }
 
     componentWillMount() {
@@ -79,8 +83,17 @@ export default class BaseContainer extends React.Component<BaseContainerProps> {
     }
 
     @autobind
-    comprarModalClosing() {
+    comprarModalClosing(compra) {
       this.setState({isComprarModalOpen: false});
+      console.log("comprar modal closing bro: ", compra);
+      // if (compra) {
+      //   this.setState({isConfirmationPopUpOpen: true});
+      // }
+    }
+
+    @autobind
+    onConfirmationOkClick() {
+      this.setState({isConfirmationPopUpOpen: false});
     }
 
     mapa() {
@@ -127,13 +140,38 @@ export default class BaseContainer extends React.Component<BaseContainerProps> {
                             <Icon name="ios-add-circle"  style={{ fontSize: 56, color: compraIconColor}} />
                         </Button>
                         <Button onPress={() => this.mapa()} transparent>
-                            <Icon name="ios-map-outline" style={{ fontSize: 32, color: mapIconColor}} />
+                            <Image resizeMode="contain" style={{height: 30, width: 30}} source={mapaIcon} />
                         </Button>
                     </FooterTab>
                 </Footer>
+                <ConfirmationPopUp ref={"confirmationPopUp"} isConfirmationPopUpOpen={this.state.isConfirmationPopUpOpen} onConfirmationOkClick={this.onConfirmationOkClick}/>
                 <Comprar isModalOpen={this.state.isComprarModalOpen} onClosing={this.comprarModalClosing} ref={"modal"}></Comprar>
             </Container>
             );
+    }
+}
+
+class ConfirmationPopUp extends React.Component {
+
+    render(): React.Node {
+
+      let mensaje = "Encuentra alguno de nuestros representantes en el mapa y enséñales el código QR de tu pedido. Puedes ver tus pedidos al continuar."
+      // if (this.props.domicilio) {
+      //   mensaje = "Tu pedido se entregará " + this.props.descFechaEntrega
+      // }
+
+      return <Modal style={[style.modal, style.container]} swipeToClose={false} onClosed={this.setModalStateClosed}  isOpen={this.props.isConfirmationPopUpOpen} backdrop={true} position={"bottom"} coverScreen={true} ref={"modal"}>
+          <Button transparent onPress={this.dismissModal} style={{top: 20}}>
+              <Icon color={variables.brandPrimary} name="ios-close-outline" style={style.closeIcon} />
+          </Button>
+          <View style={{margin: 50}}>
+            <Text style={{color: variables.darkGray, fontSize: 22, marginBottom: 15}}>¡Pago confirmado!</Text>
+            <Text style={{color: variables.mediumGray, fontSize: 18}}>{mensaje}</Text>
+          </View>
+          <Button primary block onPress={this.props.onConfirmationOkClick} style={{ height: variables.footerHeight * 1.3 }}>
+            <Text style={{color: 'white'}}>OK</Text>
+          </Button>
+        </Modal>;
     }
 }
 

@@ -1,6 +1,1 @@
-
-#import <EXFileSystem/EXFileSystem.h>
-
-@interface EXFileSystemAssetLibraryHandler : NSObject <EXFileSystemHandler>
-
-@end
+../../../../../node_modules/expo-file-system/ios/EXFileSystem/EXFileSystemAssetLibraryHandler.h

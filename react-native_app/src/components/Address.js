@@ -151,7 +151,6 @@ export default class Address extends React.Component {
       }
     }
 
-
     @autobind
     dismissModal(){
       this.props.dismissModal("", this.state.savedAddress, this.state.direccionCompleta, this.state.direccionObject);

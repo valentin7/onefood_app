@@ -1,5 +1,9 @@
 export const PRECIO_BOTELLA = 49;
+export const PRECIO_SNACK = 29;
+export const PRECIO_SNACK_REP = 23.2;
+export const PRECIO_BOTELLA_REP = 39.2;
 export const serverlessURL = 'https://d88zd3d2ok.execute-api.us-east-1.amazonaws.com';
+export const CONEKTA_PUBLIC_KEY = 'key_KoqjzW5XMEVcwxdqHsCFY4Q';
 
 export function convertirFecha(date) {
   if (date == null) {

@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, TouchableOpacity, Dimensions, StyleSheet, Alert} from 'react-native';
+import {View, TouchableOpacity, Dimensions, StyleSheet, Alert, ScrollView} from 'react-native';
 import { BarCodeScanner, Permissions } from 'expo';
 import {Container, Text, Header, Right, Left, Icon, Content, Button, Body, Title, H3} from 'native-base';
 import autobind from "autobind-decorator";
@@ -22,6 +22,7 @@ export default class ScanPedido extends React.Component {
   }
 
   componentDidMount () {
+    console.log("aca");
     this.setState({justScanned: false});
   }
   async componentWillMount() {
@@ -154,19 +155,31 @@ class PedidoInfo extends React.Component<PedidoProps> {
     render(): React.Node {
       const {pedidoInfo, pedidoValido} = this.props;
       var fecha = Constants.convertirFecha(pedidoInfo.fecha);
+      console.log("TODO EL PEDIDOINFO: ", pedidoInfo);
 
-      return <Modal style={pedidoValido ? style.modalValido : style.modalChico} swipeToClose={true} position={"center"} onClosed={this.setModalStateClosed} backdrop={true} coverScreen={false} ref={"modal"}>
+      let pedidoItems = null;
+
+      if (pedidoInfo.cantidades) {
+        pedidoItems = pedidoInfo.cantidades.map((cantidad, index) => {
+          return <PedidoItem
+            key={index}
+            numero={cantidad}
+            title={pedidoInfo.sabores[index]}/>
+        });
+      }
+
+
+      return <Modal style={pedidoValido ? style.modalValido : style.modalChico} swipeToClose={false} position={"center"} onClosed={this.setModalStateClosed} backdrop={true} coverScreen={false} ref={"modal"}>
           {
             pedidoValido ?
             (<Container style={ style.containerChico}>
               <Text style={{fontSize: 22, fontWeight: "bold"}}>Pedido Válido</Text>
-                <PedidoItem
-                  numero={pedidoInfo.cantidades[0]}
-                  title="COCOA"
-              />
-              <View style={{marginTop: 20}}>
+              <ScrollView contentContainerStyle={[style.scrollDetail]}>
+                {pedidoItems}
+              <View style={{marginTop: 20, marginBottom: 15}}>
                 <H3>{fecha}</H3>
               </View>
+              </ScrollView>
             </Container>) :
             (<Container style={style.containerChico}>
               <Text style={{fontSize: 22, fontWeight: "bold"}}>Pedido Inválido</Text>
@@ -201,6 +214,10 @@ const style = StyleSheet.create({
   closeButton: {
     marginTop: 60,
   },
+  scrollDetail: {
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
     modal: {
     justifyContent: 'center',
     alignItems: 'center',

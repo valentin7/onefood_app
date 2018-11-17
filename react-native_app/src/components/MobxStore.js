@@ -5,7 +5,7 @@ class MobxStore {
   @observable pedidos = [];
   @observable subscriptions = [];
   @observable last4CreditCard = " ";
-  @observable esRep = false;
+  @observable esRep = undefined;
   @observable repPhone = "";
   @observable conektaCustomerId = undefined;
   @observable showingLocationOnMap = true;
@@ -13,6 +13,13 @@ class MobxStore {
   @observable mapMarkers = [];
   @observable totalPrice = 0;
   @observable cocoaQuantity = 0;
+  @observable chaiQuantity = 0;
+  @observable frutosQuantity = 0;
+  @observable mixtoQuantity = 0;
+  @observable cocoaSnackQuantity = 0;
+  @observable chaiSnackQuantity = 0;
+  @observable frutosSnackQuantity = 0;
+  @observable mixtoSnackQuantity = 0;
   @observable subscriptionStatus = "";
 
   @action loadingCompleted() {

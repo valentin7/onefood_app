@@ -1,7 +1,7 @@
 // @flow
 import autobind from "autobind-decorator";
 import * as React from "react";
-import {View, Image, StyleSheet, Dimensions, InteractionManager, Platform, Animated, ScrollView, ActivityIndicator, SafeAreaView, StatusBar, Alert} from "react-native";
+import {View, Image, ImageBackground, StyleSheet, Dimensions, InteractionManager, Platform, Animated, ScrollView, ActivityIndicator, SafeAreaView, StatusBar, Alert} from "react-native";
 import {H1, Text, Button, Segment, Radio, List, ListItem, Right, Content, CheckBox, Container, Header, Left, Icon, Title, Body, Footer, Card, CardItem, Fab} from "native-base";
 import ImageSlider from 'react-native-image-slider';
 import {TaskOverview, Images, Styles, PrecioTotal, QuantityInput, ScanCoupon, Address, Firebase, CreditCard, CheckoutConfirmation, WindowDimensions, MapaComponent} from "../components";
@@ -29,7 +29,11 @@ export default class Comprar extends React.Component {
       domicilio: false,
       isOpen: false,
       totalPrice: Constants.PRECIO_BOTELLA,
+      singleBotellaPrice: Constants.PRECIO_BOTELLA,
+      singleSnackPrice: Constants.PRECIO_SNACK,
       cocoaQuantity: 1,
+      frutosRojosQuantity: 1,
+      chaiQuantity: 1,
       defaultQuantity: 1,
       defaultIncrement: 1,
       credit_last4: "0000",
@@ -40,22 +44,87 @@ export default class Comprar extends React.Component {
       isCreditCardModalOpen: false,
       isAddressModalOpen: false,
       isMapaOpen: false,
+      sabores: [],
+      cantidades: [],
       userActiveSubscription: "",
     }
 
+    componentWillMount() {
+      //if (this.props.store.esRep == undefined) {
+      //}
+    }
+
+
     componentDidMount() {
-      this.setState({totalPrice: Constants.PRECIO_BOTELLA});
-      this.props.store.totalPrice = Constants.PRECIO_BOTELLA * this.state.defaultQuantity; // this.refs.cocoaQuantity.quantity;
-      this.props.store.cocoaQuantity = this.state.defaultQuantity;
+      this.setDefaultPrices();
       // this.refs.cocoaQuantity.quantity = this.state.defaultQuantity;
       // if (this.state.domicilio) {
       //   this.updateMinimumToDomicilio();
       // }
     }
 
+    @autobind
+    setDefaultPrices() {
+      console.log("Setting the defaultss");
+      //var amount = this.state.domicilio ? 6 : 1;
+      //this.setState({defaultQuantity: amount});
+      if (this.props.store.esRep) {
+        this.setState({singleBotellaPrice: Constants.PRECIO_BOTELLA_REP});
+        this.setState({snackBotellaPrice: Constants.PRECIO_BOTELLA_REP});
+      }
+      this.calculateTotalPrice();
+    }
+
+    @autobind
+    calculateTotalPrice() {
+      var cocoaPrice = this.state.singleBotellaPrice * this.props.store.cocoaQuantity;
+      var chaiPrice = this.state.singleBotellaPrice * this.props.store.chaiQuantity;
+      var frutosPrice = this.state.singleBotellaPrice * this.props.store.frutosQuantity;
+      var mixtoPrice = this.state.singleBotellaPrice * this.props.store.mixtoQuantity;
+      var cocoaSnackPrice = this.state.singleSnackPrice * this.props.store.cocoaSnackQuantity;
+      var frutosSnackPrice = this.state.singleSnackPrice * this.props.store.frutosSnackQuantity;
+      var chaiSnackPrice = this.state.singleSnackPrice * this.props.store.chaiSnackQuantity;
+      var mixtoSnackPrice = this.state.singleSnackPrice * this.props.store.mixtoSnackQuantity;
+      var newTotalPrice = cocoaPrice + chaiPrice + frutosPrice + mixtoPrice + cocoaSnackPrice + chaiSnackPrice + frutosSnackPrice + mixtoSnackPrice;
+
+      //var newTotalPrice = this.state.singleBotellaPrice * minimumQuantity;
+      newTotalPrice = parseFloat(newTotalPrice.toFixed(2));
+      this.setState({totalPrice: newTotalPrice});
+      this.props.store.totalPrice = newTotalPrice;
+    }
+
+    @autobind @action
+    async updateRepStatus(): Promise<void> {
+      var user = Firebase.auth.currentUser;
+
+      const docRef = await Firebase.firestore.collection("usersInfo").doc(user.uid);
+      var docExists = false;
+      var isRep = false;
+      var phoneNumber = "";
+      await docRef.get().then(function(doc) {
+          if (doc.exists) {
+              docExists = true;
+              isRep = doc.data().esRep;
+              if (isRep) {
+                phoneNumber = doc.data().phone;
+              }
+          } else {
+              console.log("No such document!");
+          }
+      }).catch(function(error) {
+          console.log("Error getting document:", error);
+      });
+
+      this.props.store.esRep = isRep;
+      this.props.store.repPhone = phoneNumber;
+
+      this.setDefaultPrices();
+    }
+
     @autobind @action
     open() {
-      // this.setState({totalPrice: Constants.PRECIO_BOTELLA});
+
+      // this.setState({totalPrice: this.state.singleBotellaPrice});
       // if (this.state.domicilio) {
       //   this.updateMinimumToDomicilio();
       // }
@@ -75,16 +144,13 @@ export default class Comprar extends React.Component {
     @autobind @action
     toggleDomicilioYes() {
       var currentPrice = this.state.totalPrice;
-      this.updateMinimumToDomicilio();
-
       this.setState({domicilio: true});
+      this.updateMinimumToDomicilio();
     }
 
     @autobind @action
     async updateUserHasSubscription(): Promise<void> {
-
       var user = Firebase.auth.currentUser;
-
       const docRef = await Firebase.firestore.collection("usersInfo").doc(user.uid);
       var docExists = false;
       var activeSubscription = "";
@@ -103,18 +169,54 @@ export default class Comprar extends React.Component {
 
     @autobind @action
     updateMinimumToDomicilio(){
+      var minimumQuantity = 0;
       if (this.refs.cocoaQuantity.quantity != 0 && this.refs.cocoaQuantity.quantity % 6 != 0) {
-        //var prevcocoa = this.refs.cocoaQuantity.quantity;
-        //var cocoaDifference = (6 - prevcocoa)*Constants.PRECIO_BOTELLA;
-        var minimumQuantity = 6;
         this.refs.cocoaQuantity.quantity = minimumQuantity;
-        //currentPrice = this.state.totalPrice + cocoaDifference;
-        this.setState({totalPrice: Constants.PRECIO_BOTELLA * minimumQuantity, cocoaQuantity: minimumQuantity});
-        this.props.store.totalPrice = Constants.PRECIO_BOTELLA * minimumQuantity;
         this.props.store.cocoaQuantity = minimumQuantity;
-        this.setState({defaultQuantity: 6});
       }
+      if (this.refs.chaiQuantity.quantity != 0 && this.refs.chaiQuantity.quantity % 6 != 0) {
+        this.refs.chaiQuantity.quantity = minimumQuantity;
+        this.props.store.chaiQuantity = minimumQuantity;
+      }
+      if (this.refs.frutosQuantity.quantity != 0 && this.refs.frutosQuantity.quantity % 6 != 0) {
+        this.refs.frutosQuantity.quantity = minimumQuantity;
+        this.props.store.frutosQuantity = minimumQuantity;
+      }
+      if (this.refs.mixtoQuantity && this.refs.mixtoQuantity.quantity != 0 && this.refs.mixtoQuantity.quantity % 6 != 0) {
+        this.refs.mixtoQuantity.quantity = minimumQuantity;
+        this.props.store.mixtoQuantity = minimumQuantity;
+      }
+
+      if (this.refs.cocoaSnackQuantity.quantity != 0 && this.refs.cocoaSnackQuantity.quantity % 6 != 0) {
+        this.refs.cocoaSnackQuantity.quantity = minimumQuantity;
+        this.props.store.cocoaSnackQuantity = minimumQuantity;
+      }
+      if (this.refs.chaiSnackQuantity.quantity != 0 && this.refs.chaiSnackQuantity.quantity % 6 != 0) {
+        this.refs.chaiSnackQuantity.quantity = minimumQuantity;
+        this.props.store.chaiSnackQuantity = minimumQuantity;
+      }
+      if (this.refs.frutosSnackQuantity.quantity != 0 && this.refs.frutosSnackQuantity.quantity % 6 != 0) {
+        this.refs.frutosSnackQuantity.quantity = minimumQuantity;
+        this.props.store.frutosSnackQuantity = minimumQuantity;
+      }
+      if (this.refs.mixtoSnackQuantity && this.refs.mixtoSnackQuantity.quantity != 0 && this.refs.mixtoSnackQuantity.quantity % 6 != 0) {
+        this.refs.mixtoSnackQuantity.quantity = minimumQuantity;
+        this.props.store.mixtoSnackQuantity = minimumQuantity;
+      }
+
       this.refs.cocoaQuantity.incrementAmount = 6;
+      this.refs.chaiQuantity.incrementAmount = 6;
+      this.refs.frutosQuantity.incrementAmount = 6;
+
+      this.refs.cocoaSnackQuantity.incrementAmount = 6;
+      this.refs.chaiSnackQuantity.incrementAmount = 6;
+      this.refs.frutosSnackQuantity.incrementAmount = 6;
+
+      if (this.refs.mixtoQuantity && this.refs.mixtoSnackQuantity) {
+        this.refs.mixtoQuantity.incrementAmount = 6;
+        this.refs.mixtoSnackQuantity.incrementAmount = 6;
+      }
+      this.calculateTotalPrice();
       this.setState({defaultIncrement: 6});
     }
 
@@ -122,9 +224,69 @@ export default class Comprar extends React.Component {
     toggleDomicilioNo() {
       console.log("HEREE");
       this.refs.cocoaQuantity.incrementAmount = 1;
-      this.setState({defaultQuantity: this.refs.cocoaQuantity.quantity, defaultIncrement: 1});
-    //  this.setState({totalPrice: Constants.PRECIO_BOTELLA * this.refs.cocoaQuantity.quantity, cocoaQuantity: this.refs.cocoaQuantity.quantity});
+      this.refs.chaiQuantity.incrementAmount = 1;
+      this.refs.frutosQuantity.incrementAmount = 1;
+      this.refs.mixtoQuantity.incrementAmount = 1;
+      this.refs.cocoaSnackQuantity.incrementAmount = 1;
+      this.refs.chaiSnackQuantity.incrementAmount = 1;
+      this.refs.frutosSnackQuantity.incrementAmount = 1;
+      this.refs.mixtoSnackQuantity.incrementAmount = 1;
+
+      this.refs.mixtoQuantity.quantity = 0;
+      this.refs.mixtoSnackQuantity.quantity = 0;
+      this.props.store.mixtoQuantity = 0;
+      this.props.store.mixtoSnackQuantity = 0;
+      this.calculateTotalPrice();
+
+      this.setState({defaultIncrement: 1});
+      // maybe here
+    //  this.setState({totalPrice: this.state.singleBotellaPrice * this.refs.cocoaQuantity.quantity, cocoaQuantity: this.refs.cocoaQuantity.quantity});
       this.setState({domicilio: false, subscription: false});
+    }
+
+    @autobind
+    updateSaboresQuantity() {
+      var sabores = [];
+      var cantidades = [];
+      console.log("here boii");
+
+      if (this.props.store.cocoaQuantity > 0) {
+        sabores.push("COCOA COMPLETA");
+        cantidades.push(this.props.store.cocoaQuantity);
+      }
+      if (this.props.store.chaiQuantity > 0) {
+        sabores.push("CHAI COMPLETA");
+        cantidades.push(this.props.store.chaiQuantity);
+      }
+      if (this.props.store.frutosQuantity > 0) {
+        sabores.push("FRUTOS COMPLETA");
+        cantidades.push(this.props.store.frutosQuantity);
+      }
+      if (this.props.store.mixtoQuantity > 0) {
+        sabores.push("MIXTO COMPLETA");
+        cantidades.push(this.props.store.mixtoQuantity);
+      }
+
+      if (this.props.store.cocoaSnackQuantity > 0) {
+        sabores.push("COCOA SNACK");
+        cantidades.push(this.props.store.cocoaSnackQuantity);
+      }
+      if (this.props.store.chaiSnackQuantity > 0) {
+        sabores.push("CHAI SNACK");
+        cantidades.push(this.props.store.chaiSnackQuantity);
+      }
+      if (this.props.store.frutosSnackQuantity > 0) {
+        sabores.push("FRUTOS SNACK");
+        cantidades.push(this.props.store.frutosSnackQuantity);
+      }
+      if (this.props.store.mixtoSnackQuantity > 0) {
+        sabores.push("MIXTO SNACK");
+        cantidades.push(this.props.store.mixtoSnackQuantity);
+      }
+
+      console.log("here's all of them: ", sabores, cantidades)
+
+      this.setState({sabores: sabores, cantidades: cantidades});
     }
 
     @autobind
@@ -138,6 +300,7 @@ export default class Comprar extends React.Component {
     @autobind
     dismissAddressModal(last4, finished, direccionCompleta, direccionObject) {
       this.setState({isAddressModalOpen: false});
+      console.log("the direccionobject: ", direccionObject);
       this.setState({direccionCompleta: direccionCompleta, direccionObject: direccionObject});
       if (last4 != null && last4.length > 1) {
         this.setState({credit_last4: last4});
@@ -157,7 +320,10 @@ export default class Comprar extends React.Component {
 
     @autobind
     dismissModal() {
-      this.props.onClosing();
+      this.props.store.mixtoSnackQuantity = 0;
+      this.props.store.mixtoQuantity = 0;
+      this.calculateTotalPrice();
+      this.props.onClosing(false);
       //this.setState({isOpen: false});
     }
 
@@ -170,6 +336,8 @@ export default class Comprar extends React.Component {
           console.log("error, no usuario");
           return;
         }
+
+        this.updateSaboresQuantity();
 
         if (this.state.domicilio || this.state.subscription) {
           // check whether we already have his address saved.
@@ -249,13 +417,54 @@ export default class Comprar extends React.Component {
     }
 
     @autobind
-    totalPriceChange(change) {
-      this.setState({totalPrice: this.state.totalPrice + change, cocoaQuantity: this.refs.cocoaQuantity.quantity});
+    totalPriceChange(change, flavor) {
+      console.log("HERE'S THE CHANGE: ", change);
+      //change = change.toFixed(2)
+      var newTotalPrice = this.state.totalPrice + change;
+      newTotalPrice = parseFloat(newTotalPrice.toFixed(2))
+      this.setState({totalPrice: newTotalPrice, cocoaQuantity: this.refs.cocoaQuantity.quantity});
+      console.log("HERE'S THE NEW TOTAL PRICE: ", newTotalPrice);
+      switch (flavor) {
+        case "cocoa":
+          this.props.store.cocoaQuantity = this.refs.cocoaQuantity.quantity;
+          break;
+        case "chai":
+          this.props.store.chaiQuantity = this.refs.chaiQuantity.quantity;
+          break;
+        case "frutos":
+          this.props.store.frutosQuantity = this.refs.frutosQuantity.quantity;
+          break;
+        case "mixto":
+          this.props.store.mixtoQuantity = this.refs.mixtoQuantity.quantity;
+          break;
+        case "cocoaSnack":
+          this.props.store.cocoaSnackQuantity = this.refs.cocoaSnackQuantity.quantity;
+          break;
+        case "chaiSnack":
+          this.props.store.chaiSnackQuantity = this.refs.chaiSnackQuantity.quantity;
+          break;
+        case "frutosSnack":
+          this.props.store.frutosSnackQuantity = this.refs.frutosSnackQuantity.quantity;
+          break;
+        case "mixtoSnack":
+          this.props.store.mixtoSnackQuantity = this.refs.mixtoSnackQuantity.quantity;
+          break;
+        default:
+          console.log("WTF BROOOO  ", flavor);
+      }
+
+      //this.props.store.cocoaQuantity = this.refs.cocoaQuantity.quantity;
+      //this.setState({totalPrice: newTotalPrice, cocoaQuantity: this.refs.cocoaQuantity.quantity});
     }
 
     @autobind
-    madeFinalPurchase() {
-        this.dismissModal();
+    madeFinalPurchase(compra) {
+      console.log("dismissing comprar");
+        //this.dismissModal();
+      this.props.store.mixtoSnackQuantity = 0;
+      this.props.store.mixtoQuantity = 0;
+      this.calculateTotalPrice();
+      this.props.onClosing(true);
     }
 
     @autobind
@@ -276,10 +485,10 @@ export default class Comprar extends React.Component {
 
     @autobind
     onOpened() {
+      console.log("running rep update");
+      this.updateRepStatus();
       this.updateUserHasSubscription();
-      this.refs.cocoaQuantity.quantity = this.props.store.cocoaQuantity;
-      this.setState({totalPrice: this.props.store.cocoaQuantity * Constants.PRECIO_BOTELLA});
-      this.props.store.totalPrice = Constants.PRECIO_BOTELLA * this.refs.cocoaQuantity.quantity;
+      this.calculateTotalPrice();
     }
 
     static navigationOptions = {
@@ -294,14 +503,14 @@ export default class Comprar extends React.Component {
         if (this.state.subscription) {
           descriptionTexto += " mensual";
           descEntrega += "¡Despreocúpate y ocúpate!\n\n"
-          descEntrega += "La entrega a domicilio por subscripción se hará mensualmente en las fechas establecidas a continuación.\n\n"
+          descEntrega += "La entrega a domicilio por suscripción se hará mensualmente en las fechas establecidas a continuación.\n\n"
         }
         descriptionTexto += ")";
         Moment.updateLocale('es', localization);
         var fechaMin = Moment().add(5, 'days').format("dddd, D MMMM");
         var fechaMax = Moment().add(11, 'days').format("dddd, D MMMM");
         descEntrega += "Entrega en 5 a 11 días: entre " + fechaMin + " y " + fechaMax + ".";
-
+        var recojoText = "Yo Lo Recojo";
         return <Modal style={[style.modal, style.modal2]} isOpen={this.props.isModalOpen} onOpened={this.onOpened} swipeToClose={false}  backdrop={false} coverScreen={Platform.OS === 'android'} position={"top"} ref={"modal2"}>
             <Container>
               <Header style={{backgroundColor: variables.brandInfo, borderBottomWidth: 1, borderColor: variables.lightGray}}>
@@ -314,34 +523,78 @@ export default class Comprar extends React.Component {
                     <Title style={{color: variables.brandPrimary}}>COMPRAR</Title>
                 </Body>
                 <Right>
-                  <Button transparent onPress={() => this.refs.couponModal.open()}>
-                    <Icon name="md-qr-scanner" style={{color: variables.brandPrimary}} />
-                  </Button>
+                 { /*
+                   Para cuando se necesite escanear cupones
+                   <Button transparent onPress={() => this.refs.couponModal.open()}>
+                     <Icon name="md-qr-scanner" style={{color: variables.brandPrimary}} />
+                   </Button>
+                   */
+                 }
+                 <View/>
                 </Right>
               </Header>
+              <View style={{backgroundColor: 'white'}}>
+                <Segment style={{backgroundColor: 'white'}}>
+                  <Button first active={this.state.domicilio} onPress={this.toggleDomicilioYes}>
+                    <Text style={{fontSize: 15}}>Entrega A Domicilio</Text>
+                  </Button>
+                  <Button last active={!this.state.domicilio} onPress={this.toggleDomicilioNo}>
+                    <Text style={{fontSize: 15}}>{recojoText}</Text>
+                  </Button>
+                </Segment>
+              </View>
               <Content>
-              <Segment style={{}}>
-                <Button first active={this.state.domicilio} onPress={this.toggleDomicilioYes}>
-                  <Text style={{fontSize: 13}}>Entrega A Domicilio</Text>
-                </Button>
-                <Button last active={!this.state.domicilio} onPress={this.toggleDomicilioNo}>
-                  <Text style={{fontSize: 13}}>Recoger Producto</Text>
-                </Button>
-              </Segment>
-                <Image source={Images.botellaNaranja} style={style.img} />
+                <ImageBackground source={Images.cocoaCompleta} style={style.saborImg}>
+                  <View style={[Styles.center, style.quantityView]}>
+                    <QuantityInput totalPriceChange={this.totalPriceChange} singleBotellaPrice={this.props.store.esRep ? Constants.PRECIO_BOTELLA_REP : Constants.PRECIO_BOTELLA} defaultQuantity={this.props.store.cocoaQuantity} defaultIncrement={this.state.defaultIncrement} ref="cocoaQuantity" flavor="cocoa" singular="botella" plural="botellas" from={0} to={60*this.state.singleBotellaPrice} />
+                  </View>
+                </ImageBackground>
+                <ImageBackground source={Images.chaiCompleta} style={style.saborImg}>
+                  <View style={[Styles.center, style.quantityView]}>
+                    <QuantityInput totalPriceChange={this.totalPriceChange} singleBotellaPrice={this.props.store.esRep ? Constants.PRECIO_BOTELLA_REP : Constants.PRECIO_BOTELLA} defaultQuantity={this.props.store.chaiQuantity} defaultIncrement={this.state.defaultIncrement} ref="chaiQuantity" flavor="chai" singular="botella" plural="botellas" from={0} to={60*this.state.singleBotellaPrice} />
+                  </View>
+                </ImageBackground>
+                <ImageBackground source={Images.frutosCompleta} style={style.saborImg}>
+                  <View style={[Styles.center, style.quantityView]}>
+                    <QuantityInput totalPriceChange={this.totalPriceChange} singleBotellaPrice={this.props.store.esRep ? Constants.PRECIO_BOTELLA_REP : Constants.PRECIO_BOTELLA} defaultQuantity={this.props.store.frutosQuantity} defaultIncrement={this.state.defaultIncrement} ref="frutosQuantity" flavor="frutos" singular="botella" plural="botellas" from={0} to={60*this.state.singleBotellaPrice} />
+                  </View>
+                </ImageBackground>
+                {this.state.domicilio ?
+                  (<ImageBackground source={Images.mixtoCompleta} style={style.saborImg}>
+                    <View style={[Styles.center, style.quantityView]}>
+                      <QuantityInput totalPriceChange={this.totalPriceChange} singleBotellaPrice={this.props.store.esRep ? Constants.PRECIO_BOTELLA_REP : Constants.PRECIO_BOTELLA} defaultQuantity={this.props.store.mixtoQuantity} defaultIncrement={this.state.defaultIncrement} ref="mixtoQuantity" flavor="mixto" singular="botella" plural="botellas" from={0} to={60*this.state.singleBotellaPrice} />
+                    </View>
+                  </ImageBackground>) : null
+                }
+
+                <ImageBackground source={Images.cocoaSnack} style={style.saborImg}>
+                  <View style={[Styles.center, style.quantityView]}>
+                    <QuantityInput totalPriceChange={this.totalPriceChange} singleBotellaPrice={this.props.store.esRep ? Constants.PRECIO_SNACK_REP : Constants.PRECIO_SNACK} defaultQuantity={this.props.store.cocoaSnackQuantity} defaultIncrement={this.state.defaultIncrement} ref="cocoaSnackQuantity" flavor="cocoaSnack" singular="botella" plural="botellas" from={0} to={60*this.state.singleBotellaPrice} />
+                  </View>
+                </ImageBackground>
+                <ImageBackground source={Images.chaiSnack} style={style.saborImg}>
+                  <View style={[Styles.center, style.quantityView]}>
+                    <QuantityInput totalPriceChange={this.totalPriceChange} singleBotellaPrice={this.props.store.esRep ? Constants.PRECIO_SNACK_REP : Constants.PRECIO_SNACK} defaultQuantity={this.props.store.chaiSnackQuantity} defaultIncrement={this.state.defaultIncrement} ref="chaiSnackQuantity" flavor="chaiSnack" singular="botella" plural="botellas" from={0} to={60*this.state.singleBotellaPrice} />
+                  </View>
+                </ImageBackground>
+                <ImageBackground source={Images.frutosSnack} style={style.saborImg}>
+                  <View style={[Styles.center, style.quantityView]}>
+                    <QuantityInput totalPriceChange={this.totalPriceChange} singleBotellaPrice={this.props.store.esRep ? Constants.PRECIO_SNACK_REP : Constants.PRECIO_SNACK} defaultQuantity={this.props.store.frutosSnackQuantity} defaultIncrement={this.state.defaultIncrement} ref="frutosSnackQuantity" flavor="frutosSnack" singular="botella" plural="botellas" from={0} to={60*this.state.singleBotellaPrice} />
+                  </View>
+                </ImageBackground>
+
+                {this.state.domicilio ?
+                  (<ImageBackground source={Images.mixtoSnack} style={style.saborImg}>
+                    <View style={[Styles.center, style.quantityView]}>
+                      <QuantityInput totalPriceChange={this.totalPriceChange} singleBotellaPrice={this.props.store.esRep ? Constants.PRECIO_SNACK_REP : Constants.PRECIO_SNACK} defaultQuantity={this.props.store.mixtoQuantity} defaultIncrement={this.state.defaultIncrement} ref="mixtoSnackQuantity" flavor="mixtoSnack" singular="botella" plural="botellas" from={0} to={60*this.state.singleBotellaPrice} />
+                    </View>
+                  </ImageBackground>) :
+                  null
+                }
+
+
                 <View style={[style.count, style.information]}>
                   <Text onPress={this.showIngredients} style={{color: variables.brandPrimary}}>ⓘ Información Nutricional</Text>
-                </View>
-                <View style={[style.information, {marginBottom: -10}]}>
-                  <Button disabled={true} style={{backgroundColor: variables.brandInfo}}>
-                    <Icon name="arrow-down"/>
-                  </Button>
-                </View>
-                <ActivityIndicator size="large" animating={this.state.loading}/>
-                <View style={[style.count, Styles.center]}>
-                    <H1 style={style.heading}>COCOA</H1>
-                    <Text style={{color: 'gray'}}>SABOR</Text>
-                    <QuantityInput totalPriceChange={this.totalPriceChange} defaultQuantity={this.props.store.cocoaQuantity} defaultIncrement={this.state.defaultIncrement} ref="cocoaQuantity" singular="botella" plural="botellas" from={0} to={60*Constants.PRECIO_BOTELLA} />
                 </View>
                 {
                   !this.state.domicilio ? (
@@ -374,6 +627,7 @@ export default class Comprar extends React.Component {
               </Content>
               <Footer>
                 <Button block onPress={this.continuar} disabled={this.state.totalPrice == 0} style={{ height: variables.footerHeight * 1.3, width: width, paddingBottom: 10}}>
+                  <ActivityIndicator size="small" color="white" style={{left: -15, marginRight: 5, position: "relative"}} animating={this.state.loading} />
                   <Text style={{color: 'white'}}>CONTINUAR</Text>
                   <Text style={{color: 'white'}}>{descriptionTexto}</Text>
                 </Button>
@@ -384,7 +638,7 @@ export default class Comprar extends React.Component {
             <Address isOpen={this.state.isAddressModalOpen} dismissModal={this.dismissAddressModal} ></Address>
             <ScanCoupon ref={"couponModal"}/>
             <CreditCard isOpen={this.state.isCreditCardModalOpen} dismissModal={this.dismissCreditCardModal} ref={"creditCardModal"}></CreditCard>
-            <CheckoutConfirmation isCheckoutOpen={this.state.isCheckoutOpen} onOpenChange={this.onConfirmationOpenChange} madeFinalPurchase={this.madeFinalPurchase} userActiveSubscription={this.state.userActiveSubscription} domicilio={this.state.domicilio} subscription={this.state.subscription} totalPrice={this.state.totalPrice} cocoaQuantity={this.state.cocoaQuantity} lastFour={this.state.credit_last4} direccionCompleta={this.state.direccionCompleta} direccionObject={this.state.direccionObject} ref={"checkoutModal"}></CheckoutConfirmation>
+            <CheckoutConfirmation isCheckoutOpen={this.state.isCheckoutOpen} sabores={this.state.sabores} cantidades={this.state.cantidades} onOpenChange={this.onConfirmationOpenChange} madeFinalPurchase={this.madeFinalPurchase} userActiveSubscription={this.state.userActiveSubscription} domicilio={this.state.domicilio} subscription={this.state.subscription} totalPrice={this.state.totalPrice} cocoaQuantity={this.props.store.cocoaQuantity} lastFour={this.state.credit_last4} direccionCompleta={this.state.direccionCompleta} direccionObject={this.state.direccionObject} ref={"checkoutModal"}></CheckoutConfirmation>
         </Modal>;
     }
 }
@@ -509,6 +763,16 @@ const style = StyleSheet.create({
         height: width * 600 / 750,
         resizeMode: "cover",
         marginBottom: 7,
+    },
+    saborImg: {
+        width,
+        height: width * 461/750,
+        position: "relative",
+    },
+    quantityView: {
+      top: 85,
+      left: 60,
+      position: "relative",
     },
     infoImg: {
       flex: 1,

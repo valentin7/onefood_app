@@ -2,7 +2,7 @@
 import autobind from "autobind-decorator";
 import * as React from "react";
 import {StyleSheet, View, Text, TouchableOpacity, ActivityIndicator, Dimensions, RefreshControl, ScrollView, Image, ImageBackground, YellowBox, Alert} from "react-native";
-import {Button, Icon, Card, CardItem, Left, Right, H3, Separator, ListItem, List} from "native-base";
+import {Button, Icon, Container, Card, CardItem, Left, Right, H3, Separator, ListItem, List} from "native-base";
 import {observable, action} from "mobx";
 import { observer, inject } from "mobx-react/native";
 import { Location, Permissions } from 'expo';
@@ -133,6 +133,9 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
 
       this.props.store.esRep = isRep;
       this.props.store.repPhone = phoneNumber;
+      if (phoneNumber == undefined) {
+        this.props.store.repPhone = "";
+      }
     }
 
     @autobind @action
@@ -211,10 +214,12 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
       }
     }
 
-    open(pedidoInfo) {
+    @autobind
+    open(pedidoInfo, isSubscription) {
+      console.log("OPENING! subscription? ", isSubscription);
       this.setState({selectedPedido: pedidoInfo});
 
-      if (pedidoInfo.subscription) {
+      if (isSubscription) {
         this.refs.subscriptionModal.open();
         //this.setState({selectedPedidoStatus: pedidoInfo.subscriptionStatus});
       } else {
@@ -262,6 +267,8 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
           welcomeMessage = "Bienvenid@ " + this.state.usersName + ".";
         }
 
+        console.log("from the store substatus: " , this.props.store.subscriptionStatus)
+
         return <ImageBackground source={Images.oneFull} style={style.fullScreenImage}>
                 <BaseContainer ref="baseComponent" title="Pedidos" hasRefresh={true} refresh={this.refreshPedidos} navigation={this.props.navigation} >
                   <View style={style.transparent}>
@@ -291,12 +298,12 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
 
                     { this.props.store.subscriptions.length > 0 ? (
                       <Separator style={style.divider}>
-                        <Text style={{color: variables.darkGray, fontWeight: "bold"}}>Subscripción</Text>
+                        <Text style={{color: variables.darkGray, fontWeight: "bold"}}>Suscripción</Text>
                       </Separator>
                     ) : (<View/>)}
 
                     {this.props.store.subscriptions.map((item, key) =>
-                      (<ListItem key={key} style={{height: 70, backgroundColor: "white", flexDirection: 'column', alignItems: 'flex-start'}} onPress={() => this.open(item)}>
+                      (<ListItem key={key} style={{height: 70, backgroundColor: "white", flexDirection: 'column', alignItems: 'flex-start'}} onPress={() => this.open(item, true)}>
                         <Text style={style.pedidoTitulo}> {item.cantidades.reduce(function(acc, val) {return acc + val})} ONEFOODS AL MES</Text>
                         <View style={{flexDirection: 'row'}}>
                           <Text style={style.pedidoFecha}>{Constants.convertirFechaParaSubscripcion(item.fecha)}</Text>
@@ -312,7 +319,7 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
                     ) : (<View/>)}
 
                     {this.props.store.pedidos.map((item, key) =>
-                      (<ListItem key={key} style={{height: 70, backgroundColor: "white", flexDirection: 'column', alignItems: 'flex-start'}} onPress={() => this.open(item)}>
+                      (<ListItem key={key} style={{height: 70, backgroundColor: "white", flexDirection: 'column', alignItems: 'flex-start'}} onPress={() => this.open(item, false)}>
                         <Text style={style.pedidoTitulo}> {item.cantidades.reduce(function(acc, val) {return acc + val})} ONEFOODS</Text>
                         <Text style={style.pedidoFecha}>{Constants.convertirFechaCorta(item.fecha)}</Text>
                       </ListItem>))
@@ -326,7 +333,7 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
 
                     {this.state.pedidosHistorial.map((item, key) =>  (
                       <ListItem key={key} style={{height: 70, backgroundColor: "white", flexDirection: 'column', alignItems: 'flex-start'}} onPress={() => this.open(item)}>
-                        <Text style={Styles.grayText}> {item.cantidades[0]} ONEFOODS</Text>
+                        <Text style={Styles.grayText}> {item.cantidades.reduce(function(acc, val) {return acc + val})} ONEFOODS</Text>
                         <Text style={style.pedidoFecha}>{Constants.convertirFechaCorta(item.fecha)}</Text>
                       </ListItem>))
                     }
@@ -335,8 +342,8 @@ export default class Pedidos extends React.Component<ScreenProps<>> {
                   )}
                   </View>
                   {this.props.store.esRep && <ScanPedido ref={"scanPedidoModal"}/>}
-                  <PedidoDetalle ref={"pedidoModal"} pedidoInfo={this.state.selectedPedido} pedido_id={this.state.selectedPedidoId} fecha={this.state.selectedDate} cantidades={this.state.selectedPQuantities} precioTotal={this.state.selectedTotalPrice}/>
-                  <SubscriptionDetalle ref={"subscriptionModal"} isOpen={this.state.isSubscriptionModalOpen} onClose={this.subscriptionModalOnClose} subStatusChange={this.subStatusChange} subscriptionStatus={this.props.store.subscriptionStatus} pedidoInfo={this.state.selectedPedido} pedido_id={this.state.selectedPedidoId} conektaCustomerId={this.props.store.conektaCustomerId} fecha={this.state.selectedDate} cantidades={this.state.selectedPQuantities} precioTotal={this.state.selectedTotalPrice}/>
+                  <SubscriptionDetalle ref={"subscriptionModal"} onClose={this.subscriptionModalOnClose} subStatusChange={this.subStatusChange} subscriptionStatus={this.props.store.subscriptionStatus} pedidoInfo={this.state.selectedPedido} pedido_id={this.state.selectedPedidoId} conektaCustomerId={this.props.store.conektaCustomerId} fecha={this.state.selectedDate} cantidades={this.state.selectedPQuantities} precioTotal={this.state.selectedTotalPrice}/>
+                  <PedidoDetalle ref={"pedidoModal"} pedidoInfo={this.state.selectedPedido} pedido_id={this.state.selectedPedidoId} fecha={this.state.selectedDate} cantidades={this.state.selectedPQuantities} precioTotal={this.state.selectedTotalPrice} refreshPedidos={this.refreshPedidos}/>
         </BaseContainer>
         </ImageBackground>;
     }
@@ -359,60 +366,65 @@ class PedidoDetalle extends React.Component<PedidoProps> {
 
     open() {
       this.setState({detailModalIsOpen: true});
-      //this.refs.modal.open();
     }
 
     @autobind
     setModalStateClosed() {
       this.setState({detailModalIsOpen: false});
-      this.props.onClose();
+      //this.props.onClose();
     }
 
     @autobind
     dismissModal() {
+      this.props.refreshPedidos();
       this.setState({detailModalIsOpen: false});
     }
 
     render(): React.Node {
       const {pedidoInfo, pedido_id, fecha, cantidades, precioTotal} = this.props;
       var pedidoId = 0;
-      var cocoaQuantity = 0;
       var pedidoFecha = "";
       var showQR = false;
+      var pedidoItems = []
       if (pedidoInfo != undefined) {
         pedidoId = pedidoInfo.pedido_id;
-        cocoaQuantity = pedidoInfo.cantidades[0];
         pedidoFecha = Constants.convertirFecha(pedidoInfo.fecha);
         //pedidoFecha = pedidoInfo.fecha;
         showQR = !pedidoInfo.reclamado;
+        pedidoItems = pedidoInfo.cantidades.map((cantidad, index) => {
+          return <PedidoItem
+            key={index}
+            numero={cantidad}
+            title={pedidoInfo.sabores[index]}/>
+        });
       }
 
 
 
-      return <Modal style={[style.modal, style.container]} onClosed={this.setModalStateClosed}  isOpen={this.props.isOpen} backdrop={true} position={"bottom"} coverScreen={true} ref={"modal"}>
-          <Button transparent onPress={this.dismissModal}>
+      return <Modal style={[style.modal, style.container]} swipeToClose={false} onClosed={this.setModalStateClosed}  isOpen={this.state.detailModalIsOpen} backdrop={true} position={"bottom"} coverScreen={true} ref={"modal"}>
+          <Button transparent onPress={this.dismissModal} style={{top: 20}}>
               <Icon color={variables.brandPrimary} name="ios-close-outline" style={style.closeIcon} />
           </Button>
-          {
-            showQR ?
-            (<QRCode
-                  value={pedidoId}
-                  size={200}
-                  bgColor={variables.brandPrimary}
-                  fgColor='white'/>) :
-            (<View/>)
-          }
-            <PedidoItem
-                numero={cocoaQuantity}
-                title="COCOA"
-            />
-            <View style={{marginTop: 20}}>
-              <Text style={{color: variables.darkGray, fontSize: 17}}>{pedidoFecha}</Text>
-            </View>
+          <ScrollView contentContainerStyle={[style.scrollDetail]}>
+            <View style={{marginBottom: 50}}/>
+            {
+              showQR ?
+              (<QRCode
+                    value={pedidoId}
+                    size={200}
+                    bgColor={variables.brandPrimary}
+                    fgColor='white'/>) :
+              (<View/>)
+            }
+              {pedidoItems}
+              <View style={{marginTop: 20}}>
+                <Text style={{color: variables.darkGray, fontSize: 17}}>{pedidoFecha}</Text>
+              </View>
+              <View style={{margin: 20, marginBottom: 80}}>
+                <Text style={{color: variables.lightGray, fontSize: 14}}>Recibe tus ONEFOODS presentando este código QR a uno de nuestros representantes.</Text>
+              </View>
 
-            <View style={{margin: 20}}>
-              <Text style={{color: variables.lightGray, fontSize: 14}}>Recibe tus ONEFOODS presentando este código QR a uno de nuestros representantes.</Text>
-            </View>
+            </ScrollView>
 
         </Modal>;
     }
@@ -459,7 +471,7 @@ class SubscriptionDetalle extends React.Component<PedidoProps> {
 
         if (responseJSON.message != "Subscription paused successfully") {
           this.setState({loading: false});
-          Alert.alert("Hubo un error al pausar tu subscripción automáticamente.", "Por favor mandar un email a soporte@onefood.com.mx para pausarla.");
+          Alert.alert("Hubo un error al pausar tu suscripción automáticamente.", "Por favor mandar un email a soporte@onefood.com.mx para pausarla.");
           return;
         } else {
 
@@ -469,18 +481,18 @@ class SubscriptionDetalle extends React.Component<PedidoProps> {
           })
           .catch(function(error) {
               console.error("Error updating document: ", error);
-              Alert.alert("No se pudo pausar tu subscripción automáticamente en este momento.", "Por favor mandar un email a soporte@onefood.com.mx para pausarla.");
+              Alert.alert("No se pudo pausar tu suscripción automáticamente en este momento.", "Por favor mandar un email a soporte@onefood.com.mx para pausarla.");
           });
         }
       } catch (error) {
         console.error(error);
         this.setState({loading: false});
-        Alert.alert("Hubo un error al pausar tu subscripción automáticamente.", "Por favor mandar un email a soporte@onefood.com.mx para pausarla.");
+        Alert.alert("Hubo un error al pausar tu suscripción automáticamente.", "Por favor mandar un email a soporte@onefood.com.mx para pausarla.");
         return;
       }
       this.setState({loading: false, subscriptionStatus: "PAUSADA"});
       this.props.subStatusChange("PAUSADA", "");
-      Alert.alert("Subscripción Pausada", "No se te cargara montos hasta que reanudes tu subscripción.");
+      Alert.alert("Suscripción Pausada", "No se te cargaran nuevos montos hasta que reanudes tu suscripción.");
     }
 
     @autobind
@@ -501,7 +513,7 @@ class SubscriptionDetalle extends React.Component<PedidoProps> {
 
         if (responseJSON.message != "Subscription resumed successfully") {
           this.setState({loading: false});
-          Alert.alert("Hubo un error al reanudar tu subscripción automáticamente.", "Por favor mandar un email a soporte@onefood.com.mx para reanudarla.");
+          Alert.alert("Hubo un error al reanudar tu suscripción automáticamente.", "Por favor mandar un email a soporte@onefood.com.mx para reanudarla.");
           return;
         } else {
 
@@ -511,18 +523,18 @@ class SubscriptionDetalle extends React.Component<PedidoProps> {
           })
           .catch(function(error) {
               console.error("Error updating document: ", error);
-              Alert.alert("No se pudo resumir tu subscripción automáticamente en este momento.", "Por favor mandar un email a soporte@onefood.com.mx para resumirla.");
+              Alert.alert("No se pudo resumir tu suscripción automáticamente en este momento.", "Por favor mandar un email a soporte@onefood.com.mx para resumirla.");
           });
         }
       } catch (error) {
         console.error(error);
         this.setState({loading: false});
-        Alert.alert("Hubo un error al resumir tu subscripción automáticamente.", "Por favor mandar un email a soporte@onefood.com.mx para resumir.");
+        Alert.alert("Hubo un error al resumir tu suscripción automáticamente.", "Por favor mandar un email a soporte@onefood.com.mx para resumir.");
         return;
       }
       this.setState({loading: false, subscriptionStatus: "ACTIVA"});
       this.props.subStatusChange("ACTIVA", "");
-      Alert.alert("Subscripción Resumida", "Te damos una cordial bienvenida de regreso.");
+      Alert.alert("Suscripción Resumida", "Te damos una cordial bienvenida de regreso.");
     }
 
     @autobind
@@ -548,7 +560,7 @@ class SubscriptionDetalle extends React.Component<PedidoProps> {
 
         if (responseJSON.message != "Subscription cancelled successfully") {
           this.setState({loading: false});
-          Alert.alert("Hubo un error al cancelar tu subscripción automáticamente.", "Por favor mandar un email a soporte@onefood.com.mx para cancelarla.");
+          Alert.alert("Hubo un error al cancelar tu suscripción automáticamente.", "Por favor mandar un email a soporte@onefood.com.mx para cancelarla.");
           return;
         } else {
 
@@ -558,7 +570,7 @@ class SubscriptionDetalle extends React.Component<PedidoProps> {
           })
           .catch(function(error) {
               console.error("Error updating document: ", error);
-              Alert.alert("No se pudo cancelar tu subscripción automáticamente en este momento.", "Por favor mandar un email a soporte@onefood.com.mx para cancelarla. Diles que tuviste el código 2.");
+              Alert.alert("No se pudo cancelar tu suscripción automáticamente en este momento.", "Por favor mandar un email a soporte@onefood.com.mx para cancelarla. Diles que tuviste el código 2.");
           });
 
           var user = Firebase.auth.currentUser;
@@ -568,25 +580,25 @@ class SubscriptionDetalle extends React.Component<PedidoProps> {
           })
           .catch(function(error) {
               console.error("Error updating document: ", error);
-              //Alert.alert("No se pudo pausar tu subscripción automáticamente en este momento.", "Por favor mandar un email a soporte@onefood.com.mx para pausarla.");
+              //Alert.alert("No se pudo pausar tu suscripción automáticamente en este momento.", "Por favor mandar un email a soporte@onefood.com.mx para pausarla.");
           });
           // borrar de store this.props
         }
       } catch (error) {
         console.error(error);
         this.setState({loading: false});
-        Alert.alert("Hubo un error al cancelar tu subscripción automáticamente.", "Por favor mandar un email a soporte@onefood.com.mx para cancelarla.");
+        Alert.alert("Hubo un error al cancelar tu suscripción automáticamente.", "Por favor mandar un email a soporte@onefood.com.mx para cancelarla.");
         return;
       }
       this.setState({loading: false, subscriptionStatus: "CANCELADA"});
       this.props.subStatusChange("CANCELADA", this.props.pedidoInfo.pedido_id);
-      Alert.alert("Subscripción Cancelada", "Puedes volver a crear una subscripción en la sección de compra.")
+      Alert.alert("Suscripción Cancelada", "Puedes volver a crear una suscripción en la sección de compra.")
+      //this.dismissModal();
     }
 
     render(): React.Node {
       const {pedidoInfo, pedido_id, fecha, cantidades, precioTotal, subscriptionStatus} = this.props;
       var pedidoId = 0;
-      var cocoaQuantity = 0;
       var pedidoFecha = "";
       var entregaFechas = "";
       var showQR = false;
@@ -594,33 +606,56 @@ class SubscriptionDetalle extends React.Component<PedidoProps> {
       var textoEntrega = "";
       var textoStatus = "";
       //var subscriptionStatus = "";
+      var pedidoItems = []
       if (pedidoInfo != undefined) {
         pedidoId = pedidoInfo.pedido_id;
-        cocoaQuantity = pedidoInfo.cantidades[0];
         pedidoFecha = Constants.convertirFecha(pedidoInfo.fecha);
         entregaFechas = Constants.convertirFechaParaSubscripcion(pedidoInfo.fecha);
         //pedidoFecha = pedidoInfo.fecha;
         showQR = !pedidoInfo.reclamado;
         //subscriptionStatus = this.props.subscriptionStatus;
         //this.setState({subscriptionStatus: pedidoInfo.subscriptionStatus});
-        textoCreacion = "Subscripción fue creada el " + pedidoFecha;
+        textoCreacion = "Suscripción fue creada el " + pedidoFecha;
         textoEntrega = "Se entrega " + entregaFechas.toLowerCase();
         textoStatus = "Status: ";
+        pedidoItems = pedidoInfo.cantidades.map((cantidad, index) => {
+          return <PedidoItem
+            key={index}
+            numero={cantidad}
+            title={pedidoInfo.sabores[index]}/>
+        });
       }
       var subscriptionTextColor = this.props.subscriptionStatus == "ACTIVA" ? variables.brandPrimary : variables.brandWarning;
 
-      return <Modal style={[style.modal, style.container]} subStatusChange={this.subStatusChange} onClosed={this.setModalStateClosed}  isOpen={this.state.detailModalIsOpen} backdrop={true} position={"bottom"} coverScreen={true} ref={"modal"}>
-          <Button transparent onPress={this.dismissModal}>
+      var botonPausarResumir = this.props.subscriptionStatus == "ACTIVA" ?
+      (<Button onPress={() => this.pauseSubscription()} style={{width: 165, height: 25, marginTop: 5, marginLeft: 10, backgroundColor: variables.lighterGray, borderRadius: 6, justifyContent: 'center'}}>
+        <Text style={{fontSize: 12, color: variables.darkGray}}> PAUSAR SUSCRIPCIÓN </Text>
+      </Button>)
+      :
+      (<Button onPress={() => this.resumeSubscription()} style={{width: 165, height: 25, marginTop: 5, marginLeft: 10, backgroundColor: variables.lighterGray, borderRadius: 6, justifyContent: 'center'}}>
+        <Text style={{fontSize: 12, color: variables.darkGray}}> REANUDAR SUSCRIPCIÓN </Text>
+      </Button>)
+
+      var botonCancelar = (<Button onPress={() => this.cancelSubscription()} style={{width: 165, height: 25, marginTop: 5, marginLeft: 10, backgroundColor: variables.lighterGray, borderRadius: 6, justifyContent: 'center'}}>
+        <Text style={{fontSize: 12, color: variables.darkGray}}> CANCELAR SUSCRIPCIÓN </Text>
+      </Button>)
+
+      if (this.props.subscriptionStatus == "CANCELADA") {
+        botonPausarResumir = null;
+        botonCancelar = null;
+      }
+      console.log("THE PROPS SUBSCRITIONSTATUS: ", this.props.subscriptionStatus);
+
+      return <Modal style={[style.modal, style.container]} subStatusChange={this.subStatusChange} onClosed={this.setModalStateClosed} swipeToClose={false}  isOpen={this.state.detailModalIsOpen} backdrop={true} position={"bottom"} coverScreen={true} ref={"modal"}>
+          <Button transparent onPress={this.dismissModal} style={{top: 20}}>
               <Icon color={variables.brandPrimary} name="ios-close-outline" style={style.closeIcon} />
           </Button>
           <Text style={{color: variables.brandPrimary, fontSize: 24, fontWeight: 'bold', marginTop: 10, marginBottom: 10}}>
-          SUBSCRIPCIÓN
+          SUSCRIPCIÓN
           </Text>
           <ActivityIndicator size="large" animating={this.state.loading}/>
-            <PedidoItem
-                numero={cocoaQuantity}
-                title="COCOA"
-            />
+          <ScrollView contentContainerStyle={[style.scrollDetail]}>
+            {pedidoItems}
             <View style={{marginTop: 20}}>
               <Text style={{color: variables.darkGray, fontSize: 17}}>{textoEntrega}</Text>
             </View>
@@ -629,27 +664,14 @@ class SubscriptionDetalle extends React.Component<PedidoProps> {
               <Text style={{color: subscriptionTextColor, fontSize: 17, marginLeft: 5}}>{this.props.subscriptionStatus}</Text>
             </View>
             <View style={{marginTop: 20, flexDirection: 'row'}}>
-              {
-                this.props.subscriptionStatus == "ACTIVA" ?
-                (<Button onPress={() => this.pauseSubscription()} style={{width: 165, height: 25, marginTop: 5, marginLeft: 10, backgroundColor: variables.lighterGray, borderRadius: 6, justifyContent: 'center'}}>
-                  <Text style={{fontSize: 12, color: variables.darkGray}}> PAUSAR SUBSCRIPCIÓN </Text>
-                </Button>)
-                :
-                (<Button onPress={() => this.resumeSubscription()} style={{width: 165, height: 25, marginTop: 5, marginLeft: 10, backgroundColor: variables.lighterGray, borderRadius: 6, justifyContent: 'center'}}>
-                  <Text style={{fontSize: 12, color: variables.darkGray}}> REANUDAR SUBSCRIPCIÓN </Text>
-                </Button>)
-              }
-              <Button onPress={() => this.cancelSubscription()} style={{width: 165, height: 25, marginTop: 5, marginLeft: 10, backgroundColor: variables.lighterGray, borderRadius: 6, justifyContent: 'center'}}>
-                <Text style={{fontSize: 12, color: variables.darkGray}}> CANCELAR SUBSCRIPCIÓN </Text>
-              </Button>
+              {botonPausarResumir}
+              {botonCancelar}
             </View>
 
-            <View style={{marginTop: 20}}>
+            <View style={{margin: 20}}>
               <Text style={{color: variables.lightGray, fontSize: 14}}>{textoCreacion}</Text>
             </View>
-            <View style={{margin: 20}}>
-              <Text style={{color: variables.lightGray, fontSize: 14}}>Recibe tus ONEFOODS presentando este código QR a uno de nuestros representantes.</Text>
-            </View>
+          </ScrollView>
 
         </Modal>;
     }
@@ -750,6 +772,10 @@ const style = StyleSheet.create({
     },
     container: {
       flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    scrollDetail: {
       justifyContent: 'center',
       alignItems: 'center',
     },
